@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate__animated animate__fadeIn">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-header bg-{{ status }} text-white text-center py-3">
+                <h3 class="mb-0">{{ title }}</h3>
+            </div>
+            <div class="card-body p-4 text-center">
+                <i class="bi bi-{{ icon }} display-1 text-{{ status }} mb-3"></i>
+                <h4>{{ message }}</h4>
+                <p class="text-muted">{{ details }}</p>
+                
+                <div class="mt-4">
+                    {% if download_url %}
+                    <a href="{{ download_url }}" class="btn btn-primary mb-2" download>
+                        <i class="bi bi-download"></i> Download Result
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="animate__animated animate__fadeIn mt-5 text-center">
+    <h2>Decryption Result</h2>
+    <p class="mt-3">
+        {{ decrypted_text }}
+    </p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+console.log("result.html script loaded");
+</script>
+{% endblock %}

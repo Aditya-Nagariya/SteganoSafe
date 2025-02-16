@@ -1,0 +1,58 @@
+/* Complete CSS reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+/* Set box-sizing globally */
+html {
+    box-sizing: border-box;
+    height: 100%;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* Ensure full height for proper flex distribution */
+html, body {
+    height: 100%;
+}
+
+/* Custom rules for known preview wrappers (if injected) */
+body > .o3-wrapper, body > .__preview { 
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove inline height rules on body; Bootstrap's min-vh-100 on body now handles it */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    /* Removed inline padding-top; the navbar offset is now solely applied in main */
+}
+
+/* Main retains flex-fill and an explicit margin to compensate for the fixed navbar */
+main {
+    /* flex-grow is handled by 'flex-fill' on main; margin-top is applied inline in base.html */
+}
+
+/* ...existing footer styles... */
+.footer {
+    /* ...existing code... */
+}

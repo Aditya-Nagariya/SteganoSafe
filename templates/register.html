@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center animate__animated animate__fadeIn">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h3 class="mb-0">Create Account</h3>
+            </div>
+            <div class="card-body p-4">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+                <form method="POST" action="{{ url_for('register') }}" class="needs-validation" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label }}
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            {{ form.username(class="form-control", required=True) }}
+                        </div>
+                        <div class="form-text">3-20 characters, letters, numbers, and underscores only</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label }}
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            {{ form.email(
+                                class="form-control",
+                                type="email",
+                                pattern=".*",
+                                required=True,
+                                oninvalid="this.setCustomValidity('Please enter a valid email address!')",
+                                oninput="this.setCustomValidity('')"
+                            ) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.phone_number.label }}
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-telephone"></i>
+                            </span>
+                            {{ form.phone_number(class="form-control", required=True, id="phone_number", placeholder="+1234567890") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="otp_field">OTP from Firebase</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="otp_field" placeholder="Enter OTP" required>
+                            <button type="button" class="btn btn-outline-secondary" id="requestOtpBtn" onclick="requestFirebaseOtp()">Request OTP</button>
+                        </div>
+                        <button type="button" class="btn btn-info mt-2" onclick="confirmFirebaseOtp()">Verify OTP</button>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label }}
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key"></i>
+                            </span>
+                            {{ form.password(class="form-control", required=True, id="password") }}
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">Minimum 8 characters, must include letters and numbers</div>
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form.confirm_password.label }}
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key-fill"></i>
+                            </span>
+                            {{ form.confirm_password(class="form-control", required=True, id="confirm_password") }}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        <i class="bi bi-person-plus"></i> Register
+                    </button>
+
+                    <div class="text-center">
+                        <p class="mb-0">Already have an account? 
+                            <a href="{{ url_for('login') }}" class="text-primary">Login</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+console.log("register.html script loaded");
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const socket = io(location.origin, {
+            transports: ['websocket', 'polling'],
+            reconnectionAttempts: 5,
+            reconnectionDelay: 2000
+        });
+        socket.on('connect', function() {
+            console.log('Socket connected:', socket.id);
+        });
+        socket.on('message', function(data) {
+            console.log('Real-time update:', data);
+        });
+    } catch (err) {
+        console.warn("Socket.IO initialization error:", err);
+    }
+    
+    const form = document.querySelector('form');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    });
+
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if (password.value !== confirmPassword.value) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Password Mismatch',
+                text: 'Passwords do not match!'
+            });
+        }
+        form.classList.add('was-validated');
+    });
+
+    password.addEventListener('input', function() {
+        const strength = {1: 'Weak', 2: 'Fair', 3: 'Good', 4: 'Strong'};
+        let score = 0;
+        if (this.value.length >= 8) score++;
+        if (this.value.match(/[a-z]/) && this.value.match(/[A-Z]/)) score++;
+        if (this.value.match(/\d/)) score++;
+        if (this.value.match(/[^a-zA-Z\d]/)) score++;
+        const strengthIndicator = this.parentElement.nextElementSibling;
+        strengthIndicator.textContent = `Password strength: ${strength[score] || 'Very Weak'}`;
+        strengthIndicator.className = 'form-text text-' + (score < 2 ? 'danger' : score < 3 ? 'warning' : 'success');
+    });
+
+    document.getElementById('requestOtpBtn').addEventListener('click', function() {
+        const phoneNumber = document.getElementById('phone_number').value;
+        if (!phoneNumber) {
+            alert("Enter phone number first.");
+            return;
+        }
+        fetch("{{ url_for('request_otp') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': "{{ csrf_token() }}"
+            },
+            body: "phone=" + encodeURIComponent(phoneNumber)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("OTP sent successfully.");
+            } else {
+                alert("Error sending OTP: " + data.message);
+            }
+        })
+        .catch(err => {
+            console.error("Request OTP error:", err);
+            alert("Error: Could not send OTP.");
+        });
+    });
+});
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBq-5XWRSfh6uQ48nbjuZoGZwyeTRxtCcc",
+    authDomain: "steganosafe.firebaseapp.com",
+    projectId: "steganosafe",
+    storageBucket: "steganosafe.firebasestorage.app",
+    messagingSenderId: "34782480072",
+    appId: "1:34782480072:web:e8247f95c6da58ccc407fd",
+    measurementId: "G-N7DCRM1HRJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<script type="module" src="{{ url_for('static', filename='firebase_auth.js') }}"></script>
+{% endblock %}

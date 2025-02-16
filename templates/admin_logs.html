@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+        <h3 class="mb-4">Application Logs</h3>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label" for="searchLogs">Search Messages:</label>
+                <input type="text" class="form-control" id="searchLogs" placeholder="Type to search...">
+            </div>
+            <div class="col-md-3">
+                <label for="logFilter" class="form-label">Filter by Level:</label>
+                <select id="logFilter" class="form-select">
+                    <option value="">All</option>
+                    <option value="INFO">INFO</option>
+                    <option value="WARNING">WARNING</option>
+                    <option value="ERROR">ERROR</option>
+                    <option value="CRITICAL">CRITICAL</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="fromDate">From:</label>
+                <input type="date" class="form-control" id="fromDate">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="toDate">To:</label>
+                <input type="date" class="form-control" id="toDate">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label d-block">&nbsp;</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="autoRefresh">
+                    <label class="form-check-label" for="autoRefresh">
+                        Auto Refresh
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label d-block">&nbsp;</label>
+                <button id="exportCsv" class="btn btn-outline-secondary w-100" type="button">Export CSV</button>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 mt-2">
+            <div class="col">
+                <small class="text-muted">Info: <span id="infoCount">0</span></small>
+            </div>
+            <div class="col">
+                <small class="text-muted">Warning: <span id="warnCount">0</span></small>
+            </div>
+            <div class="col">
+                <small class="text-muted">Error: <span id="errorCount">0</span></small>
+            </div>
+            <div class="col">
+                <small class="text-muted">Critical: <span id="criticalCount">0</span></small>
+            </div>
+        </div>
+        {% if logs %}
+        <div class="table-responsive">
+            <table class="table table-hover table-sm" style="table-layout: fixed;" id="logsTable">
+                <thead>
+                    <tr>
+                        <th data-sort="date">Date</th>
+                        <th data-sort="time">Time</th>
+                        <th data-sort="level">Level</th>
+                        <th data-sort="message">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in logs %}
+                    {% set parts = line.split(' - ', 3) %}
+                    {% set dt_parts = parts[0].split(' ', 1) %}
+                    {% set log_level = parts[1]|default('') %}
+                    {% set row_class = '' %}
+                    {% if 'ERROR' in log_level or 'CRITICAL' in log_level %}
+                        {% set row_class = 'table-danger' %}
+                    {% elif 'WARNING' in log_level %}
+                        {% set row_class = 'table-warning' %}
+                    {% elif 'INFO' in log_level %}
+                        {% set row_class = 'table-info' %}
+                    {% endif %}
+                    <tr class="{{ row_class }}">
+                        <td class="log-date">{{ dt_parts[0]|safe }}</td>
+                        <td class="log-time">{{ dt_parts[1]|safe if dt_parts|length > 1 else '' }}</td>
+                        <td class="log-level">
+                            {% if 'ERROR' in log_level or 'CRITICAL' in log_level %}
+                                <span class="badge bg-danger">{{ log_level }}</span>
+                            {% elif 'WARNING' in log_level %}
+                                <span class="badge bg-warning text-dark">{{ log_level }}</span>
+                            {% elif 'INFO' in log_level %}
+                                <span class="badge bg-info text-dark">{{ log_level }}</span>
+                            {% else %}
+                                {{ log_level }}
+                            {% endif %}
+                        </td>
+                        <td style="white-space: pre-wrap;" class="log-message">{{ parts[2]|safe if parts|length > 2 else '' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination controls -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>Page <span id="currentPage">1</span> of <span id="totalPages">1</span></div>
+            <div>
+                <button class="btn btn-outline-secondary btn-sm" id="prevPage" disabled>Previous</button>
+                <button class="btn btn-outline-secondary btn-sm" id="nextPage" disabled>Next</button>
+            </div>
+        </div>
+        {% else %}
+        <p>No logs found.</p>
+        {% endif %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4 class="mb-0">Log Distribution</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="logChart" height="90"></canvas>
+            </div>
+        </div>
+        <button id="checkSuspicious" class="btn btn-outline-danger float-end mb-3" type="button">Check Suspicious Logs</button>
+        <div class="modal fade" id="suspectModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Suspicious Logs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" id="suspiciousContent">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logFilter = document.getElementById('logFilter');
+    const searchLogs = document.getElementById('searchLogs');
+    const rows = [...document.querySelectorAll('#logsTable tbody tr')];
+    const exportCsv = document.getElementById('exportCsv');
+    const thElements = document.querySelectorAll('#logsTable thead th[data-sort]');
+    const rowsPerPage = 10;
+    let currentPage = 1, totalPages = 1, lastSortKey = null, sortAsc = true;
+
+    function highlightText(text, query) {
+        if (!query) return text;
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    const fromDate = document.getElementById('fromDate');
+    const toDate = document.getElementById('toDate');
+    const autoRefresh = document.getElementById('autoRefresh');
+    const infoCount = document.getElementById('infoCount');
+    const warnCount = document.getElementById('warnCount');
+    const errorCount = document.getElementById('errorCount');
+    const criticalCount = document.getElementById('criticalCount');
+    let refreshInterval = null;
+
+    function countLogLevels(filtered) {
+        let infos = 0, warnings = 0, errors = 0, criticals = 0;
+        filtered.forEach(row => {
+            const levelCell = row.querySelector('.log-level').textContent.toUpperCase();
+            if (levelCell.includes('INFO')) infos++;
+            else if (levelCell.includes('WARNING')) warnings++;
+            else if (levelCell.includes('ERROR')) errors++;
+            else if (levelCell.includes('CRITICAL')) criticals++;
+        });
+        infoCount.textContent = infos;
+        warnCount.textContent = warnings;
+        errorCount.textContent = errors;
+        criticalCount.textContent = criticals;
+    }
+
+    function dateInRange(dateText, fromText, toText) {
+        if(!fromText && !toText) return true;
+        const d = new Date(dateText);
+        if(fromText && d < new Date(fromText)) return false;
+        if(toText && d > new Date(toText)) return false;
+        return true;
+    }
+
+    function filterAndSortRows() {
+        const filterValue = logFilter.value;
+        const searchValue = searchLogs.value.toLowerCase();
+
+        let filtered = rows.map(r => {
+            r.style.display = '';
+            return r;
+        }).filter(row => {
+            const dateCell = row.querySelector('.log-date').textContent.trim();
+            const levelCell = row.querySelector('.log-level');
+            const messageCell = row.querySelector('.log-message');
+            const levelText = (levelCell.textContent || '').toLowerCase();
+            const msgText = (messageCell.textContent || '').toLowerCase();
+            const passFilter = !filterValue || levelText.includes(filterValue.toLowerCase());
+            const passSearch = !searchValue || msgText.includes(searchValue);
+            const passDate = dateInRange(dateCell, fromDate.value, toDate.value);
+            return passFilter && passSearch && passDate;
+        });
+
+        // Highlight search
+        filtered.forEach(row => {
+            const msg = row.querySelector('.log-message');
+            msg.innerHTML = highlightText(msg.textContent, searchValue);
+        });
+
+        if (lastSortKey) {
+            const selector = `.${lastSortKey}`;
+            filtered.sort((a,b) => {
+                const txtA = a.querySelector(selector).textContent.trim();
+                const txtB = b.querySelector(selector).textContent.trim();
+                return sortAsc ? txtA.localeCompare(txtB) : txtB.localeCompare(txtA);
+            });
+        }
+        countLogLevels(filtered);
+        return filtered;
+    }
+
+    function showPage(page, filtered) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        rows.forEach(r => r.remove());
+        filtered.slice(start, end).forEach(r => document.querySelector('#logsTable tbody').appendChild(r));
+        currentPage = page;
+        totalPages = Math.ceil(filtered.length / rowsPerPage) || 1;
+        document.getElementById('currentPage').textContent = currentPage;
+        document.getElementById('totalPages').textContent = totalPages;
+        document.getElementById('prevPage').disabled = currentPage <= 1;
+        document.getElementById('nextPage').disabled = currentPage >= totalPages;
+    }
+
+    function applyFilterSortPagination() {
+        const filtered = filterAndSortRows();
+        showPage(1, filtered);
+    }
+
+    function setupAutoRefresh() {
+        if (autoRefresh.checked) {
+            if (!refreshInterval) {
+                refreshInterval = setInterval(() => applyFilterSortPagination(), 30000);
+            }
+        } else {
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+        }
+    }
+
+    logFilter.addEventListener('change', applyFilterSortPagination);
+    searchLogs.addEventListener('input', applyFilterSortPagination);
+    fromDate.addEventListener('change', applyFilterSortPagination);
+    toDate.addEventListener('change', applyFilterSortPagination);
+    autoRefresh.addEventListener('change', setupAutoRefresh);
+
+    thElements.forEach(th => {
+        th.addEventListener('click', function() {
+            const sortKey = 'log-' + this.getAttribute('data-sort');
+            sortAsc = lastSortKey === sortKey ? !sortAsc : true;
+            lastSortKey = sortKey;
+            applyFilterSortPagination();
+        });
+    });
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 1) {
+            const filtered = filterAndSortRows();
+            showPage(currentPage - 1, filtered);
+        }
+    });
+    document.getElementById('nextPage').addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            const filtered = filterAndSortRows();
+            showPage(currentPage + 1, filtered);
+        }
+    });
+
+    exportCsv.addEventListener('click', function() {
+        const filtered = filterAndSortRows();
+        let csv = 'Date,Time,Level,Message\n';
+        filtered.forEach(row => {
+            const date = row.querySelector('.log-date').textContent.trim();
+            const time = row.querySelector('.log-time').textContent.trim();
+            const level = row.querySelector('.log-level').textContent.trim();
+            const msg = row.querySelector('.log-message').textContent.trim().replace(/\n/g, ' ');
+            csv += `"${date}","${time}","${level}","${msg}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'logs.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+    });
+
+    fetch('{{ url_for("logs_summary") }}')
+        .then(res => res.json())
+        .then(res => {
+            if(!res.success) return;
+            const rawData = res.data;
+            const labels = Object.keys(rawData).sort();
+            const levels = ['INFO','WARNING','ERROR','CRITICAL']; 
+            const datasets = levels.map(lvl => ({
+                label: lvl,
+                data: labels.map(date => rawData[date][lvl] || 0),
+                fill: false,
+                borderWidth: 2
+            }));
+            const ctx = document.getElementById('logChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        })
+        .catch(console.error);
+
+    const checkBtn = document.getElementById('checkSuspicious');
+    checkBtn.addEventListener('click', () => {
+        fetch('{{ url_for("magic") }}')
+            .then(r => r.json())
+            .then(data => {
+                if(!data.success) throw new Error(data.message || 'Error retrieving logs');
+                const cont = document.getElementById('suspiciousContent');
+                cont.innerHTML = '';
+                if(data.suspects.length === 0) {
+                    cont.innerHTML = '<p class="text-success">No suspicious logs found</p>';
+                } else {
+                    data.suspects.forEach(line => {
+                        cont.innerHTML += `<p class="text-danger">${line}</p>`;
+                    });
+                }
+                new bootstrap.Modal(document.getElementById('suspectModal')).show();
+            })
+            .catch(e => console.error(e));
+    });
+
+    applyFilterSortPagination();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-WTF
+email-validator
+Pillow
+cryptography
+numpy
+flask_cors
+flask_socketio
+celery
+flask_mail
+twilio
+python-dotenv

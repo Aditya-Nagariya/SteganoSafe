@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <h2 class="mb-4">Dashboard</h2>
+
+    <div class="row">
+        <!-- Encryption Panel -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Encrypt Image</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Update the encryption form in dashboard.html -->
+                    <form id="encryptForm" action="{{ url_for('encrypt') }}" method="POST"
+                        enctype="multipart/form-data">
+                        {# Removed undefined form.csrf_token #}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Select Image</label>
+                            <div class="custom-file-upload">
+                                <input type="file" class="form-control" name="image" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message to Hide</label>
+                            <textarea class="form-control" name="message" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Encryption Password</label>
+                            <input type="password" class="form-control" name="password" id="encrypt_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-lock"></i> Encrypt
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decryption Panel -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0">Decrypt Image</h3>
+                </div>
+                <div class="card-body">
+                    <form id="decryptForm" action="{{ url_for('decrypt') }}" method="POST"
+                        enctype="multipart/form-data">
+                        {# Removed undefined form.csrf_token #}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <label class="form-label">Select Encrypted Image</label>
+                            <div class="custom-file-upload">
+                                <input type="file" class="form-control" name="image" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Decryption Password</label>
+                            <input type="password" class="form-control" name="password" id="decrypt_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-unlock"></i> Decrypt
+                        </button>
+                    </form>
+                    <div id="decryptResult" class="mt-3 d-none">
+                        <div class="alert alert-info">
+                            <h5>Hidden Message:</h5>
+                            <p id="decryptedMessage" class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header">
+            <h3 class="card-title mb-0">History</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Original Filename</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for image in images %}
+                        <tr>
+                            <td>{{ image.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ image.original_filename }}</td>
+                            <td>{{ image.encryption_type }}</td>
+                            <td>
+                                <!-- Replace the static link with the download_image route -->
+                                <a href="{{ url_for('download_image', filename=image.filename) }}"
+                                    class="btn btn-sm btn-outline-primary"
+                                    download="{{ image.original_filename }}">
+                                    <i class="bi bi-download"></i> Download
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- {% if current_user.role == 'admin' %}
+    <div class="mt-4">
+        <a class="btn btn-primary" href="{{ url_for('admin.admin_logs') }}">View Admin Logs</a>
+    </div>
+    {% endif %} -->
+
+    <!-- {% if current_user.is_admin %}
+    <div>
+        <a href="{{ url_for('admin.admin_dashboard') }}">Go to Admin Dashboard</a>
+    </div>
+    {% endif %} -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Encrypt form event listener
+    const encryptForm = document.getElementById('encryptForm');
+    if (encryptForm) {
+        encryptForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Encryption Started',
+                        text: data.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Encryption Failed',
+                        text: data.message
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Encryption error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'An error occurred during encryption.'
+                });
+            });
+        });
+    }
+
+    // Decrypt form event listener
+    const decryptForm = document.getElementById('decryptForm');
+    if (decryptForm) {
+        decryptForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Redirect to result page with decrypted message
+                    window.location.href = data.redirect;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Decryption Failed',
+                        text: data.message
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Decryption error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'An error occurred during decryption.'
+                });
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h2>User Management</h2>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td class="text-center">
+              {% if user.id != current_user.id %}
+                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete {{ user.username }}?');">Delete</a>
+                {% if user.role == 'user' %}
+                  <a href="{{ url_for('admin.promote_user', user_id=user.id) }}" class="btn btn-primary btn-sm">Promote</a>
+                  <a href="{{ url_for('admin.set_role', user_id=user.id, new_role='moderator') }}" class="btn btn-info btn-sm">Moderator</a>
+                {% elif user.role == 'moderator' %}
+                  <a href="{{ url_for('admin.promote_user', user_id=user.id) }}" class="btn btn-primary btn-sm">Promote to Admin</a>
+                  <a href="{{ url_for('admin.set_role', user_id=user.id, new_role='user') }}" class="btn btn-secondary btn-sm">Revoke Mod</a>
+                {% elif user.role == 'admin' %}
+                  <a href="{{ url_for('admin.demote_user', user_id=user.id) }}" class="btn btn-secondary btn-sm">Demote</a>
+                {% endif %}
+              {% else %}
+                <span class="text-muted">N/A</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center">No users found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mt-4">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+{% endblock %}

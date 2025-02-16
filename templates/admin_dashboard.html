@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Admin Dashboard</h1>
+  
+  <!-- Metrics Panel -->
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h3 class="card-title mb-0">Site Metrics</h3>
+    </div>
+    <div class="card-body" id="metrics-panel">
+      <!-- Metrics will be loaded dynamically -->
+      <p>Loading metrics...</p>
+    </div>
+  </div>
+  
+  <!-- Logs Panel -->
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h3 class="card-title mb-0">Application Logs</h3>
+    </div>
+    <div class="card-body" id="logs-panel">
+      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin.admin_logs') }}">View Detailed Logs</a>
+    </div>
+  </div>
+  
+  <!-- Users Management Panel -->
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h3 class="card-title mb-0">Manage Users</h3>
+    </div>
+    <div class="card-body">
+      <a class="btn btn-sm btn-primary" href="{{ url_for('admin.manage_users') }}">Go to User Management</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Fetch metrics on dashboard load with method set to GET
+  fetch("{{ url_for('admin.metrics') }}", { method: "GET" })
+    .then(response => response.json())
+    .then(data => {
+      if(data.user_count !== undefined) {
+        document.getElementById("metrics-panel").innerHTML =
+          `<p>User Count: ${data.user_count}</p>
+           <p>Log Entries: ${data.log_entries}</p>`;
+      } else {
+        document.getElementById("metrics-panel").innerHTML = `<p>Failed to load metrics.</p>`;
+      }
+    })
+    .catch(err => {
+      document.getElementById("metrics-panel").innerHTML = `<p>Error loading metrics.</p>`;
+      console.error(err);
+    });
+</script>
+{% endblock %}
