@@ -5,23 +5,39 @@ from dotenv import load_dotenv
 import os
 import secrets
 from datetime import timedelta
+import logging
+from contextlib import suppress
 
 # Ensure .env is loaded early
 load_dotenv()
 
+# Setup logger
+logger = logging.getLogger(__name__)
+
 class Config:
+    # Create data directory if it doesn't exist
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    os.makedirs(data_dir, exist_ok=True)
+    
+    # Try to set permissions but don't fail if it doesn't work
+    with suppress(Exception):
+        os.chmod(data_dir, 0o777)
+    
     # Basic Flask configuration
     SECRET_KEY = os.environ.get('SECRET_KEY') or secrets.token_hex(32)
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT') or secrets.token_hex(16)
     DEBUG = os.getenv('FLASK_DEBUG', 'True') == 'True'
     TESTING = os.environ.get('FLASK_TESTING') == 'True'
     
-    # Use the data directory for database
-    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-    os.makedirs(data_dir, exist_ok=True)
-    
-    # Database configuration
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(data_dir, 'app.db')
+    # Database - use the environment variable or fall back to our data dir
+    db_uri = os.environ.get('DATABASE_URL')
+    if not db_uri:
+        db_path = os.path.join(data_dir, 'app.db')
+        db_uri = f'sqlite:///{db_path}'
+        # Log the database URI we're using
+        logger.info(f"Using database at: {db_path}")
+        
+    SQLALCHEMY_DATABASE_URI = db_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Upload configuration

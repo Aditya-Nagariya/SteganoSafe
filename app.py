@@ -1,7 +1,36 @@
 import sys
 import os
+import logging
+import traceback
+from contextlib import suppress
+
+# Configure logging first
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('app.log')
+    ]
+)
+logger = logging.getLogger(__name__)
+
 sys.path.insert(0, os.getcwd())
 
+# Run ensure_db.py to set up database
+try:
+    from ensure_db import ensure_database
+    data_dir, db_path = ensure_database()
+    logger.info(f"Database ensured at: {db_path}")
+    
+    # Update environment with database path
+    os.environ['DATABASE_URL'] = f'sqlite:///{db_path}'
+    logger.info(f"Set DATABASE_URL to {os.environ['DATABASE_URL']}")
+except Exception as e:
+    logger.error(f"Database initialization error: {str(e)}")
+    logger.error(traceback.format_exc())
+
+# Continue with regular imports
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -12,7 +41,6 @@ from email_validator import validate_email, EmailNotValidError
 from werkzeug.utils import secure_filename
 from PIL import Image as PilImage
 import numpy as np
-import logging
 import time
 import re
 import base64
@@ -38,17 +66,6 @@ from analytics import parse_logs
 from magic_box import detect_suspicious
 from debug_utils import debug_form_validation
 from tasks import encrypt_task
-
-# Set up logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler('app.log')
-    ]
-)
-logger = logging.getLogger(__name__)
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -138,65 +155,102 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-        
-    form = LoginForm()
+    # Log the request for debugging
+    logger.debug(f"Login request received: {request.method}")
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        logger.debug("AJAX login request")
     
-    if form.validate_on_submit():
-        try:
-            username = form.username.data.strip()
-            password = form.password.data
-            user = User.query.filter_by(username=username).first()
+    # Add a try-except around the entire function to catch all errors
+    try:
+        if current_user.is_authenticated:
+            return redirect(url_for('dashboard'))
             
-            if user and user.check_password(password):
-                login_user(user, remember=form.remember.data)
+        form = LoginForm()
+        
+        if form.validate_on_submit():
+            try:
+                username = form.username.data.strip()
+                password = form.password.data
                 
-                # Log activity
-                activity = ActivityLog(user_id=user.id, action="User logged in")
-                db.session.add(activity)
-                db.session.commit()
+                # Log action but not password
+                logger.debug(f"Login attempt for username: {username}")
                 
-                # Check if default admin credentials
-                if user.username == 'admin' and user.role == 'admin' and password == 'admin123':
-                    flash('You are using default admin credentials. Please change your password!', 'warning')
+                # Test database connection before query
+                try:
+                    # Simple test query
+                    test_user = db.session.query(User).first()
+                    logger.debug(f"Database connection test succeeded")
+                except Exception as db_error:
+                    logger.error(f"Database connection error: {str(db_error)}")
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({
+                            'success': False, 
+                            'message': 'Database connection error. Please try again later.'
+                        }), 500
+                    flash('Database connection error. Please try again later.', 'danger')
+                    return render_template('login.html', form=form)
+                
+                # Continue with login logic
+                user = User.query.filter_by(username=username).first()
+                
+                if user and user.check_password(password):
+                    login_user(user, remember=form.remember.data)
                     
-                # Handle AJAX requests differently
-                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                    return jsonify({
-                        'success': True,
-                        'redirect': url_for('dashboard')
-                    })
+                    # Log activity
+                    activity = ActivityLog(user_id=user.id, action="User logged in")
+                    db.session.add(activity)
+                    db.session.commit()
+                    
+                    # Check if default admin credentials
+                    if user.username == 'admin' and user.role == 'admin' and password == 'admin123':
+                        flash('You are using default admin credentials. Please change your password!', 'warning')
+                        
+                    # Handle AJAX requests differently
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({
+                            'success': True,
+                            'redirect': url_for('dashboard')
+                        })
+                    else:
+                        next_page = request.args.get('next')
+                        return redirect(next_page or url_for('dashboard'))
                 else:
-                    next_page = request.args.get('next')
-                    return redirect(next_page or url_for('dashboard'))
-            else:
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({
+                            'success': False,
+                            'message': 'Invalid username or password'
+                        }), 401
+                    else:
+                        flash('Invalid username or password', 'danger')
+            except Exception as e:
+                logger.exception(f"Login processing error: {str(e)}")
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return jsonify({
                         'success': False,
-                        'message': 'Invalid username or password'
-                    }), 401
+                        'message': 'Login error: ' + str(e)
+                    }), 500
                 else:
-                    flash('Invalid username or password', 'danger')
-        except Exception as e:
-            app.logger.exception(f"Login error: {str(e)}")
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({
-                    'success': False,
-                    'message': 'An error occurred during login. Please try again.'
-                }), 500
-            else:
-                flash(f'Login error: {str(e)}', 'danger')
-    
-    # If it's an AJAX request but validation failed
-    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify({
-            'success': False,
-            'message': 'Invalid form data',
-            'errors': form.errors
-        }), 400
+                    flash(f'Login error: {str(e)}', 'danger')
         
-    return render_template('login.html', form=form)
+        # If it's an AJAX request but validation failed
+        if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({
+                'success': False,
+                'message': 'Invalid form data',
+                'errors': form.errors
+            }), 400
+            
+        return render_template('login.html', form=form)
+    except Exception as outer_error:
+        logger.error(f"Unhandled exception in login route: {str(outer_error)}")
+        logger.error(traceback.format_exc())
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({
+                'success': False, 
+                'message': 'An unexpected error occurred. Please try again.'
+            }), 500
+        flash('An unexpected error occurred. Please try again.', 'danger')
+        return render_template('login.html', form=LoginForm())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -654,6 +708,75 @@ def create_default_admin():
 def add_csrf_header(response):
     response.headers.set('X-CSRFToken', generate_csrf())
     return response
+
+# Add a health check endpoint
+@app.route('/health')
+def health_check():
+    """Health check endpoint to verify app status"""
+    try:
+        # Check database connection
+        db_ok = False
+        users_count = 0
+        tables = []
+        
+        try:
+            from sqlalchemy import inspect
+            inspector = inspect(db.engine)
+            tables = inspector.get_table_names()
+            users_count = User.query.count()
+            db_ok = True
+        except Exception as db_error:
+            logger.error(f"Database health check error: {str(db_error)}")
+        
+        # Get app config info (removing sensitive data)
+        config_info = {k: v for k, v in app.config.items() 
+                      if not any(secret in k.lower() for secret in 
+                                ['key', 'password', 'secret', 'token'])}
+        
+        # System information
+        import platform
+        system_info = {
+            'python_version': platform.python_version(),
+            'platform': platform.platform(),
+        }
+        
+        # Prepare response
+        health_data = {
+            'status': 'ok' if db_ok else 'database_error',
+            'database': {
+                'connected': db_ok,
+                'tables': tables,
+                'users_count': users_count,
+                'database_url': app.config.get('SQLALCHEMY_DATABASE_URI', '').replace(':///', '://***/'),
+            },
+            'system': system_info,
+            'config': config_info
+        }
+        
+        return jsonify(health_data)
+    except Exception as e:
+        logger.error(f"Health check error: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e),
+            'traceback': traceback.format_exc()
+        }), 500
+
+# Add database creation at app startup
+with app.app_context():
+    try:
+        logger.info("Creating database tables if needed...")
+        db.create_all()
+        
+        # Create default admin user if it doesn't exist
+        admin_exists = User.query.filter_by(role='admin').first()
+        if not admin_exists:
+            create_default_admin()
+            
+        logger.info("Database initialization complete")
+    except Exception as e:
+        logger.error(f"Error initializing database at startup: {str(e)}")
+        logger.error(traceback.format_exc())
 
 if __name__ == '__main__':
     with app.app_context():
