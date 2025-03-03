@@ -440,17 +440,22 @@ def encrypt():
         
         # Process the image
         try:
+            logger.debug("Opening image for encryption")
             img = PilImage.open(image_file)
             
             # Convert to RGB if needed
             if img.mode != 'RGB':
                 img = img.convert('RGB')
+                logger.debug(f"Converted image to RGB mode")
                 
-            # Encrypt and encode message
-            encrypted_message = encrypt_message(message, password)
-            encoded_img = encode_message(img, encrypted_message)
+            # Encrypt and encode message with debug=True
+            logger.debug("Encrypting message")
+            encrypted_message = encrypt_message(message, password, debug=True)
+            logger.debug("Encoding message into image")
+            encoded_img = encode_message(img, encrypted_message, debug=True)
             
             # Save to BytesIO
+            logger.debug("Saving encoded image")
             img_io = BytesIO()
             encoded_img.save(img_io, format='PNG')
             img_io.seek(0)
@@ -460,6 +465,7 @@ def encrypt():
             filename = secure_filename(image_file.filename)
             unique_filename = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
             
+            logger.debug(f"Creating database record for: {unique_filename}")
             # Create database record
             new_image = StegoImage(
                 user_id=current_user.id,
@@ -479,6 +485,7 @@ def encrypt():
             
             db.session.add(activity)
             db.session.commit()
+            logger.debug("Database records created successfully")
             
             return jsonify({
                 'success': True,
@@ -786,3 +793,134 @@ if __name__ == '__main__':
     # Use environment variable PORT if available (for Render.com), otherwise use 8080
     port = int(os.environ.get('PORT', 8080))
     socketio.run(app, host='0.0.0.0', port=port, debug=True)
+
+# Add this to your existing routes
+
+@app.route('/admin-check')
+@login_required
+def admin_check():
+    """Debug endpoint to check admin access"""
+    try:
+        if not current_user.role == 'admin':
+            return jsonify({
+                'is_admin': False,
+                'message': 'You are not an admin user',
+                'user_info': {
+                    'username': current_user.username,
+                    'role': current_user.role,
+                    'email': current_user.email
+                }
+            })
+            
+        # Check if admin blueprint is registered
+        is_registered = 'admin_bp.index' in app.view_functions
+            
+        return jsonify({
+            'is_admin': True,
+            'user_info': {
+                'username': current_user.username,
+                'role': current_user.role,
+                'email': current_user.email
+            },
+            'admin_blueprint': {
+                'registered': is_registered,
+                'endpoints': [rule.endpoint for rule in app.url_map.iter_rules() 
+                             if rule.endpoint.startswith('admin_bp')]
+            }
+        })
+    except Exception as e:
+        logger.error(f"Admin check error: {str(e)}")
+        return jsonify({
+            'error': str(e),
+            'traceback': traceback.format_exc()
+        }), 500
+
+# Add a debug flag to encryption and decryption calls
+@app.route('/encrypt', methods=['GET', 'POST'])
+@login_required
+def encrypt():
+    if request.method == 'GET':
+        return render_template('encrypt.html')
+    
+    # Handle POST request
+    try:
+        # Validate inputs
+        if 'image' not in request.files:
+            return jsonify({'success': False, 'message': 'No image file provided'}), 400
+        
+        image_file = request.files['image']
+        if not image_file or image_file.filename == '':
+            return jsonify({'success': False, 'message': 'Empty image file'}), 400
+        
+        message = request.form.get('message')
+        if not message:
+            return jsonify({'success': False, 'message': 'No message provided'}), 400
+        
+        password = request.form.get('password')
+        if not password:
+            return jsonify({'success': False, 'message': 'No password provided'}), 400
+        
+        # Process the image
+        try:
+            logger.debug("Opening image for encryption")
+            img = PilImage.open(image_file)
+            
+            # Convert to RGB if needed
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+                logger.debug(f"Converted image to RGB mode")
+                
+            # Encrypt and encode message with debug=True
+            logger.debug("Encrypting message")
+            encrypted_message = encrypt_message(message, password, debug=True)
+            logger.debug("Encoding message into image")
+            encoded_img = encode_message(img, encrypted_message, debug=True)
+            
+            # Save to BytesIO
+            logger.debug("Saving encoded image")
+            img_io = BytesIO()
+            encoded_img.save(img_io, format='PNG')
+            img_io.seek(0)
+            image_data = img_io.getvalue()
+            
+            # Generate unique filename
+            filename = secure_filename(image_file.filename)
+            unique_filename = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
+            
+            logger.debug(f"Creating database record for: {unique_filename}")
+            # Create database record
+            new_image = StegoImage(
+                user_id=current_user.id,
+                filename=unique_filename,
+                original_filename=image_file.filename,
+                image_data=image_data,
+                encryption_type='LSB'
+            )
+            
+            db.session.add(new_image)
+            
+            # Log activity
+            activity = ActivityLog(
+                user_id=current_user.id,
+                action=f"Encrypted image: {image_file.filename}"
+            )
+            
+            db.session.add(activity)
+            db.session.commit()
+            logger.debug("Database records created successfully")
+            
+            return jsonify({
+                'success': True,
+                'message': 'Message encrypted and hidden successfully',
+                'redirect': url_for('dashboard')
+            })
+            
+        except ValueError as e:
+            return jsonify({'success': False, 'message': str(e)}), 400
+        except Exception as e:
+            app.logger.exception(f"Image processing error: {str(e)}")
+            return jsonify({'success': False, 'message': f"Error processing image: {str(e)}"}), 400
+            
+    except Exception as e:
+        app.logger.exception(f"Encryption error: {str(e)}")
+        return jsonify({'success': False, 'message': f"An error occurred: {str(e)}"}), 500

@@ -5,174 +5,183 @@ using the Least Significant Bit (LSB) technique.
 import numpy as np
 from PIL import Image
 import base64
-from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import os
 import logging
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.backends import default_backend
 
-def encrypt_message(message, password):
-    """
-    Encrypt a message using the password
-    
-    Args:
-        message (str): Message to encrypt
-        password (str): Password for encryption
-        
-    Returns:
-        str: Base64-encoded encrypted message
-    """
-    if not message:
-        raise ValueError("Message cannot be empty")
-    if not password:
-        raise ValueError("Password cannot be empty")
-        
-    # Convert message and password to bytes
-    message_bytes = message.encode('utf-8')
-    password_bytes = password.encode('utf-8')
-    
-    # Generate a key from the password
-    salt = os.urandom(16)
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000,
-    )
-    key = base64.urlsafe_b64encode(kdf.derive(password_bytes))
-    
-    # Encrypt the message
-    f = Fernet(key)
-    encrypted_message = f.encrypt(message_bytes)
-    
-    # Return the salt + encrypted message, base64 encoded
-    result = base64.urlsafe_b64encode(salt + encrypted_message).decode('utf-8')
-    return result
+# Setup logging
+logger = logging.getLogger(__name__)
 
-def decrypt_message(encrypted_data, password):
-    """
-    Decrypt a message using the password
-    
-    Args:
-        encrypted_data (str): Base64-encoded encrypted message
-        password (str): Password for decryption
-        
-    Returns:
-        str: Decrypted message
-    """
-    if not encrypted_data:
-        raise ValueError("Encrypted data cannot be empty")
-    if not password:
-        raise ValueError("Password cannot be empty")
-    
+def encrypt_message(message, password, debug=False):
+    """Encrypt a message using AES-GCM with a password-derived key"""
     try:
-        # Decode the base64 data
-        data = base64.urlsafe_b64decode(encrypted_data)
+        if debug:
+            logger.debug(f"Encrypting message of length {len(message)}")
         
-        # Extract the salt (first 16 bytes)
-        salt = data[:16]
-        encrypted_message = data[16:]
+        # Generate a random salt
+        salt = os.urandom(16)
         
-        # Derive the key using the same parameters as during encryption
-        password_bytes = password.encode('utf-8')
+        # Use PBKDF2 to derive a key from the password
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt,
             iterations=100000,
+            backend=default_backend()
         )
-        key = base64.urlsafe_b64encode(kdf.derive(password_bytes))
+        key = kdf.derive(password.encode())
+        
+        # Generate a random nonce for AES-GCM
+        nonce = os.urandom(12)
+        
+        # Encrypt the message
+        cipher = AESGCM(key)
+        ciphertext = cipher.encrypt(nonce, message.encode(), None)
+        
+        # Combine salt, nonce, and ciphertext for storage/transmission
+        result = salt + nonce + ciphertext
+        
+        # Encode as base64 for easy handling
+        encoded = base64.b64encode(result).decode('utf-8')
+        
+        if debug:
+            logger.debug(f"Encryption successful, result length: {len(encoded)}")
+            
+        return encoded
+        
+    except Exception as e:
+        logger.error(f"Error encrypting message: {str(e)}")
+        raise ValueError(f"Encryption failed: {str(e)}")
+
+def decrypt_message(encoded_message, password, debug=False):
+    """Decrypt a message that was encrypted with AES-GCM"""
+    try:
+        if debug:
+            logger.debug(f"Decrypting message of length {len(encoded_message)}")
+            
+        # Decode from base64
+        data = base64.b64decode(encoded_message)
+        
+        # Extract salt, nonce, and ciphertext
+        salt = data[:16]
+        nonce = data[16:28]
+        ciphertext = data[28:]
+        
+        # Derive the same key using the same parameters
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+            backend=default_backend()
+        )
+        key = kdf.derive(password.encode())
         
         # Decrypt the message
-        f = Fernet(key)
-        decrypted_message = f.decrypt(encrypted_message)
+        cipher = AESGCM(key)
+        plaintext = cipher.decrypt(nonce, ciphertext, None)
         
-        return decrypted_message.decode('utf-8')
+        if debug:
+            logger.debug("Decryption successful")
+            
+        return plaintext.decode('utf-8')
+        
     except Exception as e:
-        logging.error(f"Decryption error: {str(e)}")
-        raise ValueError("Decryption failed. Incorrect password or corrupted data.")
+        logger.error(f"Error decrypting message: {str(e)}")
+        raise ValueError(f"Decryption failed: {str(e)}")
 
-def encode_message(image, message):
+def encode_message(image, message, debug=False):
     """
-    Encode a message into an image using LSB steganography
-    
-    Args:
-        image (PIL.Image): Image to hide the message in
-        message (str): Message to hide (should be encrypted)
-        
-    Returns:
-        PIL.Image: New image with the hidden message
+    Hide a message in an image using LSB steganography
+    Returns a new image with the message encoded
     """
-    # Convert the image to numpy array
-    img_array = np.array(image)
-    
-    # Get image dimensions and calculate capacity
-    height, width, channels = img_array.shape
-    max_bytes = (height * width * channels) // 8  # Each byte needs 8 bits
-    
-    # Add some overhead for the terminator
-    message_size = len(message) + 1  # +1 for null terminator
-    
-    # Check if image is large enough
-    if message_size > max_bytes:
-        raise ValueError(f"Message too large for this image. Maximum size: {max_bytes-1} bytes, message size: {len(message)} bytes")
-    
-    # Convert message to binary
-    binary_message = ''.join(format(ord(char), '08b') for char in message)
-    binary_message += '00000000'  # Add NULL terminator
-    
-    # Flatten the image
-    flat_img = img_array.flatten()
-    
-    # Modified approach to avoid overflow
-    for i, bit in enumerate(binary_message):
-        if i >= len(flat_img):
-            break
+    try:
+        if debug:
+            logger.debug(f"Encoding message of length {len(message)} into image")
             
-        # Use NumPy's bitwise operations which handle uint8 correctly
-        # Clear the LSB by ANDing with 254 (binary: 11111110)
-        # Then set it to the new bit value
-        if int(bit) == 1:
-            flat_img[i] = (flat_img[i] & 254) | 1  # Set LSB to 1
-        else:
-            flat_img[i] = (flat_img[i] & 254)  # Set LSB to 0
-    
-    # Reshape back to original dimensions
-    stego_img = flat_img.reshape(img_array.shape)
-    
-    # Convert back to PIL Image
-    return Image.fromarray(stego_img.astype(np.uint8))
+        # Convert image to numpy array
+        img_array = np.array(image)
+        
+        # Image dimensions
+        height, width, channels = img_array.shape
+        
+        # Convert message to binary
+        binary_message = ''.join(format(ord(char), '08b') for char in message)
+        binary_message += '00000000'  # End marker
+        
+        # Check if the message fits in the image
+        max_bits = height * width * 3  # 3 channels, 1 bit per channel
+        if len(binary_message) > max_bits:
+            raise ValueError(f"Message is too large for this image (max {max_bits//8} bytes)")
+        
+        # Embed message
+        bit_index = 0
+        for y in range(height):
+            for x in range(width):
+                for c in range(channels):
+                    if bit_index < len(binary_message):
+                        # Replace the least significant bit
+                        img_array[y, x, c] = (img_array[y, x, c] & 0xFE) | int(binary_message[bit_index])
+                        bit_index += 1
+                    else:
+                        break
+                if bit_index >= len(binary_message):
+                    break
+            if bit_index >= len(binary_message):
+                break
+        
+        if debug:
+            logger.debug(f"Message encoded successfully, used {bit_index} bits")
+        
+        # Convert back to PIL Image
+        return Image.fromarray(img_array)
+        
+    except Exception as e:
+        logger.error(f"Error encoding message: {str(e)}")
+        raise ValueError(f"Encoding failed: {str(e)}")
 
-def decode_message(image):
-    """
-    Extract a message from an image using LSB steganography
-    
-    Args:
-        image (PIL.Image): Image containing the hidden message
+def decode_message(image, debug=False):
+    """Extract a message from an image that was encoded using LSB steganography"""
+    try:
+        if debug:
+            logger.debug("Decoding message from image")
         
-    Returns:
-        str: Extracted message
-    """
-    # Convert to numpy array
-    img_array = np.array(image)
-    
-    # Flatten the array
-    flat_img = img_array.flatten()
-    
-    # Extract LSBs
-    binary_message = ''.join(str(pixel & 1) for pixel in flat_img)
-    
-    # Convert binary to ASCII (8 bits per character)
-    message = ""
-    for i in range(0, len(binary_message), 8):
-        if i + 8 > len(binary_message):
-            break
-            
-        byte = binary_message[i:i+8]
-        # Stop at null terminator
-        if byte == '00000000':
-            break
-            
-        message += chr(int(byte, 2))
-    
-    return message if message else None
+        # Convert image to numpy array
+        img_array = np.array(image)
+        
+        # Image dimensions
+        height, width, channels = img_array.shape
+        
+        # Extract message
+        binary_message = ""
+        for y in range(height):
+            for x in range(width):
+                for c in range(channels):
+                    # Get the least significant bit
+                    binary_message += str(img_array[y, x, c] & 1)
+                    
+                    # Check if we've reached an end marker (8 zeros)
+                    if len(binary_message) >= 8 and binary_message[-8:] == '00000000':
+                        # Convert binary to ASCII
+                        message = ""
+                        for i in range(0, len(binary_message) - 8, 8):
+                            byte = binary_message[i:i+8]
+                            message += chr(int(byte, 2))
+                            
+                        if debug:
+                            logger.debug(f"Message decoded successfully, length: {len(message)}")
+                            
+                        return message
+        
+        # If no end marker is found
+        if debug:
+            logger.debug("No message found in the image (no end marker detected)")
+        
+        return None
+        
+    except Exception as e:
+        logger.error(f"Error decoding message: {str(e)}")
+        raise ValueError(f"Decoding failed: {str(e)}")
