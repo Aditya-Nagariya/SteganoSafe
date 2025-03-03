@@ -21901,3 +21901,19 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-03 11:00:25,117 - engineio.server - INFO - Server initialized for threading.
 2025-03-03 11:00:25,222 - werkzeug - WARNING -  * Debugger is active!
 2025-03-03 11:00:25,274 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:04:21,531 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-03 11:04:21,800 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:04:23,452 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:04:23,564 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:04:23,650 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:04:29,022 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-03 11:04:29,237 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:04:30,610 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:04:30,696 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:04:30,739 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:04:33,319 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:33] "GET /admin/analytics HTTP/1.1" 200 -
+2025-03-03 11:04:33,628 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:33] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-03-03 11:04:35,863 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:35] "GET / HTTP/1.1" 200 -
+2025-03-03 11:04:35,939 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:35] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-03 11:04:38,565 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:38] "GET /dashboard HTTP/1.1" 200 -
+2025-03-03 11:04:38,595 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:38] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
