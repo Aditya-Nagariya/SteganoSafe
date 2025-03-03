@@ -3,7 +3,7 @@ services:
     name: steganography-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class eventlet -w 1 "wsgi:app"
+    startCommand: python init_db.py && gunicorn --worker-class eventlet -w 1 "wsgi:app"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.4
@@ -13,10 +13,10 @@ services:
         generateValue: true
       - key: DATABASE_URL
         value: sqlite:///data/app.db
-      - key: CELERY_BROKER_URL
-        value: redis://localhost:6379/0
-      - key: CELERY_RESULT_BACKEND
-        value: redis://localhost:6379/0
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "False"
     disk:
       name: data
       mountPath: /opt/render/project/src/data
