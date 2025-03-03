@@ -16,12 +16,16 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', 'True') == 'True'
     TESTING = os.environ.get('FLASK_TESTING') == 'True'
     
+    # Use the data directory for database
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    os.makedirs(data_dir, exist_ok=True)
+    
     # Database configuration
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(data_dir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Upload configuration
-    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or os.path.join(os.getcwd(), 'uploads')
+    UPLOAD_FOLDER = os.path.join(data_dir, 'uploads')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max upload size
     
     # Email configuration

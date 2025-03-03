@@ -12,8 +12,12 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        value: sqlite:///app.db
+        value: sqlite:///data/app.db
       - key: CELERY_BROKER_URL
         value: redis://localhost:6379/0
       - key: CELERY_RESULT_BACKEND
         value: redis://localhost:6379/0
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
