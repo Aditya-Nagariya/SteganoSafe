@@ -72,6 +72,10 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.logger.setLevel(logging.DEBUG)
 
+# Import error handlers and register them
+from error_handlers import register_error_handlers
+register_error_handlers(app)
+
 # Initialize extensions
 db.init_app(app)
 migrate = Migrate(app, db)

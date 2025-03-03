@@ -30,6 +30,11 @@ class User(UserMixin, db.Model):
     
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    @property
+    def is_admin(self):
+        """Convenience property to check if user is an admin"""
+        return self.role == 'admin'
 
 class StegoImage(db.Model):
     __tablename__ = 'stego_images'  # Explicitly set table name
@@ -51,9 +56,15 @@ class ActivityLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     action = db.Column(db.String(255), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    # Use created_at consistently instead of timestamp
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     ip_address = db.Column(db.String(50), nullable=True)
     user_agent = db.Column(db.String(255), nullable=True)
+    
+    # Add timestamp as an alias to created_at for backward compatibility
+    @property
+    def timestamp(self):
+        return self.created_at
     
     def __repr__(self):
         return f'<ActivityLog {self.id} - {self.action}>'

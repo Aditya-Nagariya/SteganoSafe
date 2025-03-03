@@ -9,6 +9,7 @@ import traceback
 import os
 from datetime import datetime
 from functools import wraps
+import sys  # Added import for sys module
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ admin_bp = Blueprint('admin_bp', __name__)
 
 def admin_required(f):
     """Decorator to require admin role for a route"""
+    @wraps(f)
     @login_required
     def decorated_function(*args, **kwargs):
         if not current_user.role == 'admin':
@@ -24,8 +26,6 @@ def admin_required(f):
             abort(403)  # Forbidden
         return f(*args, **kwargs)
     
-    # Preserve the function metadata
-    decorated_function.__name__ = f.__name__
     return decorated_function
 
 @admin_bp.route('/')
@@ -39,7 +39,7 @@ def index():
         activity_count = ActivityLog.query.count()
         
         # Get recent activity
-        recent_activities = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).limit(10).all()
+        recent_activities = ActivityLog.query.order_by(ActivityLog.created_at.desc()).limit(10).all()
         
         return render_template(
             'admin/index.html',
@@ -52,7 +52,7 @@ def index():
         logger.error(f"Error in admin index: {str(e)}")
         logger.error(traceback.format_exc())
         flash(f"An error occurred: {str(e)}", "danger")
-        return render_template('admin/error.html', error=str(e))
+        return redirect(url_for('home'))
 
 @admin_bp.route('/users')
 @admin_required
@@ -83,7 +83,7 @@ def images():
 def activity():
     """View activity logs"""
     try:
-        logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
+        logs = ActivityLog.query.order_by(ActivityLog.created_at.desc()).all()
         return render_template('admin/activity.html', logs=logs)
     except Exception as e:
         logger.error(f"Error in admin activity: {str(e)}")
