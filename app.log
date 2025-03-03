@@ -21849,3 +21849,50 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-01 12:59:50,997 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:50] "[32mGET /logout HTTP/1.1[0m" 302 -
 2025-03-01 12:59:51,007 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:51] "GET / HTTP/1.1" 200 -
 2025-03-01 12:59:51,014 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:51] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-03-03 10:28:50,147 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:28:50,335 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.13.226:8080
+2025-03-03 10:28:50,335 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-03 10:28:50,335 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:28:51,688 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:28:51,771 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:28:51,824 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 10:28:55,273 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:28:55] "GET / HTTP/1.1" 200 -
+2025-03-03 10:28:55,363 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:28:55] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-03 10:28:56,971 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:28:56] "GET /login HTTP/1.1" 200 -
+2025-03-03 10:29:04,091 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:04] "POST /login HTTP/1.1" 200 -
+2025-03-03 10:29:04,137 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:04] "GET /dashboard HTTP/1.1" 200 -
+2025-03-03 10:29:04,188 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:04] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-03-03 10:29:09,118 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:09] "GET /admin/ HTTP/1.1" 200 -
+2025-03-03 10:29:10,767 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:10] "GET /admin/users HTTP/1.1" 200 -
+2025-03-03 10:29:13,804 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:13] "GET /admin/logs HTTP/1.1" 200 -
+2025-03-03 10:29:49,030 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:49] "GET /admin/ HTTP/1.1" 200 -
+2025-03-03 10:29:50,374 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:50] "GET /admin/analytics HTTP/1.1" 200 -
+2025-03-03 10:29:50,519 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 10:29:50] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-03-03 10:54:24,136 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-03 10:54:24,508 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:54:26,259 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:54:26,360 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:54:26,420 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 10:54:27,565 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-03 10:54:27,786 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:54:29,138 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:54:29,224 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:54:29,261 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 10:54:37,795 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/migrations/add_phone_to_user.py', reloading
+2025-03-03 10:54:38,035 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:54:39,483 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:54:39,572 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:54:39,611 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 10:54:40,731 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-03 10:54:40,952 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:54:42,303 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:54:42,387 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:54:42,422 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 10:54:44,597 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-03 10:54:44,817 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 10:54:46,152 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 10:54:46,238 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 10:54:46,273 - werkzeug - INFO -  * Debugger PIN: 739-833-464

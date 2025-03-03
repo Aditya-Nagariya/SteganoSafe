@@ -237,7 +237,7 @@ def register():
                 flash("Username already taken", "danger")
                 return render_template('register.html', form=form)
             
-            # Fix the syntax error below - correct parentheses placement
+            # Fix the syntax error - email should be a keyword parameter, not a function call
             if User.query.filter_by(email=form.email.data).first():
                 if is_ajax:
                     return jsonify({'success': False, 'message': 'Email already registered'}), 400
@@ -660,4 +660,6 @@ if __name__ == '__main__':
         db.create_all()
         create_default_admin()
     
-    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
+    # Use environment variable PORT if available (for Render.com), otherwise use 8080
+    port = int(os.environ.get('PORT', 8080))
+    socketio.run(app, host='0.0.0.0', port=port, debug=True)
