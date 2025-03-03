@@ -2,8 +2,11 @@ services:
   - type: web
     name: steganography-app
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python init_db.py && gunicorn --worker-class eventlet -w 1 "wsgi:app"
+    buildCommand: |
+      pip install -r requirements.txt
+      python -c "import os; os.makedirs('data', exist_ok=True); os.chmod('data', 0o777)"
+    startCommand: |
+      python init_db.py && gunicorn --worker-class eventlet -w 1 "wsgi:app" --log-level debug
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.4
@@ -17,6 +20,11 @@ services:
         value: production
       - key: FLASK_DEBUG
         value: "False"
+      - key: PORT 
+        fromService:
+          type: web
+          name: steganography-app
+          envVarKey: PORT
     disk:
       name: data
       mountPath: /opt/render/project/src/data

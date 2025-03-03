@@ -21941,3 +21941,15 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-03 11:29:00,240 - werkzeug - INFO -  * Debugger PIN: 739-833-464
 2025-03-03 11:29:02,932 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:29:02] "GET /dashboard HTTP/1.1" 200 -
 2025-03-03 11:29:03,131 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:29:03] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-03 11:37:09,427 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/models.py', reloading
+2025-03-03 11:37:09,704 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:37:11,437 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:37:11,543 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:37:11,598 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:38:59,150 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/models.py', reloading
+2025-03-03 11:38:59,392 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:39:01,180 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:39:01,267 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:39:01,331 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:39:01,480 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:39:01] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+2025-03-03 11:39:01,599 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:39:01] "GET /login?next=/dashboard HTTP/1.1" 200 -
