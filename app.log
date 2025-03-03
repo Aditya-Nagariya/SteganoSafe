@@ -21896,3 +21896,8 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-03 10:54:46,152 - engineio.server - INFO - Server initialized for threading.
 2025-03-03 10:54:46,238 - werkzeug - WARNING -  * Debugger is active!
 2025-03-03 10:54:46,273 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:00:23,202 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-03 11:00:23,491 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:00:25,117 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:00:25,222 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:00:25,274 - werkzeug - INFO -  * Debugger PIN: 739-833-464

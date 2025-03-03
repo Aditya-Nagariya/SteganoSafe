@@ -14,3 +14,4 @@ flask-mail
 gunicorn
 eventlet
 redis
+python-dotenv
