@@ -21917,3 +21917,10 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-03 11:04:35,939 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:35] "GET /static/img/hero-image.png HTTP/1.1" 200 -
 2025-03-03 11:04:38,565 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:38] "GET /dashboard HTTP/1.1" 200 -
 2025-03-03 11:04:38,595 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:04:38] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-03 11:12:33,712 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-03 11:12:34,001 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 11:12:35,831 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 11:12:35,932 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 11:12:35,984 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 11:12:40,014 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:12:40] "GET /dashboard HTTP/1.1" 200 -
+2025-03-03 11:12:40,109 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 11:12:40] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
