@@ -13,3 +13,4 @@ celery
 flask_mail
 twilio
 python-dotenv
+flask_migrate

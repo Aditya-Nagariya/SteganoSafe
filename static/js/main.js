@@ -115,3 +115,175 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Enhance form submission handler for encryption
+function setupEncryptionForm() {
+    const encryptForm = document.getElementById('encrypt-form');
+    if (!encryptForm) return;
+
+    encryptForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Show loading indicator
+        const submitBtn = encryptForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+        submitBtn.disabled = true;
+        
+        // Get form data
+        const formData = new FormData(encryptForm);
+        
+        // Validate inputs
+        const imageFile = formData.get('image');
+        const password = formData.get('password');
+        const message = formData.get('message');
+        
+        if (!imageFile || imageFile.size === 0) {
+            showAlert('Please select an image file', 'danger');
+            resetButton();
+            return;
+        }
+        
+        if (!password) {
+            showAlert('Please enter an encryption password', 'danger');
+            resetButton();
+            return;
+        }
+        
+        if (!message) {
+            showAlert('Please enter a message to hide', 'danger');
+            resetButton();
+            return;
+        }
+        
+        // Basic image validation
+        if (!imageFile.type.startsWith('image/')) {
+            showAlert('Please select a valid image file (JPEG, PNG, etc.)', 'danger');
+            resetButton();
+            return;
+        }
+        
+        // File size validation (max 5MB)
+        if (imageFile.size > 5 * 1024 * 1024) {
+            showAlert('Image file too large. Maximum size is 5MB', 'danger');
+            resetButton();
+            return;
+        }
+        
+        try {
+            // Get CSRF token from meta tag
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            
+            // Send request
+            const response = await fetch('/encrypt', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert(result.message || 'Encryption successful!', 'success');
+                setTimeout(() => {
+                    window.location.href = result.redirect || '/dashboard';
+                }, 1500);
+            } else {
+                showAlert(result.message || 'Encryption failed. Please try again.', 'danger');
+                resetButton();
+            }
+        } catch (error) {
+            console.error('Encryption error:', error);
+            showAlert('Error processing request. Please try again.', 'danger');
+            resetButton();
+        }
+        
+        function resetButton() {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+        
+        function showAlert(message, type) {
+            const alertBox = document.createElement('div');
+            alertBox.className = `alert alert-${type} alert-dismissible fade show`;
+            alertBox.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(alertBox, container.firstChild);
+            
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                alertBox.classList.remove('show');
+                setTimeout(() => alertBox.remove(), 300);
+            }, 5000);
+        }
+    });
+}
+
+// Add window.onload handler to initialize all functions
+window.addEventListener('DOMContentLoaded', () => {
+    setupEncryptionForm();
+    // Add other initialization functions here
+});
+
+/**
+ * Main JavaScript utilities for SteganoSafe
+ */
+
+// Global AJAX error handler for SweetAlert2
+window.addEventListener('DOMContentLoaded', function() {
+    // Check if SweetAlert2 is loaded
+    if (typeof Swal !== 'undefined') {
+        // Add global error handler for fetch
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            return originalFetch.apply(this, arguments)
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    // Show error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Connection Error',
+                        text: 'Failed to connect to the server. Please check your internet connection.',
+                        confirmButtonColor: '#2c7da0'
+                    });
+                    throw error; 
+                });
+        };
+    }
+    
+    // Log that JS is loaded for debugging
+    console.log('SteganoSafe JS utilities loaded');
+});
+
+// Safe access to CSRF token
+function getCsrfToken() {
+    // Try to get from meta tag first (best practice)
+    const metaToken = document.querySelector('meta[name="csrf-token"]');
+    if (metaToken) {
+        return metaToken.getAttribute('content');
+    }
+    
+    // Fall back to form input if meta not found
+    const inputToken = document.querySelector('input[name="csrf_token"]');
+    if (inputToken) {
+        return inputToken.value;
+    }
+    
+    console.error('CSRF token not found in page');
+    return '';
+}
+
+// Form validation helpers
+const validators = {
+    required: (value) => !!value && value.trim().length > 0,
+    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+    phone: (value) => /^\+[1-9]\d{1,14}$/.test(value),
+    minLength: (value, length) => value.length >= length,
+    matches: (value, field) => value === document.getElementById(field).value
+};
+

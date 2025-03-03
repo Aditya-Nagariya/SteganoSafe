@@ -1,230 +1,832 @@
 {% extends "base.html" %}
 
+{% block title %}Register | SteganoSafe{% endblock %}
+
+{% block head %}
+<style>
+    .register-card {
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+    
+    .card-header.gradient {
+        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
+    }
+    
+    .security-feature-icon {
+        font-size: 1.5rem;
+        color: #38b000;
+        margin-right: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #2c7da0;
+        box-shadow: 0 0 0 0.25rem rgba(44, 125, 160, 0.25);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #1a5e7e, #152238);
+    }
+    
+    /* Password strength indicator */
+    .password-strength {
+        height: 5px;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+        border-radius: 5px;
+    }
+    
+    .strength-weak {
+        width: 30%;
+        background-color: #dc3545;
+    }
+    
+    .strength-medium {
+        width: 70%;
+        background-color: #ffc107;
+    }
+    
+    .strength-strong {
+        width: 100%;
+        background-color: #28a745;
+    }
+    
+    /* Step indicators */
+    .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .step {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 0 1rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .step.active {
+        background-color: #2c7da0;
+        color: white;
+    }
+    
+    .step.completed {
+        background-color: #38b000;
+        color: white;
+    }
+    
+    .step::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 2rem;
+        height: 2px;
+        background-color: #e9ecef;
+        transform: translateY(-50%);
+        transition: background-color 0.3s ease;
+    }
+    
+    .step:last-child::after {
+        display: none;
+    }
+    
+    .step.completed::after {
+        background-color: #38b000;
+    }
+    
+    /* Animated background */
+    .register-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(44, 125, 160, 0.05), rgba(78, 168, 222, 0.05));
+        z-index: -1;
+    }
+    
+    .register-background::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(44, 125, 160, 0.03) 10%, transparent 10.5%),
+                    radial-gradient(circle, rgba(44, 125, 160, 0.02) 10%, transparent 10.5%);
+        background-size: 50px 50px;
+        background-position: 0 0, 25px 25px;
+        animation: backgroundScroll 60s linear infinite;
+        opacity: 0.5;
+    }
+    
+    @keyframes backgroundScroll {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(50px); }
+    }
+    
+    .register-step {
+        transition: all 0.3s ease;
+    }
+    
+    /* Debug panel for development */
+    #dev-otp-debug {
+        display: none;
+        background-color: #ffe8e8;
+        border: 1px solid #ffcccc;
+        border-radius: var(--radius);
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
+<!-- Animated background -->
+<div class="register-background"></div>
+
 <div class="row justify-content-center animate__animated animate__fadeIn">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white text-center py-3">
-                <h3 class="mb-0">Create Account</h3>
+    <div class="col-md-10 col-lg-7 col-xl-6">
+        <div class="register-card mb-4">
+            <div class="card-header gradient text-center py-4">
+                <h2 class="text-white mb-0">Create Your Account</h2>
+                <p class="text-white-50 mb-0">Join SteganoSafe to protect your private messages</p>
             </div>
-            <div class="card-body p-4">
+            
+            <div class="card-body p-4 p-md-5">
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
-                    {% for category, message in messages %}
-                      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                    {% endfor %}
-                  {% endif %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {% if category == 'success' %}
+                                    <i class="bi bi-check-circle me-2"></i>
+                                {% elif category == 'danger' %}
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                {% elif category == 'warning' %}
+                                    <i class="bi bi-exclamation-circle me-2"></i>
+                                {% elif category == 'info' %}
+                                    <i class="bi bi-info-circle me-2"></i>
+                                {% endif %}
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 {% endwith %}
-                <form method="POST" action="{{ url_for('register') }}" class="needs-validation" novalidate>
+                
+                <!-- Step indicator -->
+                <div class="step-indicator mb-4">
+                    <div class="step active" id="step1">1</div>
+                    <div class="step" id="step2">2</div>
+                    <div class="step" id="step3">3</div>
+                </div>
+                
+                <form id="registerForm" method="POST" action="{{ url_for('register') }}">
                     {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.username.label }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-person"></i>
-                            </span>
-                            {{ form.username(class="form-control", required=True) }}
+                    <input type="hidden" name="phone_validated" id="phone_validated" value="false">
+                    
+                    <!-- Step 1: Account Information -->
+                    <div id="accountStep" class="register-step">
+                        <h4 class="mb-4 text-center">Account Information</h4>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.username.id }}" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                {{ form.username(class="form-control", placeholder="Choose a username", required=True) }}
+                            </div>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
-                        <div class="form-text">3-20 characters, letters, numbers, and underscores only</div>
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form.email.label }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-envelope"></i>
-                            </span>
-                            {{ form.email(
-                                class="form-control",
-                                type="email",
-                                pattern=".*",
-                                required=True,
-                                oninvalid="this.setCustomValidity('Please enter a valid email address!')",
-                                oninput="this.setCustomValidity('')"
-                            ) }}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.email.id }}" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                {{ form.email(class="form-control", placeholder="Enter your email", required=True) }}
+                            </div>
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form.phone_number.label }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-telephone"></i>
-                            </span>
-                            {{ form.phone_number(class="form-control", required=True, id="phone_number", placeholder="+1234567890") }}
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="otp_field">OTP from Firebase</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="otp_field" placeholder="Enter OTP" required>
-                            <button type="button" class="btn btn-outline-secondary" id="requestOtpBtn" onclick="requestFirebaseOtp()">Request OTP</button>
-                        </div>
-                        <button type="button" class="btn btn-info mt-2" onclick="confirmFirebaseOtp()">Verify OTP</button>
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form.password.label }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-key"></i>
-                            </span>
-                            {{ form.password(class="form-control", required=True, id="password") }}
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                <i class="bi bi-eye"></i>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary py-2" id="nextToPhone">
+                                Continue <i class="bi bi-arrow-right ms-2"></i>
                             </button>
                         </div>
-                        <div class="form-text">Minimum 8 characters, must include letters and numbers</div>
                     </div>
-
-                    <div class="mb-4">
-                        {{ form.confirm_password.label }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-key-fill"></i>
-                            </span>
-                            {{ form.confirm_password(class="form-control", required=True, id="confirm_password") }}
+                    
+                    <!-- Step 2: Phone Verification -->
+                    <div id="phoneStep" class="register-step d-none">
+                        <h4 class="mb-4 text-center">Phone Verification</h4>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.phone_number.id }}" class="form-label">Phone Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-phone"></i>
+                                </span>
+                                {{ form.phone_number(class="form-control", placeholder="+1234567890", required=True) }}
+                            </div>
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i> 
+                                Phone number must be in E.164 format: country code with + prefix (e.g., +1234567890)
+                            </div>
+                            <div id="phone-error" class="invalid-feedback d-none"></div>
+                            {% if form.phone_number.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.phone_number.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.otp.id }}" class="form-label">One-Time Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-shield-lock"></i>
+                                </span>
+                                {{ form.otp(class="form-control", placeholder="Enter OTP", required=True) }}
+                                <button type="button" class="btn btn-outline-primary" id="requestOtpBtn">
+                                    Request OTP
+                                </button>
+                            </div>
+                            {% if form.otp.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.otp.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            <!-- OTP Debug Panel -->
+                            <div id="dev-otp-debug" class="mt-2 small">
+                                <strong>DEV MODE:</strong> OTP for testing: <code>123456</code>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary py-2" id="backToAccount">
+                                <i class="bi bi-arrow-left me-2"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary py-2" id="nextToPassword">
+                                Continue <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary w-100 mb-3">
-                        <i class="bi bi-person-plus"></i> Register
-                    </button>
-
-                    <div class="text-center">
-                        <p class="mb-0">Already have an account? 
-                            <a href="{{ url_for('login') }}" class="text-primary">Login</a>
-                        </p>
+                    
+                    <!-- Step 3: Set Password -->
+                    <div id="passwordStep" class="register-step d-none">
+                        <h4 class="mb-4 text-center">Create Password</h4>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password.id }}" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-key"></i>
+                                </span>
+                                {{ form.password(class="form-control", placeholder="Create a password", required=True) }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div id="password-strength" class="password-strength mt-2"></div>
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.confirm_password.id }}" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-key-fill"></i>
+                                </span>
+                                {{ form.confirm_password(class="form-control", placeholder="Confirm your password", required=True) }}
+                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div id="password-match" class="form-text mt-2"></div>
+                            {% if form.confirm_password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.confirm_password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary py-2" id="backToPhone">
+                                <i class="bi bi-arrow-left me-2"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn-primary py-2">
+                                Register <i class="bi bi-person-plus ms-2"></i>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
+        </div>
+        
+        <div class="text-center">
+            <p class="mb-0">Already have an account? 
+                <a href="{{ url_for('login') }}" style="color: #2c7da0;" class="fw-bold">Login</a>
+            </p>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/form-validation.js') }}"></script>
 <script>
-console.log("register.html script loaded");
 document.addEventListener('DOMContentLoaded', function() {
-    try {
-        const socket = io(location.origin, {
-            transports: ['websocket', 'polling'],
-            reconnectionAttempts: 5,
-            reconnectionDelay: 2000
-        });
-        socket.on('connect', function() {
-            console.log('Socket connected:', socket.id);
-        });
-        socket.on('message', function(data) {
-            console.log('Real-time update:', data);
-        });
-    } catch (err) {
-        console.warn("Socket.IO initialization error:", err);
+    // Show OTP debug panel in development environments
+    if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+        document.getElementById('dev-otp-debug').style.display = 'block';
+        console.log("%c DEVELOPMENT MODE: Use OTP 123456 for testing", "background: yellow; color: red; font-size: 16px; font-weight: bold;");
+        
+        // Auto-set phone validation to true in dev mode
+        document.getElementById('phone_validated').value = 'true';
     }
     
-    const form = document.querySelector('form');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirm_password');
-
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.querySelector('input[name="password"]');
-        const icon = this.querySelector('i');
+    // Step navigation variables
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    
+    const accountStep = document.getElementById('accountStep');
+    const phoneStep = document.getElementById('phoneStep');
+    const passwordStep = document.getElementById('passwordStep');
+    
+    // Navigation button handlers
+    document.getElementById('nextToPhone').addEventListener('click', function() {
+        // Validate username and email before proceeding
+        const username = document.querySelector('input[name="username"]').value;
+        const email = document.querySelector('input[name="email"]').value;
         
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-        }
-    });
-
-    form.addEventListener('submit', function(event) {
-        if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        if (password.value !== confirmPassword.value) {
-            event.preventDefault();
+        if (!username) {
             Swal.fire({
-                icon: 'error',
-                title: 'Password Mismatch',
-                text: 'Passwords do not match!'
+                icon: 'warning',
+                title: 'Username Required',
+                text: 'Please enter a username',
+                confirmButtonColor: '#2c7da0'
             });
-        }
-        form.classList.add('was-validated');
-    });
-
-    password.addEventListener('input', function() {
-        const strength = {1: 'Weak', 2: 'Fair', 3: 'Good', 4: 'Strong'};
-        let score = 0;
-        if (this.value.length >= 8) score++;
-        if (this.value.match(/[a-z]/) && this.value.match(/[A-Z]/)) score++;
-        if (this.value.match(/\d/)) score++;
-        if (this.value.match(/[^a-zA-Z\d]/)) score++;
-        const strengthIndicator = this.parentElement.nextElementSibling;
-        strengthIndicator.textContent = `Password strength: ${strength[score] || 'Very Weak'}`;
-        strengthIndicator.className = 'form-text text-' + (score < 2 ? 'danger' : score < 3 ? 'warning' : 'success');
-    });
-
-    document.getElementById('requestOtpBtn').addEventListener('click', function() {
-        const phoneNumber = document.getElementById('phone_number').value;
-        if (!phoneNumber) {
-            alert("Enter phone number first.");
             return;
         }
-        fetch("{{ url_for('request_otp') }}", {
+        
+        if (!email) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Email Required',
+                text: 'Please enter your email address',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        if (!email.includes('@')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Invalid Email',
+                text: 'Please enter a valid email address',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        // Proceed to next step
+        accountStep.classList.add('d-none');
+        phoneStep.classList.remove('d-none');
+        
+        // Update step indicators
+        step1.classList.remove('active');
+        step1.classList.add('completed');
+        step2.classList.add('active');
+    });
+    
+    document.getElementById('backToAccount').addEventListener('click', function() {
+        phoneStep.classList.add('d-none');
+        accountStep.classList.remove('d-none');
+        
+        // Update step indicators
+        step2.classList.remove('active');
+        step1.classList.remove('completed');
+        step1.classList.add('active');
+    });
+    
+    document.getElementById('nextToPassword').addEventListener('click', function() {
+        // Validate phone and OTP before proceeding
+        const phone = document.querySelector('input[name="phone_number"]').value;
+        const otp = document.querySelector('input[name="otp"]').value;
+        
+        if (!phone) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Phone Required',
+                text: 'Please enter your phone number',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        if (!phone.startsWith('+')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Invalid Phone Format',
+                text: 'Phone number must start with + (E.164 format)',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        if (!otp) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'OTP Required',
+                text: 'Please enter the OTP sent to your phone',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        // In a real app, we would verify OTP here
+        // For this implementation, we'll just proceed (OTP validation would be done server-side)
+        phoneStep.classList.add('d-none');
+        passwordStep.classList.remove('d-none');
+        
+        // Update step indicators
+        step2.classList.remove('active');
+        step2.classList.add('completed');
+        step3.classList.add('active');
+        
+        // Set the phone_validated flag
+        document.getElementById('phone_validated').value = 'true';
+    });
+    
+    document.getElementById('backToPhone').addEventListener('click', function() {
+        passwordStep.classList.add('d-none');
+        phoneStep.classList.remove('d-none');
+        
+        // Update step indicators
+        step3.classList.remove('active');
+        step2.classList.remove('completed');
+        step2.classList.add('active');
+    });
+    
+    // Toggle password visibility
+    function setupPasswordToggle(toggleId, passwordId) {
+        const toggleButton = document.getElementById(toggleId);
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function() {
+                const passwordInput = document.getElementById(passwordId);
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            });
+        }
+    }
+    
+    setupPasswordToggle('togglePassword', 'password');
+    setupPasswordToggle('toggleConfirmPassword', 'confirm_password');
+    
+    // Password strength indicator
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    const passwordStrength = document.getElementById('password-strength');
+    const passwordMatch = document.getElementById('password-match');
+    
+    password.addEventListener('input', function() {
+        const value = this.value;
+        let strength = 0;
+        let statusClass = '';
+        let statusText = '';
+        
+        // Calculate strength
+        if (value.length >= 8) strength += 1;
+        if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength += 1;
+        if (value.match(/\d/)) strength += 1;
+        if (value.match(/[^a-zA-Z\d]/)) strength += 1;
+        
+        // Set appropriate status
+        switch(strength) {
+            case 0:
+            case 1:
+                statusClass = 'strength-weak';
+                statusText = 'Weak';
+                break;
+            case 2:
+            case 3:
+                statusClass = 'strength-medium';
+                statusText = 'Medium';
+                break;
+            case 4:
+                statusClass = 'strength-strong';
+                statusText = 'Strong';
+                break;
+        }
+        
+        // Update UI
+        passwordStrength.className = 'password-strength';
+        passwordStrength.classList.add(statusClass);
+        passwordStrength.style.width = ((strength / 4) * 100) + '%';
+        passwordStrength.innerHTML = '<div class="mt-1 small text-' + (strength <= 1 ? 'danger' : strength < 4 ? 'warning' : 'success') + '">' + statusText + ' Password</div>';
+        
+        // Check match if confirm password has value
+        if (confirmPassword.value) {
+            checkPasswordMatch();
+        }
+    });
+    
+    confirmPassword.addEventListener('input', checkPasswordMatch);
+    
+    function checkPasswordMatch() {
+        if (password.value && confirmPassword.value) {
+            if (password.value === confirmPassword.value) {
+                passwordMatch.className = 'form-text text-success mt-1';
+                passwordMatch.textContent = 'Passwords match!';
+            } else {
+                passwordMatch.className = 'form-text text-danger mt-1';
+                passwordMatch.textContent = 'Passwords do not match';
+            }
+        } else {
+            passwordMatch.textContent = '';
+        }
+    }
+    
+    // Request OTP button
+    document.getElementById('requestOtpBtn').addEventListener('click', function() {
+        const phoneInput = document.querySelector('input[name="phone_number"]');
+        const phone = phoneInput.value.trim();
+        
+        if (!phone) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Phone Required',
+                text: 'Please enter your phone number first',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        if (!phone.startsWith('+')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Invalid Format',
+                text: 'Phone number must start with + (E.164 format)',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        // For development mode, simplify OTP process
+        if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+            // Auto-fill OTP
+            document.getElementById('otp').value = '123456';
+            document.getElementById('phone_validated').value = 'true';
+            
+            // Show success message
+            Swal.fire({
+                icon: 'info',
+                title: 'Development Mode',
+                text: 'Using test OTP: 123456',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            
+            return;
+        }
+        
+        // Show loading state
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+        this.disabled = true;
+        
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        // Send OTP request
+        fetch('/request_otp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': "{{ csrf_token() }}"
+                'X-CSRFToken': csrfToken
             },
-            body: "phone=" + encodeURIComponent(phoneNumber)
+            body: `phone=${encodeURIComponent(phone)}`
         })
         .then(response => response.json())
         .then(data => {
+            // Reset button state
+            this.innerHTML = originalText;
+            this.disabled = false;
+            
             if (data.success) {
-                alert("OTP sent successfully.");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'OTP Sent!',
+                    text: 'A one-time password has been sent to your phone',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#2c7da0'
+                });
+                document.querySelector('input[name="otp"]').focus();
             } else {
-                alert("Error sending OTP: " + data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'OTP Error',
+                    text: data.message || 'Failed to send OTP. Please try again.',
+                    confirmButtonColor: '#2c7da0'
+                });
             }
         })
-        .catch(err => {
-            console.error("Request OTP error:", err);
-            alert("Error: Could not send OTP.");
+        .catch(error => {
+            // Reset button state
+            this.innerHTML = originalText;
+            this.disabled = false;
+            
+            console.error('Error requesting OTP:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Server Error',
+                text: 'Failed to connect to the server. Please try again later.',
+                confirmButtonColor: '#2c7da0'
+            });
+        });
+    });
+    
+    // Form submission validation
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+        
+        if (password !== confirmPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Password Mismatch',
+                text: 'Your passwords do not match. Please check and try again.',
+                confirmButtonColor: '#2c7da0'
+            });
+            return;
+        }
+        
+        // Add loading state to submit button
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating Account...';
+        submitButton.disabled = true;
+        
+        // Clear any previous validation errors
+        const errorElements = document.querySelectorAll('.invalid-feedback');
+        errorElements.forEach(el => {
+            if (!el.classList.contains('d-none')) {
+                el.classList.add('d-none');
+            }
+        });
+        
+        // Submit form with AJAX
+        const formData = new FormData(this);
+        
+        // Get CSRF token
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value || 
+                          document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            console.log("Response status:", response.status);
+            
+            return response.json().catch(() => {
+                if (response.ok) {
+                    return { success: true, message: 'Registration successful!' };
+                } else {
+                    return { 
+                        success: false, 
+                        message: `Server error: ${response.status} ${response.statusText}`,
+                        status: response.status 
+                    };
+                }
+            });
+        })
+        .then(data => {
+            console.log("Response data:", data);
+            
+            // Reset button state
+            submitButton.innerHTML = originalButtonText;
+            submitButton.disabled = false;
+            
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registration Successful!',
+                    text: data.message || 'Your account has been created. You will be redirected to login.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = data.redirect || '/login';
+                });
+            } else {
+                // Show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: data.message || 'Please check your information and try again.',
+                    confirmButtonColor: '#2c7da0'
+                });
+                
+                // Display field errors if available
+                if (data.errors) {
+                    Object.entries(data.errors).forEach(([field, errors]) => {
+                        const fieldInput = document.querySelector(`[name="${field}"]`);
+                        if (fieldInput) {
+                            fieldInput.classList.add('is-invalid');
+                            
+                            // Find or create error message container
+                            let container = fieldInput.parentNode.parentNode.querySelector('.invalid-feedback');
+                            if (!container) {
+                                container = document.createElement('div');
+                                container.className = 'invalid-feedback d-block mt-1';
+                                fieldInput.parentNode.parentNode.appendChild(container);
+                            } else {
+                                container.classList.remove('d-none');
+                                container.classList.add('d-block');
+                            }
+                            container.textContent = Array.isArray(errors) ? errors.join(', ') : errors;
+                        }
+                    });
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Reset button state
+            submitButton.innerHTML = originalButtonText;
+            submitButton.disabled = false;
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Connection Error',
+                text: 'A network error occurred. Please try again later.',
+                confirmButtonColor: '#2c7da0'
+            });
         });
     });
 });
 </script>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBq-5XWRSfh6uQ48nbjuZoGZwyeTRxtCcc",
-    authDomain: "steganosafe.firebaseapp.com",
-    projectId: "steganosafe",
-    storageBucket: "steganosafe.firebasestorage.app",
-    messagingSenderId: "34782480072",
-    appId: "1:34782480072:web:e8247f95c6da58ccc407fd",
-    measurementId: "G-N7DCRM1HRJ"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-<script type="module" src="{{ url_for('static', filename='firebase_auth.js') }}"></script>
 {% endblock %}

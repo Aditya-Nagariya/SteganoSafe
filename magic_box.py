@@ -19,13 +19,47 @@ def cosine_similarity(tokens_a, tokens_b):
     mag_b = math.sqrt(sum(val * val for val in vec_b.values()))
     return score / (mag_a * mag_b) if mag_a and mag_b else 0
 
-def detect_suspicious(log_lines, reference_words=('error', 'unauthorized', 'failed')):
-    # Iterate each line and if similarity with any reference word is >0, consider it suspicious.
-    suspects = []
-    for line in log_lines:
-        tokens = tokenize(line)
-        for ref in reference_words:
-            if cosine_similarity(tokens, tokenize(ref)) > 0:
-                suspects.append(line.strip())
-                break
-    return suspects
+"""
+Magic Box - A module for advanced analysis of log files to detect suspicious activities
+"""
+
+def detect_suspicious(log_lines):
+    """
+    Analyze log lines to detect suspicious activity patterns
+    Returns a list of suspicious activities with their details
+    """
+    # This is a placeholder implementation
+    suspicious = []
+    
+    # Look for multiple failed login attempts
+    failed_logins = {}
+    for i, line in enumerate(log_lines):
+        if "Login failed for username" in line:
+            # Extract username
+            parts = line.split("Login failed for username: ")
+            if len(parts) > 1:
+                username = parts[1].strip()
+                if username not in failed_logins:
+                    failed_logins[username] = []
+                failed_logins[username].append(i)
+    
+    # Flag users with 3+ failed login attempts
+    for username, attempts in failed_logins.items():
+        if len(attempts) >= 3:
+            suspicious.append({
+                'type': 'multiple_failed_logins',
+                'username': username,
+                'attempts': len(attempts),
+                'line_numbers': attempts
+            })
+    
+    # Look for potential steganography data that's too large
+    for i, line in enumerate(log_lines):
+        if "Message too large for image" in line:
+            suspicious.append({
+                'type': 'oversized_steganography',
+                'line_number': i,
+                'line': line.strip()
+            })
+    
+    return suspicious

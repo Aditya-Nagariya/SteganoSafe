@@ -1,0 +1,238 @@
+<style>
+    /* Enhanced log container */
+    .log-container {
+        background: linear-gradient(180deg, #111111, #1a1a1a);
+        color: #e0e0e0;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        font-size: 0.92rem;
+        line-height: 1.65;
+        height: calc(100vh - 300px);
+        min-height: 450px;
+        overflow-y: auto;
+        position: relative;
+        border-radius: 0 0 10px 10px;
+        box-shadow: inset 0 2px 15px rgba(0,0,0,0.4), 0 15px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Improved card styling */
+    .card.mb-4 {
+        border: none;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1), 0 1px 5px rgba(0,0,0,0.1);
+        margin-bottom: 2rem !important;
+    }
+    
+    .card-body.p-0 {
+        position: relative;
+        border-radius: 0 0 12px 12px;
+    }
+    
+    /* Gradient header for the log display */
+    .log-header-bar {
+        background: linear-gradient(90deg, #1a5e7e, #2c7da0);
+        color: white;
+        padding: 10px 15px;
+        font-weight: 500;
+        border-bottom: 1px solid #333;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    /* Improved log lines */
+    .log-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .log-line {
+        transition: all 0.2s;
+        border-left: 4px solid transparent;
+    }
+    
+    .log-line:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left-color: #2c7da0;
+        transform: translateX(2px);
+    }
+    
+    .log-line td {
+        padding: 8px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    
+    /* Timestamp styling */
+    .log-line td.timestamp {
+        width: 180px;
+        color: #7c8494;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        letter-spacing: -0.3px;
+        border-right: 1px solid rgba(255,255,255,0.05);
+        user-select: text;
+    }
+    
+    /* Level badge styling */
+    .log-line td.level {
+        width: 80px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 4px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 2px 8px;
+        margin: 5px;
+        display: inline-block;
+    }
+    
+    /* Message styling */
+    .log-line td.message {
+        padding-left: 20px;
+        position: relative;
+        line-height: 1.5;
+    }
+    
+    .log-line td.message::before {
+        content: '›';
+        position: absolute;
+        left: 8px;
+        color: #555;
+        font-weight: bold;
+    }
+    
+    /* Line number styling */
+    .log-line td.line-number {
+        width: 60px;
+        color: #555;
+        text-align: right;
+        padding-right: 15px;
+        border-right: 1px solid #333;
+        font-family: 'SF Mono', monospace;
+        font-size: 0.8rem;
+        font-style: italic;
+        opacity: 0.7;
+        background-color: rgba(0,0,0,0.2);
+        user-select: none;
+    }
+
+    /* Card footer enhancements */
+    .card-footer.bg-light {
+        background: linear-gradient(to right, #f8f9fa, #eaeaea) !important;
+        border-top: none;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        color: #555;
+        border-radius: 0 0 12px 12px;
+    }
+    
+    /* Enhanced log type indicators */
+    .log-error {
+        background-color: rgba(255, 0, 0, 0.03);
+    }
+    
+    .log-error:hover {
+        background-color: rgba(255, 0, 0, 0.08);
+    }
+    
+    .log-error .level {
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #ff6b6b;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        border-radius: 12px;
+    }
+    
+    .log-warning {
+        background-color: rgba(255, 193, 7, 0.03);
+    }
+    
+    .log-warning:hover {
+        background-color: rgba(255, 193, 7, 0.08);
+    }
+    
+    .log-warning .level {
+        background-color: rgba(255, 193, 7, 0.15);
+        color: #ffd166;
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.1);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        border-radius: 12px;
+    }
+    
+    .log-info {
+        background-color: rgba(13, 110, 253, 0.02);
+    }
+    
+    .log-info:hover {
+        background-color: rgba(13, 110, 253, 0.06);
+    }
+    
+    .log-info .level {
+        background-color: rgba(13, 110, 253, 0.15);
+        color: #6ea8fe;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.1);
+        border: 1px solid rgba(13, 110, 253, 0.3);
+        border-radius: 12px;
+    }
+    
+    .log-debug {
+        background-color: rgba(25, 135, 84, 0.02);
+    }
+    
+    .log-debug:hover {
+        background-color: rgba(25, 135, 84, 0.06);
+    }
+    
+    .log-debug .level {
+        background-color: rgba(25, 135, 84, 0.15);
+        color: #75eda1;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.1); 
+        border: 1px solid rgba(25, 135, 84, 0.3);
+        border-radius: 12px;
+    }
+    
+    /* First-line emphasis */
+    .log-error .message {
+        text-shadow: 0 0 10px rgba(255, 123, 123, 0.3);
+    }
+    
+    .log-warning .message {
+        text-shadow: 0 0 10px rgba(255, 224, 102, 0.2);
+    }
+    
+    .log-info .message {
+        text-shadow: 0 0 10px rgba(138, 186, 255, 0.2);
+    }
+    
+    /* Scrollbar styling */
+    .log-container::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    .log-container::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
+        border-radius: 0 0 10px 0;
+    }
+    
+    .log-container::-webkit-scrollbar-thumb {
+        background: #444;
+        border: 3px solid #1a1a1a;
+        border-radius: 20px;
+    }
+    
+    .log-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    /* Search highlight enhancement */
+    .search-highlight {
+        background: linear-gradient(transparent 20%, rgba(255, 255, 0, 0.2) 20%, rgba(255, 255, 0, 0.2) 80%, transparent 80%);
+        color: #ffff80;
+        border-radius: 3px;
+        padding: 0 3px;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(0,0,0,0.7);
+    }
+</style>

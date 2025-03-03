@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}All Images | Admin | SteganoSafe{% endblock %}
+
+{% block head %}
+<style>
+    .image-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .image-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .image-preview {
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .image-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .image-info {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .image-title {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .image-meta {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    
+    .image-actions {
+        margin-top: auto;
+    }
+    
+    .filter-bar {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+    }
+    
+    .pagination-container {
+        margin-top: 2rem;
+    }
+    
+    .pagination .page-link {
+        color: #2c7da0;
+    }
+    
+    .pagination .active .page-link {
+        background-color: #2c7da0;
+        border-color: #2c7da0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>All Steganography Images</h1>
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+    
+    <div class="filter-bar">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="imageSearch" class="form-control" placeholder="Search by filename...">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <select class="form-select" id="userFilter">
+                    <option value="">All Users</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <select class="form-select" id="sortOrder">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="name_asc">Filename (A-Z)</option>
+                    <option value="name_desc">Filename (Z-A)</option>
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" id="applyFilters">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    {% if images %}
+        <div class="row g-4">
+            {% for image in images %}
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="image-card">
+                        <div class="image-preview">
+                            <img src="{{ url_for('download_image', filename=image.filename) }}" 
+                                alt="{{ image.original_filename }}">
+                        </div>
+                        <div class="image-info">
+                            <h5 class="image-title" title="{{ image.original_filename }}">
+                                {{ image.original_filename }}
+                            </h5>
+                            <div class="image-meta">
+                                <div>
+                                    <i class="bi bi-person me-1"></i> User ID: {{ image.user_id }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-calendar me-1"></i> {{ image.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-shield-lock me-1"></i> {{ image.encryption_type }}
+                                </div>
+                            </div>
+                            <div class="image-actions">
+                                <div class="btn-group w-100">
+                                    <a href="{{ url_for('download_image', filename=image.filename) }}" 
+                                        class="btn btn-sm btn-outline-primary flex-grow-1">
+                                        <i class="bi bi-download"></i> Download
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger flex-grow-1"
+                                            data-bs-toggle="modal" data-bs-target="#deleteImageModal{{ image.id }}">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Delete Image Modal -->
+                    <div class="modal fade" id="deleteImageModal{{ image.id }}" tabindex="-1" 
+                         aria-labelledby="deleteImageModalLabel{{ image.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteImageModalLabel{{ image.id }}">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete this image?</p>
+                                    <p class="text-danger"><strong>Warning:</strong> This action cannot be undone.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form action="{{ url_for('admin.delete_image', image_id=image.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-danger">Delete Image</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination-container d-flex justify-content-center">
+            <nav aria-label="Image pagination">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="bi bi-images" style="font-size: 3rem; color: #6c757d;"></i>
+            </div>
+            <h3>No images found</h3>
+            <p class="text-muted">There are no steganography images in the system yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image search functionality
+        const imageSearch = document.getElementById('imageSearch');
+        const userFilter = document.getElementById('userFilter');
+        const sortOrder = document.getElementById('sortOrder');
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        const imageCards = document.querySelectorAll('.col-sm-6.col-md-4.col-lg-3');
+        
+        applyFiltersBtn.addEventListener('click', filterImages);
+        
+        function filterImages() {
+            const searchTerm = imageSearch.value.toLowerCase();
+            const selectedUser = userFilter.value;
+            const sortValue = sortOrder.value;
+            
+            // First filter by search term and user
+            imageCards.forEach(card => {
+                const imageTitle = card.querySelector('.image-title').textContent.toLowerCase();
+                const userId = card.querySelector('.image-meta').textContent.match(/User ID: (\d+)/)[1];
+                
+                const matchesSearch = imageTitle.includes(searchTerm);
+                const matchesUser = !selectedUser || userId === selectedUser;
+                
+                card.style.display = (matchesSearch && matchesUser) ? '' : 'none';
+            });
+            
+            // Then sort the visible cards
+            const container = document.querySelector('.row.g-4');
+            const visibleCards = [...imageCards].filter(card => card.style.display !== 'none');
+            
+            visibleCards.sort((a, b) => {
+                const titleA = a.querySelector('.image-title').textContent;
+                const titleB = b.querySelector('.image-title').textContent;
+                const dateA = new Date(a.querySelector('.image-meta div:nth-child(2)').textContent.replace('Calendar', ''));
+                const dateB = new Date(b.querySelector('.image-meta div:nth-child(2)').textContent.replace('Calendar', ''));
+                
+                switch(sortValue) {
+                    case 'newest':
+                        return dateB - dateA;
+                    case 'oldest':
+                        return dateA - dateB;
+                    case 'name_asc':
+                        return titleA.localeCompare(titleB);
+                    case 'name_desc':
+                        return titleB.localeCompare(titleA);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Remove all cards and re-append them in sorted order
+            visibleCards.forEach(card => container.appendChild(card));
+        }
+        
+        // Initial filtering
+        filterImages();
+    });
+</script>
+{% endblock %}

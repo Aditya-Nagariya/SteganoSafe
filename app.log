@@ -20748,3 +20748,1104 @@ WHERE user.username = ?
 2025-02-16 15:30:52,780 - INFO -  * Restarting with stat
 2025-02-16 15:34:15,847 - INFO -  * Restarting with stat
 2025-02-16 15:36:46,013 - INFO -  * Restarting with stat
+2025-02-27 23:06:11,443 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:06:11,485 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:06:11,485 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("users")
+2025-02-27 23:06:11,485 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:11,490 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("stego_images")
+2025-02-27 23:06:11,490 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:11,490 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("activity_logs")
+2025-02-27 23:06:11,490 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:11,490 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-02-27 23:06:11,500 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:06:11,504 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.role = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:06:11,504 - sqlalchemy.engine.Engine - INFO - [generated in 0.00032s] ('admin', 1, 0)
+2025-02-27 23:06:11,507 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:06:11,582 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-27 23:06:11,582 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-27 23:06:11,582 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:06:13,074 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:06:13,112 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:06:13,113 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("users")
+2025-02-27 23:06:13,113 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:13,116 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("stego_images")
+2025-02-27 23:06:13,116 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:13,116 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("activity_logs")
+2025-02-27 23:06:13,116 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-02-27 23:06:13,117 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-02-27 23:06:13,128 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:06:13,132 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.role = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:06:13,132 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] ('admin', 1, 0)
+2025-02-27 23:06:13,134 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:06:13,178 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:06:13,373 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:06:14,173 - engineio.server - INFO - -eeQhfuDKkoZFX1nAAAA: Sending packet OPEN data {'sid': '-eeQhfuDKkoZFX1nAAAA', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-02-27 23:06:14,179 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:14] "GET /socket.io/?EIO=4&transport=polling&t=PL8Ulgq HTTP/1.1" 200 -
+2025-02-27 23:06:14,287 - engineio.server - INFO - -eeQhfuDKkoZFX1nAAAA: Received packet MESSAGE data 0
+2025-02-27 23:06:14,290 - engineio.server - INFO - -eeQhfuDKkoZFX1nAAAA: Sending packet MESSAGE data 0{"sid":"TzwDrVIi-Jlfx9EoAAAB"}
+2025-02-27 23:06:14,293 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:14] "GET /socket.io/?EIO=4&transport=polling&t=PL8Ulkm&sid=-eeQhfuDKkoZFX1nAAAA HTTP/1.1" 200 -
+2025-02-27 23:06:14,291 - engineio.server - INFO - -eeQhfuDKkoZFX1nAAAA: Received request to upgrade to websocket
+2025-02-27 23:06:14,294 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:14] "POST /socket.io/?EIO=4&transport=polling&t=PL8UlkL&sid=-eeQhfuDKkoZFX1nAAAA HTTP/1.1" 200 -
+2025-02-27 23:06:14,726 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:14] "GET /socket.io/?EIO=4&transport=polling&t=PL8UlmB&sid=-eeQhfuDKkoZFX1nAAAA HTTP/1.1" 200 -
+2025-02-27 23:06:14,749 - engineio.server - INFO - -eeQhfuDKkoZFX1nAAAA: Upgrade to websocket successful
+2025-02-27 23:06:16,937 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:16] "GET /socket.io/?EIO=4&transport=websocket&sid=-eeQhfuDKkoZFX1nAAAA HTTP/1.1" 200 -
+2025-02-27 23:06:17,025 - app - DEBUG - Request method: GET
+2025-02-27 23:06:17,124 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /register HTTP/1.1" 200 -
+2025-02-27 23:06:17,889 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-02-27 23:06:17,904 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-02-27 23:06:17,938 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-27 23:06:17,940 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/js/dev-helpers.js HTTP/1.1" 200 -
+2025-02-27 23:06:17,940 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-02-27 23:06:17,941 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:17] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-02-27 23:06:18,101 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Sending packet OPEN data {'sid': 'xzVeXCHBs4G_E4RhAAAC', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-02-27 23:06:18,116 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:18] "GET /socket.io/?EIO=4&transport=polling&t=PL8UmgG HTTP/1.1" 200 -
+2025-02-27 23:06:18,181 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Received packet MESSAGE data 0
+2025-02-27 23:06:18,183 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Received request to upgrade to websocket
+2025-02-27 23:06:18,192 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:18] "GET /socket.io/?EIO=4&transport=polling&t=PL8Umhw&sid=xzVeXCHBs4G_E4RhAAAC HTTP/1.1" 200 -
+2025-02-27 23:06:18,191 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Sending packet MESSAGE data 0{"sid":"MtE2CA_sb8rzhDTsAAAD"}
+2025-02-27 23:06:18,202 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:18] "POST /socket.io/?EIO=4&transport=polling&t=PL8Umhs&sid=xzVeXCHBs4G_E4RhAAAC HTTP/1.1" 200 -
+2025-02-27 23:06:18,238 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:18] "GET /socket.io/?EIO=4&transport=polling&t=PL8Umiu&sid=xzVeXCHBs4G_E4RhAAAC HTTP/1.1" 200 -
+2025-02-27 23:06:18,257 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Upgrade to websocket successful
+2025-02-27 23:06:43,112 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Sending packet PING data None
+2025-02-27 23:06:43,130 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Received packet PONG data 
+2025-02-27 23:06:52,454 - app - DEBUG - Request method: POST
+2025-02-27 23:06:52,454 - app - DEBUG - Form data received:
+2025-02-27 23:06:52,454 - app - DEBUG -   csrf_token: IjAzZDliM2MwMTdmMDRhZTA4Y2RjNmQ0ODAzZTBiYzdkOGQ1MzhjMzgi.Z8CikQ.Ax-rOiz48E-T_KKMP-i5UuSO8pc
+2025-02-27 23:06:52,454 - app - DEBUG -   phone_validated: true
+2025-02-27 23:06:52,454 - app - DEBUG -   username: adityazzz
+2025-02-27 23:06:52,454 - app - DEBUG -   email: aditya@123
+2025-02-27 23:06:52,454 - app - DEBUG -   phone_number: +919998272527
+2025-02-27 23:06:52,454 - app - DEBUG -   otp: 123456
+2025-02-27 23:06:52,466 - app - DEBUG - Form validation failed. Errors: {'email': ['Please enter a valid email address.', 'The part after the @-sign is not valid. It should have a period.']}
+2025-02-27 23:06:52,469 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:06:52] "POST /register HTTP/1.1" 200 -
+2025-02-27 23:07:08,133 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Sending packet PING data None
+2025-02-27 23:07:08,141 - engineio.server - INFO - xzVeXCHBs4G_E4RhAAAC: Received packet PONG data 
+2025-02-27 23:07:30,436 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /socket.io/?EIO=4&transport=websocket&sid=xzVeXCHBs4G_E4RhAAAC HTTP/1.1" 200 -
+2025-02-27 23:07:30,479 - app - DEBUG - Request method: GET
+2025-02-27 23:07:30,486 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /register HTTP/1.1" 200 -
+2025-02-27 23:07:30,641 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-02-27 23:07:30,644 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-02-27 23:07:30,649 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-02-27 23:07:30,655 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-02-27 23:07:30,662 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/js/dev-helpers.js HTTP/1.1" 200 -
+2025-02-27 23:07:30,665 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-27 23:07:30,686 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Sending packet OPEN data {'sid': 'drMrbqwKcCYpoVg5AAAE', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-02-27 23:07:30,687 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /socket.io/?EIO=4&transport=polling&t=PL8V2Ov HTTP/1.1" 200 -
+2025-02-27 23:07:30,712 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Received packet MESSAGE data 0
+2025-02-27 23:07:30,716 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Received request to upgrade to websocket
+2025-02-27 23:07:30,722 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Sending packet MESSAGE data 0{"sid":"wjk65JF6NllKAqUIAAAF"}
+2025-02-27 23:07:30,726 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "POST /socket.io/?EIO=4&transport=polling&t=PL8V2P9&sid=drMrbqwKcCYpoVg5AAAE HTTP/1.1" 200 -
+2025-02-27 23:07:30,734 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /socket.io/?EIO=4&transport=polling&t=PL8V2PB&sid=drMrbqwKcCYpoVg5AAAE HTTP/1.1" 200 -
+2025-02-27 23:07:30,807 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:30] "GET /socket.io/?EIO=4&transport=polling&t=PL8V2Qc&sid=drMrbqwKcCYpoVg5AAAE HTTP/1.1" 200 -
+2025-02-27 23:07:31,030 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:07:31] "GET /socket.io/?EIO=4&transport=polling&t=PL8V2T-&sid=drMrbqwKcCYpoVg5AAAE HTTP/1.1" 200 -
+2025-02-27 23:07:31,064 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Upgrade to websocket successful
+2025-02-27 23:07:55,692 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Sending packet PING data None
+2025-02-27 23:07:55,702 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Received packet PONG data 
+2025-02-27 23:08:08,133 - app - DEBUG - Request method: POST
+2025-02-27 23:08:08,134 - app - DEBUG - Form data received:
+2025-02-27 23:08:08,134 - app - DEBUG -   csrf_token: IjAzZDliM2MwMTdmMDRhZTA4Y2RjNmQ0ODAzZTBiYzdkOGQ1MzhjMzgi.Z8Ci2g.fJYWAqF98uxdAmrjpo8RJMrITJY
+2025-02-27 23:08:08,134 - app - DEBUG -   phone_validated: true
+2025-02-27 23:08:08,134 - app - DEBUG -   username: aditayzzzz
+2025-02-27 23:08:08,134 - app - DEBUG -   email: adityazzzz@gmail.com
+2025-02-27 23:08:08,134 - app - DEBUG -   phone_number: +919998272527
+2025-02-27 23:08:08,134 - app - DEBUG -   otp: 123456
+2025-02-27 23:08:08,143 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:08:08,154 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:08:08,155 - sqlalchemy.engine.Engine - INFO - [generated in 0.00224s] ('aditayzzzz', 1, 0)
+2025-02-27 23:08:08,173 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:08:08,173 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] ('adityazzzz@gmail.com', 1, 0)
+2025-02-27 23:08:08,174 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.phone_number = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:08:08,175 - sqlalchemy.engine.Engine - INFO - [generated in 0.00020s] ('+919998272527', 1, 0)
+2025-02-27 23:08:08,178 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:08:08,179 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:08] "POST /register HTTP/1.1" 200 -
+2025-02-27 23:08:20,708 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Sending packet PING data None
+2025-02-27 23:08:20,713 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Received packet PONG data 
+2025-02-27 23:08:45,720 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Sending packet PING data None
+2025-02-27 23:08:45,731 - engineio.server - INFO - drMrbqwKcCYpoVg5AAAE: Received packet PONG data 
+2025-02-27 23:08:51,258 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /socket.io/?EIO=4&transport=websocket&sid=drMrbqwKcCYpoVg5AAAE HTTP/1.1" 200 -
+2025-02-27 23:08:51,300 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:08:51,431 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-02-27 23:08:51,433 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-02-27 23:08:51,433 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-02-27 23:08:51,440 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-02-27 23:08:51,441 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /static/js/dev-helpers.js HTTP/1.1" 200 -
+2025-02-27 23:08:51,484 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet OPEN data {'sid': 'tAATPjJD6FJybVvkAAAG', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-02-27 23:08:51,485 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /socket.io/?EIO=4&transport=polling&t=PL8VM7H HTTP/1.1" 200 -
+2025-02-27 23:08:51,546 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet MESSAGE data 0
+2025-02-27 23:08:51,548 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet MESSAGE data 0{"sid":"9bVp4Ct-E0gG6VagAAAH"}
+2025-02-27 23:08:51,548 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "POST /socket.io/?EIO=4&transport=polling&t=PL8VM7t&sid=tAATPjJD6FJybVvkAAAG HTTP/1.1" 200 -
+2025-02-27 23:08:51,556 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received request to upgrade to websocket
+2025-02-27 23:08:51,566 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /socket.io/?EIO=4&transport=polling&t=PL8VM7u&sid=tAATPjJD6FJybVvkAAAG HTTP/1.1" 200 -
+2025-02-27 23:08:51,665 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:08:51] "GET /socket.io/?EIO=4&transport=polling&t=PL8VM9k&sid=tAATPjJD6FJybVvkAAAG HTTP/1.1" 200 -
+2025-02-27 23:08:51,811 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Upgrade to websocket successful
+2025-02-27 23:09:01,333 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,338 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:09:01,339 - sqlalchemy.engine.Engine - INFO - [cached since 53.19s ago] ('admin', 1, 0)
+2025-02-27 23:09:01,345 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,347 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2025-02-27 23:09:01,348 - sqlalchemy.engine.Engine - INFO - [cached since 53.2s ago] ('admin', 1, 0)
+2025-02-27 23:09:01,568 - sqlalchemy.engine.Engine - INFO - INSERT INTO activity_logs (user_id, action, timestamp, ip_address) VALUES (?, ?, ?, ?)
+2025-02-27 23:09:01,569 - sqlalchemy.engine.Engine - INFO - INSERT INTO activity_logs (user_id, action, timestamp, ip_address) VALUES (?, ?, ?, ?)
+2025-02-27 23:09:01,569 - sqlalchemy.engine.Engine - INFO - [generated in 0.00143s] (1, 'User logged in', '2025-02-27 17:39:01.568719', None)
+2025-02-27 23:09:01,570 - sqlalchemy.engine.Engine - INFO - [cached since 0.001634s ago] (1, 'User logged in', '2025-02-27 17:39:01.569535', None)
+2025-02-27 23:09:01,573 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-02-27 23:09:01,575 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,575 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-02-27 23:09:01,577 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:01,577 - sqlalchemy.engine.Engine - INFO - [generated in 0.00039s] (1,)
+2025-02-27 23:09:01,578 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,579 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:01,579 - sqlalchemy.engine.Engine - INFO - [cached since 0.001558s ago] (1,)
+2025-02-27 23:09:01,582 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:01,582 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:01,583 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:01] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:01,583 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:01] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:01,594 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,594 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:01,595 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:01,596 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:01,596 - sqlalchemy.engine.Engine - INFO - [generated in 0.00058s] (1,)
+2025-02-27 23:09:01,596 - sqlalchemy.engine.Engine - INFO - [cached since 0.0008607s ago] (1,)
+2025-02-27 23:09:01,599 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:01,599 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] (1,)
+2025-02-27 23:09:01,600 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:01,600 - sqlalchemy.engine.Engine - INFO - [cached since 0.0009346s ago] (1,)
+2025-02-27 23:09:01,626 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:01,627 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:01,627 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:01] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:01,627 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:01] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:09,706 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:09,711 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:09,713 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:09,714 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:09,714 - sqlalchemy.engine.Engine - INFO - [cached since 8.119s ago] (1,)
+2025-02-27 23:09:09,715 - sqlalchemy.engine.Engine - INFO - [cached since 8.12s ago] (1,)
+2025-02-27 23:09:09,717 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:09,719 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:09,719 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:09] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:09,720 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:09] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:09,727 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:09,728 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:09,729 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:09,730 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:09,730 - sqlalchemy.engine.Engine - INFO - [cached since 8.135s ago] (1,)
+2025-02-27 23:09:09,730 - sqlalchemy.engine.Engine - INFO - [cached since 8.135s ago] (1,)
+2025-02-27 23:09:09,731 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:09,732 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:09,732 - sqlalchemy.engine.Engine - INFO - [cached since 8.133s ago] (1,)
+2025-02-27 23:09:09,732 - sqlalchemy.engine.Engine - INFO - [cached since 8.133s ago] (1,)
+2025-02-27 23:09:09,734 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:09,735 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:09,735 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:09] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:09,735 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:09] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:16,489 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:09:16,520 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:09:39,121 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:39,125 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:39,126 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:39,127 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:39,127 - sqlalchemy.engine.Engine - INFO - [cached since 37.53s ago] (1,)
+2025-02-27 23:09:39,127 - sqlalchemy.engine.Engine - INFO - [cached since 37.53s ago] (1,)
+2025-02-27 23:09:39,133 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:39,133 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:39,134 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:39,134 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:39,142 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:39,143 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:39,144 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:39,144 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:39,144 - sqlalchemy.engine.Engine - INFO - [cached since 37.55s ago] (1,)
+2025-02-27 23:09:39,144 - sqlalchemy.engine.Engine - INFO - [cached since 37.55s ago] (1,)
+2025-02-27 23:09:39,146 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:39,147 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:39,147 - sqlalchemy.engine.Engine - INFO - [cached since 37.55s ago] (1,)
+2025-02-27 23:09:39,147 - sqlalchemy.engine.Engine - INFO - [cached since 37.55s ago] (1,)
+2025-02-27 23:09:39,149 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:39,150 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:39,150 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:39] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:39,150 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:39] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:41,528 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:09:41,534 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:09:50,480 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:50,490 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:50,495 - sqlalchemy.engine.Engine - INFO - [cached since 48.9s ago] (1,)
+2025-02-27 23:09:50,505 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:50,506 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:50,509 - sqlalchemy.engine.Engine - INFO - [cached since 48.91s ago] (1,)
+2025-02-27 23:09:50,513 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:50,514 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:50] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:50,516 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:50,517 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:50] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-27 23:09:50,523 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:50,524 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-02-27 23:09:50,525 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:50,525 - sqlalchemy.engine.Engine - INFO - SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.phone_number AS users_phone_number, users.password_hash AS users_password_hash, users.role AS users_role, users.is_verified AS users_is_verified, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = ?
+2025-02-27 23:09:50,525 - sqlalchemy.engine.Engine - INFO - [cached since 48.93s ago] (1,)
+2025-02-27 23:09:50,525 - sqlalchemy.engine.Engine - INFO - [cached since 48.93s ago] (1,)
+2025-02-27 23:09:50,527 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:50,527 - sqlalchemy.engine.Engine - INFO - SELECT stego_images.id AS stego_images_id, stego_images.user_id AS stego_images_user_id, stego_images.filename AS stego_images_filename, stego_images.original_filename AS stego_images_original_filename, stego_images.image_data AS stego_images_image_data, stego_images.encryption_type AS stego_images_encryption_type, stego_images.timestamp AS stego_images_timestamp 
+FROM stego_images 
+WHERE stego_images.user_id = ?
+2025-02-27 23:09:50,527 - sqlalchemy.engine.Engine - INFO - [cached since 48.93s ago] (1,)
+2025-02-27 23:09:50,528 - sqlalchemy.engine.Engine - INFO - [cached since 48.93s ago] (1,)
+2025-02-27 23:09:50,530 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:50,530 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:50] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:09:50,531 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-02-27 23:09:50,532 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:09:50] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:10:06,541 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:10:07,482 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:10:32,492 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:10:32,523 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:10:57,528 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:10:57,543 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:11:22,549 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:11:22,556 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:11:47,562 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:11:47,569 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:12:12,575 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:12:12,584 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:12:37,585 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:12:37,599 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:13:02,605 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:13:02,613 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:13:27,617 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Sending packet PING data None
+2025-02-27 23:13:27,649 - engineio.server - INFO - tAATPjJD6FJybVvkAAAG: Received packet PONG data 
+2025-02-27 23:13:48,308 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/untitled folder/steganography_app/app.py', reloading
+2025-02-27 23:13:48,655 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:35:56,921 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:36:05,953 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:40:10,497 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:40:10,651 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-27 23:40:10,651 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-27 23:40:10,652 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:40:11,851 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:40:11,932 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:40:11,981 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:41:07,893 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:07] "GET / HTTP/1.1" 200 -
+2025-02-27 23:41:07,958 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:07] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-27 23:41:51,177 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:51] "GET / HTTP/1.1" 200 -
+2025-02-27 23:41:51,274 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:51] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-27 23:41:56,975 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:56] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:41:57,012 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:41:57] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-27 23:42:02,139 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:02] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:42:02,173 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:02] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-27 23:42:03,043 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:03] "[35m[1mGET /admin/ HTTP/1.1[0m" 500 -
+2025-02-27 23:42:03,061 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:03] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-27 23:42:03,063 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:03] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-27 23:42:03,070 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:03] "GET /admin/?__debugger__=yes&cmd=resource&f=console.png&s=9fdnr9iLpGzrAUNhnb06 HTTP/1.1" 200 -
+2025-02-27 23:42:37,412 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/untitled folder/steganography_app/api.py', reloading
+2025-02-27 23:42:37,684 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:42:40,015 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:42:40,110 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:42:40,153 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:42:51,907 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:51] "[35m[1mGET /admin/ HTTP/1.1[0m" 500 -
+2025-02-27 23:42:51,990 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:51] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-27 23:42:51,996 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:51] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-27 23:42:52,009 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:42:52] "GET /admin/?__debugger__=yes&cmd=resource&f=console.png&s=IU7xl9N9tf43D6fsTe0u HTTP/1.1" 200 -
+2025-02-27 23:50:25,918 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:50:26,027 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-27 23:50:26,028 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-27 23:50:26,028 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:50:27,189 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:50:27,277 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:50:27,327 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:50:30,132 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:30] "GET /admin/ HTTP/1.1" 200 -
+2025-02-27 23:50:33,274 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:33] "[35m[1mGET /admin/users HTTP/1.1[0m" 500 -
+2025-02-27 23:50:33,304 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:33] "GET /admin/users?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-27 23:50:33,305 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:33] "GET /admin/users?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-27 23:50:33,313 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:33] "GET /admin/users?__debugger__=yes&cmd=resource&f=console.png&s=aKDKbh90W2j69s07rckh HTTP/1.1" 200 -
+2025-02-27 23:50:33,347 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:33] "GET /admin/users?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-27 23:50:36,542 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:36] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-27 23:50:42,085 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:42] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-27 23:50:52,971 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:52] "[35m[1mGET /admin/users HTTP/1.1[0m" 500 -
+2025-02-27 23:50:52,989 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:52] "[36mGET /admin/users?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-27 23:50:52,989 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:52] "[36mGET /admin/users?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-27 23:50:52,996 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:52] "[36mGET /admin/users?__debugger__=yes&cmd=resource&f=console.png&s=aKDKbh90W2j69s07rckh HTTP/1.1[0m" 304 -
+2025-02-27 23:50:57,180 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:57] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-02-27 23:50:57,182 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:57] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-02-27 23:50:57,184 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:57] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-02-27 23:50:57,186 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:50:57] "GET /admin/users?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-27 23:54:17,452 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/untitled folder/steganography_app/admin_routes.py', reloading
+2025-02-27 23:54:17,733 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:54:20,527 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:54:20,629 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:54:20,677 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:54:21,830 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/untitled folder/steganography_app/admin_routes.py', reloading
+2025-02-27 23:54:22,031 - werkzeug - INFO -  * Restarting with stat
+2025-02-27 23:54:23,423 - engineio.server - INFO - Server initialized for threading.
+2025-02-27 23:54:23,513 - werkzeug - WARNING -  * Debugger is active!
+2025-02-27 23:54:23,554 - werkzeug - INFO -  * Debugger PIN: 114-333-778
+2025-02-27 23:54:30,261 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:30] "GET /admin/users HTTP/1.1" 200 -
+2025-02-27 23:54:39,334 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:39] "GET /admin/ HTTP/1.1" 200 -
+2025-02-27 23:54:46,246 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:46] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:54:46,301 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:46] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-27 23:54:49,300 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:49] "GET / HTTP/1.1" 200 -
+2025-02-27 23:54:49,332 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:49] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-27 23:54:53,447 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:53] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-27 23:54:53,462 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:53] "GET / HTTP/1.1" 200 -
+2025-02-27 23:54:53,502 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:53] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-27 23:54:54,604 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:54] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:54:57,538 - app - DEBUG - Request method: GET
+2025-02-27 23:54:57,577 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:57] "GET /register HTTP/1.1" 200 -
+2025-02-27 23:54:57,605 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:54:57] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-27 23:56:44,899 - app - DEBUG - Request method: POST
+2025-02-27 23:56:44,903 - app - DEBUG - Form data received:
+2025-02-27 23:56:44,904 - app - DEBUG -   csrf_token: IjAzZDliM2MwMTdmMDRhZTA4Y2RjNmQ0ODAzZTBiYzdkOGQ1MzhjMzgi.Z8Ct-Q.kP5TwtI16yBHlnk1uelMrIaJRQ0
+2025-02-27 23:56:44,904 - app - DEBUG -   phone_validated: true
+2025-02-27 23:56:44,904 - app - DEBUG -   username: adityanagariyav
+2025-02-27 23:56:44,905 - app - DEBUG -   email: adityanagriay@gmail.com
+2025-02-27 23:56:44,905 - app - DEBUG -   phone_number: +919999999999
+2025-02-27 23:56:44,905 - app - DEBUG -   otp: 123456
+2025-02-27 23:56:45,231 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:56:45] "[32mPOST /register HTTP/1.1[0m" 302 -
+2025-02-27 23:56:45,247 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:56:45] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:56:50,494 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:56:50] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:57:02,902 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:57:02] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-27 23:58:24,453 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:24] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:58:41,199 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:41] "POST /login HTTP/1.1" 200 -
+2025-02-27 23:58:41,217 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:41] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:58:41,253 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:41] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-27 23:58:46,404 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:46] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-27 23:58:46,416 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:46] "GET / HTTP/1.1" 200 -
+2025-02-27 23:58:46,449 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:46] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-27 23:58:47,521 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:47] "GET /login HTTP/1.1" 200 -
+2025-02-27 23:58:53,643 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:53] "POST /login HTTP/1.1" 200 -
+2025-02-27 23:58:53,660 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:53] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:58:53,699 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:53] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-27 23:58:58,939 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:58] "GET /dashboard HTTP/1.1" 200 -
+2025-02-27 23:58:58,971 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:58:58] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-27 23:59:01,471 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:01] "GET /admin/ HTTP/1.1" 200 -
+2025-02-27 23:59:02,925 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:02] "GET /admin/users HTTP/1.1" 200 -
+2025-02-27 23:59:11,574 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:11] "GET /admin/ HTTP/1.1" 200 -
+2025-02-27 23:59:13,073 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:13] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-27 23:59:24,001 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:24] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-27 23:59:30,053 - werkzeug - INFO - 127.0.0.1 - - [27/Feb/2025 23:59:30] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 00:00:16,384 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 00:00:16] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 00:00:23,346 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 00:00:23] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 08:46:23,288 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 08:46:23,398 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-28 08:46:23,398 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-28 08:46:23,399 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 08:46:24,637 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 08:46:24,716 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 08:46:24,758 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 08:46:29,784 - app - DEBUG - Request method: GET
+2025-02-28 08:46:29,823 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:29] "GET /register HTTP/1.1" 200 -
+2025-02-28 08:46:29,924 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:29] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-28 08:46:33,371 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:33] "GET / HTTP/1.1" 200 -
+2025-02-28 08:46:33,395 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:33] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 08:46:35,053 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:35] "GET /login HTTP/1.1" 200 -
+2025-02-28 08:46:45,470 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:46:45] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:53:36,420 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-02-28 08:53:36,706 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 08:55:01,876 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 08:55:02,038 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-28 08:55:02,038 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-28 08:55:02,038 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 08:55:03,518 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 08:55:03,603 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 08:55:03,655 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 08:55:07,346 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:07] "GET /login HTTP/1.1" 200 -
+2025-02-28 08:55:15,801 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:15] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:16,832 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:16] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:17,486 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:17] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:25,637 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:25] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:26,620 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:26] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:26,950 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:26] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:27,200 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:27] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:55:34,431 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:55:34] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 08:56:00,530 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:00] "POST /login HTTP/1.1" 200 -
+2025-02-28 08:56:00,565 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:00] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 08:56:00,717 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:00] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 08:56:04,270 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:04] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 08:56:04,286 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:04] "GET / HTTP/1.1" 200 -
+2025-02-28 08:56:04,350 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:04] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 08:56:06,062 - app - DEBUG - Request method: GET
+2025-02-28 08:56:06,103 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:06] "GET /register HTTP/1.1" 200 -
+2025-02-28 08:56:06,173 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:06] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-28 08:56:42,888 - app - DEBUG - Request method: POST
+2025-02-28 08:56:42,890 - app - DEBUG - Form data received:
+2025-02-28 08:56:42,890 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8Eszg.yQEXEeV-JViiAFs5vrQZNaPgPSI
+2025-02-28 08:56:42,890 - app - DEBUG -   phone_validated: true
+2025-02-28 08:56:42,890 - app - DEBUG -   username: aditya
+2025-02-28 08:56:42,890 - app - DEBUG -   email: aditya@example.com
+2025-02-28 08:56:42,891 - app - DEBUG -   phone_number: +919998272527
+2025-02-28 08:56:42,891 - app - DEBUG -   otp: 123456
+2025-02-28 08:56:42,912 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:56:42] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-02-28 08:59:12,501 - app - DEBUG - Request method: GET
+2025-02-28 08:59:12,541 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:59:12] "GET /register HTTP/1.1" 200 -
+2025-02-28 08:59:12,731 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 08:59:12] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-28 09:00:08,387 - app - DEBUG - Request method: POST
+2025-02-28 09:00:08,387 - app - DEBUG - Form data received:
+2025-02-28 09:00:08,388 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EtiA.b2MqyVKEzTuZhKqOC3FBeF8FIOM
+2025-02-28 09:00:08,388 - app - DEBUG -   phone_validated: true
+2025-02-28 09:00:08,388 - app - DEBUG -   username: adityaanon
+2025-02-28 09:00:08,388 - app - DEBUG -   email: adityanano@gmail.com
+2025-02-28 09:00:08,388 - app - DEBUG -   phone_number: +91999673267
+2025-02-28 09:00:08,388 - app - DEBUG -   otp: 123456
+2025-02-28 09:00:08,591 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:00:08] "POST /register HTTP/1.1" 200 -
+2025-02-28 09:00:17,951 - app - DEBUG - Request method: POST
+2025-02-28 09:00:17,951 - app - DEBUG - Form data received:
+2025-02-28 09:00:17,951 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EtiA.b2MqyVKEzTuZhKqOC3FBeF8FIOM
+2025-02-28 09:00:17,951 - app - DEBUG -   phone_validated: true
+2025-02-28 09:00:17,952 - app - DEBUG -   username: adityaanon
+2025-02-28 09:00:17,952 - app - DEBUG -   email: adityanano@gmail.com
+2025-02-28 09:00:17,952 - app - DEBUG -   phone_number: +91999673267
+2025-02-28 09:00:17,952 - app - DEBUG -   otp: 123456
+2025-02-28 09:00:17,955 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:00:17] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-02-28 09:02:35,042 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-02-28 09:02:35,332 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:02:37,256 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:02:37,355 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:02:37,412 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:02:43,846 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-02-28 09:02:44,063 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:02:45,495 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:02:45,579 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:02:45,613 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:02:46,737 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-02-28 09:02:47,114 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:02:48,745 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:02:48,849 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:02:48,899 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:02:51,827 - app - DEBUG - Request method: GET
+2025-02-28 09:02:51,872 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:02:51] "GET /register HTTP/1.1" 200 -
+2025-02-28 09:02:52,043 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:02:52] "[36mGET /static/js/form-validation.js HTTP/1.1[0m" 304 -
+2025-02-28 09:03:46,503 - app - DEBUG - Request method: POST
+2025-02-28 09:03:46,503 - app - DEBUG - Form data received:
+2025-02-28 09:03:46,504 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EuYw.MkmhqzByQd3ZAf_KUh4omDx4ngU
+2025-02-28 09:03:46,504 - app - DEBUG -   phone_validated: true
+2025-02-28 09:03:46,504 - app - DEBUG -   username: adityaanon
+2025-02-28 09:03:46,504 - app - DEBUG -   email: adityaanon@example.com
+2025-02-28 09:03:46,504 - app - DEBUG -   phone_number: +91999323232
+2025-02-28 09:03:46,504 - app - DEBUG -   otp: 123456
+2025-02-28 09:03:46,515 - app - DEBUG - AJAX request received for registration
+2025-02-28 09:03:46,515 - app - DEBUG - CSRF Token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EuYw.MkmhqzByQd3ZAf_KUh4omDx4ngU
+2025-02-28 09:03:46,522 - app - DEBUG - Username already exists
+2025-02-28 09:03:46,524 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:03:46] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-02-28 09:04:15,000 - app - DEBUG - Request method: POST
+2025-02-28 09:04:15,000 - app - DEBUG - Form data received:
+2025-02-28 09:04:15,000 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EuYw.MkmhqzByQd3ZAf_KUh4omDx4ngU
+2025-02-28 09:04:15,001 - app - DEBUG -   phone_validated: true
+2025-02-28 09:04:15,001 - app - DEBUG -   username: adityaanonz
+2025-02-28 09:04:15,001 - app - DEBUG -   email: adityaanonz@example.com
+2025-02-28 09:04:15,001 - app - DEBUG -   phone_number: +91999323232
+2025-02-28 09:04:15,001 - app - DEBUG -   otp: 123456
+2025-02-28 09:04:15,002 - app - DEBUG - AJAX request received for registration
+2025-02-28 09:04:15,002 - app - DEBUG - CSRF Token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EuYw.MkmhqzByQd3ZAf_KUh4omDx4ngU
+2025-02-28 09:04:15,202 - app - DEBUG - User registered successfully via AJAX
+2025-02-28 09:04:15,203 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:04:15] "POST /register HTTP/1.1" 200 -
+2025-02-28 09:04:17,257 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:04:17] "GET /login HTTP/1.1" 200 -
+2025-02-28 09:04:35,585 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:04:35] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 09:04:39,284 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:04:39] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 09:05:09,728 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:09] "POST /login HTTP/1.1" 200 -
+2025-02-28 09:05:09,764 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:09] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:05:09,908 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:09] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:05:15,119 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:15] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:05:15,195 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:15] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:05:16,205 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:16] "GET / HTTP/1.1" 200 -
+2025-02-28 09:05:16,288 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:16] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:05:46,086 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:46] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:05:46,204 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:46] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:05:48,340 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:48] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 09:05:48,350 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:48] "GET / HTTP/1.1" 200 -
+2025-02-28 09:05:48,431 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:48] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:05:49,632 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:49] "GET /login HTTP/1.1" 200 -
+2025-02-28 09:05:55,079 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:55] "POST /login HTTP/1.1" 200 -
+2025-02-28 09:05:55,093 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:55] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:05:55,198 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:05:55] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:06:14,021 - app - ERROR - Image processing error: Python integer -2 out of bounds for uint8
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/app.py", line 397, in encrypt
+    encoded_img = encode_message(img, encrypted_message)
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 131, in encode_message
+    flat_img[i] = (flat_img[i] & ~1) | int(bit)
+                   ~~~~~~~~~~~~^~~~
+OverflowError: Python integer -2 out of bounds for uint8
+2025-02-28 09:06:14,025 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:06:14] "[31m[1mPOST /encrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:06:20,552 - app - ERROR - Image processing error: Python integer -2 out of bounds for uint8
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/app.py", line 397, in encrypt
+    encoded_img = encode_message(img, encrypted_message)
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 131, in encode_message
+    flat_img[i] = (flat_img[i] & ~1) | int(bit)
+                   ~~~~~~~~~~~~^~~~
+OverflowError: Python integer -2 out of bounds for uint8
+2025-02-28 09:06:20,554 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:06:20] "[31m[1mPOST /encrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:08:19,768 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:08:19,768 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:08:21,699 - root - ERROR - Decryption error: 
+2025-02-28 09:08:21,701 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:08:21] "[31m[1mPOST /decrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:08:32,314 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:08:32,314 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:08:34,222 - root - ERROR - Decryption error: 
+2025-02-28 09:08:34,224 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:08:34] "[31m[1mPOST /decrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:08:52,280 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/stego.py', reloading
+2025-02-28 09:08:52,529 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:08:54,221 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:08:54,317 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:08:54,369 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:08:55,517 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/stego.py', reloading
+2025-02-28 09:08:55,745 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:08:57,245 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:08:57,338 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:08:57,372 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:09:00,892 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:00] "POST /encrypt HTTP/1.1" 200 -
+2025-02-28 09:09:02,154 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:02] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:09:02,233 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:02] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:09:04,123 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:04] "GET /download/20250228033900_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 09:09:19,590 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:09:19,591 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:09:21,517 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:21] "POST /decrypt HTTP/1.1" 200 -
+2025-02-28 09:09:53,636 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:53] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:09:54,753 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:54] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:09:59,443 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:59] "[35m[1mGET /admin/users/3 HTTP/1.1[0m" 500 -
+2025-02-28 09:09:59,457 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:59] "GET /admin/users/3?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-28 09:09:59,460 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:59] "GET /admin/users/3?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-28 09:09:59,467 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:59] "GET /admin/users/3?__debugger__=yes&cmd=resource&f=console.png&s=84qrm8Lbq2nemqukfaWg HTTP/1.1" 200 -
+2025-02-28 09:09:59,522 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:09:59] "GET /admin/users/3?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-28 09:10:05,962 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:05] "[35m[1mGET /admin/users/6 HTTP/1.1[0m" 500 -
+2025-02-28 09:10:05,978 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:05] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-28 09:10:05,979 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:05] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-28 09:10:05,986 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:05] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=console.png&s=84qrm8Lbq2nemqukfaWg HTTP/1.1" 200 -
+2025-02-28 09:10:06,013 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:06] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-28 09:10:08,520 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:08] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-02-28 09:10:08,523 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:08] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-02-28 09:10:08,526 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:08] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-02-28 09:10:08,528 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:10:08] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-28 09:11:18,463 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:18] "[32mGET /admin/users/5/change-role/admin HTTP/1.1[0m" 302 -
+2025-02-28 09:11:18,476 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:18] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:11:22,595 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:22] "[32mGET /admin/users/5/change-role/user HTTP/1.1[0m" 302 -
+2025-02-28 09:11:22,607 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:22] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:11:34,286 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:34] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:11:46,202 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:46] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 09:11:55,764 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:11:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:16:29,719 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/admin_routes.py', reloading
+2025-02-28 09:16:29,995 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:16:31,986 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:16:32,094 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:16:32,151 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:16:32,705 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:32] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:16:37,524 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:37] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:16:39,319 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:39] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:16:42,014 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:42] "GET /admin/users/1 HTTP/1.1" 200 -
+2025-02-28 09:16:42,051 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:42] "GET /download/20250228033900_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 09:16:53,971 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:53] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:16:58,949 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:58] "[32mGET /admin/users/6/change-role/admin HTTP/1.1[0m" 302 -
+2025-02-28 09:16:58,961 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:16:58] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:17:03,522 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:03] "[32mGET /admin/users/6/change-role/user HTTP/1.1[0m" 302 -
+2025-02-28 09:17:03,535 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:03] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:17:05,325 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:05] "[35m[1mGET /admin/users/6 HTTP/1.1[0m" 500 -
+2025-02-28 09:17:05,349 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:05] "[36mGET /admin/users/6?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-28 09:17:05,350 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:05] "[36mGET /admin/users/6?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-28 09:17:05,356 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:05] "GET /admin/users/6?__debugger__=yes&cmd=resource&f=console.png&s=QpsnGsWi3ILTexksN959 HTTP/1.1" 200 -
+2025-02-28 09:17:08,439 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:08] "[35m[1mGET /admin/users/6 HTTP/1.1[0m" 500 -
+2025-02-28 09:17:08,451 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:08] "[36mGET /admin/users/6?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-28 09:17:08,452 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:08] "[36mGET /admin/users/6?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-28 09:17:08,456 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:08] "[36mGET /admin/users/6?__debugger__=yes&cmd=resource&f=console.png&s=QpsnGsWi3ILTexksN959 HTTP/1.1[0m" 304 -
+2025-02-28 09:17:50,397 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:50] "[35m[1mGET /admin/users/5 HTTP/1.1[0m" 500 -
+2025-02-28 09:17:50,420 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:50] "GET /admin/users/5?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-28 09:17:50,421 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:50] "GET /admin/users/5?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-28 09:17:50,429 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:50] "GET /admin/users/5?__debugger__=yes&cmd=resource&f=console.png&s=QpsnGsWi3ILTexksN959 HTTP/1.1" 200 -
+2025-02-28 09:17:50,459 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:17:50] "GET /admin/users/5?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-28 09:18:06,687 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/admin_routes.py', reloading
+2025-02-28 09:18:06,931 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:18:08,569 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:18:08,689 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:18:08,726 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:18:09,867 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/admin_routes.py', reloading
+2025-02-28 09:18:10,093 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:18:11,425 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:18:11,509 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:18:11,545 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:18:23,260 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:23] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:25,603 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:25] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,080 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,576 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,673 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,762 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,845 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:26,928 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:26] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:27,014 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:27] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:27,101 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:27] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:27,178 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:27] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:27,274 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:27] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:29,655 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:29] "GET /admin/users/6 HTTP/1.1" 200 -
+2025-02-28 09:18:43,882 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:43] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:18:47,896 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:47] "GET /admin/users/2 HTTP/1.1" 200 -
+2025-02-28 09:18:50,747 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:50] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:18:51,996 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:18:51] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:19:06,822 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:06] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:19:08,439 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:08] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:19:08,479 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:08] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:19:21,237 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:21] "POST /encrypt HTTP/1.1" 200 -
+2025-02-28 09:19:22,414 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:22] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:19:22,445 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:22] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:19:36,884 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:36] "GET /download/20250228034921_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 09:19:50,061 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:19:50,062 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:19:51,966 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:51] "POST /decrypt HTTP/1.1" 200 -
+2025-02-28 09:19:55,864 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:55] "GET / HTTP/1.1" 200 -
+2025-02-28 09:19:55,974 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:55] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:19:57,596 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:57] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 09:19:57,607 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:57] "GET / HTTP/1.1" 200 -
+2025-02-28 09:19:57,639 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:57] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:19:58,754 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:19:58] "GET /login HTTP/1.1" 200 -
+2025-02-28 09:20:02,907 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:02] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 09:20:05,970 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:05] "POST /login HTTP/1.1" 200 -
+2025-02-28 09:20:05,987 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:05] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:20:06,015 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:06] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:20:07,508 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:07] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 09:20:07,516 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:07] "GET / HTTP/1.1" 200 -
+2025-02-28 09:20:07,543 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:07] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:20:09,409 - app - DEBUG - Request method: GET
+2025-02-28 09:20:09,447 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:09] "GET /register HTTP/1.1" 200 -
+2025-02-28 09:20:09,481 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:09] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-02-28 09:20:48,840 - app - DEBUG - Request method: POST
+2025-02-28 09:20:48,840 - app - DEBUG - Form data received:
+2025-02-28 09:20:48,841 - app - DEBUG -   csrf_token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EycQ.6-9F8Cwtk-C8d93mBhod29faRKo
+2025-02-28 09:20:48,841 - app - DEBUG -   phone_validated: true
+2025-02-28 09:20:48,841 - app - DEBUG -   username: anon surf
+2025-02-28 09:20:48,841 - app - DEBUG -   email: anonsurf@example.com
+2025-02-28 09:20:48,841 - app - DEBUG -   phone_number: +927599874723
+2025-02-28 09:20:48,841 - app - DEBUG -   otp: 123456
+2025-02-28 09:20:48,853 - app - DEBUG - AJAX request received for registration
+2025-02-28 09:20:48,853 - app - DEBUG - CSRF Token: IjZiZjE2MjBiMTA3MGExMTRhZDRkZWJiYjFmMTYyMzdjNzNhZDFkMjgi.Z8EycQ.6-9F8Cwtk-C8d93mBhod29faRKo
+2025-02-28 09:20:49,050 - app - DEBUG - User registered successfully via AJAX
+2025-02-28 09:20:49,050 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:49] "POST /register HTTP/1.1" 200 -
+2025-02-28 09:20:50,611 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:20:50] "GET /login HTTP/1.1" 200 -
+2025-02-28 09:21:02,903 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:02] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 09:21:11,720 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:11] "POST /login HTTP/1.1" 200 -
+2025-02-28 09:21:11,741 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:11] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:21:11,772 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:11] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:21:16,367 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:16] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:21:16,399 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:16] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:21:29,054 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:29] "POST /encrypt HTTP/1.1" 200 -
+2025-02-28 09:21:30,107 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:30] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:21:30,137 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:30] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:21:31,552 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:31] "GET /download/20250228035129_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 09:21:42,463 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:21:42,464 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:21:44,466 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:44] "POST /decrypt HTTP/1.1" 200 -
+2025-02-28 09:21:58,309 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:21:58] "[31m[1mPOST /decrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:22:15,759 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-02-28 09:22:15,759 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-02-28 09:22:17,758 - root - ERROR - Decryption error: 
+2025-02-28 09:22:17,760 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:17] "[31m[1mPOST /decrypt HTTP/1.1[0m" 400 -
+2025-02-28 09:22:22,998 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:22] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:22:23,041 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:23] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 09:22:24,559 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:24] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 09:22:24,572 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:24] "GET / HTTP/1.1" 200 -
+2025-02-28 09:22:24,604 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:24] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:22:25,848 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:25] "GET /login HTTP/1.1" 200 -
+2025-02-28 09:22:34,689 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:34] "POST /login HTTP/1.1" 200 -
+2025-02-28 09:22:34,707 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:34] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 09:22:34,736 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:34] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 09:22:45,654 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:45] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:22:46,752 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:46] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:22:51,769 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:51] "[32mGET /admin/users/7/change-role/admin HTTP/1.1[0m" 302 -
+2025-02-28 09:22:51,780 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:51] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:22:54,731 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:54] "[32mGET /admin/users/7/change-role/user HTTP/1.1[0m" 302 -
+2025-02-28 09:22:54,743 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:22:54] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:23:07,553 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:23:07] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:23:09,070 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:23:09] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:23:17,672 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:23:17] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:23:18,395 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:23:18] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:23:23,832 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:23:23] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 09:26:52,198 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/admin_routes.py', reloading
+2025-02-28 09:26:52,477 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:26:54,330 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:26:54,458 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:26:54,538 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:27:42,986 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/admin_routes.py', reloading
+2025-02-28 09:27:43,213 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 09:27:44,842 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 09:27:44,942 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 09:27:44,979 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 09:27:45,890 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:27:45] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 09:27:46,289 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:27:46] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 09:28:01,057 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:01] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 09:28:03,777 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:03] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 09:28:06,041 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:06] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 09:28:16,386 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:16] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 09:28:20,884 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:20] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:28:22,523 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:22] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:28:26,168 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:26] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-02-28 09:28:26,169 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:26] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-02-28 09:28:26,171 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:28:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-02-28 09:29:14,160 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:14] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:29:19,831 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:19] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:29:22,406 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:22] "GET /admin/users/7 HTTP/1.1" 200 -
+2025-02-28 09:29:22,443 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:22] "[33mGET /download/20250228035129_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1[0m" 404 -
+2025-02-28 09:29:40,732 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:40] "[32mPOST /admin/users/7/delete HTTP/1.1[0m" 302 -
+2025-02-28 09:29:40,742 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:40] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 09:29:43,382 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:43] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:29:52,173 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:52] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:29:54,170 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:54] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:29:57,771 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:29:57] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:30:00,721 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:30:00] "GET / HTTP/1.1" 200 -
+2025-02-28 09:30:00,755 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:30:00] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 09:30:02,104 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:30:02] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 09:40:15,552 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:40:15] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:40:16,942 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:40:16] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:40:44,542 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:40:44] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:40:44,591 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:40:44] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:26,683 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:26] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:26,859 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:26] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:43,782 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:43] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:43,828 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:43] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:44,561 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:44] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:44,593 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:44] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:44,801 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:44] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:44,831 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:44] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:45,010 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:45] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:45,040 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:45] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:45,209 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:45] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:45,239 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:45] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,033 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,066 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,532 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,564 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,672 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,703 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,742 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,773 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,832 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,865 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:46,935 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:46,967 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:46] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:47,026 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,058 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:47,101 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,136 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:47,174 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,237 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:47,363 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,382 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,399 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,429 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:47,525 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,553 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:47,593 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:47,622 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:47] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:48,588 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:48] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:48,622 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:48] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:53,887 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:53] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:53,929 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:53] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:54,353 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,383 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:54,479 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,507 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:54,571 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,601 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:54,664 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,695 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "[36mGET /static/js/log-viewer.js HTTP/1.1[0m" 304 -
+2025-02-28 09:41:54,737 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,767 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /static/js/log-viewer.js HTTP/1.1" 200 -
+2025-02-28 09:41:54,828 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:54,918 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:54] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,009 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,055 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,144 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,233 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,321 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,409 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,501 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,572 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,643 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,735 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,828 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,899 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:55,991 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:55] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:56,062 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:56] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:56,149 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:56] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:41:56,232 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:41:56] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:46:57,429 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:46:57] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:47:26,423 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:26] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:47:26,530 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:26] "GET /static/css/log-viewer-enhanced.css HTTP/1.1" 200 -
+2025-02-28 09:47:30,345 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:30] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:47:30,387 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:30] "[36mGET /static/css/log-viewer-enhanced.css HTTP/1.1[0m" 304 -
+2025-02-28 09:47:30,650 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:30] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:47:30,677 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:47:30] "[36mGET /static/css/log-viewer-enhanced.css HTTP/1.1[0m" 304 -
+2025-02-28 09:48:08,092 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:48:08] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 09:48:59,659 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 09:48:59] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:02:35,912 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:02:35] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:02:40,214 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:02:40] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:02:48,837 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:02:48] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:02:50,644 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:02:50] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:03:14,174 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:03:14] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:03:41,947 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:03:41] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:08:03,943 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:08:03] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:08:07,445 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:08:07] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 10:11:41,035 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 10:11:41] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 15:59:29,564 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:29] "[32mGET /admin/logs HTTP/1.1[0m" 302 -
+2025-02-28 15:59:29,605 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:29] "GET /login HTTP/1.1" 200 -
+2025-02-28 15:59:37,791 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:37] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-02-28 15:59:43,121 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:43] "POST /login HTTP/1.1" 200 -
+2025-02-28 15:59:43,170 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:43] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 15:59:43,206 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:43] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 15:59:45,842 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:45] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 15:59:48,211 - root - ERROR - Error reading logs: block 'scripts' defined twice
+2025-02-28 15:59:48,252 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:48] "[35m[1mGET /admin/logs HTTP/1.1[0m" 500 -
+2025-02-28 15:59:48,270 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:48] "GET /admin/logs?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-28 15:59:48,270 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:48] "GET /admin/logs?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-28 15:59:48,278 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:48] "GET /admin/logs?__debugger__=yes&cmd=resource&f=console.png&s=DYWBC5s7sevbxf5PwuHg HTTP/1.1" 200 -
+2025-02-28 15:59:48,330 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:48] "GET /admin/logs?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-28 15:59:50,957 - root - ERROR - Error reading logs: block 'scripts' defined twice
+2025-02-28 15:59:50,986 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:50] "[35m[1mGET /admin/logs HTTP/1.1[0m" 500 -
+2025-02-28 15:59:50,998 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:50] "[36mGET /admin/logs?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-28 15:59:50,999 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:50] "[36mGET /admin/logs?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-28 15:59:51,003 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 15:59:51] "[36mGET /admin/logs?__debugger__=yes&cmd=resource&f=console.png&s=DYWBC5s7sevbxf5PwuHg HTTP/1.1[0m" 304 -
+2025-02-28 16:02:40,152 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:02:40] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 16:03:36,325 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:03:36] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 16:03:38,868 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:03:38] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 16:03:41,754 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:03:41] "GET /admin/users/6 HTTP/1.1" 200 -
+2025-02-28 16:04:12,926 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:12] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:12,965 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:12] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 16:04:16,051 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:16] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:16,079 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:16] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:04:17,673 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:17] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:17,700 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:17] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:04:20,554 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:20] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:20,579 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:20] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:04:24,698 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:24] "[32mGET /login HTTP/1.1[0m" 302 -
+2025-02-28 16:04:24,717 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:24] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:04:27,010 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:27] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 16:04:27,160 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:27] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 16:04:29,220 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:29] "[32mGET /register HTTP/1.1[0m" 302 -
+2025-02-28 16:04:29,231 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:29] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:04:32,304 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:32] "GET /admin/users/1 HTTP/1.1" 200 -
+2025-02-28 16:04:32,341 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:32] "GET /download/20250228034921_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 16:04:32,353 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:32] "GET /download/20250228033900_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-02-28 16:04:35,120 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:35] "[32mGET /login HTTP/1.1[0m" 302 -
+2025-02-28 16:04:35,135 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:35] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:04:35,323 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:35] "[32mGET /register HTTP/1.1[0m" 302 -
+2025-02-28 16:04:35,336 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:35] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:04:41,680 - flask_wtf.csrf - INFO - The CSRF token has expired.
+2025-02-28 16:04:41,682 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:41] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-02-28 16:04:43,085 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:43] "[32mGET /register HTTP/1.1[0m" 302 -
+2025-02-28 16:04:43,107 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:43] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:04:52,248 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:52] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:52,282 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:52] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:04:57,927 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:57] "GET / HTTP/1.1" 200 -
+2025-02-28 16:04:57,984 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:04:57] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:05:03,585 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:03] "GET / HTTP/1.1" 200 -
+2025-02-28 16:05:03,625 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:03] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 16:05:31,361 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:31] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 16:05:31,428 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:31] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 16:05:34,877 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:34] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 16:05:37,907 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:37] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 16:05:41,900 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:41] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 16:05:42,033 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:42] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 16:05:46,360 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:46] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 16:05:50,412 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:50] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 16:05:56,702 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 16:05:56] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 18:32:47,631 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 18:32:47,777 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.130.226:8080
+2025-02-28 18:32:47,777 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-28 18:32:47,777 - werkzeug - INFO -  * Restarting with stat
+2025-02-28 18:32:49,143 - engineio.server - INFO - Server initialized for threading.
+2025-02-28 18:32:49,229 - werkzeug - WARNING -  * Debugger is active!
+2025-02-28 18:32:49,270 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-02-28 18:32:55,320 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:32:55] "GET / HTTP/1.1" 200 -
+2025-02-28 18:32:55,556 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:32:55] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 18:33:50,105 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:33:50] "GET / HTTP/1.1" 200 -
+2025-02-28 18:33:50,217 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:33:50] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 18:33:51,897 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:33:51] "GET / HTTP/1.1" 200 -
+2025-02-28 18:33:51,928 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:33:51] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 18:33:55,831 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:33:55] "GET /login HTTP/1.1" 200 -
+2025-02-28 18:34:01,499 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:01] "POST /login HTTP/1.1" 200 -
+2025-02-28 18:34:01,537 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:01] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 18:34:01,575 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:01] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-02-28 18:34:07,380 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:07] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 18:34:08,846 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:08] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 18:34:12,819 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:12] "GET /admin/users/6 HTTP/1.1" 200 -
+2025-02-28 18:34:22,019 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:22] "GET /admin/users HTTP/1.1" 200 -
+2025-02-28 18:34:26,252 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:26] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 18:34:28,024 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:28] "GET /admin/logs HTTP/1.1" 200 -
+2025-02-28 18:34:56,809 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:56] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 18:34:56,855 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:56] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 18:34:57,618 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:57] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 18:34:59,180 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:59] "GET /admin/analytics HTTP/1.1" 200 -
+2025-02-28 18:34:59,352 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:34:59] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 18:35:03,945 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:03] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 18:35:23,061 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:23] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-02-28 18:35:27,264 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:27] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 18:35:33,514 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:33] "GET / HTTP/1.1" 200 -
+2025-02-28 18:35:33,546 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:33] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-02-28 18:35:35,720 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:35] "GET / HTTP/1.1" 200 -
+2025-02-28 18:35:35,746 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:35] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 18:35:36,742 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:36] "GET / HTTP/1.1" 200 -
+2025-02-28 18:35:36,770 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:36] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-02-28 18:35:39,305 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:39] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 18:35:39,336 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:39] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 18:35:42,286 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:42] "GET /admin/ HTTP/1.1" 200 -
+2025-02-28 18:35:44,387 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:44] "GET /dashboard HTTP/1.1" 200 -
+2025-02-28 18:35:44,417 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:44] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-02-28 18:35:48,372 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:48] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-28 18:35:48,383 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:48] "GET / HTTP/1.1" 200 -
+2025-02-28 18:35:48,414 - werkzeug - INFO - 127.0.0.1 - - [28/Feb/2025 18:35:48] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-01 12:53:55,555 - engineio.server - INFO - Server initialized for threading.
+2025-03-01 12:53:55,691 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.253.226:8080
+2025-03-01 12:53:55,691 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-01 12:53:55,691 - werkzeug - INFO -  * Restarting with stat
+2025-03-01 12:53:56,461 - engineio.server - INFO - Server initialized for threading.
+2025-03-01 12:53:56,524 - werkzeug - WARNING -  * Debugger is active!
+2025-03-01 12:53:56,555 - werkzeug - INFO -  * Debugger PIN: 920-453-327
+2025-03-01 12:54:03,518 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:03] "GET / HTTP/1.1" 200 -
+2025-03-01 12:54:03,594 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:03] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-01 12:54:08,728 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:08] "GET /login HTTP/1.1" 200 -
+2025-03-01 12:54:13,997 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:13] "POST /login HTTP/1.1" 200 -
+2025-03-01 12:54:14,027 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:14] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:54:14,054 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:14] "GET /static/js/decrypt_handler.js HTTP/1.1" 200 -
+2025-03-01 12:54:22,406 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:22] "GET /admin/ HTTP/1.1" 200 -
+2025-03-01 12:54:22,410 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:22] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-03-01 12:54:22,411 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:22] "[36mGET /admin/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-03-01 12:54:23,862 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:23] "GET /admin/users HTTP/1.1" 200 -
+2025-03-01 12:54:26,288 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:26] "GET /admin/users/1 HTTP/1.1" 200 -
+2025-03-01 12:54:26,328 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:26] "GET /download/20250228033900_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-03-01 12:54:26,329 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:26] "GET /download/20250228034921_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-03-01 12:54:34,130 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:34] "GET /admin/logs HTTP/1.1" 200 -
+2025-03-01 12:54:45,854 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:45] "GET /admin/analytics HTTP/1.1" 200 -
+2025-03-01 12:54:45,977 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:45] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-03-01 12:54:50,834 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:50] "GET /admin/api/analytics/summary HTTP/1.1" 200 -
+2025-03-01 12:54:58,751 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:58] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:54:58,756 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:58] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:54:58,784 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:54:58] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:55:26,743 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-01 12:55:26,743 - PIL.PngImagePlugin - DEBUG - STREAM b'PLTE' 41 42
+2025-03-01 12:55:26,743 - PIL.PngImagePlugin - DEBUG - STREAM b'tRNS' 95 13
+2025-03-01 12:55:26,744 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 120 9
+2025-03-01 12:55:26,744 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 141 2202
+2025-03-01 12:55:26,910 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:55:26] "POST /encrypt HTTP/1.1" 200 -
+2025-03-01 12:55:27,959 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:55:27] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:55:27,990 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:55:27] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:55:30,916 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:55:30] "GET /download/20250301072526_PurpleRainTechSafe.png HTTP/1.1" 200 -
+2025-03-01 12:56:52,615 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:56:52] "POST /encrypt HTTP/1.1" 200 -
+2025-03-01 12:56:53,676 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:56:53] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:56:53,708 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:56:53] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:56:55,498 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:56:55] "GET /download/20250301072652_4a6d03b7ba8f81e16a42e4870256d23d.jpg HTTP/1.1" 200 -
+2025-03-01 12:57:40,777 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-01 12:57:40,777 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-01 12:57:41,976 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:57:41] "POST /decrypt HTTP/1.1" 200 -
+2025-03-01 12:58:04,019 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:04] "GET /admin/ HTTP/1.1" 200 -
+2025-03-01 12:58:06,181 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:06] "GET /admin/users HTTP/1.1" 200 -
+2025-03-01 12:58:11,112 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:11] "GET / HTTP/1.1" 200 -
+2025-03-01 12:58:11,118 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:11] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -
+2025-03-01 12:58:16,703 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:16] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:58:16,709 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:16] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:58:16,737 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:16] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:58:38,029 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:38] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-01 12:58:38,039 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:38] "GET / HTTP/1.1" 200 -
+2025-03-01 12:58:38,048 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:38] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-03-01 12:58:38,049 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:38] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-01 12:58:38,071 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:38] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-01 12:58:39,156 - app - DEBUG - Request method: GET
+2025-03-01 12:58:39,184 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:39] "GET /register HTTP/1.1" 200 -
+2025-03-01 12:58:39,187 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:58:39] "[36mGET /static/js/form-validation.js HTTP/1.1[0m" 304 -
+2025-03-01 12:59:23,921 - app - DEBUG - Request method: POST
+2025-03-01 12:59:23,922 - app - DEBUG - Form data received:
+2025-03-01 12:59:23,922 - app - DEBUG -   csrf_token: IjFlNGY2ODk0MjRiMjRjOGZlMTNmZDVmNzdlYjI3N2VlMjUyNzEzMGEi.Z8K3Jw.kFBGcGO3f3qRIyBoy10O1J7b0UE
+2025-03-01 12:59:23,922 - app - DEBUG -   phone_validated: true
+2025-03-01 12:59:23,922 - app - DEBUG -   username: sonu
+2025-03-01 12:59:23,922 - app - DEBUG -   email: sonu@example.com
+2025-03-01 12:59:23,922 - app - DEBUG -   phone_number: +939939393939
+2025-03-01 12:59:23,922 - app - DEBUG -   otp: 123456
+2025-03-01 12:59:23,937 - app - DEBUG - AJAX request received for registration
+2025-03-01 12:59:23,937 - app - DEBUG - CSRF Token: IjFlNGY2ODk0MjRiMjRjOGZlMTNmZDVmNzdlYjI3N2VlMjUyNzEzMGEi.Z8K3Jw.kFBGcGO3f3qRIyBoy10O1J7b0UE
+2025-03-01 12:59:24,073 - app - DEBUG - User registered successfully via AJAX
+2025-03-01 12:59:24,073 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:24] "POST /register HTTP/1.1" 200 -
+2025-03-01 12:59:26,041 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:26] "GET /login HTTP/1.1" 200 -
+2025-03-01 12:59:35,620 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:35] "POST /login HTTP/1.1" 200 -
+2025-03-01 12:59:35,635 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:35] "GET /dashboard HTTP/1.1" 200 -
+2025-03-01 12:59:35,637 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:35] "[36mGET /static/js/decrypt_handler.js HTTP/1.1[0m" 304 -
+2025-03-01 12:59:50,997 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:50] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-01 12:59:51,007 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:51] "GET / HTTP/1.1" 200 -
+2025-03-01 12:59:51,014 - werkzeug - INFO - 127.0.0.1 - - [01/Mar/2025 12:59:51] "[36mGET /static/img/hero-image.png HTTP/1.1[0m" 304 -

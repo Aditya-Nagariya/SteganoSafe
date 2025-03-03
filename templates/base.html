@@ -1,29 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}Steganography App{% endblock %}</title>
+    <title>{% block title %}SteganoSafe - Secure Image Steganography{% endblock %}</title>
     
-    <!-- CSS -->
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
-    <!-- New custom styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    
+    <!-- CSRF Token for AJAX requests -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c7da0;
+            --secondary-color: #a2d2ff;
+            --accent-color: #468faf;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* Flash messages styling */
+        .alert {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Custom animation for page transitions */
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Sticky footer styles */
+        html, body {
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1 0 auto;
+        }
+        
+        .footer {
+            flex-shrink: 0;
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+    
+    {% block head %}
+    <!-- Page-specific head content goes here -->
+    {% endblock %}
 </head>
-<body class="bg-light d-flex flex-column min-vh-100">
-    <!-- Navbar (fixed) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand animate__animated animate__fadeIn" href="{{ url_for('home') }}">
-                <i class="bi bi-shield-lock"></i> SteganoSafe
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="bi bi-image-alt me-2"></i>SteganoSafe
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -33,24 +149,37 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
+                    
                     {% if current_user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ url_for('dashboard') }}">
+                                <i class="bi bi-grid-fill me-1"></i>Dashboard
+                            </a>
                         </li>
-                        {% if current_user.is_admin and not request.path.startswith('/admin') %}
+                        
+                        {% if current_user.is_admin %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">Admin Dashboard</a>
+                                <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">
+                                    <i class="bi bi-gear-fill me-1"></i>Admin
+                                </a>
                             </li>
                         {% endif %}
+                        
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                            <a class="nav-link" href="{{ url_for('logout') }}">
+                                <i class="bi bi-box-arrow-right me-1"></i>Logout
+                            </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                            <a class="nav-link" href="{{ url_for('login') }}">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                            <a class="nav-link" href="{{ url_for('register') }}">
+                                <i class="bi bi-person-plus-fill me-1"></i>Register
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
@@ -59,43 +188,52 @@
     </nav>
 
     <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
-    <!-- Main Content without inline margin -->
-    <main class="flex-fill">
-        <!-- Wrapper to offset fixed navbar -->
-        <div class="content container" style="padding-top: 70px;">
-            {% block content %}{% endblock %}
-        </div>
+    <!-- Main Content -->
+    <main class="fade-in flex-shrink-0">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
     </main>
 
-    <!-- Footer with explicit removal of margin -->
-    <footer class="footer py-3 bg-dark text-white">
-        <div class="container text-center">
-            <span>© 2024 SteganoSafe. All rights reserved.</span>
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>SteganoSafe</h5>
+                    <p class="text-muted">Secure Image Steganography Application</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2023 SteganoSafe. All rights reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Bootstrap 5 JS with Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script>
-        const socket = io();
-        socket.on('message', function(data) {
-            console.log('Real-time update:', data);
-            // Optionally update parts of the UI with new data.
-        });
-    </script>
-    {% block scripts %}{% endblock %}
+    
+    <!-- jQuery (optional, but needed for some Bootstrap features) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    
+    <!-- Page-specific scripts -->
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>

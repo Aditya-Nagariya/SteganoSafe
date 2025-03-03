@@ -1,0 +1,155 @@
+/**
+ * SteganoSafe Teal Theme
+ * A sophisticated teal color scheme with complementary accents
+ */
+
+:root {
+    /* Theme colors */
+    --theme-primary: #2c7da0;
+    --theme-secondary: #61a5c2;
+    --theme-accent: #7b2cbf;
+    --theme-success: #38b000;
+    --theme-warning: #ffb700;
+    --theme-danger: #d90429;
+    
+    /* Background colors */
+    --theme-bg-light: #f5f7fa;
+    --theme-bg-dark: #152238;
+    
+    /* Gradients */
+    --theme-gradient-primary: linear-gradient(135deg, #2c7da0, #1a5e7e);
+    --theme-gradient-success: linear-gradient(135deg, #38b000, #007f5f);
+    --theme-gradient-purple: linear-gradient(135deg, #7b2cbf, #5a189a);
+    --theme-gradient-info: linear-gradient(135deg, #4ea8de, #2c7da0);
+}
+
+/* Override Bootstrap colors */
+.bg-primary {
+    background-color: var(--theme-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--theme-secondary) !important;
+}
+
+.bg-success {
+    background-color: var(--theme-success) !important;
+}
+
+.bg-info {
+    background-color: var(--theme-secondary) !important;
+}
+
+.bg-warning {
+    background-color: var(--theme-warning) !important;
+}
+
+.bg-danger {
+    background-color: var(--theme-danger) !important;
+}
+
+.text-primary {
+    color: var(--theme-primary) !important;
+}
+
+/* Button overrides */
+.btn-primary {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #1a5e7e; /* Darker shade */
+    border-color: #1a5e7e;
+}
+
+.btn-success {
+    background-color: var(--theme-success);
+    border-color: var(--theme-success);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #007f5f;
+    border-color: #007f5f;
+}
+
+.btn-outline-primary {
+    color: var(--theme-primary);
+    border-color: var(--theme-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+    background: var(--theme-gradient-primary);
+}
+
+.bg-gradient-success {
+    background: var(--theme-gradient-success);
+}
+
+.bg-gradient-info {
+    background: var(--theme-gradient-info);
+}
+
+.bg-gradient-purple {
+    background: var(--theme-gradient-purple);
+}
+
+/* Special CSS effects */
+.card.depth-effect {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card.depth-effect:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    transform: translateY(-5px);
+}
+
+/* Form focus states */
+.form-control:focus {
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 0 0.25rem rgba(44, 125, 160, 0.15);
+}
+
+/* Ripple effect for buttons */
+.ripple {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    animation: ripple-effect 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Custom navbar style */
+.navbar {
+    background: var(--theme-gradient-primary) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Custom footer style */
+.footer {
+    background: linear-gradient(135deg, #1a5e7e, var(--theme-bg-dark)) !important;
+}

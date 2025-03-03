@@ -1,0 +1,292 @@
+/**
+ * Enhanced Log Viewer Styling
+ * A beautiful, readable and functional styling for log displays
+ */
+
+/* Base log container */
+.log-container {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    height: calc(100vh - 300px);
+    min-height: 400px;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+}
+
+/* Table styling */
+.log-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Log line styling */
+.log-line {
+    transition: all 0.2s ease-in-out;
+}
+
+.log-line:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(2px);
+}
+
+/* Cell styling */
+.log-line td {
+    padding: 6px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    vertical-align: top;
+}
+
+.log-line td.timestamp {
+    width: 180px;
+    color: #888;
+    user-select: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.log-line td.level {
+    width: 90px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.log-line td.message {
+    word-break: break-word;
+    padding-left: 15px;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+}
+
+/* Line numbers */
+.log-line td.line-number {
+    width: 50px;
+    color: #555;
+    text-align: right;
+    user-select: none;
+    padding-right: 15px;
+    border-right: 1px solid #333;
+    font-size: 0.8rem;
+    background-color: rgba(0,0,0,0.2);
+}
+
+/* Log level styling */
+.log-error {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.log-error td.level {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.log-warning {
+    background-color: rgba(255, 193, 7, 0.07);
+}
+
+.log-warning td.level {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #ffd166;
+}
+
+.log-info {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.log-info td.level {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #72b5ff;
+}
+
+.log-debug {
+    background-color: rgba(25, 135, 84, 0.05);
+}
+
+.log-debug td.level {
+    background-color: rgba(25, 135, 84, 0.1);
+    color: #9cdcfe;
+}
+
+/* Message content styling */
+.log-line .message .path {
+    color: #62b6cb;
+}
+
+.log-line .message .code {
+    color: #ffa5a5;
+    font-weight: 500;
+}
+
+.log-line .message .url {
+    color: #79c2d0;
+    text-decoration: underline;
+}
+
+.log-line .message [data-highlight="true"] {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Code blocks in logs */
+.log-code {
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+    background-color: rgba(0,0,0,0.2);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #c5c8c6;
+}
+
+/* Collapsible sections */
+.log-collapsible {
+    cursor: pointer;
+}
+
+.log-collapsible .toggle-icon {
+    margin-right: 5px;
+    transition: transform 0.2s;
+}
+
+.log-collapsible.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.log-collapsible-content {
+    padding-left: 15px;
+    border-left: 1px solid #555;
+    margin: 5px 0;
+}
+
+/* Search highlighting */
+.search-highlight {
+    background-color: rgba(255, 217, 0, 0.4);
+    color: white;
+    padding: 0px 2px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+/* Custom scrollbar */
+.log-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.log-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.log-container::-webkit-scrollbar-thumb {
+    background-color: #3a3a3a;
+    border-radius: 6px;
+    border: 3px solid #1a1a1a;
+}
+
+.log-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Dark mode styles */
+.dark-mode .log-container {
+    background-color: #0d1117;
+    color: #e6edf3;
+    border-color: #30363d;
+}
+
+/* Card styling */
+.log-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.log-card .card-header {
+    background-color: #212529;
+    color: #e9ecef;
+    border-bottom: 1px solid #343a40;
+    padding: 0.75rem 1rem;
+}
+
+.log-card .card-footer {
+    background-color: #212529;
+    color: #e9ecef;
+    border-top: 1px solid #343a40;
+    padding: 0.5rem 1rem;
+}
+
+/* Controls styling */
+.log-controls button {
+    border-color: #6c757d;
+    color: #dee2e6;
+}
+
+.log-controls button:hover {
+    background-color: #495057;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+/* Badges */
+.log-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+}
+
+.log-badge-error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.log-badge-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.log-badge-info {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.log-badge-debug {
+    background-color: #198754;
+    color: white;
+}
+
+/* Fixed-width layout */
+.log-container.fixed-width .log-line .message {
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+    white-space: pre;
+}
+
+/* Word-wrapped layout */
+.log-container.word-wrap .log-line .message {
+    white-space: pre-wrap;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}

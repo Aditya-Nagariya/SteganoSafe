@@ -1,0 +1,61 @@
+<!-- Replace the Log Display card with this enhanced version -->
+<div class="card mb-4">
+    <div class="log-header-bar">
+        <div>
+            <i class="bi bi-journal-code me-2"></i> Log Entries
+        </div>
+        <div>
+            <span class="badge bg-dark">{{ logs|length }} total entries</span>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="log-container" id="logs">
+            <table class="log-table">
+                <tbody id="log-content">
+                    {% for log in logs %}
+                        {% set log_level = "debug" %}
+                        {% if "ERROR" in log %}
+                            {% set log_level = "error" %}
+                        {% elif "WARNING" in log %}
+                            {% set log_level = "warning" %}
+                        {% elif "INFO" in log %}
+                            {% set log_level = "info" %}
+                        {% endif %}
+                        
+                        {% set timestamp = log[:23] if log|length >= 23 else "" %}
+                        {% set level_text = "ERROR" if "ERROR" in log else "WARNING" if "WARNING" in log else "INFO" if "INFO" in log else "DEBUG" %}
+                        {% set message_start = log.find(' - ', 23) + 3 if log.find(' - ', 23) > 0 else 23 %}
+                        {% set message = log[message_start:] %}
+                        
+                        <tr class="log-line log-{{ log_level }}" data-timestamp="{{ timestamp }}" data-level="{{ log_level }}">
+                            <td class="line-number">{{ loop.index }}</td>
+                            <td class="timestamp">{{ timestamp }}</td>
+                            <td class="level">{{ level_text }}</td>
+                            <td class="message">{{ message }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+        <div>
+            <span class="fw-medium" id="filtered-count">0</span> logs displayed of <span class="fw-medium" id="total-logs-count">{{ logs|length }}</span>
+        </div>
+        <div>
+            <button class="btn btn-sm btn-outline-secondary" id="scroll-top">
+                <i class="bi bi-arrow-up"></i> Top
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" id="scroll-bottom">
+                <i class="bi bi-arrow-down"></i> Bottom
+            </button>
+        </div>
+    </div>
+</div>

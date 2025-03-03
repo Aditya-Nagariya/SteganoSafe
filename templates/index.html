@@ -1,84 +1,261 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="row justify-content-center animate__animated animate__fadeIn">
-    <div class="col-md-8 text-center">
-        <h1 class="display-4 mb-4">Welcome to SteganoSafe</h1>
-        <p class="lead mb-4">Secure your messages within images using advanced steganography techniques.</p>
-        
-        <div class="row g-4 py-4">
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-shield-lock display-4 text-primary mb-3"></i>
-                        <h3>Secure</h3>
-                        <p>State-of-the-art encryption to protect your hidden messages</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-speedometer2 display-4 text-primary mb-3"></i>
-                        <h3>Fast</h3>
-                        <p>Quick encryption and decryption of your images</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-eye-slash display-4 text-primary mb-3"></i>
-                        <h3>Private</h3>
-                        <p>Your data stays private with secure user authentication</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+{% block head %}
+<!-- Add page-specific head content here -->
+<style>
+    .hero {
+        background-color: #f5f7fa;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(44, 125, 160, 0.05) 0%, rgba(44, 125, 160, 0.1) 100%);
+        z-index: -1;
+    }
+    
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .icon-wrapper.primary {
+        background-color: rgba(44, 125, 160, 0.1);
+    }
+    
+    .icon-wrapper.success {
+        background-color: rgba(56, 176, 0, 0.1);
+    }
+    
+    .icon-wrapper.info {
+        background-color: rgba(78, 168, 222, 0.1);
+    }
+    
+    .feature-card {
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}
 
-        <div class="mt-4">
-            {% if not current_user.is_authenticated %}
-                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg mx-2">Get Started</a>
-                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg mx-2">Login</a>
-            {% else %}
-                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
-            {% endif %}
+{% block content %}
+<!-- Hero section with gradient background and animated elements -->
+<section class="hero py-5 mb-5">
+    <!-- Abstract background shapes -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: -1; opacity: 0.1;">
+        <div class="position-absolute" style="width: 300px; height: 300px; border-radius: 50%; background: linear-gradient(135deg, #2c7da0, #61a5c2); top: -150px; left: -50px;"></div>
+        <div class="position-absolute" style="width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(135deg, #1a5e7e, #2c7da0); bottom: -100px; right: 10%;"></div>
+        <div class="position-absolute" style="width: 150px; height: 150px; border-radius: 30%; background: linear-gradient(135deg, #4ea8de, #2c7da0); top: 20%; right: -50px;"></div>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 animate__animated animate__fadeInLeft">
+                <h1 class="display-4 fw-bold mb-4">Secure Your Messages with Steganography</h1>
+                <p class="lead mb-4">Hide your confidential messages within ordinary images using advanced encryption and steganography techniques. Protect your privacy with SteganoSafe.</p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-shield-lock me-2"></i> Get Started
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-speedometer2 me-2"></i> Go to Dashboard
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInRight text-center">
+                <!-- Hero image with subtle animation -->
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename='img/hero-image.png') }}" class="img-fluid rounded-4 shadow-lg" alt="SteganoSafe Hero Image" 
+                         style="max-height: 400px; transform-style: preserve-3d;" id="heroImage">
+                    
+                    <!-- Floating elements for visual appeal -->
+                    <div class="position-absolute shadow" style="width: 80px; height: 80px; border-radius: 16px; background-color: white; top: -20px; right: 20%; transform: rotate(15deg); display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-lock-fill" style="font-size: 2rem; color: #2c7da0;"></i>
+                    </div>
+                    <div class="position-absolute shadow" style="width: 60px; height: 60px; border-radius: 12px; background-color: white; bottom: 20px; left: 10%; transform: rotate(-10deg); display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-image" style="font-size: 1.5rem; color: #38b000;"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-8 text-center">
-        <h2 class="display-5 mb-4">Features</h2>
+<!-- Features section -->
+<section class="features py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Why Choose SteganoSafe?</h2>
+            <p class="lead text-muted">Powerful features to protect your private communications</p>
+        </div>
+        
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-lock display-4 text-primary mb-3"></i>
-                        <h3>Encryption</h3>
-                        <p>Advanced encryption techniques to secure your data</p>
+                <div class="card feature-card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-wrapper primary mb-3 mx-auto">
+                            <i class="bi bi-lock-fill" style="font-size: 2rem; color: #2c7da0;"></i>
+                        </div>
+                        <h3 class="fw-bold">Military-Grade Encryption</h3>
+                        <p class="text-muted">Your messages are secured with AES-256 encryption before being hidden in images</p>
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-image display-4 text-primary mb-3"></i>
-                        <h3>Steganography</h3>
-                        <p>Hide your messages within images seamlessly</p>
+                <div class="card feature-card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-wrapper info mb-3 mx-auto">
+                            <i class="bi bi-image" style="font-size: 2rem; color: #4ea8de;"></i>
+                        </div>
+                        <h3 class="fw-bold">LSB Steganography</h3>
+                        <p class="text-muted">Advanced algorithms hide your data in the least significant bits of image pixels</p>
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm hover-card">
-                    <div class="card-body">
-                        <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
-                        <h3>Authentication</h3>
-                        <p>Secure user authentication to protect your account</p>
+                <div class="card feature-card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-wrapper success mb-3 mx-auto">
+                            <i class="bi bi-shield-check" style="font-size: 2rem; color: #38b000;"></i>
+                        </div>
+                        <h3 class="fw-bold">Secure Authentication</h3>
+                        <p class="text-muted">Multi-factor authentication keeps your account and data protected</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- How it works section -->
+<section class="how-it-works py-5" style="background-color: #f5f7fa;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">How It Works</h2>
+            <p class="lead text-muted">Simple steps to secure your communications</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="step-number">1</div>
+                            <h4 class="fw-bold mb-0">Upload an Image</h4>
+                        </div>
+                        <p class="text-muted">Select any image to serve as the carrier for your hidden message.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="step-number">2</div>
+                            <h4 class="fw-bold mb-0">Write Your Message</h4>
+                        </div>
+                        <p class="text-muted">Enter the message you want to hide and set a password for encryption.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="step-number">3</div>
+                            <h4 class="fw-bold mb-0">Share Securely</h4>
+                        </div>
+                        <p class="text-muted">Download and share the encoded image. Only those with the password can reveal your hidden message.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to action section -->
+<section class="cta py-5" style="background: linear-gradient(135deg, rgba(44, 125, 160, 0.05) 0%, rgba(44, 125, 160, 0.1) 100%);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Secure Your Messages?</h2>
+                <p class="lead mb-4">Join thousands of users who trust SteganoSafe for their private communications.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 py-2">
+                            <i class="bi bi-person-plus me-2"></i> Create Free Account
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-4 py-2">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg px-4 py-2">
+                            <i class="bi bi-shield-lock me-2"></i> Start Encoding
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add subtle animation to hero image on mouse move
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroImage = document.getElementById('heroImage');
+        if (heroImage) {
+            document.addEventListener('mousemove', function(e) {
+                if (window.innerWidth > 768) {  // Only on desktop
+                    const mouseX = e.clientX / window.innerWidth - 0.5;
+                    const mouseY = e.clientY / window.innerHeight - 0.5;
+                    
+                    heroImage.style.transform = `perspective(1000px) rotateY(${mouseX * 5}deg) rotateX(${-mouseY * 5}deg)`;
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

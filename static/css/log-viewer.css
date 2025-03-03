@@ -1,0 +1,203 @@
+/**
+ * Advanced Log Viewer Styles
+ * A dark-themed, modern log viewer interface for admin use
+ */
+
+/* Toast notifications */
+.logs-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #1e1e2d;
+    border-radius: 6px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    min-width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2000;
+}
+
+.logs-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.logs-toast-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.logs-toast-success {
+    border-left: 4px solid #50cd89;
+}
+
+.logs-toast-success .logs-toast-icon {
+    color: #50cd89;
+}
+
+.logs-toast-error {
+    border-left: 4px solid #f1416c;
+}
+
+.logs-toast-error .logs-toast-icon {
+    color: #f1416c;
+}
+
+.logs-toast-info {
+    border-left: 4px solid #009ef7;
+}
+
+.logs-toast-info .logs-toast-icon {
+    color: #009ef7;
+}
+
+.logs-toast-warning {
+    border-left: 4px solid #ffa800;
+}
+
+.logs-toast-warning .logs-toast-icon {
+    color: #ffa800;
+}
+
+/* Empty state */
+.logs-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6d6d80;
+    text-align: center;
+    padding: 50px;
+}
+
+.logs-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+/* Context menu */
+.logs-context-menu {
+    position: absolute;
+    background-color: #1e1e2d;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    padding: 5px 0;
+    min-width: 180px;
+}
+
+.logs-context-menu-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #b5b5c3;
+    transition: all 0.2s;
+}
+
+.logs-context-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.logs-context-menu-item i {
+    margin-right: 10px;
+}
+
+/* Keyboard shortcuts help */
+.logs-keyboard-shortcuts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(21, 21, 33, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.logs-keyboard-shortcuts.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logs-keyboard-shortcuts-content {
+    background-color: #1e1e2d;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.logs-keyboard-shortcuts-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #6d6d80;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.logs-keyboard-shortcuts-close:hover {
+    color: white;
+}
+
+.logs-shortcut-group {
+    margin-bottom: 20px;
+}
+
+.logs-shortcut-title {
+    color: #6d6d80;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.logs-shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    padding: 8px 10px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.logs-shortcut-item:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.logs-shortcut-keys {
+    display: flex;
+    gap: 5px;
+}
+
+.logs-key {
+    background-color: #151521;
+    border: 1px solid #383851;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    color: #ffffff;
+    box-shadow: 0 2px 0 #0a0a12;
+    min-width: 28px;
+    text-align: center;
+}

@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | SteganoSafe{% endblock %}
+
+{% block head %}
+<style>
+    .stats-card {
+        border-radius: 8px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .stats-icon {
+        font-size: 2rem;
+        opacity: 0.8;
+    }
+    
+    .card-header h5 {
+        margin-bottom: 0;
+    }
+    
+    .activity-timeline .timeline-item {
+        position: relative;
+        padding-bottom: 1rem;
+        padding-left: 2rem;
+    }
+    
+    .activity-timeline .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #e9ecef;
+    }
+    
+    .activity-timeline .timeline-item:last-child:before {
+        height: 50%;
+    }
+    
+    .activity-timeline .timeline-point {
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: #2c7da0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Admin Dashboard
+            </h2>
+            <p class="text-muted">Welcome to the SteganoSafe administration panel.</p>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+            <a href="{{ url_for('admin.analytics') }}" class="btn btn-primary">
+                <i class="bi bi-graph-up me-2"></i>
+                Analytics
+            </a>
+            <!-- FIX: Change log_viewer to view_logs -->
+            <a href="{{ url_for('admin.view_logs') }}" class="btn btn-outline-secondary ms-2">
+                <i class="bi bi-journal-text me-2"></i>
+                View Logs
+            </a>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card stats-card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50">Total Users</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ user_count }}</h2>
+                        </div>
+                        <div class="stats-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="{{ url_for('admin.user_list') }}" class="text-white text-decoration-none">
+                            View Users <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card stats-card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50">Total Images</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ image_count }}</h2>
+                        </div>
+                        <div class="stats-icon">
+                            <i class="bi bi-image-fill"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="#" class="text-white text-decoration-none">
+                            View All Images <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card stats-card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-white-50">User Activities</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ activity_count }}</h2>
+                        </div>
+                        <div class="stats-icon">
+                            <i class="bi bi-activity"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="#" class="text-white text-decoration-none">
+                            View Activities <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions & System Status -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5><i class="bi bi-lightning-charge me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('admin.user_list') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus me-2"></i>Manage Users
+                        </a>
+                        <a href="{{ url_for('admin.view_logs') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-journal-text me-2"></i>View System Logs
+                        </a>
+                        <a href="{{ url_for('admin.analytics') }}" class="btn btn-outline-info">
+                            <i class="bi bi-graph-up me-2"></i>View Analytics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5><i class="bi bi-heart-pulse me-2"></i>System Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Database</span>
+                            <span class="badge bg-success">Healthy</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Storage</span>
+                            <span class="badge bg-primary">Good</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Memory</span>
+                            <span class="badge bg-success">Optimal</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            // Fix line 158: Use safe stringifying with proper defaults and error handling
+            var registrationData = [];
+            try {
+                registrationData = JSON.parse('{{ registration_stats|default("[]")|tojson|safe }}');
+            } catch (e) {
+                console.error('Failed to parse registration stats:', e);
+                registrationData = [];
+            }
+            
+            // Get the chart element from DOM
+            var chartElement = document.getElementById('registrationChart');
+            if (!chartElement) {
+                console.error('Chart canvas element not found');
+                return;
+            }
+            
+            var ctx = chartElement.getContext('2d');
+            
+            // Create chart with safe data access
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: registrationData.map(function(entry) { 
+                        return entry.date || ''; 
+                    }),
+                    datasets: [{
+                        label: 'New Users',
+                        data: registrationData.map(function(entry) { 
+                            return entry.count || 0; 
+                        }),
+                        backgroundColor: 'rgba(67, 97, 238, 0.2)',
+                        borderColor: 'rgba(67, 97, 238, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: 'rgba(67, 97, 238, 1)',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Daily User Registrations (Past Week)',
+                            font: {
+                                size: 16,
+                                weight: 'normal'
+                            }
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            padding: 10,
+                            cornerRadius: 6,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            },
+                            grid: {
+                                drawBorder: false,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    } // Fixed line 251: Removed extra comma that was causing an error
+                }
+            });
+        } catch (error) {
+            console.error('Chart initialization error:', error);
+        }
+    });
+</script>
+{% endblock %}

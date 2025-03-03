@@ -1,0 +1,1515 @@
+{% extends "base.html" %}
+
+{% block title %}System Logs | Admin | SteganoSafe{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+<style>
+    /* Main layout */
+    .logs-container {
+        display: flex;
+        height: calc(100vh - 170px);
+        min-height: 500px;
+        margin-top: 10px;
+    }
+    
+    .logs-sidebar {
+        width: 260px;
+        background-color: #1e1e2d;
+        border-radius: 12px 0 0 12px;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #383851;
+        color: #b5b5c3;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1) inset;
+    }
+    
+    .logs-main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    
+    /* Log header & toolbar */
+    .logs-header {
+        background: linear-gradient(to right, #1e1e2d, #2c2c40);
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        border-radius: 0 12px 0 0;
+        border-bottom: 1px solid #383851;
+    }
+    
+    .logs-header-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+    
+    .logs-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Quick filters */
+    .logs-quick-filters {
+        padding: 10px;
+        border-bottom: 1px solid #383851;
+    }
+    
+    /* Sidebar sections */
+    .sidebar-section {
+        margin-bottom: 15px;
+        padding: 0 15px;
+    }
+    
+    .sidebar-section-title {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        color: #6d6d80;
+        margin: 15px 0 10px;
+        padding: 0 15px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    .sidebar-item {
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #b5b5c3;
+        border-radius: 6px;
+        margin: 2px 0;
+        transition: all 0.3s;
+    }
+    
+    .sidebar-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+    }
+    
+    .sidebar-item.active {
+        background-color: rgba(44, 125, 160, 0.15);
+        color: #2c7da0;
+        font-weight: 500;
+    }
+    
+    .sidebar-item i {
+        margin-right: 10px;
+    }
+    
+    .sidebar-count {
+        margin-left: auto;
+        padding: 2px 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        font-size: 0.7rem;
+    }
+    
+    .sidebar-item.active .sidebar-count {
+        background-color: rgba(44, 125, 160, 0.3);
+    }
+    
+    /* Log content */
+    .logs-content {
+        background-color: #151521;
+        flex-grow: 1;
+        overflow-y: auto;
+        position: relative;
+        scrollbar-width: thin;
+        scrollbar-color: #383851 #151521;
+    }
+    
+    .logs-content::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    .logs-content::-webkit-scrollbar-track {
+        background: #151521;
+    }
+    
+    .logs-content::-webkit-scrollbar-thumb {
+        background: #383851;
+        border-radius: 5px;
+    }
+    
+    .logs-content::-webkit-scrollbar-thumb:hover {
+        background: #4b4b64;
+    }
+    
+    /* Log table */
+    .logs-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .log-entry {
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+    }
+    
+    .log-entry:hover {
+        background-color: rgba(44, 125, 160, 0.05);
+        border-left-color: #2c7da0;
+    }
+    
+    .log-entry.selected {
+        background-color: rgba(44, 125, 160, 0.1);
+        border-left-color: #2c7da0;
+    }
+    
+    .log-entry td {
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        vertical-align: top;
+        color: #b5b5c3;
+    }
+    
+    /* Log content styling */
+    .log-entry-time {
+        min-width: 190px;
+        width: 190px;
+        max-width: 190px;
+        font-family: 'Roboto Mono', 'Consolas', monospace;
+        font-size: 0.85rem;
+        color: #6d6d80;
+    }
+    
+    .log-entry-level {
+        min-width: 90px;
+        width: 90px;
+        max-width: 90px;
+        text-align: center;
+    }
+    
+    .log-level-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    
+    .log-level-badge.error {
+        background-color: rgba(241, 65, 108, 0.1);
+        color: #f1416c;
+        border: 1px solid rgba(241, 65, 108, 0.15);
+    }
+    
+    .log-level-badge.warning {
+        background-color: rgba(255, 168, 0, 0.1);
+        color: #ffa800;
+        border: 1px solid rgba(255, 168, 0, 0.15);
+    }
+    
+    .log-level-badge.info {
+        background-color: rgba(0, 158, 247, 0.1);
+        color: #009ef7;
+        border: 1px solid rgba(0, 158, 247, 0.15);
+    }
+    
+    .log-level-badge.debug {
+        background-color: rgba(80, 205, 137, 0.1);
+        color: #50cd89;
+        border: 1px solid rgba(80, 205, 137, 0.15);
+    }
+    
+    .log-entry-message {
+        position: relative;
+        padding-left: 15px;
+        word-break: break-word;
+        font-family: 'Roboto Mono', 'Consolas', monospace;
+        font-size: 0.85rem;
+    }
+    
+    .log-entry-message::before {
+        content: '›';
+        position: absolute;
+        left: 2px;
+        color: #6d6d80;
+    }
+
+    .log-error .log-entry-message {
+        color: rgba(241, 65, 108, 0.9);
+    }
+
+    .log-warning .log-entry-message {
+        color: rgba(255, 168, 0, 0.9);
+    }
+
+    .log-info .log-entry-message {
+        color: rgba(0, 158, 247, 0.9);
+    }
+
+    .log-debug .log-entry-message {
+        color: rgba(80, 205, 137, 0.9);
+    }
+    
+    /* Highlight */
+    .search-highlight {
+        background-color: rgba(255, 168, 0, 0.3);
+        color: #ffb74d;
+        border-radius: 2px;
+        padding: 0 3px;
+        font-weight: 500;
+    }
+    
+    /* Log counter */
+    .logs-counter {
+        background-color: #1e1e2d;
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        color: #b5b5c3;
+        border-top: 1px solid #383851;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 0 0 12px 0;
+    }
+    
+    /* Loading */
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(21, 21, 33, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s;
+    }
+    
+    .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(44, 125, 160, 0.3);
+        border-top: 3px solid #2c7da0;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Search bar */
+    .search-container {
+        padding: 15px;
+        background-color: rgba(30, 30, 45, 0.5);
+        border-bottom: 1px solid #383851;
+    }
+    
+    .search-input-group {
+        display: flex;
+        position: relative;
+    }
+    
+    .search-input {
+        flex-grow: 1;
+        background-color: #151521;
+        border: 1px solid #383851;
+        color: #b5b5c3;
+        padding: 8px 10px 8px 35px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+    
+    .search-input:focus {
+        outline: none;
+        border-color: rgba(44, 125, 160, 0.5);
+        box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.15);
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6d6d80;
+    }
+    
+    .search-options {
+        display: flex;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        color: #6d6d80;
+    }
+    
+    .search-option {
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-option input {
+        margin-right: 5px;
+    }
+    
+    /* Buttons */
+    .btn-tool {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #b5b5c3;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s;
+    }
+    
+    .btn-tool:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+    
+    .btn-tool.active {
+        background-color: rgba(44, 125, 160, 0.15);
+        color: #2c7da0;
+    }
+    
+    .btn-tool i {
+        margin-right: 5px;
+    }
+    
+    /* Detail view */
+    .log-detail-view {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 0;
+        background-color: #1e1e2d;
+        z-index: 100;
+        transition: height 0.3s ease;
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .log-detail-view.active {
+        height: 300px;
+    }
+    
+    .log-detail-header {
+        padding: 10px 15px;
+        background-color: #151521;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #383851;
+    }
+    
+    .log-detail-title {
+        font-weight: 500;
+        color: #b5b5c3;
+        display: flex;
+        align-items: center;
+    }
+    
+    .log-detail-title i {
+        margin-right: 8px;
+    }
+    
+    .log-detail-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .log-detail-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 15px;
+        white-space: pre-wrap;
+        font-family: 'Roboto Mono', 'Consolas', monospace;
+        font-size: 0.9rem;
+        color: #b5b5c3;
+        background-color: #151521;
+    }
+    
+    /* Dropdown */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #1e1e2d;
+        border: 1px solid #383851;
+        border-radius: 6px;
+        padding: 5px 0;
+        min-width: 150px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 100;
+        display: none;
+    }
+    
+    .dropdown-menu.show {
+        display: block;
+    }
+    
+    .dropdown-item {
+        padding: 8px 15px;
+        color: #b5b5c3;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+    }
+    
+    .dropdown-item i {
+        margin-right: 8px;
+    }
+    
+    /* Time selector */
+    .time-selector {
+        padding: 15px;
+    }
+    
+    .time-selector select {
+        background-color: #151521;
+        color: #b5b5c3;
+        border: 1px solid #383851;
+        border-radius: 6px;
+        padding: 8px 10px;
+        width: 100%;
+    }
+    
+    .time-selector select:focus {
+        outline: none;
+        border-color: rgba(44, 125, 160, 0.5);
+    }
+    
+    /* Date range */
+    .date-range {
+        padding: 15px;
+        display: none;
+    }
+    
+    .date-range.active {
+        display: block;
+    }
+    
+    .date-range input {
+        background-color: #151521;
+        color: #b5b5c3;
+        border: 1px solid #383851;
+        border-radius: 6px;
+        padding: 8px 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .date-range input:focus {
+        outline: none;
+        border-color: rgba(44, 125, 160, 0.5);
+    }
+    
+    /* Quick filters */
+    .quick-filter {
+        margin-right: 8px;
+        background-color: #151521;
+        border: 1px solid #383851;
+        color: #b5b5c3;
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        outline: none;
+    }
+    
+    .quick-filter:hover {
+        background-color: rgba(44, 125, 160, 0.1);
+        border-color: rgba(44, 125, 160, 0.3);
+        color: #2c7da0;
+    }
+    
+    .quick-filter.active {
+        background-color: rgba(44, 125, 160, 0.15);
+        border-color: rgba(44, 125, 160, 0.5);
+        color: #2c7da0;
+    }
+
+    /* Timeline marker */
+    .time-marker {
+        position: relative;
+        padding: 5px 15px;
+        color: #6d6d80;
+        font-size: 0.75rem;
+        background-color: rgba(21, 21, 33, 0.5);
+        text-align: center;
+        font-weight: 500;
+    }
+    
+    .time-marker::before,
+    .time-marker::after {
+        content: '';
+        position: absolute;
+        height: 1px;
+        background-color: #383851;
+        top: 50%;
+        width: calc(50% - 80px);
+    }
+    
+    .time-marker::before {
+        left: 0;
+    }
+    
+    .time-marker::after {
+        right: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-3">
+    <div class="d-flex align-items-center mb-3">
+        <div>
+            <h1 class="fs-2 mb-0">System Logs</h1>
+            <p class="text-muted mb-0">Monitoring application activity and events</p>
+        </div>
+        <div class="ms-auto">
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+    
+    <!-- Modern Log Viewer Interface -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="logs-container">
+                <!-- Sidebar -->
+                <div class="logs-sidebar">
+                    <!-- Time range selector -->
+                    <div class="sidebar-section-title">Time Range</div>
+                    <div class="time-selector">
+                        <select id="time-range" class="form-select form-select-sm">
+                            <option value="hour">Last hour</option>
+                            <option value="day" selected>Last 24 hours</option>
+                            <option value="week">Last 7 days</option>
+                            <option value="month">Last 30 days</option>
+                            <option value="custom">Custom range</option>
+                            <option value="all">All time</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Custom date range -->
+                    <div class="date-range" id="custom-date-range">
+                        <label class="form-label text-muted small mb-1">From:</label>
+                        <input type="datetime-local" class="form-control form-control-sm mb-2" id="date-from">
+                        
+                        <label class="form-label text-muted small mb-1">To:</label>
+                        <input type="datetime-local" class="form-control form-control-sm mb-2" id="date-to">
+                        
+                        <button class="btn btn-primary btn-sm w-100" id="apply-date-range">
+                            <i class="bi bi-check2 me-1"></i>Apply Range
+                        </button>
+                    </div>
+                    
+                    <!-- Log level filters -->
+                    <div class="sidebar-section-title">Log Levels</div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-item active" data-filter="all">
+                            <i class="bi bi-list-ul"></i> All Logs
+                            <span class="sidebar-count" id="total-count">{{ logs|length }}</span>
+                        </div>
+                        <div class="sidebar-item" data-filter="error">
+                            <i class="bi bi-exclamation-circle"></i> Errors
+                            <span class="sidebar-count" id="error-count">0</span>
+                        </div>
+                        <div class="sidebar-item" data-filter="warning">
+                            <i class="bi bi-exclamation-triangle"></i> Warnings
+                            <span class="sidebar-count" id="warning-count">0</span>
+                        </div>
+                        <div class="sidebar-item" data-filter="info">
+                            <i class="bi bi-info-circle"></i> Info
+                            <span class="sidebar-count" id="info-count">0</span>
+                        </div>
+                        <div class="sidebar-item" data-filter="debug">
+                            <i class="bi bi-bug"></i> Debug
+                            <span class="sidebar-count" id="debug-count">0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Common sources -->
+                    <div class="sidebar-section-title">Common Sources</div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-item" data-source="auth">
+                            <i class="bi bi-shield-lock"></i> Authentication
+                        </div>
+                        <div class="sidebar-item" data-source="database">
+                            <i class="bi bi-database"></i> Database
+                        </div>
+                        <div class="sidebar-item" data-source="api">
+                            <i class="bi bi-code-slash"></i> API Requests
+                        </div>
+                        <div class="sidebar-item" data-source="errors">
+                            <i class="bi bi-x-octagon"></i> System Errors
+                        </div>
+                    </div>
+                    
+                    <!-- Saved filters -->
+                    <div class="sidebar-section-title">Saved Filters</div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-item" data-saved="critical">
+                            <i class="bi bi-bookmark"></i> Critical Issues
+                        </div>
+                        <div class="sidebar-item" data-saved="recent">
+                            <i class="bi bi-bookmark"></i> Recent Activity
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="logs-main">
+                    <!-- Header with tools -->
+                    <div class="logs-header">
+                        <div class="logs-header-title">
+                            <i class="bi bi-journal-text me-2"></i> Log Entries
+                        </div>
+                        <div class="logs-toolbar">
+                            <button class="btn-tool" id="toggle-auto-refresh">
+                                <i class="bi bi-arrow-repeat"></i> Auto Refresh
+                            </button>
+                            
+                            <button class="btn-tool" id="refresh-logs">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                            
+                            <div class="dropdown">
+                                <button class="btn-tool" id="export-dropdown">
+                                    <i class="bi bi-download"></i> Export
+                                </button>
+                                <div class="dropdown-menu" id="export-menu">
+                                    <div class="dropdown-item" id="exportTxt">
+                                        <i class="bi bi-file-text"></i> Text File (.txt)
+                                    </div>
+                                    <div class="dropdown-item" id="exportCsv">
+                                        <i class="bi bi-filetype-csv"></i> CSV File (.csv)
+                                    </div>
+                                    <div class="dropdown-item" id="exportJson">
+                                        <i class="bi bi-filetype-json"></i> JSON Format (.json)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Search area -->
+                    <div class="search-container">
+                        <div class="search-input-group">
+                            <span class="search-icon">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="log-search" class="search-input" placeholder="Search in logs...">
+                        </div>
+                        <div class="search-options">
+                            <label class="search-option">
+                                <input type="checkbox" id="regex-search"> Use Regex
+                            </label>
+                            <label class="search-option">
+                                <input type="checkbox" id="case-sensitive"> Case Sensitive
+                            </label>
+                            <div class="ms-auto">
+                                <span id="search-count">0</span> results
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick filters -->
+                    <div class="logs-quick-filters">
+                        <button class="quick-filter active">All</button>
+                        <button class="quick-filter">Last hour</button>
+                        <button class="quick-filter">Today</button>
+                        <button class="quick-filter">Authentication</button>
+                        <button class="quick-filter">Errors</button>
+                    </div>
+                    
+                    <!-- Log content -->
+                    <div class="logs-content" id="logs">
+                        <table class="logs-table">
+                            <tbody id="log-content">
+                                {% set current_date = None %}
+                                {% for log in logs %}
+                                    {% set log_level = "debug" %}
+                                    {% if "ERROR" in log %}
+                                        {% set log_level = "error" %}
+                                    {% elif "WARNING" in log %}
+                                        {% set log_level = "warning" %}
+                                    {% elif "INFO" in log %}
+                                        {% set log_level = "info" %}
+                                    {% endif %}
+                                    
+                                    {% set timestamp = log[:23] if log|length >= 23 else "" %}
+                                    {% set log_date = timestamp[:10] if timestamp|length >= 10 else None %}
+                                    {% set level_text = "ERROR" if "ERROR" in log else "WARNING" if "WARNING" in log else "INFO" if "INFO" in log else "DEBUG" %}
+                                    {% set message_start = log.find(' - ', 23) + 3 if log.find(' - ', 23) > 0 else 23 %}
+                                    {% set message = log[message_start:] %}
+                                    
+                                    {% if log_date != current_date and log_date %}
+                                        <tr>
+                                            <td colspan="3" class="time-marker">{{ log_date }}</td>
+                                        </tr>
+                                        {% set current_date = log_date %}
+                                    {% endif %}
+                                    
+                                    <tr class="log-entry log-{{ log_level }}" data-timestamp="{{ timestamp }}" data-level="{{ log_level }}" data-time="{{ timestamp }}" data-message="{{ message }}">
+                                        <td class="log-entry-time">{{ timestamp }}</td>
+                                        <td class="log-entry-level">
+                                            <span class="log-level-badge {{ log_level }}">{{ level_text }}</span>
+                                        </td>
+                                        <td class="log-entry-message">{{ message }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <!-- Loading Spinner -->
+                        <div class="loading-overlay" id="loading-overlay">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Counter footer -->
+                    <div class="logs-counter">
+                        <div>
+                            <span id="filtered-count">0</span> logs displayed of <span id="total-logs-count">{{ logs|length }}</span>
+                        </div>
+                        <div>
+                            <button class="btn-tool" id="scroll-top">
+                                <i class="bi bi-arrow-up"></i>
+                            </button>
+                            <button class="btn-tool" id="scroll-bottom">
+                                <i class="bi bi-arrow-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detail View Panel -->
+            <div class="log-detail-view" id="log-detail">
+                <div class="log-detail-header">
+                    <div class="log-detail-title">
+                        <i class="bi bi-journal-text"></i>
+                        Log Details
+                    </div>
+                    <div class="log-detail-actions">
+                        <button class="btn-tool" id="copy-log">
+                            <i class="bi bi-clipboard"></i> Copy
+                        </button>
+                        <button class="btn-tool" id="close-detail">
+                            <i class="bi bi-x-lg"></i> Close
+                        </button>
+                    </div>
+                </div>
+                <div class="log-detail-content" id="log-detail-content">
+                    <!-- Log details will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/languages/javascript.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize components
+    initSidebar();
+    initSearchField();
+    initExportDropdown();
+    initLogEntrySelection();
+    initDetailView();
+    initQuickFilters();
+    updateStats();
+    
+    // Auto-apply the default time filter (last 24 hours)
+    applyTimeFilter('day');
+    
+    // Initialize refresh button
+    document.getElementById('refresh-logs').addEventListener('click', function() {
+        showLoading();
+        // In a real app, this would fetch fresh logs via AJAX
+        setTimeout(() => {
+            location.reload();
+        }, 800);
+    });
+    
+    // Initialize auto-refresh
+    let autoRefreshInterval = null;
+    let autoRefreshActive = false;
+    
+    document.getElementById('toggle-auto-refresh').addEventListener('click', function() {
+        const button = this;
+        
+        if (autoRefreshActive) {
+            clearInterval(autoRefreshInterval);
+            button.classList.remove('active');
+            autoRefreshActive = false;
+            showToast('Auto-refresh disabled', 'info');
+        } else {
+            autoRefreshInterval = setInterval(() => {
+                document.getElementById('refresh-logs').click();
+            }, 30000); // 30 second refresh
+            
+            button.classList.add('active');
+            autoRefreshActive = true;
+            showToast('Auto-refresh enabled (30s)', 'success');
+        }
+    });
+    
+    // Scroll buttons
+    document.getElementById('scroll-top').addEventListener('click', function() {
+        document.querySelector('.logs-content').scrollTop = 0;
+    });
+    
+    document.getElementById('scroll-bottom').addEventListener('click', function() {
+        const container = document.querySelector('.logs-content');
+        container.scrollTop = container.scrollHeight;
+    });
+    
+    // Search functionality
+    function initSearchField() {
+        const searchInput = document.getElementById('log-search');
+        const regexCheckbox = document.getElementById('regex-search');
+        const caseCheckbox = document.getElementById('case-sensitive');
+        
+        searchInput.addEventListener('input', performSearch);
+        regexCheckbox.addEventListener('change', performSearch);
+        caseCheckbox.addEventListener('change', performSearch);
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            const useRegex = regexCheckbox.checked;
+            const caseSensitive = caseCheckbox.checked;
+            
+            if (!searchTerm) {
+                // Clear highlighting and show all entries
+                document.querySelectorAll('.log-entry').forEach(entry => {
+                    entry.style.display = '';
+                    const messageEl = entry.querySelector('.log-entry-message');
+                    if (messageEl) {
+                        messageEl.innerHTML = messageEl.textContent;
+                    }
+                });
+                updateFilteredCount();
+                return;
+            }
+            
+            let matchCount = 0;
+            
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                const messageEl = entry.querySelector('.log-entry-message');
+                if (!messageEl) return;
+                
+                const content = messageEl.textContent;
+                let isMatch = false;
+                
+                try {
+                    if (useRegex) {
+                        const flags = caseSensitive ? 'g' : 'gi';
+                        const regex = new RegExp(searchTerm, flags);
+                        isMatch = regex.test(content);
+                        
+                        // Highlight matches
+                        if (isMatch) {
+                            messageEl.innerHTML = content.replace(regex, match => 
+                                `<span class="search-highlight">${match}</span>`
+                            );
+                        }
+                    } else {
+                        if (caseSensitive) {
+                            isMatch = content.includes(searchTerm);
+                        } else {
+                            isMatch = content.toLowerCase().includes(searchTerm.toLowerCase());
+                        }
+                        
+                        // Highlight matches for regular search
+                        if (isMatch) {
+                            const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                            const regex = caseSensitive ? 
+                                new RegExp(escapedTerm, 'g') : 
+                                new RegExp(escapedTerm, 'gi');
+                            
+                            messageEl.innerHTML = content.replace(regex, match => 
+                                `<span class="search-highlight">${match}</span>`
+                            );
+                        }
+                    }
+                } catch (e) {
+                    console.error('Search error:', e);
+                }
+                
+                if (isMatch) {
+                    entry.style.display = '';
+                    matchCount++;
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+            
+            // Update the search results counter
+            document.getElementById('search-count').textContent = matchCount;
+            updateFilteredCount();
+        }
+    }
+    
+    // Sidebar functionality
+    function initSidebar() {
+        // Level filters
+        document.querySelectorAll('.sidebar-item[data-filter]').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.sidebar-item[data-filter]').forEach(i => 
+                    i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Apply filter
+                const filter = this.dataset.filter;
+                applyLevelFilter(filter);
+            });
+        });
+        
+        // Source filters
+        document.querySelectorAll('.sidebar-item[data-source]').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update active state for source items
+                document.querySelectorAll('.sidebar-item[data-source]').forEach(i => 
+                    i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Reset level filters
+                document.querySelectorAll('.sidebar-item[data-filter]').forEach(i => 
+                    i.classList.remove('active'));
+                document.querySelector('.sidebar-item[data-filter="all"]').classList.add('active');
+                
+                // Apply source filter
+                applySourceFilter(this.dataset.source);
+            });
+        });
+        
+        // Saved filters
+        document.querySelectorAll('.sidebar-item[data-saved]').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update active states
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Apply saved filter
+                applySavedFilter(this.dataset.saved);
+            });
+        });
+        
+        // Time range selector
+        document.getElementById('time-range').addEventListener('change', function() {
+            const value = this.value;
+            
+            if (value === 'custom') {
+                document.getElementById('custom-date-range').classList.add('active');
+            } else {
+                document.getElementById('custom-date-range').classList.remove('active');
+                applyTimeFilter(value);
+            }
+        });
+        
+        // Apply custom date range
+        document.getElementById('apply-date-range').addEventListener('click', function() {
+            const fromInput = document.getElementById('date-from');
+            const toInput = document.getElementById('date-to');
+            
+            const from = new Date(fromInput.value);
+            const to = new Date(toInput.value);
+            
+            if (isNaN(from.getTime()) || isNaN(to.getTime())) {
+                showToast('Please enter valid dates', 'error');
+                return;
+            }
+            
+            applyCustomDateRange(from, to);
+        });
+    }
+    
+    // Apply level filter
+    function applyLevelFilter(filter) {
+        showLoading();
+        
+        setTimeout(() => {
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                if (filter === 'all' || entry.classList.contains('log-' + filter)) {
+                    entry.style.display = '';
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+            
+            hideLoading();
+            updateFilteredCount();
+            showToast(`Showing ${filter} logs`, 'info');
+        }, 300);
+    }
+    
+    // Apply source filter (authentication, database, etc)
+    function applySourceFilter(source) {
+        showLoading();
+        
+        setTimeout(() => {
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                const message = entry.dataset.message?.toLowerCase() || '';
+                let show = false;
+                
+                switch(source) {
+                    case 'auth':
+                        show = message.includes('login') || 
+                               message.includes('auth') || 
+                               message.includes('password') ||
+                               message.includes('user');
+                        break;
+                    case 'database':
+                        show = message.includes('database') || 
+                               message.includes('db') || 
+                               message.includes('query') ||
+                               message.includes('sql');
+                        break;
+                    case 'api':
+                        show = message.includes('api') || 
+                               message.includes('request') || 
+                               message.includes('http') ||
+                               message.includes('endpoint');
+                        break;
+                    case 'errors':
+                        show = entry.classList.contains('log-error');
+                        break;
+                    default:
+                        show = true;
+                }
+                
+                entry.style.display = show ? '' : 'none';
+            });
+            
+            hideLoading();
+            updateFilteredCount();
+            showToast(`Filtered by ${source}`, 'info');
+        }, 300);
+    }
+    
+    // Apply saved filters
+    function applySavedFilter(filter) {
+        showLoading();
+        
+        setTimeout(() => {
+            let query = '';
+            
+            switch(filter) {
+                case 'critical':
+                    // Show only error logs with critical keywords
+                    document.querySelectorAll('.log-entry').forEach(entry => {
+                        const isError = entry.classList.contains('log-error');
+                        const message = entry.dataset.message?.toLowerCase() || '';
+                        const isCritical = message.includes('critical') || 
+                                          message.includes('exception') || 
+                                          message.includes('fail') ||
+                                          message.includes('crashed');
+                                          
+                        entry.style.display = (isError && isCritical) ? '' : 'none';
+                    });
+                    break;
+                    
+                case 'recent':
+                    // Show only logs from past 3 hours
+                    const threeHoursAgo = new Date();
+                    threeHoursAgo.setHours(threeHoursAgo.getHours() - 3);
+                    
+                    document.querySelectorAll('.log-entry').forEach(entry => {
+                        const timestamp = entry.dataset.time;
+                        if (!timestamp) return;
+                        
+                        const logTime = new Date(timestamp);
+                        entry.style.display = (logTime >= threeHoursAgo) ? '' : 'none';
+                    });
+                    break;
+            }
+            
+            hideLoading();
+            updateFilteredCount();
+        }, 300);
+    }
+    
+    // Apply time filter
+    function applyTimeFilter(period) {
+        showLoading();
+        
+        setTimeout(() => {
+            const now = new Date();
+            let cutoffDate = new Date(now);
+            
+            switch(period) {
+                case 'hour':
+                    cutoffDate.setHours(now.getHours() - 1);
+                    break;
+                case 'day':
+                    cutoffDate.setDate(now.getDate() - 1);
+                    break;
+                case 'week':
+                    cutoffDate.setDate(now.getDate() - 7);
+                    break;
+                case 'month':
+                    cutoffDate.setDate(now.getDate() - 30);
+                    break;
+                case 'all':
+                    // Show all logs
+                    document.querySelectorAll('.log-entry').forEach(entry => {
+                        entry.style.display = '';
+                    });
+                    hideLoading();
+                    updateFilteredCount();
+                    return;
+            }
+            
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                const timestamp = entry.dataset.time;
+                if (!timestamp) {
+                    entry.style.display = '';
+                    return;
+                }
+                
+                const logDate = new Date(timestamp);
+                entry.style.display = (logDate >= cutoffDate) ? '' : 'none';
+            });
+            
+            hideLoading();
+            updateFilteredCount();
+            showToast(`Showing logs from last ${period}`, 'info');
+        }, 300);
+    }
+    
+    // Apply custom date range
+    function applyCustomDateRange(from, to) {
+        showLoading();
+        
+        setTimeout(() => {
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                const timestamp = entry.dataset.time;
+                if (!timestamp) {
+                    entry.style.display = '';
+                    return;
+                }
+                
+                const logDate = new Date(timestamp);
+                entry.style.display = (logDate >= from && logDate <= to) ? '' : 'none';
+            });
+            
+            hideLoading();
+            updateFilteredCount();
+            
+            const fromStr = from.toLocaleDateString();
+            const toStr = to.toLocaleDateString();
+            showToast(`Showing logs from ${fromStr} to ${toStr}`, 'info');
+        }, 300);
+    }
+    
+    // Quick filters
+    function initQuickFilters() {
+        document.querySelectorAll('.quick-filter').forEach(filter => {
+            filter.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.quick-filter').forEach(f => 
+                    f.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Apply the filter
+                const filterText = this.textContent.trim().toLowerCase();
+                
+                switch(filterText) {
+                    case 'all':
+                        document.querySelectorAll('.log-entry').forEach(entry => {
+                            entry.style.display = '';
+                        });
+                        break;
+                        
+                    case 'last hour':
+                        applyTimeFilter('hour');
+                        break;
+                        
+                    case 'today':
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        document.querySelectorAll('.log-entry').forEach(entry => {
+                            const timestamp = entry.dataset.time;
+                            if (!timestamp) {
+                                entry.style.display = '';
+                                return;
+                            }
+                            
+                            const logDate = new Date(timestamp);
+                            entry.style.display = (logDate >= today) ? '' : 'none';
+                        });
+                        break;
+                        
+                    case 'authentication':
+                        applySourceFilter('auth');
+                        break;
+                        
+                    case 'errors':
+                        applyLevelFilter('error');
+                        break;
+                }
+                
+                updateFilteredCount();
+            });
+        });
+    }
+    
+    // Log entry selection and detail view
+    function initLogEntrySelection() {
+        document.querySelectorAll('.log-entry').forEach(entry => {
+            entry.addEventListener('click', function() {
+                // Remove selected class from all entries
+                document.querySelectorAll('.log-entry').forEach(e => 
+                    e.classList.remove('selected'));
+                
+                // Add selected class to this entry
+                this.classList.add('selected');
+                
+                // Show detail view
+                const message = this.dataset.message || '';
+                const timestamp = this.dataset.time || '';
+                const level = this.querySelector('.log-level-badge').textContent || '';
+                
+                showLogDetail(timestamp, level, message);
+            });
+        });
+    }
+    
+    // Detail view
+    function initDetailView() {
+        const detailView = document.getElementById('log-detail');
+        const closeButton = document.getElementById('close-detail');
+        const copyButton = document.getElementById('copy-log');
+        
+        closeButton.addEventListener('click', function() {
+            detailView.classList.remove('active');
+        });
+        
+        copyButton.addEventListener('click', function() {
+            const content = document.getElementById('log-detail-content').textContent;
+            
+            navigator.clipboard.writeText(content)
+                .then(() => {
+                    showToast('Log copied to clipboard', 'success');
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                    showToast('Failed to copy', 'error');
+                });
+        });
+    }
+    
+    function showLogDetail(timestamp, level, message) {
+        const detailView = document.getElementById('log-detail');
+        const contentEl = document.getElementById('log-detail-content');
+        
+        // Format the content
+        const formattedContent = `Timestamp: ${timestamp}
+Level: ${level}
+
+Message:
+${message}`;
+
+        contentEl.textContent = formattedContent;
+        
+        // Show the detail view
+        detailView.classList.add('active');
+    }
+    
+    // Export dropdown
+    function initExportDropdown() {
+        const exportButton = document.getElementById('export-dropdown');
+        const exportMenu = document.getElementById('export-menu');
+        
+        exportButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            exportMenu.classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!exportButton.contains(e.target)) {
+                exportMenu.classList.remove('show');
+            }
+        });
+        
+        // Export functions
+        document.getElementById('exportTxt').addEventListener('click', function() {
+            exportLogs('txt');
+        });
+        
+        document.getElementById('exportCsv').addEventListener('click', function() {
+            exportLogs('csv');
+        });
+        
+        document.getElementById('exportJson').addEventListener('click', function() {
+            exportLogs('json');
+        });
+    }
+    
+    // Export logs functionality
+    function exportLogs(format) {
+        showLoading();
+        exportMenu.classList.remove('show');
+        
+        setTimeout(() => {
+            // Collect visible logs
+            const logs = [];
+            document.querySelectorAll('.log-entry:not([style*="display: none"])').forEach(entry => {
+                logs.push({
+                    timestamp: entry.dataset.time || '',
+                    level: entry.querySelector('.log-level-badge').textContent.trim() || '',
+                    message: entry.dataset.message || ''
+                });
+            });
+            
+            let content, filename, mimeType;
+            const date = new Date().toISOString().slice(0, 10);
+            
+            switch (format) {
+                case 'txt':
+                    content = logs.map(log => 
+                        `[${log.timestamp}] ${log.level}: ${log.message}`
+                    ).join('\n');
+                    filename = `logs_${date}.txt`;
+                    mimeType = 'text/plain';
+                    break;
+                    
+                case 'csv':
+                    content = 'Timestamp,Level,Message\n';
+                    content += logs.map(log => 
+                        `"${log.timestamp}","${log.level}","${log.message.replace(/"/g, '""')}"`
+                    ).join('\n');
+                    filename = `logs_${date}.csv`;
+                    mimeType = 'text/csv';
+                    break;
+                    
+                case 'json':
+                    content = JSON.stringify(logs, null, 2);
+                    filename = `logs_${date}.json`;
+                    mimeType = 'application/json';
+                    break;
+            }
+            
+            // Create and trigger download
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                hideLoading();
+                showToast(`Logs exported as ${format.toUpperCase()}`, 'success');
+            }, 100);
+        }, 500);
+    }
+    
+    // Update log statistics
+    function updateStats() {
+        const errorCount = document.querySelectorAll('.log-entry.log-error').length;
+        const warningCount = document.querySelectorAll('.log-entry.log-warning').length;
+        const infoCount = document.querySelectorAll('.log-entry.log-info').length;
+        const debugCount = document.querySelectorAll('.log-entry.log-debug').length;
+        
+        document.getElementById('error-count').textContent = errorCount;
+        document.getElementById('warning-count').textContent = warningCount;
+        document.getElementById('info-count').textContent = infoCount;
+        document.getElementById('debug-count').textContent = debugCount;
+        
+        updateFilteredCount();
+    }
+    
+    // Update filtered count
+    function updateFilteredCount() {
+        const totalCount = document.querySelectorAll('.log-entry').length;
+        const visibleCount = document.querySelectorAll('.log-entry:not([style*="display: none"])').length;
+        
+        document.getElementById('filtered-count').textContent = visibleCount;
+        document.getElementById('total-logs-count').textContent = totalCount;
+    }
+    
+    // Show loading overlay
+    function showLoading() {
+        document.getElementById('loading-overlay').classList.add('active');
+    }
+    
+    // Hide loading overlay
+    function hideLoading() {
+        document.getElementById('loading-overlay').classList.remove('active');
+    }
+    
+    // Toast notification
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `logs-toast logs-toast-${type}`;
+        toast.innerHTML = `
+            <div class="logs-toast-icon">
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 
+                                 type === 'error' ? 'x-circle' : 
+                                 type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            </div>
+            <div class="logs-toast-content">${message}</div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Animate in
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        // Remove after delay
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => document.body.removeChild(toast), 300);
+        }, 3000);
+    }
+});
+</script>
+{% endblock %}

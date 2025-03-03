@@ -1,14 +1,35 @@
 {% extends "base.html" %}
 
+{% block title %}Server Error | SteganoSafe{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center animate__animated animate__fadeIn">
-    <div class="col-md-6 text-center">
-        <h1 class="display-1 text-danger mb-4">500</h1>
-        <h2 class="mb-4">Internal Server Error</h2>
-        <p class="lead mb-4">Something went wrong on our end. Please try again later.</p>
-        <a href="{{ url_for('home') }}" class="btn btn-primary">
-            <i class="bi bi-house"></i> Return Home
-        </a>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="display-1 fw-bold">500</h1>
+            <p class="display-6">Server Error</p>
+            <p class="lead">Sorry, something went wrong on our end.</p>
+            
+            {% if error and config.DEBUG %}
+                <div class="card mt-4 mb-4">
+                    <div class="card-header bg-danger text-white">
+                        Error Details (Debug Mode)
+                    </div>
+                    <div class="card-body">
+                        <pre class="mb-0 text-start">{{ error }}</pre>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{{ url_for('home') }}" class="btn btn-primary me-2">
+                    <i class="bi bi-house-fill me-1"></i> Go Home
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Go Back
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}User Details | Admin | SteganoSafe{% endblock %}
+
+{% block head %}
+<style>
+    .user-header {
+        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 2rem;
+        color: #2c7da0;
+        margin-right: 1.5rem;
+    }
+    
+    .info-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+    }
+    
+    .info-card-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+        font-weight: 600;
+    }
+    
+    .info-card-body {
+        padding: 1.5rem;
+    }
+    
+    .info-item {
+        margin-bottom: 1rem;
+    }
+    
+    .info-label {
+        font-weight: 500;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+    
+    .info-value {
+        font-size: 1.1rem;
+    }
+    
+    .role-badge {
+        padding: 0.4em 0.8em;
+        border-radius: 30px;
+        font-size: 0.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .role-badge.admin {
+        background-color: #d90429;
+        color: white;
+    }
+    
+    .role-badge.moderator {
+        background-color: #4361ee;
+        color: white;
+    }
+    
+    .role-badge.user {
+        background-color: #e9ecef;
+        color: #212529;
+    }
+    
+    .activity-item {
+        padding: 0.75rem 1rem;
+        border-left: 3px solid #4361ee;
+        margin-bottom: 0.5rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+    
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .image-item {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    
+    .image-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+    
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .image-item:hover .image-overlay {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>User Details</h1>
+        <a href="{{ url_for('admin.user_list') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Users List
+        </a>
+    </div>
+    
+    <!-- User Header -->
+    <div class="user-header d-flex align-items-center">
+        <div class="user-avatar">
+            {{ user.username[0].upper() }}
+        </div>
+        <div>
+            <h2 class="mb-1">{{ user.username }}</h2>
+            <div>
+                <span class="role-badge {{ user.role }}">{{ user.role }}</span>
+                {% if user.is_verified %}
+                    <span class="badge bg-success ms-2">Verified</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark ms-2">Unverified</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ms-auto">
+            {% if current_user.id != user.id %}
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                    <i class="bi bi-trash"></i> Delete User
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- User Information -->
+        <div class="col-md-4 mb-4">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-person-fill me-2"></i> Basic Information
+                </div>
+                <div class="info-card-body">
+                    <div class="info-item">
+                        <div class="info-label">Username</div>
+                        <div class="info-value">{{ user.username }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">{{ user.email }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone Number</div>
+                        <div class="info-value">
+                            {% if user.phone_number %}
+                                {{ user.phone_number }}
+                            {% else %}
+                                <span class="text-muted">Not provided</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Role</div>
+                        <div class="info-value">
+                            <span class="role-badge {{ user.role }}">{{ user.role }}</span>
+                            
+                            {% if user.role != 'admin' %}
+                                <a href="{{ url_for('admin.change_user_role', user_id=user.id, role='admin') }}" class="btn btn-sm btn-outline-success ms-2">
+                                    <i class="bi bi-arrow-up-circle-fill"></i> Make Admin
+                                </a>
+                            {% elif current_user.id != user.id %}
+                                <a href="{{ url_for('admin.demote_user', user_id=user.id) }}" class="btn btn-sm btn-outline-warning ms-2">
+                                    <i class="bi bi-arrow-down-circle-fill"></i> Demote
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Verification Status</div>
+                        <div class="info-value">
+                            {% if user.is_verified %}
+                                <span class="badge bg-success">Verified</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Unverified</span>
+                                <a href="{{ url_for('admin.verify_user', user_id=user.id) }}" class="btn btn-sm btn-outline-primary ms-2">
+                                    <i class="bi bi-check-circle"></i> Verify Manually
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Activities -->
+        <div class="col-md-8 mb-4">
+            <div class="info-card">
+                <div class="info-card-header d-flex justify-content-between align-items-center">
+                    <div><i class="bi bi-activity me-2"></i> Recent Activity</div>
+                    <div>
+                        <select class="form-select form-select-sm" style="width: auto;">
+                            <option>All Activities</option>
+                            <option>Logins</option>
+                            <option>Image Operations</option>
+                            <option>Settings Changes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-card-body" style="max-height: 300px; overflow-y: auto;">
+                    {% if activities %}
+                        {% for activity in activities %}
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>{{ activity.action }}</strong>
+                                    </div>
+                                    <small class="text-muted">{{ activity.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center text-muted my-4">No activity records found</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- User's Images -->
+        <div class="col-12">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-images me-2"></i> Steganography Images ({{ images|length }})
+                </div>
+                <div class="info-card-body">
+                    {% if images %}
+                        <div class="image-grid">
+                            {% for image in images %}
+                                <div class="image-item">
+                                    <img src="{{ url_for('download_image', filename=image.filename) }}" alt="Steganography Image">
+                                    <div class="image-overlay">
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('download_image', filename=image.filename) }}" class="btn btn-sm btn-light">
+                                                <i class="bi bi-download"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted my-4">No images found for this user</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete user <strong>{{ user.username }}</strong>?</p>
+                <p class="text-danger"><strong>Warning:</strong> This action cannot be undone and will delete all user data including images.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
