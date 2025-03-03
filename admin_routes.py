@@ -38,8 +38,8 @@ def index():
         image_count = StegoImage.query.count()
         activity_count = ActivityLog.query.count()
         
-        # Get recent activity
-        recent_activities = ActivityLog.query.order_by(ActivityLog.created_at.desc()).limit(10).all()
+        # Get recent activity - update to use timestamp instead of created_at
+        recent_activities = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).limit(10).all()
         
         return render_template(
             'admin/index.html',
@@ -83,7 +83,8 @@ def images():
 def activity():
     """View activity logs"""
     try:
-        logs = ActivityLog.query.order_by(ActivityLog.created_at.desc()).all()
+        # Update to use timestamp instead of created_at
+        logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
         return render_template('admin/activity.html', logs=logs)
     except Exception as e:
         logger.error(f"Error in admin activity: {str(e)}")

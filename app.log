@@ -22109,3 +22109,39 @@ OverflowError: Python integer -2 out of bounds for uint8
 2025-03-03 12:07:49,585 - __main__ - INFO - Database initialization complete
 2025-03-03 12:07:49,619 - werkzeug - WARNING -  * Debugger is active!
 2025-03-03 12:07:49,671 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 12:15:37,196 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/db_fix.py', reloading
+2025-03-03 12:15:37,469 - werkzeug - INFO -  * Restarting with stat
+2025-03-03 12:15:37,634 - DB_ENSURE - INFO - Data directory ensured at: /Users/aditya/Desktop/steganography_app/data
+2025-03-03 12:15:37,635 - DB_ENSURE - INFO - Database path: /Users/aditya/Desktop/steganography_app/data/app.db
+2025-03-03 12:15:37,641 - DB_ENSURE - INFO - Existing tables: ['users', 'stego_images', 'activity_logs']
+2025-03-03 12:15:37,642 - DB_ENSURE - INFO - All required tables exist
+2025-03-03 12:15:37,642 - DB_ENSURE - INFO - Number of users: 1
+2025-03-03 12:15:37,642 - DB_ENSURE - INFO - Data directory ensured at: /Users/aditya/Desktop/steganography_app/data
+2025-03-03 12:15:37,642 - DB_ENSURE - INFO - Database path: /Users/aditya/Desktop/steganography_app/data/app.db
+2025-03-03 12:15:37,643 - DB_ENSURE - INFO - Existing tables: ['users', 'stego_images', 'activity_logs']
+2025-03-03 12:15:37,643 - DB_ENSURE - INFO - All required tables exist
+2025-03-03 12:15:37,643 - DB_ENSURE - INFO - Number of users: 1
+2025-03-03 12:15:37,643 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/app.db
+2025-03-03 12:15:37,643 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/app.db
+2025-03-03 12:15:39,221 - engineio.server - INFO - Server initialized for threading.
+2025-03-03 12:15:39,271 - __main__ - INFO - Creating database tables if needed...
+2025-03-03 12:15:39,289 - __main__ - INFO - Database initialization complete
+2025-03-03 12:15:39,323 - werkzeug - WARNING -  * Debugger is active!
+2025-03-03 12:15:39,375 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-03 12:15:53,202 - __main__ - DEBUG - Login request received: GET
+2025-03-03 12:15:53,250 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:15:53] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2025-03-03 12:16:06,828 - __main__ - DEBUG - Login request received: POST
+2025-03-03 12:16:06,829 - __main__ - DEBUG - AJAX login request
+2025-03-03 12:16:06,831 - __main__ - DEBUG - Login attempt for username: admin
+2025-03-03 12:16:06,845 - __main__ - DEBUG - Database connection test succeeded
+2025-03-03 12:16:07,028 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:16:07] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-03-03 12:16:11,385 - __main__ - DEBUG - Login request received: POST
+2025-03-03 12:16:11,387 - __main__ - DEBUG - AJAX login request
+2025-03-03 12:16:11,387 - __main__ - DEBUG - Login attempt for username: admin
+2025-03-03 12:16:11,388 - __main__ - DEBUG - Database connection test succeeded
+2025-03-03 12:16:11,560 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:16:11] "POST /login HTTP/1.1" 200 -
+2025-03-03 12:16:11,577 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:16:11] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+2025-03-03 12:16:11,584 - __main__ - DEBUG - Login request received: GET
+2025-03-03 12:16:11,586 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:16:11] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2025-03-03 12:16:15,970 - __main__ - DEBUG - Login request received: GET
+2025-03-03 12:16:15,973 - werkzeug - INFO - 127.0.0.1 - - [03/Mar/2025 12:16:15] "GET /login?next=/dashboard HTTP/1.1" 200 -

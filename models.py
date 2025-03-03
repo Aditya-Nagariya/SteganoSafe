@@ -56,15 +56,15 @@ class ActivityLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     action = db.Column(db.String(255), nullable=False)
-    # Use created_at consistently instead of timestamp
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    # Use timestamp instead of created_at to match existing database structure
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     ip_address = db.Column(db.String(50), nullable=True)
     user_agent = db.Column(db.String(255), nullable=True)
     
-    # Add timestamp as an alias to created_at for backward compatibility
+    # Add created_at as an alias to timestamp for forward compatibility
     @property
-    def timestamp(self):
-        return self.created_at
+    def created_at(self):
+        return self.timestamp
     
     def __repr__(self):
         return f'<ActivityLog {self.id} - {self.action}>'
