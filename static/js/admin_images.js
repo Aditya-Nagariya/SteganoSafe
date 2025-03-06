@@ -135,21 +135,63 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(createPlaceholderIfNeeded, 1000);
 });
 
-// Add functionality for image filtering
+// Replace the existing filterImages function with this simpler, more direct version
 function filterImages(category) {
-    const allImages = document.querySelectorAll('.image-row');
+    console.log("Filtering images by:", category);
     
-    allImages.forEach(img => {
-        if (category === 'all' || img.getAttribute('data-category') === category) {
-            img.style.display = '';
+    // Make category lowercase for case-insensitive comparison
+    const categoryLower = category.toLowerCase();
+    
+    // Get all image rows and update their visibility
+    const rows = document.querySelectorAll('.image-row');
+    console.log(`Found ${rows.length} total rows`);
+    
+    let visibleCount = 0;
+    
+    // Update row visibility based on category
+    rows.forEach(row => {
+        // Get data attribute, default to unknown if missing
+        const rowCategory = (row.getAttribute('data-category') || 'unknown').toLowerCase();
+        
+        // Debug info
+        console.log(`Row ${row.getAttribute('data-image-id')}: category=${rowCategory}`);
+        
+        // Show all for 'all', otherwise compare lowercase categories
+        if (category === 'all' || rowCategory === categoryLower) {
+            row.style.display = '';
+            visibleCount++;
         } else {
-            img.style.display = 'none';
+            row.style.display = 'none';
         }
     });
     
-    // Update active filter button
+    // Update active button state
     document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
+        if (btn.getAttribute('data-filter') === category) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
     });
-    document.querySelector(`.filter-btn[data-filter="${category}"]`).classList.add('active');
+    
+    console.log(`Filter complete. Showing ${visibleCount} of ${rows.length} images`);
 }
+
+// Ensure this function is available globally by attaching to window
+window.filterImages = filterImages;
+
+// Also add a directly callable version without any window onload wrapping
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Setting up image filtering");
+    
+    // Export function to global scope
+    window.filterImages = filterImages;
+    
+    // Add click handlers for filter buttons that don't rely on inline onclick
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            filterImages(filter);
+        });
+    });
+});

@@ -33,6 +33,9 @@
     
     <!-- Custom CSS from child templates -->
     {% block admin_styles %}{% endblock %}
+    
+    <!-- Add this in the head section after other CSS files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dropdown_fix.css') }}">
 </head>
 <body class="admin-body {% if dark_mode %}dark-mode{% endif %}">
     <!-- Splash Screen -->

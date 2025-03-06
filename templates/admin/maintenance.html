@@ -1,0 +1,176 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin - System Maintenance{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="admin-heading mb-3">System Maintenance</h1>
+            <p class="text-muted">Perform maintenance operations on the SteganoSafe system.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- System Stats -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">System Statistics</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Users
+                            <span class="badge bg-primary rounded-pill">{{ stats.total_users }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Images
+                            <span class="badge bg-primary rounded-pill">{{ stats.total_images }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Activity Logs
+                            <span class="badge bg-primary rounded-pill">{{ stats.total_logs }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Image Storage
+                            <span class="badge bg-primary rounded-pill">{{ stats.image_storage_bytes|filesizeformat }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Orphaned Images
+                            <span class="badge bg-warning rounded-pill">{{ stats.orphaned_images }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purge Images Tool -->
+        <div class="col-md-8 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Purge Old Images</h4>
+                </div>
+                <div class="card-body">
+                    <p>Remove old or orphaned images from the database. This operation cannot be undone.</p>
+                    
+                    <form action="{{ url_for('admin_bp.purge_old_images') }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <div class="mb-3">
+                            <label for="days_old" class="form-label">Delete images older than:</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="days_old" name="days_old" 
+                                       value="90" min="1" max="3650">
+                                <span class="input-group-text">days</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="delete_orphaned" name="delete_orphaned">
+                            <label class="form-check-label" for="delete_orphaned">
+                                Also delete orphaned images (no associated user)
+                            </label>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="simulate" name="simulate" checked>
+                            <label class="form-check-label" for="simulate">
+                                Simulation mode (don't actually delete)
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Purge Images
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Database Tools -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Database Tools</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> These operations affect the database directly and should be used with caution.
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Clear Activity Logs</h5>
+                                    <p class="card-text">Remove old activity logs from the database.</p>
+                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmClearLogsModal">
+                                        <i class="bi bi-journal-x"></i> Clear Activity Logs
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Database Vacuum</h5>
+                                    <p class="card-text">Optimize the database to recover storage space.</p>
+                                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#confirmVacuumModal">
+                                        <i class="bi bi-speedometer"></i> Run Vacuum
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirming log clearing -->
+<div class="modal fade" id="confirmClearLogsModal" tabindex="-1" aria-labelledby="confirmClearLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmClearLogsModalLabel">Confirm Clear Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to clear the activity logs?</p>
+                <p class="text-danger"><strong>This operation cannot be undone!</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Clear Logs</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirming vacuum -->
+<div class="modal fade" id="confirmVacuumModal" tabindex="-1" aria-labelledby="confirmVacuumModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmVacuumModalLabel">Confirm Database Vacuum</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to vacuum the database?</p>
+                <p>This operation will optimize the database and may take some time to complete.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Run Vacuum</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,95 +1,555 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
-{% block title %}Admin Settings | SteganoSafe{% endblock %}
+{% block title %}Settings - SteganoSafe Admin{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="list-group mb-4">
-                <a href="{{ url_for('admin_bp.index') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                </a>
-                <a href="{{ url_for('admin_bp.users') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-people me-2"></i>Users
-                </a>
-                <a href="{{ url_for('admin_bp.images') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-images me-2"></i>Images
-                </a>
-                <a href="{{ url_for('admin_bp.analytics') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-graph-up me-2"></i>Analytics
-                </a>
-                <a href="{{ url_for('admin_bp.settings') }}" class="list-group-item list-group-item-action active">
-                    <i class="bi bi-gear me-2"></i>Settings
-                </a>
-            </div>
+{% block breadcrumbs %}
+<li class="breadcrumb-item active">Settings</li>
+{% endblock %}
+
+{% block admin_styles %}
+<style>
+    .settings-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-bottom: 25px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: fit-content; /* Prevent expanding beyond content */
+    }
+
+    .settings-card:hover {
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+    }
+
+    .settings-card-header {
+        padding: 20px 25px;
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .settings-card-body {
+        padding: 25px;
+    }
+
+    .settings-section {
+        margin-bottom: 30px;
+    }
+
+    .settings-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .settings-section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .settings-section-header i {
+        font-size: 24px;
+        margin-right: 15px;
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .settings-section-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .settings-option {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: all 0.2s ease;
+    }
+
+    .settings-option:hover {
+        background-color: #f1f3f5;
+    }
+
+    .settings-option h4 {
+        font-size: 16px;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .settings-option p {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .method-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    
+    .method-badge-lsb {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+    
+    .method-badge-dct {
+        background-color: rgba(32, 201, 151, 0.1);
+        color: #20c997;
+    }
+    
+    .method-badge-dwt {
+        background-color: rgba(108, 117, 125, 0.1);
+        color: #6c757d;
+    }
+
+    .active-method {
+        border: 2px solid #4e54c8;
+        background-color: rgba(78, 84, 200, 0.05);
+    }
+
+    .form-select, .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-select:focus, .form-control:focus {
+        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.25);
+        border-color: #4e54c8;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 25px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(78, 84, 200, 0.3);
+    }
+
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(78, 84, 200, 0.4);
+    }
+
+    /* Toggle switch styling */
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    }
+
+    input:focus + .toggle-slider {
+        box-shadow: 0 0 1px #4e54c8;
+    }
+
+    input:checked + .toggle-slider:before {
+        transform: translateX(30px);
+    }
+
+    .stats-container {
+        background-color: rgba(78, 84, 200, 0.05);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        overflow: hidden; /* Prevent content from flowing out */
+        max-height: 500px; /* Set a reasonable maximum height */
+    }
+
+    .stats-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .stats-item:last-child {
+        border-bottom: none;
+    }
+
+    .stats-label {
+        font-weight: 500;
+    }
+
+    .stats-value {
+        font-weight: 600;
+    }
+
+    /* Make the right column sticky to prevent scrolling issues */
+    .sticky-column {
+        position: sticky;
+        top: 20px; /* Adjust based on your layout */
+        max-height: calc(100vh - 40px); /* Subtract top position plus some margin */
+        overflow-y: auto;
+    }
+
+    /* Ensure the chart container doesn't expand beyond its bounds */
+    #methodUsageChart {
+        max-height: 200px;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="admin-heading-gradient">Application Settings</h1>
+            <p class="text-muted mb-0">Configure application parameters and security options</p>
         </div>
+        <div>
+            <a href="{{ url_for('admin_bp.backup_database') }}" class="admin-btn admin-btn-outline-primary me-2">
+                <i class="bi bi-cloud-download me-1"></i> Backup Database
+            </a>
+            <button class="admin-btn admin-btn-primary" id="saveAllSettings">
+                <i class="bi bi-check-circle me-1"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+</div>
 
-        <div class="col-md-9">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">Application Settings</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Flash Messages -->
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }} alert-dismissible fade show mb-4">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-
-                    <h5 class="mb-4">Steganography Settings</h5>
+<div class="row">
+    <div class="col-lg-8 slide-in-up">
+        <!-- Steganography Settings Card -->
+        <div class="settings-card mb-4">
+            <div class="settings-card-header">
+                <span><i class="bi bi-shield-lock me-2"></i> Steganography Settings</span>
+            </div>
+            <div class="settings-card-body">
+                <form method="POST" action="{{ url_for('admin_bp.settings') }}" id="encryptionForm">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
-                    <form method="POST" action="{{ url_for('admin_bp.settings') }}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        
-                        <div class="mb-4">
-                            <label for="default_encryption_method" class="form-label">Default Encryption Method</label>
-                            <select class="form-select" id="default_encryption_method" name="default_encryption_method">
-                                {% for method in encryption_methods %}
-                                    <option value="{{ method }}" {% if method == current_default %}selected{% endif %}>{{ method }}</option>
-                                {% endfor %}
-                            </select>
-                            <div class="form-text">This method will be used as the default when users don't specify one.</div>
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="bi bi-lock"></i>
+                            <h3>Encryption Methods</h3>
                         </div>
                         
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save me-2"></i>Save Settings
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="settings-option {{ 'active-method' if current_default == 'LSB' }}">
+                                    <span class="method-badge method-badge-lsb">LSB</span>
+                                    <h4>Least Significant Bit</h4>
+                                    <p>Simple and fast method with moderate security and capacity</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input method-radio" type="radio" name="default_encryption_method" id="lsb" value="LSB" {{ 'checked' if current_default == 'LSB' }}>
+                                        <label class="form-check-label" for="lsb">
+                                            Set as default
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="settings-option {{ 'active-method' if current_default == 'DCT' }}">
+                                    <span class="method-badge method-badge-dct">DCT</span>
+                                    <h4>Discrete Cosine Transform</h4>
+                                    <p>Higher security but slower with moderate capacity</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input method-radio" type="radio" name="default_encryption_method" id="dct" value="DCT" {{ 'checked' if current_default == 'DCT' }}>
+                                        <label class="form-check-label" for="dct">
+                                            Set as default
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="settings-option {{ 'active-method' if current_default == 'DWT' }}">
+                                    <span class="method-badge method-badge-dwt">DWT</span>
+                                    <h4>Discrete Wavelet Transform</h4>
+                                    <p>Advanced method with high security but lower capacity</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input method-radio" type="radio" name="default_encryption_method" id="dwt" value="DWT" {{ 'checked' if current_default == 'DWT' }}>
+                                        <label class="form-check-label" for="dwt">
+                                            Set as default
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn-save">
+                                <i class="bi bi-save me-2"></i>Save Encryption Settings
                             </button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Security Settings Card -->
+        <div class="settings-card mb-4">
+            <div class="settings-card-header">
+                <span><i class="bi bi-shield-check me-2"></i> Security Settings</span>
+            </div>
+            <div class="settings-card-body">
+                <form method="POST" action="{{ url_for('admin_bp.settings') }}" id="securityForm">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="setting_type" value="security">
                     
-                    <hr class="my-4">
-                    
-                    <h5 class="mb-4">Security Settings</h5>
-                    <form method="POST" action="{{ url_for('admin_bp.settings') }}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="setting_type" value="security">
-                        
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="enforce_password_complexity" name="enforce_password_complexity" {% if enforce_password_complexity %}checked{% endif %}>
-                            <label class="form-check-label" for="enforce_password_complexity">Enforce Password Complexity</label>
-                            <div class="form-text">Require passwords to have at least 8 characters with numbers, symbols, and mixed case</div>
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="bi bi-shield"></i>
+                            <h3>User Authentication</h3>
                         </div>
                         
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="require_email_verification" name="require_email_verification" {% if require_email_verification %}checked{% endif %}>
-                            <label class="form-check-label" for="require_email_verification">Require Email Verification</label>
-                            <div class="form-text">Users must verify their email before using the app</div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h4 class="mb-1">Password Complexity</h4>
+                                    <p class="text-muted mb-0">Require strong passwords with minimum length, symbols, and mixed case</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" name="enforce_password_complexity" {{ 'checked' if enforce_password_complexity|default(false) }}>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
                         </div>
                         
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h4 class="mb-1">Email Verification</h4>
+                                    <p class="text-muted mb-0">Users must verify their email before accessing the application</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" name="require_email_verification" {{ 'checked' if require_email_verification|default(false) }}>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h4 class="mb-1">Two-Factor Authentication</h4>
+                                    <p class="text-muted mb-0">Enable optional 2FA for users with SMS verification</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" name="enable_2fa" {{ 'checked' if enable_2fa|default(false) }}>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h4 class="mb-1">Session Timeout</h4>
+                                    <p class="text-muted mb-0">Automatically log out inactive users</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <select class="form-select me-2" name="session_timeout" style="width: 150px;">
+                                        <option value="15" {{ 'selected' if session_timeout|default(30) == 15 }}>15 minutes</option>
+                                        <option value="30" {{ 'selected' if session_timeout|default(30) == 30 }}>30 minutes</option>
+                                        <option value="60" {{ 'selected' if session_timeout|default(30) == 60 }}>1 hour</option>
+                                        <option value="120" {{ 'selected' if session_timeout|default(30) == 120 }}>2 hours</option>
+                                        <option value="240" {{ 'selected' if session_timeout|default(30) == 240 }}>4 hours</option>
+                                        <option value="480" {{ 'selected' if session_timeout|default(30) == 480 }}>8 hours</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn-save">
                                 <i class="bi bi-save me-2"></i>Save Security Settings
                             </button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- System Settings Card -->
+        <div class="settings-card mb-4">
+            <div class="settings-card-header">
+                <span><i class="bi bi-gear me-2"></i> System Settings</span>
+            </div>
+            <div class="settings-card-body">
+                <form method="POST" action="{{ url_for('admin_bp.settings') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="setting_type" value="system">
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="bi bi-sliders"></i>
+                            <h3>Application Configuration</h3>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="upload_limit" class="form-label">Maximum Upload Size (MB)</label>
+                            <input type="number" class="form-control" id="upload_limit" name="upload_limit" value="{{ upload_limit|default(16) }}" min="1" max="50">
+                            <div class="form-text">Maximum file size for image uploads (1-50 MB)</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="log_level" class="form-label">Log Level</label>
+                            <select class="form-select" id="log_level" name="log_level">
+                                <option value="DEBUG" {{ 'selected' if log_level|default('INFO') == 'DEBUG' }}>Debug (Verbose)</option>
+                                <option value="INFO" {{ 'selected' if log_level|default('INFO') == 'INFO' }}>Info (Normal)</option>
+                                <option value="WARNING" {{ 'selected' if log_level|default('INFO') == 'WARNING' }}>Warning</option>
+                                <option value="ERROR" {{ 'selected' if log_level|default('INFO') == 'ERROR' }}>Error (Minimal)</option>
+                            </select>
+                            <div class="form-text">Controls detail level in application logs</div>
+                        </div>
+                        
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn-save">
+                                <i class="bi bi-save me-2"></i>Save System Settings
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Update this wrapper div to make it sticky -->
+        <div class="sticky-column">
+            <!-- Usage Stats Card - add a fixed height -->
+            <div class="settings-card slide-in-right delay-1">
+                <div class="settings-card-header">
+                    <span><i class="bi bi-graph-up me-2"></i> Usage Statistics</span>
+                </div>
+                <div class="settings-card-body">
+                    <div id="stats-loading" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading statistics...</p>
+                    </div>
+                    
+                    <div id="stats-content" style="display: none;">
+                        <div class="settings-section">
+                            <div class="settings-section-header">
+                                <i class="bi bi-bar-chart"></i>
+                                <h3>Method Usage</h3>
+                            </div>
+                            
+                            <canvas id="methodUsageChart" height="200"></canvas>
+                            
+                            <div class="stats-container mt-3">
+                                <div class="stats-item">
+                                    <span class="stats-label">LSB Method</span>
+                                    <span class="stats-value" id="lsb-count">-</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-label">DCT Method</span>
+                                    <span class="stats-value" id="dct-count">-</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-label">DWT Method</span>
+                                    <span class="stats-value" id="dwt-count">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section mt-4">
+                            <div class="settings-section-header">
+                                <i class="bi bi-activity"></i>
+                                <h3>System Overview</h3>
+                            </div>
+                            
+                            <div class="stats-container">
+                                <div class="stats-item">
+                                    <span class="stats-label">Total Users</span>
+                                    <span class="stats-value" id="total-users">-</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-label">Total Images</span>
+                                    <span class="stats-value" id="total-images">-</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-label">New Users (7d)</span>
+                                    <span class="stats-value" id="new-users">-</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-label">New Images (7d)</span>
+                                    <span class="stats-value" id="new-images">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Backup and Restore Card -->
+            <div class="settings-card slide-in-right delay-2">
+                <div class="settings-card-header">
+                    <span><i class="bi bi-cloud me-2"></i> Backup & Restore</span>
+                </div>
+                <div class="settings-card-body">
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="bi bi-database"></i>
+                            <h3>Database Management</h3>
+                        </div>
+                        
+                        <p class="text-muted mb-4">Create backups of your database or restore from a previous backup.</p>
+                        
+                        <div class="d-grid gap-3">
+                            <a href="{{ url_for('admin_bp.backup_database') }}" class="btn btn-primary">
+                                <i class="bi bi-download me-2"></i>Create Backup
+                            </a>
+                            <a href="{{ url_for('admin_bp.restore_database') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-upload me-2"></i>Restore from Backup
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,18 +557,94 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
+{% block admin_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Change from admin_bp.get_stats to admin_bp.api_stats
+        // Make active method stand out when selecting
+        const methodRadios = document.querySelectorAll('.method-radio');
+        const methodOptions = document.querySelectorAll('.settings-option');
+        
+        methodRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove active class from all
+                methodOptions.forEach(option => {
+                    option.classList.remove('active-method');
+                });
+                
+                // Add active class to selected
+                if (this.checked) {
+                    this.closest('.settings-option').classList.add('active-method');
+                }
+            });
+        });
+        
+        // Load stats
         fetch('{{ url_for("admin_bp.api_stats") }}')
             .then(response => response.json())
             .then(data => {
-                console.log('API response:', data);
-                // Process data...
+                document.getElementById('stats-loading').style.display = 'none';
+                document.getElementById('stats-content').style.display = 'block';
+                
+                // Update stats display
+                document.getElementById('total-users').textContent = data.users.total;
+                document.getElementById('total-images').textContent = data.images.total;
+                document.getElementById('new-users').textContent = data.users.new;
+                document.getElementById('new-images').textContent = data.images.new;
+                
+                // Update method counts
+                document.getElementById('lsb-count').textContent = data.encryption_methods.LSB || 0;
+                document.getElementById('dct-count').textContent = data.encryption_methods.DCT || 0;
+                document.getElementById('dwt-count').textContent = data.encryption_methods.DWT || 0;
+                
+                // Create chart with fixed height constraint
+                const ctx = document.getElementById('methodUsageChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['LSB', 'DCT', 'DWT', 'Other'],
+                        datasets: [{
+                            data: [
+                                data.encryption_methods.LSB || 0, 
+                                data.encryption_methods.DCT || 0, 
+                                data.encryption_methods.DWT || 0,
+                                data.encryption_methods.Unknown || 0
+                            ],
+                            backgroundColor: [
+                                '#0d6efd',
+                                '#20c997',
+                                '#6c757d',
+                                '#ffc107'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true, // Change to true to respect container
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
             })
-            .catch(error => console.error('Error fetching stats:', error));
+            .catch(error => {
+                console.error('Error fetching stats:', error);
+                document.getElementById('stats-loading').innerHTML = 
+                    '<div class="alert alert-danger">Error loading statistics</div>';
+            });
+            
+        // Save all settings button
+        document.getElementById('saveAllSettings').addEventListener('click', function() {
+            // Submit all forms sequentially
+            document.getElementById('encryptionForm').submit();
+        });
     });
 </script>
 {% endblock %}

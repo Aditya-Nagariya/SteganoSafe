@@ -34828,3 +34828,782 @@ jinja2.exceptions.TemplateAssertionError: No filter named 'b64encode'.
 2025-03-06 09:12:59,166 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:12:59] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
 2025-03-06 09:12:59,166 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:12:59] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
 2025-03-06 09:12:59,172 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:12:59] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-06 09:55:21,678 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:21] "GET / HTTP/1.1" 200 -
+2025-03-06 09:55:21,740 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:21] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 09:55:21,740 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:21] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 09:55:21,741 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:21] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 09:55:21,745 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:21] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-06 09:55:23,370 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-06 09:55:23,449 - __main__ - DEBUG - Found 15 images for user
+2025-03-06 09:55:23,725 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /dashboard HTTP/1.1" 200 -
+2025-03-06 09:55:23,790 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 09:55:23,790 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 09:55:23,790 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 09:55:23,873 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-06 09:55:23,874 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:23] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-06 09:55:26,536 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:26] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 09:55:26,569 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:26] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 09:55:26,570 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:26] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 09:55:26,571 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:26] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 09:55:26,574 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:26] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 09:55:43,114 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:43] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 09:55:43,153 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:43] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 09:55:43,154 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:43] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 09:55:43,154 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:43] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 09:55:43,156 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:43] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 09:55:59,610 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:59] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 09:55:59,644 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:59] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 09:55:59,646 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:59] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 09:55:59,646 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:59] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 09:55:59,647 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:55:59] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 09:56:36,837 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:56:36] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 09:56:36,879 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:56:36] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 09:56:36,880 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:56:36] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 09:56:36,885 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:56:36] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 09:56:36,886 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:56:36] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 09:57:02,161 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:57:02] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 09:57:02,164 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:57:02] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 09:57:02,167 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:57:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 09:57:02,168 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 09:57:02] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:05:16,987 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:05:16] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:05:16,990 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:05:16] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:05:16,991 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:05:16] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:05:16,992 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:05:16] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 10:09:58,749 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:09:58,857 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:09:58,860 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:09:58,863 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:09:58,863 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:09:58,867 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:09:58] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:10:07,460 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /admin/users/2 HTTP/1.1" 200 -
+2025-03-06 10:10:07,511 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:10:07,512 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:10:07,512 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:10:07,513 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:10:07,515 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:07] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:10:25,632 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:25] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:10:25,634 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:25] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:10:25,637 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:25] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 10:10:25,639 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:10:25] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:18:21,601 - error_handlers - ERROR - Unhandled exception: 'hasattr' is undefined
+2025-03-06 10:18:21,635 - error_handlers - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/admin_routes.py", line 30, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/aditya/Desktop/steganography_app/admin_routes.py", line 93, in user_detail
+    return render_template(
+        'admin/user_detail.html',
+    ...<2 lines>...
+        activities=activities
+    )
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/user_detail.html", line 1, in top-level template code
+    {% extends "admin/base.html" %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/base.html", line 281, in top-level template code
+    {% block admin_content %}{% endblock %}
+    ^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/user_detail.html", line 503, in block 'admin_content'
+    <div class="info-value">{{ user.last_login_at.strftime('%b %d, %Y %H:%M') if hasattr(user, 'last_login_at') and user.last_login_at else 'Never' }}</div>
+    
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'hasattr' is undefined
+
+2025-03-06 10:18:21,639 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:21] "[35m[1mGET /admin/users/2 HTTP/1.1[0m" 500 -
+2025-03-06 10:18:21,779 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:21] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 10:18:21,780 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:21] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 10:18:21,783 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:21] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 10:18:25,974 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:25] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:18:26,034 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:26] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:18:26,035 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:26] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:18:26,035 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:26] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:18:26,037 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:26] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:18:26,039 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:18:26] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:20:37,314 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:20:37,468 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:20:37,492 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:20:37,494 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:20:37,497 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:20:37,498 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:37] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:20:42,531 - error_handlers - ERROR - Unhandled exception: 'hasattr' is undefined
+2025-03-06 10:20:42,534 - error_handlers - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/admin_routes.py", line 30, in decorated_function
+    return f(*args, **kwargs)
+  File "/Users/aditya/Desktop/steganography_app/admin_routes.py", line 93, in user_detail
+    return render_template(
+        'admin/user_detail.html',
+    ...<2 lines>...
+        activities=activities
+    )
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/user_detail.html", line 1, in top-level template code
+    {% extends "admin/base.html" %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/base.html", line 281, in top-level template code
+    {% block admin_content %}{% endblock %}
+    ^^^^^^^^^^^^^
+  File "/Users/aditya/Desktop/steganography_app/templates/admin/user_detail.html", line 503, in block 'admin_content'
+    <div class="info-value">{{ user.last_login_at.strftime('%b %d, %Y %H:%M') if hasattr(user, 'last_login_at') and user.last_login_at else 'Never' }}</div>
+    
+  File "/Users/aditya/Downloads/steganography_app/venv/lib/python3.13/site-packages/jinja2/utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'hasattr' is undefined
+
+2025-03-06 10:20:42,536 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:42] "[35m[1mGET /admin/users/2 HTTP/1.1[0m" 500 -
+2025-03-06 10:20:42,597 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:42] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 10:20:42,597 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:42] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 10:20:42,597 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:20:42] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 10:21:52,253 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /admin/users/2 HTTP/1.1" 200 -
+2025-03-06 10:21:52,447 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:21:52,454 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:21:52,466 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:21:52,471 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:21:52,474 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:21:52] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:22:09,443 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:09] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 10:22:09,497 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:09] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 10:22:09,498 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:09] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 10:22:09,499 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:09] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 10:22:09,582 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:09] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 10:22:14,523 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:22:14,527 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 10:22:14,531 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:22:14,532 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:22:14,536 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:22:14,538 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "[33mGET /static/img/apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:22:14,541 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:22:14] "[33mGET /static/img/apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:28:23,632 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 10:28:23,848 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:28:23,848 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:28:23,848 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:28:23,849 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:28:23,859 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:23] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:28:24,046 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:28:24] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 10:32:50,333 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 10:32:50,428 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:32:50,434 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:32:50,440 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:32:50,441 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:32:50,441 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:32:50,566 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:50] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 10:32:57,698 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "[32mGET /admin/backup HTTP/1.1[0m" 302 -
+2025-03-06 10:32:57,727 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 10:32:57,773 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:32:57,776 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:32:57,776 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:32:57,779 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:32:57,782 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:32:57] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:33:12,595 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:12] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:33:12,599 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 10:33:12,601 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:12] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:33:12,601 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:12] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:33:25,128 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:33:25,205 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:33:25,205 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:33:25,211 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:33:25,212 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:33:25,213 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:25] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:33:30,238 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /admin/users/2 HTTP/1.1" 200 -
+2025-03-06 10:33:30,279 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:33:30,279 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:33:30,280 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:33:30,280 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:33:30,281 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:30] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:33:46,272 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:33:46,360 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:33:46,362 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:33:46,362 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:33:46,364 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:33:46,364 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:46] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:33:48,554 - root - INFO - Admin images route called
+2025-03-06 10:33:48,640 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:33:48,644 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 10:33:48,681 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:33:48,685 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:33:48,685 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:33:48,685 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:33:48,686 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:48] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:33:58,039 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:58] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-06 10:33:58,040 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:58] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-06 10:33:58,042 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-06 10:33:58,043 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:33:58] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-06 10:35:09,679 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:09] "GET /admin/fix_images HTTP/1.1" 200 -
+2025-03-06 10:35:16,769 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 10:35:16,770 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 10:35:16,771 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 10:35:16,771 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 10:35:16,772 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:16] "GET /admin/diagnose_images HTTP/1.1" 200 -
+2025-03-06 10:35:36,254 - root - INFO - Admin images route called
+2025-03-06 10:35:36,267 - root - INFO - Retrieved 5 image records for page 2
+2025-03-06 10:35:36,272 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /admin/images?page=2&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:35:36,315 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:35:36,316 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:35:36,318 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:35:36,319 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:35:36,322 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:35:36] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:49:10,041 - root - INFO - Admin images route called
+2025-03-06 10:49:10,087 - root - INFO - Retrieved 5 image records for page 2
+2025-03-06 10:49:10,098 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /admin/images?page=2&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:49:10,235 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:49:10,235 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:49:10,243 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:49:10,244 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:49:10,246 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:10] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:49:17,802 - root - INFO - Admin images route called
+2025-03-06 10:49:17,833 - root - INFO - Retrieved 5 image records for page 2
+2025-03-06 10:49:17,918 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:17,918 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:17,918 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:17,919 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:17,919 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:17,921 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /admin/images?page=2&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:49:17,979 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:49:17,981 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:49:17,981 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:49:17,986 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:49:17,987 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:17] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:49:28,373 - root - INFO - Admin images route called
+2025-03-06 10:49:28,447 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:49:28,448 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,448 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,448 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,448 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,448 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,449 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,449 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,449 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,449 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,449 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:49:28,452 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:49:28,500 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:49:28,501 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:49:28,503 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:49:28,505 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:49:28,505 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:28] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:49:39,200 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:49:39] "GET /admin/fix_images HTTP/1.1" 200 -
+2025-03-06 10:54:31,495 - root - INFO - Admin images route called
+2025-03-06 10:54:31,558 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:54:31,600 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,601 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,601 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,601 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,601 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,601 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,602 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,602 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,602 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,602 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:31,609 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:54:31,752 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:54:31,776 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:54:31,779 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:54:31,780 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:54:31,780 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:31] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:54:39,887 - root - INFO - Admin images route called
+2025-03-06 10:54:39,898 - root - INFO - Retrieved 5 image records for page 2
+2025-03-06 10:54:39,900 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:39,901 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:39,901 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:39,902 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:39,902 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:39,906 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /admin/images?page=2&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:54:39,960 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:54:39,967 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:54:39,971 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:54:39,974 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:54:39,976 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:39] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:54:47,471 - root - INFO - Admin images route called
+2025-03-06 10:54:47,492 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:54:47,493 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,493 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,493 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,494 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:54:47,496 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:54:47,534 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:54:47,538 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:54:47,540 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:54:47,541 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:54:47,543 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:54:47] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:55:03,423 - root - INFO - Admin images route called
+2025-03-06 10:55:03,627 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:55:03,697 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,698 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,698 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,698 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,699 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,699 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,700 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,700 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,700 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,701 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:03,705 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:03] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 10:55:03,972 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:03] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:55:03,987 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:03] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:55:04,006 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:04] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:55:04,008 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:04] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:55:04,009 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:04] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:55:07,209 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 10:55:07,250 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:55:07,253 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:55:07,254 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:55:07,254 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:55:07,255 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:07] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:55:09,190 - root - INFO - Admin images route called
+2025-03-06 10:55:09,211 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:55:09,212 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,212 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,213 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,214 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,214 - filters - ERROR - Error encoding data to base64: a bytes-like object is required, not 'Undefined'
+2025-03-06 10:55:09,215 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 10:55:09,252 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:55:09,254 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:55:09,256 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:55:09,256 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:55:09,258 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:55:09] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:57:40,853 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:40] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 10:57:41,054 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:41] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:57:41,054 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:41] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:57:41,058 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:41] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:57:41,067 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:41] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:57:41,075 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:41] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:57:58,862 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 10:57:58,914 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:57:58,917 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:57:58,918 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:57:58,920 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:57:58,923 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:57:58] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,571 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 10:58:06,610 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,615 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,617 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,619 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,620 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:58:06,700 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:58:06] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 10:59:26,388 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 10:59:26,576 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:59:26,586 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:59:26,591 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:59:26,595 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:59:26,598 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:59:26,927 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:26] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 10:59:28,761 - root - INFO - Admin images route called
+2025-03-06 10:59:28,912 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 10:59:28,953 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:28] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 10:59:29,004 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 10:59:29,007 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 10:59:29,007 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 10:59:29,007 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 10:59:29,009 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 10:59:29,029 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 10:59:29,031 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 10:59:29,044 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 10:59:29,045 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 10:59:29,088 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 10:59:29,095 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 10:59:29,097 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 10:59:29,101 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 10:59:29,102 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 10:59:29,157 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 10:59:29] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:03:28,387 - root - INFO - Admin images route called
+2025-03-06 11:03:28,519 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:03:28,604 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 11:03:28,721 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:03:28,724 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:03:28,730 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:03:28,755 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:03:28,756 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:03:28,781 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:03:28,783 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:03:28,796 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:03:28,797 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:03:28,810 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:03:28,814 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:03:28,821 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:03:28,837 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:03:28,881 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:03:28,916 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:03:28] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:07:43,414 - root - INFO - Admin images route called
+2025-03-06 11:07:43,747 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:07:43,880 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:43] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 11:07:44,381 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:07:44,385 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:07:44,386 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:07:44,392 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:07:44,400 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:07:44,432 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:07:44,435 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:07:44,490 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:07:44,564 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:07:44,583 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:07:44,614 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:07:44,684 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:07:44,726 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:07:44,954 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:44] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:07:45,002 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:45] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:07:53,786 - root - INFO - Admin images route called
+2025-03-06 11:07:53,807 - root - INFO - Retrieved 5 image records for page 2
+2025-03-06 11:07:53,812 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/images?page=2&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 11:07:53,900 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/image_preview/5 HTTP/1.1" 200 -
+2025-03-06 11:07:53,902 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:07:53,903 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/image_preview/4 HTTP/1.1" 200 -
+2025-03-06 11:07:53,909 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:07:53,912 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:07:53,912 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:07:53,912 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:07:53,923 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/image_preview/3 HTTP/1.1" 200 -
+2025-03-06 11:07:53,923 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/image_preview/2 HTTP/1.1" 200 -
+2025-03-06 11:07:53,932 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:07:53] "GET /admin/image_preview/1 HTTP/1.1" 200 -
+2025-03-06 11:08:13,313 - root - INFO - Admin images route called
+2025-03-06 11:08:13,375 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:08:13,379 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 11:08:13,461 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:08:13,473 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:08:13,474 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:08:13,475 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:08:13,475 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:08:13,489 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:08:13,490 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:08:13,500 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:08:13,500 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:08:13,509 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:08:13,512 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:08:13,521 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:08:13,545 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:08:13,546 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:08:13,558 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:08:13] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:14:31,074 - root - INFO - Admin images route called
+2025-03-06 11:14:31,254 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:14:31,339 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 11:14:31,715 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:14:31,737 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:14:31,766 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:14:31,812 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:14:31,817 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:14:31,874 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:14:31,876 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:14:31,916 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:14:31,919 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:14:31,952 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:14:31,955 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:31] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:14:32,060 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:32] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:14:32,079 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:32] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:14:32,095 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:32] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:14:32,215 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:14:32] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:26:30,770 - root - INFO - Admin images route called
+2025-03-06 11:26:30,990 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:26:31,065 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 11:26:31,317 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:26:31,345 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:26:31,364 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:26:31,372 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:26:31,392 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:26:31,622 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:26:31,639 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:26:31,880 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:26:31,897 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:26:31,912 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:26:31,945 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:31] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:26:32,006 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:32] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:26:32,046 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:32] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:26:32,119 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:32] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:26:32,147 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:26:32] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:30:49,379 - root - INFO - Admin images route called
+2025-03-06 11:30:49,516 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:30:49,591 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/images?page=1&search=&sort=id&order=desc HTTP/1.1" 200 -
+2025-03-06 11:30:49,831 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:30:49,836 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:30:49,842 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:30:49,843 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:30:49,848 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:30:49,867 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:30:49,871 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:30:49,908 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:30:49,916 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:30:49,950 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:30:49,960 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:30:49,976 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:30:49,989 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:49] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:30:50,004 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:50] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:30:50,021 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:30:50] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:32:03,697 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:03] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-06 11:32:04,047 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:04] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:32:04,050 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:04] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:32:04,051 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:04] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:32:04,063 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:04] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:32:04,067 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:04] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:32:12,723 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:12] "GET /admin/view-logs HTTP/1.1" 200 -
+2025-03-06 11:32:12,799 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:12] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 11:32:12,802 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:12] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 11:32:12,804 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:12] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 11:32:19,498 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /admin/ HTTP/1.1" 200 -
+2025-03-06 11:32:19,662 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:32:19,677 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:32:19,678 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:32:19,681 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:32:19,689 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:19] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,258 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 11:32:23,350 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,350 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,352 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,353 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,355 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:32:23,612 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:32:23] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 11:33:08,896 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:08] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-06 11:33:09,019 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:33:09,024 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:33:09,029 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:33:09,031 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:33:09,034 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:33:09,148 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:09] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-06 11:33:12,092 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 11:33:12,158 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:33:12,162 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:33:12,167 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:33:12,167 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:33:12,169 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:12] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:33:13,963 - root - INFO - Admin images route called
+2025-03-06 11:33:14,039 - root - INFO - Retrieved 10 image records for page 1
+2025-03-06 11:33:14,085 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/images HTTP/1.1" 200 -
+2025-03-06 11:33:14,134 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:33:14,137 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:33:14,141 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:33:14,141 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:33:14,144 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:33:14,151 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-06 11:33:14,152 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-06 11:33:14,161 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-06 11:33:14,162 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-06 11:33:14,173 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-06 11:33:14,174 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-06 11:33:14,209 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/9 HTTP/1.1" 200 -
+2025-03-06 11:33:14,227 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/6 HTTP/1.1" 200 -
+2025-03-06 11:33:14,232 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/8 HTTP/1.1" 200 -
+2025-03-06 11:33:14,237 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:14] "GET /admin/image_preview/7 HTTP/1.1" 200 -
+2025-03-06 11:33:39,461 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /admin/users HTTP/1.1" 200 -
+2025-03-06 11:33:39,550 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:33:39,561 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:33:39,567 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:33:39,567 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:33:39,570 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:39] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:33:46,992 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:46] "GET /admin/users/1 HTTP/1.1" 200 -
+2025-03-06 11:33:47,067 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:47] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-06 11:33:47,071 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:47] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-06 11:33:47,075 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:47] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-06 11:33:47,076 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:47] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-06 11:33:47,079 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:33:47] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-06 11:34:03,422 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-06 11:34:03,470 - __main__ - DEBUG - Found 15 images for user
+2025-03-06 11:34:03,661 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /dashboard HTTP/1.1" 200 -
+2025-03-06 11:34:03,751 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 11:34:03,752 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 11:34:03,756 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 11:34:03,855 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-06 11:34:03,855 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:03] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-06 11:34:13,580 - root - INFO - API decrypt request for image 13 using PVD
+2025-03-06 11:34:13,581 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:13] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-06 11:34:13,586 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:13,587 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:13,588 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:13,598 - root - INFO - API decrypt request for image 13 using PVD
+2025-03-06 11:34:13,603 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:13,603 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:13,603 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:14,061 - root - DEBUG - Found base64 candidate: /gifoo9ToXCM8CsslDmY... (72 chars)
+2025-03-06 11:34:14,509 - root - DEBUG - Found base64 candidate: /gifoo9ToXCM8CsslDmY... (72 chars)
+2025-03-06 11:34:14,638 - root - DEBUG - Decrypting message of length 72
+2025-03-06 11:34:14,766 - root - DEBUG - Decrypting message of length 72
+2025-03-06 11:34:14,963 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 44
+2025-03-06 11:34:15,150 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 44
+2025-03-06 11:34:15,154 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:15,154 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:15,155 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:15,155 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:15,155 - stego - DEBUG - Safely decrypting message of length 72
+2025-03-06 11:34:15,155 - stego - DEBUG - Safely decrypting message of length 72
+2025-03-06 11:34:15,156 - stego - DEBUG - Base64 decoding succeeded, got 52 bytes
+2025-03-06 11:34:15,156 - stego - DEBUG - Base64 decoding succeeded, got 52 bytes
+2025-03-06 11:34:15,340 - stego - DEBUG - Safe decryption successful
+2025-03-06 11:34:15,531 - stego - DEBUG - Safe decryption successful
+2025-03-06 11:34:15,536 - app - DEBUG - API request to /api/decrypt_saved_image took 1.9453s
+2025-03-06 11:34:15,538 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:15] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-06 11:34:15,538 - app - DEBUG - API request to /api/decrypt_saved_image took 1.9674s
+2025-03-06 11:34:15,539 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:15] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-06 11:34:31,734 - root - INFO - API decrypt request for image 7 using LSB
+2025-03-06 11:34:31,744 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:31] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-06 11:34:31,744 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:31,744 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:31,745 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:31,752 - root - INFO - API decrypt request for image 7 using LSB
+2025-03-06 11:34:31,754 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:31,754 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:31,755 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:32,014 - root - DEBUG - No valid base64 data found in direct LSB extraction
+2025-03-06 11:34:32,015 - root - DEBUG - Returning raw extracted bytes with printable ASCII chars
+2025-03-06 11:34:32,087 - root - DEBUG - Decrypting message of length 1536
+2025-03-06 11:34:32,515 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 1508
+2025-03-06 11:34:32,519 - root - DEBUG - No valid base64 data found in direct LSB extraction
+2025-03-06 11:34:32,519 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:32,519 - root - DEBUG - Returning raw extracted bytes with printable ASCII chars
+2025-03-06 11:34:32,519 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:32,592 - root - DEBUG - Decrypting message of length 1536
+2025-03-06 11:34:32,592 - stego - DEBUG - Safely decrypting message of length 1536
+2025-03-06 11:34:32,776 - stego - WARNING - Character encoding handling error: ord() expected string of length 1, but int found
+2025-03-06 11:34:32,777 - base64_utils - WARNING - Standard base64 decoding failed: cannot use a string pattern on a bytes-like object. Trying recovery mode.
+2025-03-06 11:34:32,777 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 1508
+2025-03-06 11:34:32,777 - base64_utils - ERROR - Base64 recovery decoding also failed: 'in <string>' requires string as left operand, not int
+2025-03-06 11:34:32,778 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:32,778 - stego - ERROR - Safe decryption error: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:32,778 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:32,778 - root - ERROR - Decryption error: Safe decryption failed: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:32,778 - stego - DEBUG - Safely decrypting message of length 1536
+2025-03-06 11:34:32,779 - app - DEBUG - API request to /api/decrypt_saved_image took 1.0510s
+2025-03-06 11:34:32,779 - stego - WARNING - Character encoding handling error: ord() expected string of length 1, but int found
+2025-03-06 11:34:32,780 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:32] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-06 11:34:32,780 - base64_utils - WARNING - Standard base64 decoding failed: cannot use a string pattern on a bytes-like object. Trying recovery mode.
+2025-03-06 11:34:32,780 - base64_utils - ERROR - Base64 recovery decoding also failed: 'in <string>' requires string as left operand, not int
+2025-03-06 11:34:32,780 - stego - ERROR - Safe decryption error: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:32,780 - root - ERROR - Decryption error: Safe decryption failed: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:32,781 - app - DEBUG - API request to /api/decrypt_saved_image took 1.0295s
+2025-03-06 11:34:32,781 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:32] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-06 11:34:35,541 - root - INFO - API decrypt request for image 7 using PVD
+2025-03-06 11:34:35,549 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:35,550 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:35] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-06 11:34:35,550 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:35,551 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:35,558 - root - INFO - API decrypt request for image 7 using PVD
+2025-03-06 11:34:35,560 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:34:35,560 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:34:35,561 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:34:35,814 - root - DEBUG - No valid base64 data found in direct LSB extraction
+2025-03-06 11:34:35,814 - root - DEBUG - Returning raw extracted bytes with printable ASCII chars
+2025-03-06 11:34:35,886 - root - DEBUG - Decrypting message of length 1536
+2025-03-06 11:34:36,279 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 1508
+2025-03-06 11:34:36,282 - root - DEBUG - No valid base64 data found in direct LSB extraction
+2025-03-06 11:34:36,282 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:36,283 - root - DEBUG - Returning raw extracted bytes with printable ASCII chars
+2025-03-06 11:34:36,283 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:36,355 - root - DEBUG - Decrypting message of length 1536
+2025-03-06 11:34:36,355 - stego - DEBUG - Safely decrypting message of length 1536
+2025-03-06 11:34:36,539 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 1508
+2025-03-06 11:34:36,539 - stego - WARNING - Character encoding handling error: ord() expected string of length 1, but int found
+2025-03-06 11:34:36,539 - root - ERROR - Error decrypting message: 
+2025-03-06 11:34:36,540 - base64_utils - WARNING - Standard base64 decoding failed: cannot use a string pattern on a bytes-like object. Trying recovery mode.
+2025-03-06 11:34:36,540 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:34:36,540 - base64_utils - ERROR - Base64 recovery decoding also failed: 'in <string>' requires string as left operand, not int
+2025-03-06 11:34:36,540 - stego - DEBUG - Safely decrypting message of length 1536
+2025-03-06 11:34:36,540 - stego - ERROR - Safe decryption error: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:36,540 - stego - WARNING - Character encoding handling error: ord() expected string of length 1, but int found
+2025-03-06 11:34:36,540 - root - ERROR - Decryption error: Safe decryption failed: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:36,541 - base64_utils - WARNING - Standard base64 decoding failed: cannot use a string pattern on a bytes-like object. Trying recovery mode.
+2025-03-06 11:34:36,541 - app - DEBUG - API request to /api/decrypt_saved_image took 1.0077s
+2025-03-06 11:34:36,541 - base64_utils - ERROR - Base64 recovery decoding also failed: 'in <string>' requires string as left operand, not int
+2025-03-06 11:34:36,541 - stego - ERROR - Safe decryption error: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:36,541 - root - ERROR - Decryption error: Safe decryption failed: Base64 decoding failed: Base64 decoding failed completely
+2025-03-06 11:34:36,542 - app - DEBUG - API request to /api/decrypt_saved_image took 0.9852s
+2025-03-06 11:34:36,543 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:36] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-06 11:34:36,543 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:36] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-06 11:34:42,663 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /encrypt HTTP/1.1" 200 -
+2025-03-06 11:34:42,797 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 11:34:42,821 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 11:34:42,828 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-06 11:34:42,830 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-06 11:34:42,841 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:34:42] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 11:35:03,416 - __main__ - DEBUG - Opening image for encryption
+2025-03-06 11:35:03,419 - __main__ - DEBUG - Encrypting message
+2025-03-06 11:35:03,419 - stego - DEBUG - Encrypting message of length 29
+2025-03-06 11:35:03,621 - stego - DEBUG - Encryption successful, result length: 100
+2025-03-06 11:35:03,622 - __main__ - DEBUG - Encoding message into image
+2025-03-06 11:35:03,622 - stego - DEBUG - Encoding message of length 100 into image
+2025-03-06 11:35:03,657 - stego - DEBUG - Message encoded successfully, used 808 bits
+2025-03-06 11:35:03,661 - __main__ - DEBUG - Saving encoded image
+2025-03-06 11:35:03,922 - __main__ - DEBUG - Creating database record for: 20250306060503_4a6d03b7ba8f81e16a42e4870256d23d.jpg
+2025-03-06 11:35:03,931 - __main__ - DEBUG - Database records created successfully
+2025-03-06 11:35:03,932 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:03] "POST /encrypt HTTP/1.1" 200 -
+2025-03-06 11:35:05,535 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-06 11:35:05,564 - __main__ - DEBUG - Found 16 images for user
+2025-03-06 11:35:05,697 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /dashboard HTTP/1.1" 200 -
+2025-03-06 11:35:05,796 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-06 11:35:05,803 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-06 11:35:05,806 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-06 11:35:05,920 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-06 11:35:05,920 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:05] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-06 11:35:30,292 - root - INFO - API decrypt request for image 16 using PVD
+2025-03-06 11:35:30,301 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:30] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-06 11:35:30,302 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:35:30,302 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:35:30,303 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:35:30,311 - root - INFO - API decrypt request for image 16 using PVD
+2025-03-06 11:35:30,313 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-06 11:35:30,313 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-06 11:35:30,313 - root - DEBUG - Starting direct LSB decoding
+2025-03-06 11:35:30,582 - root - DEBUG - Found base64 candidate: NUZ0hmKX3ZHcKAuRjDju... (100 chars)
+2025-03-06 11:35:30,887 - root - DEBUG - Found base64 candidate: NUZ0hmKX3ZHcKAuRjDju... (100 chars)
+2025-03-06 11:35:30,887 - root - DEBUG - Decrypting message of length 100
+2025-03-06 11:35:30,958 - root - DEBUG - Decrypting message of length 100
+2025-03-06 11:35:31,140 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 72
+2025-03-06 11:35:31,321 - root - ERROR - Error decrypting message: 
+2025-03-06 11:35:31,322 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 72
+2025-03-06 11:35:31,322 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:35:31,322 - root - ERROR - Error decrypting message: 
+2025-03-06 11:35:31,322 - stego - DEBUG - Safely decrypting message of length 100
+2025-03-06 11:35:31,322 - root - ERROR - Error in decrypt_message: 
+2025-03-06 11:35:31,322 - stego - DEBUG - Base64 decoding succeeded, got 73 bytes
+2025-03-06 11:35:31,323 - stego - DEBUG - Safely decrypting message of length 100
+2025-03-06 11:35:31,505 - stego - DEBUG - Base64 decoding succeeded, got 73 bytes
+2025-03-06 11:35:31,505 - stego - DEBUG - Safe decryption successful
+2025-03-06 11:35:31,688 - stego - DEBUG - Safe decryption successful
+2025-03-06 11:35:31,692 - app - DEBUG - API request to /api/decrypt_saved_image took 1.4050s
+2025-03-06 11:35:31,693 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:31] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-06 11:35:31,694 - app - DEBUG - API request to /api/decrypt_saved_image took 1.3836s
+2025-03-06 11:35:31,695 - werkzeug - INFO - 127.0.0.1 - - [06/Mar/2025 11:35:31] "POST /api/decrypt_saved_image HTTP/1.1" 200 -

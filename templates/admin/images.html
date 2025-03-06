@@ -9,14 +9,56 @@
 
 {% block admin_content %}
 <div class="container-fluid px-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mt-4">Image Management</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ url_for('admin_bp.index') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Images</li>
-            </ol>
-        </nav>
+    <div class="admin-header fade-in mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="admin-heading-gradient">Image Management</h1>
+                <p class="text-muted mb-0">Manage, preview and organize all uploaded steganography images</p>
+            </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('admin_bp.index') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Images</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8 slide-in-left">
+            <div class="filter-panel p-3 bg-white rounded shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Filter Images</h6>
+                    <span class="badge bg-primary rounded-pill">{{ pagination.total }} Total Images</span>
+                </div>
+                <div class="btn-group btn-group-sm filter-buttons">
+                    <button type="button" class="btn btn-outline-primary filter-btn active rounded-pill" data-filter="all">
+                        <i class="bi bi-grid-3x3-gap-fill me-1"></i>All Images
+                    </button>
+                    <button type="button" class="btn btn-outline-primary filter-btn rounded-pill" data-filter="lsb">
+                        <i class="bi bi-layers me-1"></i>LSB
+                    </button>
+                    <button type="button" class="btn btn-outline-primary filter-btn rounded-pill" data-filter="dct">
+                        <i class="bi bi-bounding-box me-1"></i>DCT
+                    </button>
+                    <button type="button" class="btn btn-outline-primary filter-btn rounded-pill" data-filter="pvd">
+                        <i class="bi bi-columns-gap me-1"></i>PVD
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 slide-in-right">
+            <div class="search-panel p-3 bg-white rounded shadow-sm">
+                <form id="image-search-form" action="{{ url_for('admin_bp.images') }}" method="get">
+                    <div class="input-group">
+                        <input type="text" id="image-search" name="search" class="form-control" placeholder="Search images..." value="{{ search }}">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search me-1"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -28,14 +70,6 @@
                         Image Library
                     </div>
                     <div class="d-flex">
-                        <form id="image-search-form" action="{{ url_for('admin_bp.images') }}" method="get" class="me-2">
-                            <div class="input-group input-group-sm">
-                                <input type="text" id="image-search" name="search" class="form-control" placeholder="Search images..." value="{{ search }}">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="imageActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Actions
@@ -50,15 +84,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-primary filter-btn active" data-filter="all" onclick="filterImages('all')">All Images</button>
-                            <button type="button" class="btn btn-outline-primary filter-btn" data-filter="lsb" onclick="filterImages('lsb')">LSB</button>
-                            <button type="button" class="btn btn-outline-primary filter-btn" data-filter="dct" onclick="filterImages('dct')">DCT</button>
-                            <button type="button" class="btn btn-outline-primary filter-btn" data-filter="pvd" onclick="filterImages('pvd')">PVD</button>
-                        </div>
-                    </div>
-
                     {% if images %}
                     <div class="table-container">
                         <table class="table table-hover table-striped admin-images-table">
@@ -75,25 +100,37 @@
                             </thead>
                             <tbody>
                                 {% for image in images %}
-                                <tr class="image-row" data-category="{{ image.encryption_type.lower() if image.encryption_type else 'unknown' }}">
+                                <tr class="image-row" data-category="{{ image.encryption_type.lower() if image.encryption_type else 'unknown' }}" data-image-id="{{ image.id }}">
                                     <td>{{ image.id }}</td>
                                     <td class="image-cell">
                                         {% if image.has_image_data %}
-                                        <img data-src="{{ image.preview_url }}" alt="Preview" class="lazy-load-image" data-original-src="{{ image.preview_url }}" width="80" height="80">
+                                        <img src="{{ url_for('admin_bp.image_preview', image_id=image.id) }}" 
+                                             alt="{{ image.original_filename }}" 
+                                             class="admin-image-preview"
+                                             data-image-id="{{ image.id }}"
+                                             onclick="showImageModal('{{ image.id }}', '{{ image.original_filename }}')">
                                         {% else %}
                                         <div class="image-placeholder">
-                                            <i class="fas fa-question"></i>
+                                            <i class="bi bi-image"></i>
                                         </div>
                                         {% endif %}
                                     </td>
                                     <td class="filename-cell" title="{{ image.original_filename }}">
                                         {{ image.original_filename }}
                                     </td>
-                                    <td>
-                                        <a href="{{ url_for('admin_bp.user_detail', user_id=image.user_id) }}">
-                                            {{ image.username }}
+                                    
+                                    <!-- Enhance the user cell with better styling -->
+                                    <td class="user-cell">
+                                        {% if image.user_id %}
+                                        <a href="{{ url_for('admin_bp.user_detail', user_id=image.user_id) }}" class="user-link">
+                                            <span class="user-avatar">{{ image.username[:1].upper() if image.username else '?' }}</span>
+                                            <span class="user-name">{{ image.username }}</span>
                                         </a>
+                                        {% else %}
+                                        <span class="text-muted">Unknown</span>
+                                        {% endif %}
                                     </td>
+                                    
                                     <td>
                                         <span class="badge bg-{{ 'primary' if image.encryption_type == 'LSB' else 'success' if image.encryption_type == 'DCT' else 'warning' if image.encryption_type == 'PVD' else 'secondary' }}">
                                             {{ image.encryption_type }}
@@ -104,22 +141,24 @@
                                         {{ image.timestamp.strftime('%Y-%m-%d %H:%M') }}
                                         {% endif %}
                                     </td>
+                                    
+                                    <!-- Improve action buttons -->
                                     <td class="actions-cell">
-                                        <div class="btn-group">
+                                        <div class="action-buttons">
                                             <button type="button" class="btn btn-sm btn-primary view-image-btn" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#imageViewModal" 
                                                     data-image-id="{{ image.id }}"
-                                                    data-image-url="{{ image.preview_url }}"
+                                                    data-image-url="{{ url_for('admin_bp.image_preview', image_id=image.id) }}"
                                                     data-image-name="{{ image.original_filename }}">
-                                                <i class="fas fa-eye"></i>
+                                                <i class="fas fa-eye"></i> View
                                             </button>
                                             <button type="button" class="btn btn-sm btn-danger delete-image-btn"
                                                    data-bs-toggle="modal" 
                                                    data-bs-target="#deleteConfirmModal"
                                                    data-image-id="{{ image.id }}"
                                                    data-image-name="{{ image.original_filename }}">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </div>
                                     </td>
@@ -303,11 +342,13 @@
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/admin_images.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin_image_filters.js') }}"></script>
+<!-- Remove the inline filterImages script - it's now in the dedicated file -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Loading images for admin panel");
     
-    // Initialize enhanced image views
+    // Rest of the existing script for view-image-btn, delete-image-btn, etc.
     document.querySelectorAll('.view-image-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             const imageUrl = this.getAttribute('data-image-url');
@@ -406,5 +447,508 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Function to show image modal
+function showImageModal(imageId, imageName) {
+    // Get the image URL directly from the API
+    const imagePreviewUrl = `{{ url_for('admin_bp.image_preview', image_id=0) }}`.replace('0', imageId);
+    
+    // Set modal content
+    document.getElementById('modalImage').src = imagePreviewUrl;
+    document.getElementById('modalImageName').textContent = imageName;
+    document.getElementById('modalImageDetails').textContent = `Image ID: ${imageId}`;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('imageViewModal'));
+    modal.show();
+    
+    // Fetch additional image details
+    fetch(`/admin/debug/image_preview/${imageId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.is_valid_image) {
+                document.getElementById('modalImageDetails').innerHTML = 
+                    `Format: ${data.image_format}<br>` +
+                    `Size: ${data.image_size[0]} x ${data.image_size[1]}<br>` +
+                    `File size: ${Math.round(data.data_length / 1024)} KB`;
+            }
+        })
+        .catch(error => console.error('Error fetching image details:', error));
+}
 </script>
+{% endblock %}
+
+{% block admin_styles %}
+<style>
+    /* Overall page styling */
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        padding: 15px 20px;
+        font-weight: 600;
+        border-bottom: none;
+    }
+    
+    /* Filter panel styling */
+    .filter-panel, .search-panel {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .filter-panel:hover, .search-panel:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+    
+    .filter-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        margin: 5px;
+        padding: 8px 16px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        border-width: 2px;
+    }
+    
+    .filter-btn.active {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 4px 8px rgba(78, 115, 223, 0.25);
+    }
+    
+    .filter-btn:hover:not(.active) {
+        background-color: #f8f9fc;
+        transform: translateY(-2px);
+    }
+    
+    /* Enhanced table styling */
+    .table-container {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    }
+    
+    .admin-images-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .admin-images-table th {
+        background: linear-gradient(to bottom, #f8f9fc, #eaecf4);
+        color: #4e73df;
+        font-weight: 600;
+        padding: 15px;
+        border: none;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .admin-images-table tr:nth-child(even) {
+        background-color: #f8f9fc;
+    }
+    
+    .admin-images-table td {
+        padding: 15px;
+        vertical-align: middle;
+        border-top: 1px solid #e3e6f0;
+    }
+    
+    .admin-images-table tr:hover {
+        background-color: rgba(78, 115, 223, 0.05);
+    }
+    
+    /* Image preview enhancements */
+    .admin-image-preview {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 3px solid #e9ecef;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .admin-image-preview:hover {
+        transform: scale(1.15);
+        border-color: #4e73df;
+        box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+    }
+    
+    /* Better placeholders */
+    .image-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        color: #6e707e;
+        transition: all 0.3s ease;
+    }
+    
+    .image-placeholder i {
+        font-size: 24px;
+    }
+    
+    .image-placeholder:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #e2e8f0, #b2becd);
+    }
+    
+    /* Better badges */
+    .badge {
+        padding: 7px 12px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        border-radius: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .badge.bg-primary {
+        background: linear-gradient(135deg, #4e73df, #224abe) !important;
+    }
+    
+    .badge.bg-success {
+        background: linear-gradient(135deg, #1cc88a, #13855c) !important;
+    }
+    
+    .badge.bg-warning {
+        background: linear-gradient(135deg, #f6c23e, #dda20a) !important;
+    }
+    
+    .badge.bg-secondary {
+        background: linear-gradient(135deg, #858796, #60616f) !important;
+    }
+    
+    /* Action buttons */
+    .btn-group .btn {
+        border-radius: 8px !important;
+        margin: 0 3px;
+        padding: 8px 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-group .btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    
+    .btn-group .btn:active::after {
+        width: 200px;
+        height: 200px;
+        opacity: 1;
+        transition: all 0.6s ease;
+    }
+    
+    .btn-group .btn-primary {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        border: none;
+    }
+    
+    .btn-group .btn-danger {
+        background: linear-gradient(135deg, #e74a3b, #be2617);
+        border: none;
+    }
+    
+    .btn-group .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+    
+    /* Pagination styling */
+    .pagination {
+        justify-content: center;
+        margin: 25px 0 10px;
+        gap: 5px;
+    }
+    
+    .page-item .page-link {
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #4e73df;
+        border: none;
+        margin: 0 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+    }
+    
+    .page-item .page-link:hover {
+        background-color: #eaecf4;
+        color: #224abe;
+        transform: translateY(-2px);
+    }
+    
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        box-shadow: 0 5px 10px rgba(78, 115, 223, 0.25);
+    }
+    
+    .page-item.disabled .page-link {
+        color: #d1d3e2;
+        background-color: #fff;
+    }
+    
+    /* Modal enhancements */
+    #modalImageContainer {
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        border-radius: 10px;
+        padding: 30px;
+        min-height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #modalImage {
+        max-height: 70vh;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+    
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    
+    .modal-header {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        border-bottom: none;
+        padding: 15px 20px;
+    }
+    
+    .modal-header .btn-close {
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+    }
+    
+    .modal-footer {
+        border-top: none;
+        padding: 15px 20px;
+    }
+    
+    .image-info {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f8f9fc;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .image-info h6 {
+        font-weight: 700;
+        color: #4e73df;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+    
+    /* Animation classes */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideInLeft {
+        from { transform: translateX(-30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+        from { transform: translateX(30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 0.5s ease forwards;
+    }
+    
+    .slide-in-right {
+        animation: slideInRight 0.5s ease forwards;
+    }
+    
+    /* State indicators */
+    .filename-cell {
+        font-weight: 500;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    /* No results */
+    .alert-info {
+        background: linear-gradient(135deg, #36b9cc, #1a8997);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(54, 185, 204, 0.2);
+    }
+
+    /* Improve user cell styling */
+    .user-cell {
+        white-space: nowrap;
+    }
+
+    .user-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #4e73df;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .user-link:hover {
+        color: #224abe;
+        text-decoration: none;
+    }
+
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .user-name {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Better action buttons */
+    .actions-cell {
+        white-space: nowrap;
+        min-width: 160px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 5px;
+    }
+
+    .action-buttons .btn {
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        border-radius: 6px !important;
+        white-space: nowrap;
+        min-width: 70px;
+    }
+
+    /* Table cell padding consistency */
+    .admin-images-table td {
+        vertical-align: middle;
+        padding: 12px 15px;
+    }
+
+    /* Better table column widths */
+    .admin-images-table th:nth-child(1) {
+        width: 60px; /* ID column */
+    }
+
+    .admin-images-table th:nth-child(2) {
+        width: 90px; /* Preview column */
+    }
+
+    .admin-images-table th:nth-child(3) {
+        width: 25%; /* Filename column */
+    }
+
+    .admin-images-table th:nth-child(4) {
+        width: 15%; /* User column */
+    }
+
+    .admin-images-table th:nth-child(5) {
+        width: 10%; /* Type column */
+    }
+
+    .admin-images-table th:nth-child(6) {
+        width: 15%; /* Created column */
+    }
+
+    .admin-images-table th:nth-child(7) {
+        width: 15%; /* Actions column */
+    }
+
+    /* Add responsive handling for small screens */
+    @media (max-width: 992px) {
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .user-name {
+            max-width: 80px;
+        }
+        
+        .admin-images-table th:nth-child(6), 
+        .admin-images-table td:nth-child(6) {
+            display: none; /* Hide created date on smaller screens */
+        }
+    }
+
+    /* Fix any modal issues that might be causing scrolling problems */
+    .modal-open {
+        overflow: auto !important;
+        padding-right: 0 !important;
+    }
+
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .modal {
+        z-index: 1050 !important;
+    }
+</style>
 {% endblock %}

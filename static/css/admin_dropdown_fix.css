@@ -1,0 +1,66 @@
+/**
+ * Fix for admin dropdown menus appearing underneath content
+ * Ensures proper stacking context and visibility
+ */
+
+/* Fix dropdown menu visibility in tables */
+.dropdown-menu {
+  /* Ensure high z-index to appear above all content */
+  z-index: 1050 !important;
+  /* Remove any overflow constraints */
+  overflow: visible !important;
+  /* Ensure the dropdown isn't clipped by parent containers */
+  transform: none !important;
+  /* Add very subtle shadow to emphasize it's above content */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Fix for parent containers that might affect dropdown visibility */
+.table-responsive {
+  /* Prevent overflow hidden from clipping dropdowns */
+  overflow: visible !important;
+}
+
+/* Ensure the dropdown button maintains proper stacking context */
+.dropdown-toggle {
+  position: relative;
+  z-index: 3;
+}
+
+/* Add positioning context to the dropdown parent */
+.dropdown {
+  position: relative !important;
+}
+
+/* Fix for table rows that might clip the dropdown */
+.table tr, .table td {
+  /* Prevent overflow hidden that might be set on table cells */
+  overflow: visible !important;
+}
+
+/* Fix for admin data tables that often have specific styling */
+.admin-data-table .table {
+  overflow: visible !important;
+}
+
+/* Fix for any actions cell that might have specific positioning */
+.actions-cell {
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Add a small animation for better UX */
+.dropdown-menu.show {
+  animation: dropdownFadeIn 0.2s ease-in-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
