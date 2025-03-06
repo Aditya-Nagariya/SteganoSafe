@@ -9,12 +9,16 @@ from PIL import Image
 from stego import encrypt_message, decrypt_message, encode_message, decode_message
 import time
 import logging
-import jwt  # Add JWT import
+# Install PyJWT if not already installed: pip install PyJWT
+import jwt
 from functools import wraps
-from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta, timezone
 api = Blueprint('api', __name__)
 
+# Define available encryption methods
+AVAILABLE_ENCRYPTION_METHODS = ['LSB', 'DCT', 'WAVE']
+
+# Add token_required decorator
 # Add token_required decorator
 def token_required(f):
     """Decorator to require valid JWT token for API routes"""
@@ -91,7 +95,7 @@ def get_token():
         token = jwt.encode(
             {
                 'user_id': user.id,
-                'exp': datetime.utcnow() + datetime.timedelta(hours=24)
+                'exp': datetime.now(timezone.utc) + timedelta(hours=24)
             }, 
             current_app.config['SECRET_KEY'],
             algorithm='HS256'
@@ -231,6 +235,79 @@ def decrypt():
     except Exception as e:
         logging.exception("API decryption error")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@api.route('/decrypt_saved_image', methods=['POST'])
+@login_required
+def decrypt_saved_image():
+    """API endpoint to decrypt a saved image"""
+    try:
+        # Get request parameters
+        image_id = request.form.get('image_id')
+        password = request.form.get('password')
+        method = request.form.get('encryption_method', 'AUTO')
+        
+        logging.info(f"API decrypt request for image {image_id} using {method}")
+        
+        if not image_id:
+            return jsonify({'success': False, 'message': 'Image ID is required'}), 400
+            
+        if not password:
+            return jsonify({'success': False, 'message': 'Password is required'}), 400
+            
+        # Get the image
+        image = StegoImage.query.filter_by(id=image_id, user_id=current_user.id).first()
+        if not image:
+            return jsonify({'success': False, 'message': 'Image not found'}), 404
+            
+        # Open the image
+        from io import BytesIO
+        img_io = BytesIO(image.image_data)
+        img = Image.open(img_io)
+        
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+        
+        # Try direct decoding first (most reliable)
+        from stego import direct_lsb_decode
+        ciphertext = direct_lsb_decode(img, debug=True)
+        
+        # If that fails, try the regular decode methods
+        if not ciphertext:
+            from stego import decode_message
+            ciphertext = decode_message(img, method='AUTO', debug=True)
+            
+        # If we still don't have anything, it's not there
+        if not ciphertext:
+            return jsonify({'success': False, 'message': 'No hidden message found in image'}), 400
+            
+        # Try decrypting the message
+        try:
+            from stego import decrypt_message, decrypt_message_safe
+            try:
+                decrypted_message = decrypt_message(ciphertext, password, debug=True)
+            except Exception:
+                # Fall back to safe decryption
+                decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+            
+            # Log activity
+            activity = ActivityLog(
+                user_id=current_user.id,
+                action=f"Decrypted image: {image.original_filename}"
+            )
+            db.session.add(activity)
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'decrypted_message': decrypted_message,
+                'method_used': 'direct' if method == 'AUTO' else method
+            })
+        except Exception as e:
+            logging.error(f"Decryption error: {str(e)}")
+            return jsonify({'success': False, 'message': 'Failed to decrypt image. Please check your password.'}), 400
+    except Exception as e:
+        logging.exception(f"API decrypt error: {str(e)}")
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 @api.route('/user/images')
 @login_required

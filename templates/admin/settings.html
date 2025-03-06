@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Settings | SteganoSafe{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group mb-4">
+                <a href="{{ url_for('admin_bp.index') }}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a href="{{ url_for('admin_bp.users') }}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-people me-2"></i>Users
+                </a>
+                <a href="{{ url_for('admin_bp.images') }}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-images me-2"></i>Images
+                </a>
+                <a href="{{ url_for('admin_bp.analytics') }}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-graph-up me-2"></i>Analytics
+                </a>
+                <a href="{{ url_for('admin_bp.settings') }}" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-gear me-2"></i>Settings
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Application Settings</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show mb-4">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <h5 class="mb-4">Steganography Settings</h5>
+                    
+                    <form method="POST" action="{{ url_for('admin_bp.settings') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <div class="mb-4">
+                            <label for="default_encryption_method" class="form-label">Default Encryption Method</label>
+                            <select class="form-select" id="default_encryption_method" name="default_encryption_method">
+                                {% for method in encryption_methods %}
+                                    <option value="{{ method }}" {% if method == current_default %}selected{% endif %}>{{ method }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">This method will be used as the default when users don't specify one.</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Settings
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-4">Security Settings</h5>
+                    <form method="POST" action="{{ url_for('admin_bp.settings') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="setting_type" value="security">
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="enforce_password_complexity" name="enforce_password_complexity" {% if enforce_password_complexity %}checked{% endif %}>
+                            <label class="form-check-label" for="enforce_password_complexity">Enforce Password Complexity</label>
+                            <div class="form-text">Require passwords to have at least 8 characters with numbers, symbols, and mixed case</div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="require_email_verification" name="require_email_verification" {% if require_email_verification %}checked{% endif %}>
+                            <label class="form-check-label" for="require_email_verification">Require Email Verification</label>
+                            <div class="form-text">Users must verify their email before using the app</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Security Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Change from admin_bp.get_stats to admin_bp.api_stats
+        fetch('{{ url_for("admin_bp.api_stats") }}')
+            .then(response => response.json())
+            .then(data => {
+                console.log('API response:', data);
+                // Process data...
+            })
+            .catch(error => console.error('Error fetching stats:', error));
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+/* Reset default button styling for the notification button */
+.notification-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+}
+/* Optionally, add a hover effect */
+.notification-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}

@@ -3,6 +3,8 @@ import os
 import logging
 import traceback
 from contextlib import suppress
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, send_from_directory, abort, session
+import base64
 
 # Configure logging first
 logging.basicConfig(
@@ -31,7 +33,7 @@ except Exception as e:
     logger.error(traceback.format_exc())
 
 # Continue with regular imports
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, abort, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -56,6 +58,14 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from flask_socketio import SocketIO, emit
 from flask_mail import Mail
 
+# Add this near the top with other imports
+try:
+    from debug_routes import init_debug_routes
+except ImportError:
+    # Create a dummy function if the module doesn't exist
+    def init_debug_routes(app):
+        pass
+
 # Import app modules
 from config import Config
 from stego import encrypt_message, decrypt_message, encode_message, decode_message
@@ -71,6 +81,32 @@ from tasks import encrypt_task
 app = Flask(__name__)
 app.config.from_object(Config)
 app.logger.setLevel(logging.DEBUG)
+
+# Add this immediately after initializing the app:
+from filters import register_filters
+register_filters(app)
+
+# Add this near the beginning of your app.py file, right after creating the app instance
+# Check for required directories and favicon
+def check_static_files():
+    """Check that required static files exist"""
+    static_img_dir = os.path.join(app.root_path, 'static/img')
+    favicon_path = os.path.join(static_img_dir, 'favicon.ico')
+    
+    if not os.path.exists(static_img_dir):
+        logger.warning("Static img directory doesn't exist. Creating it.")
+        os.makedirs(static_img_dir, exist_ok=True)
+    
+    if not os.path.exists(favicon_path):
+        logger.warning("Favicon not found. Generating it.")
+        try:
+            from create_favicon import create_simple_favicon
+            create_simple_favicon()
+            logger.info("Favicon generated successfully.")
+        except Exception as e:
+            logger.error(f"Failed to generate favicon: {e}")
+
+check_static_files()
 
 # Import error handlers and register them
 from error_handlers import register_error_handlers
@@ -167,6 +203,13 @@ def login():
     # Add a try-except around the entire function to catch all errors
     try:
         if current_user.is_authenticated:
+            logger.debug(f"User {current_user.username} already authenticated, redirecting to dashboard")
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({
+                    'success': True,
+                    'message': 'Already logged in',
+                    'redirect': url_for('dashboard')
+                })
             return redirect(url_for('dashboard'))
             
         form = LoginForm()
@@ -199,11 +242,26 @@ def login():
                 
                 if user and user.check_password(password):
                     login_user(user, remember=form.remember.data)
+                    logger.debug(f"Login successful for user: {username}")
+                    
+                    # Force session creation and persistence
+                    session.permanent = True
+                    session['user_id'] = user.id
+                    session['username'] = user.username
+                    session['role'] = user.role
+                    
+                    # Force session save
+                    session.modified = True
                     
                     # Log activity
                     activity = ActivityLog(user_id=user.id, action="User logged in")
                     db.session.add(activity)
                     db.session.commit()
+                    
+                    # Prepare redirect URL
+                    next_page = request.args.get('next')
+                    redirect_url = next_page or url_for('dashboard')
+                    logger.debug(f"Redirect URL: {redirect_url}")
                     
                     # Check if default admin credentials
                     if user.username == 'admin' and user.role == 'admin' and password == 'admin123':
@@ -211,14 +269,20 @@ def login():
                         
                     # Handle AJAX requests differently
                     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        logger.debug(f"Sending JSON response for AJAX login with redirect to {redirect_url}")
                         return jsonify({
                             'success': True,
-                            'redirect': url_for('dashboard')
+                            'message': 'Login successful!',
+                            'redirect': redirect_url,
+                            'user_id': user.id,  # Add user info to help debug
+                            'is_authenticated': current_user.is_authenticated,
+                            'session_id': session.sid if hasattr(session, 'sid') else None
                         })
                     else:
-                        next_page = request.args.get('next')
-                        return redirect(next_page or url_for('dashboard'))
+                        logger.debug(f"Redirecting after non-AJAX login to {redirect_url}")
+                        return redirect(redirect_url)
                 else:
+                    logger.warning(f"Failed login attempt for username: {username}")
                     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                         return jsonify({
                             'success': False,
@@ -238,6 +302,7 @@ def login():
         
         # If it's an AJAX request but validation failed
         if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            logger.debug(f"Form validation failed for AJAX login: {form.errors}")
             return jsonify({
                 'success': False,
                 'message': 'Invalid form data',
@@ -415,14 +480,102 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    images = StegoImage.query.filter_by(user_id=current_user.id).all()
-    return render_template('dashboard.html', images=images)
+    try:
+        # Log debugging information
+        logger.debug(f"Dashboard requested by user: {current_user.username} (id: {current_user.id})")
+        
+        # Get images with error handling
+        try:
+            images = StegoImage.query.filter_by(user_id=current_user.id).all()
+            logger.debug(f"Found {len(images)} images for user")
+        except Exception as db_error:
+            logger.error(f"Database error fetching images: {str(db_error)}")
+            logger.error(traceback.format_exc())
+            flash("Error loading your images. Please try again later.", "danger")
+            images = []
+            
+        # Render template with additional data for debugging
+        return render_template(
+            'dashboard.html', 
+            images=images, 
+            user=current_user,
+            debug_info={
+                'timestamp': datetime.utcnow(),
+                'user_id': current_user.id
+            }
+        )
+    except Exception as e:
+        logger.error(f"Unhandled exception in dashboard route: {str(e)}")
+        logger.error(traceback.format_exc())
+        flash("An unexpected error occurred. Please try again later.", "danger")
+        return redirect(url_for('home'))
+
+
+# Also add a debug endpoint to check what's happening
+@app.route('/debug/dashboard')
+@login_required
+def debug_dashboard():
+    """Debug endpoint to check dashboard data"""
+    if not app.debug:
+        return jsonify({'error': 'Only available in debug mode'}), 403
+        
+    try:
+        # Get user info
+        user_info = {
+            'id': current_user.id,
+            'username': current_user.username,
+            'email': current_user.email,
+            'role': current_user.role
+        }
+        
+        # Get images info
+        images = StegoImage.query.filter_by(user_id=current_user.id).all()
+        images_info = []
+        
+        for img in images:
+            images_info.append({
+                'id': img.id,
+                'filename': img.filename,
+                'original_filename': img.original_filename,
+                'created_at': str(img.created_at) if hasattr(img, 'created_at') else None,
+                'has_image_data': bool(img.image_data)
+            })
+            
+        # Get database tables
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        tables = inspector.get_table_names()
+        
+        # Get stego_images table columns
+        columns = []
+        if 'stego_images' in tables:
+            columns = [column['name'] for column in inspector.get_columns('stego_images')]
+            
+        return jsonify({
+            'user': user_info,
+            'images_count': len(images),
+            'images': images_info,
+            'database': {
+                'tables': tables,
+                'stego_images_columns': columns
+            }
+        })
+    except Exception as e:
+        logger.error(f"Debug dashboard error: {str(e)}")
+        return jsonify({
+            'error': str(e),
+            'traceback': traceback.format_exc()
+        }), 500
 
 @app.route('/encrypt', methods=['GET', 'POST'])
 @login_required
 def encrypt():
     if request.method == 'GET':
-        return render_template('encrypt.html')
+        # Import encryption methods from stego.py
+        from stego import AVAILABLE_ENCRYPTION_METHODS, get_default_encryption_method
+        return render_template('encrypt.html',
+                              encryption_methods=AVAILABLE_ENCRYPTION_METHODS,
+                              default_method=get_default_encryption_method())
     
     # Handle POST request
     try:
@@ -528,30 +681,88 @@ def decrypt():
             
         # Process the image
         try:
+            logger.debug(f"Attempting to decrypt uploaded image: {file.filename}")
             img = PilImage.open(file)
             if img.mode != 'RGB':
+                logger.debug(f"Converting image from {img.mode} to RGB mode")
                 img = img.convert('RGB')
                 
-            ciphertext = decode_message(img)
-            if not ciphertext:
-                return jsonify({'success': False, 'message': 'No hidden message found in this image'}), 400
-                
-            decrypted_message = decrypt_message(ciphertext, password)
-            return jsonify({
-                'success': True,
-                'message': 'Message decrypted successfully',
-                'redirect': url_for('result', message=decrypted_message)
-            })
+            # Try to use the new direct_lsb_decode method first
+            from stego import direct_lsb_decode
+            logger.debug(f"Trying direct_lsb_decode on image")
+            ciphertext = direct_lsb_decode(img, debug=True)
             
+            if not ciphertext:
+                logger.debug(f"Direct decoding failed, trying standard decode_message")
+                from stego import decode_message
+                ciphertext = decode_message(img, method='AUTO', debug=True)
+            
+            if not ciphertext:
+                logger.warning("No hidden message found in image")
+                return jsonify({'success': False, 'message': 'No hidden message found in this image. Please verify this is an encrypted image.'}), 400
+                
+            logger.debug(f"Successfully extracted ciphertext of length {len(ciphertext)}")
+            
+            try:
+                logger.debug("Attempting to decrypt extracted ciphertext")
+                decrypted_message = decrypt_message(ciphertext, password, debug=True)
+                
+                logger.info("Message successfully decrypted")
+                # Log a successful decryption activity
+                activity = ActivityLog(
+                    user_id=current_user.id,
+                    action=f"Decrypted uploaded image: {file.filename}"
+                )
+                db.session.add(activity)
+                db.session.commit()
+                
+                # Return successful response with the decrypted message
+                return jsonify({
+                    'success': True,
+                    'message': 'Message decrypted successfully',
+                    'decrypted_message': decrypted_message
+                })
+                
+            except Exception as decrypt_error:
+                # Try safe decryption as fallback
+                logger.warning(f"Standard decryption failed: {decrypt_error}")
+                logger.debug("Trying safe_decrypt method as fallback")
+                
+                try:
+                    from stego import decrypt_message_safe
+                    decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                    
+                    logger.info("Message successfully decrypted with safe method")
+                    # Log activity
+                    activity = ActivityLog(
+                        user_id=current_user.id,
+                        action=f"Decrypted uploaded image: {file.filename} (using safe decrypt)"
+                    )
+                    db.session.add(activity)
+                    db.session.commit()
+                    
+                    return jsonify({
+                        'success': True,
+                        'message': 'Message decrypted successfully (using safe method)',
+                        'decrypted_message': decrypted_message
+                    })
+                except Exception as safe_decrypt_error:
+                    logger.error(f"Both decryption methods failed: {safe_decrypt_error}")
+                    return jsonify({
+                        'success': False, 
+                        'message': f'Decryption failed: {str(safe_decrypt_error)}. Please check your password.'
+                    }), 400
+                    
         except ValueError as e:
-            return jsonify({'success': False, 'message': str(e)}), 400
+            logger.error(f"Value error during decryption: {str(e)}")
+            return jsonify({'success': False, 'message': f'Decryption error: {str(e)}'}), 400
         except Exception as e:
             app.logger.exception(f"Decryption error: {str(e)}")
-            return jsonify({'success': False, 'message': 'Invalid image or password'}), 400
+            return jsonify({'success': False, 'message': f'Error during decryption: {str(e)}'}), 400
             
     except Exception as e:
         app.logger.exception(f"Decrypt route error: {str(e)}")
-        return jsonify({'success': False, 'message': f"An error occurred: {str(e)}"}), 500
+        return jsonify({'success': False, 'message': f'An error occurred: {str(e)}'}), 500
 
 @app.route('/result')
 @login_required
@@ -838,3 +1049,206 @@ def admin_check():
             'error': str(e),
             'traceback': traceback.format_exc()
         }), 500
+
+@app.route('/check-session')
+def check_session():
+    """Debug endpoint to check session status"""
+    data = {
+        'authenticated': current_user.is_authenticated,
+        'session_data': {k: session.get(k) for k in session if k != '_flashes'},
+        'user_info': None
+    }
+    
+    if current_user.is_authenticated:
+        data['user_info'] = {
+            'id': current_user.id,
+            'username': current_user.username,
+            'role': current_user.role
+        }
+    
+    return jsonify(data)
+
+# Add this near the other app template filters at the end of your app.py file
+@app.template_test('containing')
+def containing_test(value, other):
+    """Check if a string contains another string"""
+    return other.lower() in str(value).lower() if value and other else False
+
+# Update the favicon routes for better compatibility
+@app.route('/favicon.ico')
+def favicon():
+    """Serve the favicon.ico file"""
+    return send_from_directory(
+        os.path.join(app.root_path, 'static', 'img'),
+        'favicon.ico', 
+        mimetype='image/vnd.microsoft.icon'
+    )
+
+@app.route('/apple-touch-icon.png')
+def apple_touch_icon():
+    """Serve the apple-touch-icon.png file"""
+    return send_from_directory(
+        os.path.join(app.root_path, 'static', 'img'),
+        'apple-touch-icon.png', 
+        mimetype='image/png'
+    )
+
+@app.route('/apple-touch-icon-precomposed.png')
+def apple_touch_icon_precomposed():
+    """Serve the apple-touch-icon-precomposed.png file"""
+    return send_from_directory(
+        os.path.join(app.root_path, 'static', 'img'),
+        'apple-touch-icon-precomposed.png', 
+        mimetype='image/png'
+    )
+
+# At the top with other imports, add:
+from routes.user import init_user_routes
+
+# After registering other blueprints (near line 100), add:
+init_user_routes(app)
+
+# If you want a simple fix and don't want to add the entire user routes module,
+# you can alternatively just add this route directly in app.py:
+@app.route('/profile')
+@login_required
+def profile():
+    """User profile page"""
+    return render_template('profile.html', user=current_user)
+
+# Add this after registering other blueprints
+if app.debug:
+    init_debug_routes(app)
+
+@app.route('/decrypt-stored', methods=['POST'])
+@login_required
+def decrypt_stored():
+    """Decrypt a stored image with enhanced error recovery"""
+    # Log that we entered this route
+    logger.info(f"Decrypt-stored route called by user {current_user.username}")
+    
+    try:
+        image_id = request.form.get('image_id')
+        password = request.form.get('password')
+        encryption_method = request.form.get('encryption_method', 'AUTO')  # Default to AUTO
+        
+        logger.info(f"Decrypting stored image {image_id} using method {encryption_method}")
+        
+        if not image_id or not password:
+            return jsonify({'success': False, 'message': 'Image ID and password are required'}), 400
+        
+        # Get the image from database
+        image = StegoImage.query.filter_by(id=image_id, user_id=current_user.id).first()
+        if not image:
+            logger.warning(f"Image {image_id} not found for user {current_user.id}")
+            return jsonify({'success': False, 'message': 'Image not found'}), 404
+        
+        # Load image from binary data
+        img_io = BytesIO(image.image_data)
+        img = PilImage.open(img_io)
+        
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+            
+        # Try our direct decoding first
+        logger.debug("Trying direct LSB decoding")
+        from stego import direct_lsb_decode
+        ciphertext = direct_lsb_decode(img, debug=True)
+        
+        # If direct decoding failed, try other methods
+        if not ciphertext:
+            logger.debug("Direct decoding failed, trying with AUTO method")
+            from stego import decode_message
+            ciphertext = decode_message(img, method='AUTO', debug=True)
+            
+        # If we still don't have anything, return an error
+        if not ciphertext:
+            logger.warning(f"No hidden message found in image {image_id}")
+            return jsonify({
+                'success': False, 
+                'message': 'No hidden message found in this image.'
+            }), 400
+        
+        # Try decrypting
+        try:
+            logger.debug(f"Attempting to decrypt found ciphertext of length {len(ciphertext)}")
+            from stego import decrypt_message, decrypt_message_safe
+            
+            try:
+                decrypted_message = decrypt_message(ciphertext, password, debug=True)
+            except Exception as e:
+                logger.warning(f"Standard decryption failed: {e}, trying safe decryption")
+                decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                
+            # Log success
+            logger.info(f"Successfully decrypted message from image {image_id}")
+            
+            # Log activity
+            activity = ActivityLog(
+                user_id=current_user.id,
+                action=f"Decrypted image {image.original_filename}"
+            )
+            db.session.add(activity)
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'decrypted_message': decrypted_message
+            })
+        except Exception as e:
+            logger.error(f"Decryption error: {str(e)}")
+            return jsonify({
+                'success': False,
+                'message': f"Failed to decrypt message. Check your password and try again."
+            }), 400
+    except Exception as e:
+        logger.error(f"Error in decrypt-stored: {str(e)}")
+        logger.error(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'message': f"An error occurred during decryption: {str(e)}"
+        }), 500
+
+# Add custom Jinja2 filters
+# Find the section where you initialize the app (around line 75)
+# Add this after initializing the app but before registering blueprints:
+
+# Import and register custom filters
+from filters import register_filters
+register_filters(app)
+
+# ...rest of the app.py code...
+
+#     ...the old b64encode filter at the end of the file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# but this direct registration will ensure the filter is available immediately# You can keep the import from filters.py later in the code,        return ''        logger.error(f"Error encoding data to base64: {str(e)}")    except Exception as e:        return encoded        encoded = base64.b64encode(data).decode('utf-8')        # Encode binary data to base64    try:                return data    if isinstance(data, str):    # If data is already a string, return it            return ''    if data is None:    """Convert binary data to base64 encoded string for displaying images in HTML"""def b64encode_filter(data):@app.template_filter('b64encode')# Add the filter registration immediately after initializing the app:# app = Flask(__name__)# Find the line where you create the Flask app instance (around line 75)# Let's add the filter directly in app.py to ensure it's available immediately# The error is occurring because the filter registration is not working properly# Delete or comment out these lines:
+
+#     ...# @app.template_filter('b64encode')
+# def b64encode_filter(data):

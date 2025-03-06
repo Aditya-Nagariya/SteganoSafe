@@ -1,0 +1,119 @@
+/* Admin Analytics Dashboard Styles */
+
+.admin-stats-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.admin-stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stats-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.stats-label {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.stats-growth {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.stats-growth.positive {
+    color: #198754;
+}
+
+.stats-growth.negative {
+    color: #dc3545;
+}
+
+.stats-growth.neutral {
+    color: #6c757d;
+}
+
+#loading {
+    padding: 3rem 0;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    background-color: #0d6efd;
+    border-radius: 50%;
+}
+
+/* Chart container styles */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1rem 1.5rem;
+}
+
+.card-title {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Table styles */
+.table {
+    margin-bottom: 0;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 0.75rem 1rem;
+}
+
+/* Error message styling */
+.alert {
+    border-radius: 8px;
+}
+
+/* Make period selector buttons more visible */
+.period-selector.active {
+    background-color: #0d6efd;
+    color: white;
+    font-weight: 600;
+}

@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
-{% block title %}Users Management | SteganoSafe Admin{% endblock %}
+{% block title %}User Management - SteganoSafe Admin{% endblock %}
 
-{% block head %}
+{% block admin_styles %}
 <style>
     .user-avatar {
         width: 40px;
@@ -43,141 +43,96 @@
 </style>
 {% endblock %}
 
-{% block content %}
-<div class="container-fluid py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h2 class="fw-bold">
-                <i class="bi bi-people-fill me-2"></i>
-                User Management
-            </h2>
-            <p class="text-muted">Manage system users and their permissions</p>
+{% block admin_content %}
+<div class="admin-header fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="admin-heading-gradient">User Management</h1>
+            <p class="text-muted mb-0">View and manage registered users</p>
         </div>
-        <div class="col-auto d-flex align-items-center">
-            <div class="search-container me-2">
-                <div class="input-group">
-                    <input type="text" id="userSearchInput" class="form-control" placeholder="Search users...">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </div>
-            <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left me-2"></i>
-                Back to Dashboard
-            </a>
+        <div>
+            <button class="admin-btn admin-btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <i class="bi bi-person-plus me-1"></i> Add User
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="admin-data-table mb-4 slide-in-up">
+    <div class="d-flex justify-content-between align-items-center p-3">
+        <h4 class="mb-0">All Users</h4>
+        <div class="input-group" style="width: 300px;">
+            <input type="text" class="form-control" placeholder="Search users..." id="userSearch">
+            <button class="btn btn-outline-secondary" type="button">
+                <i class="bi bi-search"></i>
+            </button>
         </div>
     </div>
     
-    <!-- Statistics Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-white-50">Total Users</h6>
-                    <h2 class="mb-0">{{ users|length }}</h2>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-white-50">Verified Users</h6>
-                    <h2 class="mb-0">{{ users|selectattr('is_verified')|list|length }}</h2>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-white-50">Admins</h6>
-                    <h2 class="mb-0">{{ users|selectattr('role', 'equalto', 'admin')|list|length }}</h2>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h6 class="card-title text-white-50">New Today</h6>
-                    <h2 class="mb-0">0</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Users Table -->
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0" id="usersTable">
-                    <thead class="table-light">
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="user-avatar me-3 user-role-{{ user.role }}">
-                                        {{ user.username[:2].upper() }}
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">{{ user.username }}</h6>
-                                        <small class="text-muted">ID: {{ user.id }}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.phone_number or 'Not provided' }}</td>
-                            <td><span class="badge bg-{{ 'warning' if user.role == 'admin' else 'success' if user.role == 'mod' else 'primary' }}">{{ user.role }}</span></td>
-                            <td>
-                                {% if user.is_verified %}
-                                <span class="verified-badge"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
-                                {% else %}
-                                <span class="unverified-badge"><i class="bi bi-x-circle-fill me-1"></i>Unverified</span>
+    <div class="table-responsive">
+        <table class="table table-hover" id="usersTable">
+            <thead>
+                <tr>
+                    <th width="5%">#</th>
+                    <th width="20%">Username</th>
+                    <th width="25%">Email</th>
+                    <th width="15%">Role</th>
+                    <th width="15%">Status</th>
+                    <th width="20%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr class="fade-in delay-{{ loop.index0 % 20 }}">
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar me-3 user-role-{{ user.role }}">
+                                {{ user.username[:2].upper() }}
+                            </div>
+                            <div>
+                                <h6 class="mb-0">{{ user.username }}</h6>
+                                <small class="text-muted">ID: {{ user.id }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge bg-{{ 'warning' if user.role == 'admin' else 'success' if user.role == 'mod' else 'primary' }}">{{ user.role }}</span></td>
+                    <td>
+                        {% if user.is_verified %}
+                        <span class="verified-badge"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
+                        {% else %}
+                        <span class="unverified-badge"><i class="bi bi-x-circle-fill me-1"></i>Unverified</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('admin_bp.user_detail', user_id=user.id) }}"><i class="bi bi-eye me-2"></i>View Details</a></li>
+                                {% if user.role != 'admin' %}
+                                <li><a class="dropdown-item" href="{{ url_for('admin_bp.change_user_role', user_id=user.id, role='admin') }}"><i class="bi bi-shield-fill me-2"></i>Make Admin</a></li>
                                 {% endif %}
-                            </td>
-                            <td>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'Unknown' }}</td>
-                            <td class="text-end">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Actions
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="{{ url_for('admin.user_detail', user_id=user.id) }}"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                        {% if user.role != 'admin' %}
-                                        <li><a class="dropdown-item" href="{{ url_for('admin.change_user_role', user_id=user.id, role='admin') }}"><i class="bi bi-shield-fill me-2"></i>Make Admin</a></li>
-                                        {% endif %}
-                                        {% if user.role == 'admin' and user.id != current_user.id %}
-                                        <li><a class="dropdown-item" href="{{ url_for('admin.change_user_role', user_id=user.id, role='user') }}"><i class="bi bi-shield me-2"></i>Remove Admin</a></li>
-                                        {% endif %}
-                                        {% if not user.is_verified %}
-                                        <li><a class="dropdown-item" href="{{ url_for('admin.verify_user', user_id=user.id) }}"><i class="bi bi-check-circle me-2"></i>Mark as Verified</a></li>
-                                        {% endif %}
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-user-id="{{ user.id }}" data-username="{{ user.username }}">
-                                            <i class="bi bi-trash me-2"></i>Delete User
-                                        </a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                                {% if user.role == 'admin' and user.id != current_user.id %}
+                                <li><a class="dropdown-item" href="{{ url_for('admin_bp.change_user_role', user_id=user.id, role='user') }}"><i class="bi bi-shield me-2"></i>Remove Admin</a></li>
+                                {% endif %}
+                                {% if not user.is_verified %}
+                                <li><a class="dropdown-item" href="{{ url_for('admin_bp.verify_user', user_id=user.id) }}"><i class="bi bi-check-circle me-2"></i>Mark as Verified</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-user-id="{{ user.id }}" data-username="{{ user.username }}">
+                                    <i class="bi bi-trash me-2"></i>Delete User
+                                </a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -205,20 +160,22 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
+{% block admin_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // User search functionality
-    const userSearchInput = document.getElementById('userSearchInput');
-    userSearchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        const rows = document.querySelectorAll('#usersTable tbody tr');
-        
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(searchTerm) ? '' : 'none';
+    const userSearchInput = document.getElementById('userSearch');
+    if (userSearchInput) {
+        userSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#usersTable tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
         });
-    });
+    }
     
     // Setup delete user modal
     const deleteUserModal = document.getElementById('deleteUserModal');
@@ -229,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const username = button.getAttribute('data-username');
             
             document.getElementById('deleteUserName').textContent = username;
-            document.getElementById('deleteUserForm').action = "{{ url_for('admin.delete_user', user_id=0) }}".replace('0', userId);
+            document.getElementById('deleteUserForm').action = "{{ url_for('admin_bp.delete_user', user_id=0) }}".replace('0', userId);
         });
     }
 });

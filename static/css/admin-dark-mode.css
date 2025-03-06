@@ -1,0 +1,194 @@
+/* Dark Mode Styles for Admin Panel */
+body.dark-mode {
+    --admin-bg: #1a1d21;
+    --admin-white: #2a2d35;
+    --admin-dark: #e1e2f6;
+    --admin-border: #3a3f48;
+    --admin-text: #e1e2f6;
+    --admin-muted: #a0a3bd;
+    background-color: var(--admin-bg);
+    color: var(--admin-text);
+}
+
+/* Sidebar Dark Mode */
+body.dark-mode .admin-sidebar {
+    background: linear-gradient(135deg, #2a2d35, #1e1f25);
+}
+
+/* Cards Dark Mode */
+body.dark-mode .admin-card,
+body.dark-mode .admin-stats-card {
+    background: var(--admin-white);
+}
+
+/* Card Header Dark Mode */
+body.dark-mode .admin-card .card-header {
+    border-bottom: 1px solid var(--admin-border);
+}
+
+body.dark-mode .admin-card .card-header h5 {
+    color: var(--admin-text);
+}
+
+/* Tables Dark Mode */
+body.dark-mode .table thead th {
+    background: #2a2d35;
+    color: var(--admin-muted);
+}
+
+body.dark-mode .table tbody td {
+    color: var(--admin-text);
+    border-top: 1px solid var(--admin-border);
+}
+
+body.dark-mode .table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Timeline Dark Mode */
+body.dark-mode .admin-timeline:before {
+    background: var(--admin-border);
+}
+
+body.dark-mode .admin-timeline .timeline-content {
+    background: var(--admin-white);
+}
+
+/* Form Controls Dark Mode */
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: #2a2d35;
+    border-color: var(--admin-border);
+    color: var(--admin-text);
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    background-color: #2a2d35;
+    color: var(--admin-text);
+    border-color: var(--admin-primary);
+}
+
+body.dark-mode .form-control::placeholder {
+    color: var(--admin-muted);
+}
+
+/* Dropdown Dark Mode */
+body.dark-mode .dropdown-menu {
+    background-color: #2a2d35;
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .dropdown-item {
+    color: var(--admin-text);
+}
+
+body.dark-mode .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .dropdown-divider {
+    border-color: var(--admin-border);
+}
+
+/* Modals Dark Mode */
+body.dark-mode .modal-content {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: var(--admin-border);
+}
+
+/* Top Navigation Bar Dark Mode */
+body.dark-mode .admin-topbar {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .breadcrumb-item + .breadcrumb-item::before {
+    color: var(--admin-muted);
+}
+
+body.dark-mode .breadcrumb-item a {
+    color: var(--admin-primary);
+}
+
+/* Notifications Dark Mode */
+body.dark-mode .notification-dropdown,
+body.dark-mode .settings-dropdown {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .notification-header,
+body.dark-mode .notification-footer,
+body.dark-mode .settings-header {
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .notification {
+    border-bottom: 1px solid var(--admin-border);
+}
+
+body.dark-mode .notification:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Footer Dark Mode */
+body.dark-mode .admin-footer {
+    border-color: var(--admin-border);
+    color: var(--admin-muted);
+}
+
+/* Charts Dark Mode */
+body.dark-mode .apexcharts-text tspan {
+    fill: var(--admin-text);
+}
+
+body.dark-mode .apexcharts-legend-text {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .apexcharts-gridline {
+    stroke: var(--admin-border);
+}
+
+body.dark-mode .apexcharts-tooltip {
+    background: #373d49;
+    border: 1px solid var(--admin-border);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .apexcharts-tooltip-title {
+    background: #2a2d35;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+body.dark-mode .apexcharts-xaxistooltip,
+body.dark-mode .apexcharts-yaxistooltip {
+    background: #373d49;
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text);
+}
+
+/* Scrollbar for Dark Mode */
+body.dark-mode::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: var(--admin-bg);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: var(--admin-border);
+    border-radius: 4px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--admin-muted);
+}

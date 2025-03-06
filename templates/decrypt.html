@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Decrypt | SteganoSafe{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h2 class="mb-0"><i class="bi bi-unlock me-2"></i>Decrypt Hidden Message</h2>
+                </div>
+                
+                <!-- Decrypt Form -->
+                <div class="card-body" id="decrypt-form-container">
+                    <form id="decrypt-form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Upload Image with Hidden Message</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                            <div class="form-text">Select the image containing the hidden message</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Decryption Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="form-text">Enter the password used when hiding the message</div>
+                        </div>
+                        
+                        <!-- Encryption Method Selection -->
+                        <div class="mb-3">
+                            <label for="encryption_method" class="form-label">Encryption Method Used</label>
+                            <select class="form-select" id="encryption_method" name="encryption_method">
+                                <option value="LSB" selected>LSB (Least Significant Bit)</option>
+                                <option value="PVD">PVD (Pixel Value Differencing)</option>
+                                <option value="DCT">DCT (Discrete Cosine Transform)</option>
+                                <option value="DWT">DWT (Discrete Wavelet Transform)</option>
+                            </select>
+                            <div class="form-text">Select the same method that was used for encryption</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Decrypt Message</button>
+                        </div>
+                    </form>
+                    
+                    <div id="loadingSpinner" class="text-center mt-4 d-none">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Decrypting your message...</p>
+                    </div>
+                    
+                    <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
+                    
+                    <div id="resultCard" class="mt-4 d-none">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">Decrypted Message</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-success">
+                                    <p>Message was successfully decrypted!</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="decryptedMessage" class="form-label">Message Content:</label>
+                                    <textarea class="form-control" id="decryptedMessage" rows="5" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Decrypt Hidden Message</h1>
+    
+    <!-- Add an error container that will be populated by JavaScript -->
+    <div id="decrypt-error-container"></div>
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form id="dashboard-decrypt-form">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Select Image</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                    <div class="form-text">Select an image with a hidden message to decrypt.</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="form-text">Enter the password used to encrypt the message.</div>
+                </div>
+                
+                <!-- Add CSRF token -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <button type="submit" class="btn btn-primary">Decrypt Message</button>
+            </form>
+            
+            <!-- Loading indicator -->
+            <div id="dashboard-loading-indicator" style="display: none;" class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Decrypting... This may take a moment.</p>
+            </div>
+            
+            <!-- Decryption result -->
+            <div id="dashboard-decryption-result" style="display: none;" class="my-4">
+                <h3>Decrypted Message</h3>
+                <div class="form-group">
+                    <textarea id="dashboard-decrypted-message" class="form-control" rows="5" readonly></textarea>
+                </div>
+                <div class="mt-3">
+                    <button id="dashboard-copy-message" class="btn btn-secondary">
+                        <i class="bi bi-clipboard"></i> Copy to Clipboard
+                    </button>
+                    <button id="decrypt-another" class="btn btn-primary ms-2">
+                        <i class="bi bi-arrow-repeat"></i> Decrypt Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('decrypt-form');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultCard = document.getElementById('resultCard');
+        const decryptedMessage = document.getElementById('decryptedMessage');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading spinner
+            form.classList.add('d-none');
+            loadingSpinner.classList.remove('d-none');
+            errorMessage.classList.add('d-none');
+            resultCard.classList.add('d-none');
+            
+            // Create form data object
+            const formData = new FormData(form);
+            
+            // Send AJAX request
+            fetch('{{ url_for("decrypt") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingSpinner.classList.add('d-none');
+                
+                if (data.success) {
+                    // Show decrypted message
+                    decryptedMessage.value = data.decrypted_message;
+                    resultCard.classList.remove('d-none');
+                } else {
+                    // Show error message
+                    errorMessage.textContent = data.message;
+                    errorMessage.classList.remove('d-none');
+                    form.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.classList.remove('d-none');
+                form.classList.remove('d-none');
+                loadingSpinner.classList.add('d-none');
+            });
+        });
+    });
+</script>
+{% endblock %}

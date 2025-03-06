@@ -4,6 +4,8 @@ import sys
 import logging
 import sqlite3
 import pathlib
+from app import app, db
+from models import StegoImage, ActivityLog
 
 # Configure logging
 logging.basicConfig(
@@ -97,6 +99,33 @@ def fix_database():
         logger.error(traceback.format_exc())
         return False
 
+def fix_timestamp_column():
+    """Check and fix timestamp/created_at column issues"""
+    with app.app_context():
+        try:
+            # Check if we need to add created_at column to stego_images
+            from sqlalchemy import inspect
+            inspector = inspect(db.engine)
+            
+            # Get columns in stego_images
+            columns = [col['name'] for col in inspector.get_columns('stego_images')]
+            
+            if 'timestamp' in columns and 'created_at' not in columns:
+                # Rename timestamp to created_at
+                print("Renaming timestamp column to created_at in stego_images")
+                db.engine.execute('ALTER TABLE stego_images RENAME COLUMN timestamp TO created_at')
+                
+            elif 'timestamp' not in columns and 'created_at' not in columns:
+                # Need to add created_at column
+                print("Adding created_at column to stego_images")
+                db.engine.execute('ALTER TABLE stego_images ADD COLUMN created_at DATETIME')
+                
+            print("Database fix complete")
+            
+        except Exception as e:
+            print(f"Error fixing database: {e}")
+            logging.exception("Database fix error")
+
 if __name__ == "__main__":
     success = fix_database()
     if success:
@@ -105,3 +134,5 @@ if __name__ == "__main__":
     else:
         logger.error("Database fix failed")
         sys.exit(1)
+    
+    fix_timestamp_column()

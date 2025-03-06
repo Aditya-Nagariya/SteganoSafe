@@ -1,0 +1,67 @@
+/* Fixes for dropdowns */
+
+/* Ensure dropdowns have correct appearance */
+select.form-select {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 16px 12px !important;
+    padding-right: 2.5rem !important;
+}
+
+/* Fix for dropdown menus */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+
+/* When shown, ensure visibility */
+.dropdown-menu.show {
+    display: block !important;
+}
+
+/* Fix for dropdown items */
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+/* Dropdown hover effects */
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #1e2125;
+    background-color: #f8f9fa;
+}
+
+/* Make sure encryption method selector has proper spacing */
+.encryption-method-selector {
+    margin-bottom: 1.5rem;
+}
+
+/* Fix for select elements to show dropdown arrow properly in all browsers */
+@-moz-document url-prefix() {
+    select.form-select {
+        background-image: none !important;
+        padding-right: 0.75rem !important;
+    }
+}

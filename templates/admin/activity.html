@@ -1,0 +1,672 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Activity Logs | SteganoSafe Admin{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{{ url_for('admin_bp.index') }}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page">Activity Logs</li>
+{% endblock %}
+
+{% block admin_content %}
+<div class="page-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">Activity Logs</h1>
+        <p class="text-muted">Track all user activities and system events</p>
+    </div>
+    <div class="page-actions">
+        <div class="dropdown d-inline-block">
+            <button class="admin-btn admin-btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download me-1"></i> Export
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#" id="exportCsvBtn"><i class="bi bi-filetype-csv me-2"></i>CSV</a></li>
+                <li><a class="dropdown-item" href="#" id="exportPdfBtn"><i class="bi bi-file-earmark-pdf me-2"></i>PDF</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="activity-stat-card">
+            <div class="stat-icon bg-primary">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Total Activities</div>
+                <h4 class="stat-value">{{ total_logs }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="activity-stat-card">
+            <div class="stat-icon bg-success">
+                <i class="bi bi-lock"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Encryption Events</div>
+                <h4 class="stat-value">
+                    {% set encrypt_count = namespace(value=0) %}
+                    {% for log in logs %}
+                        {% if 'encrypt' in log.action|lower %}
+                            {% set encrypt_count.value = encrypt_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {{ encrypt_count.value }}
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="activity-stat-card">
+            <div class="stat-icon bg-info">
+                <i class="bi bi-unlock"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Decryption Events</div>
+                <h4 class="stat-value">
+                    {% set decrypt_count = namespace(value=0) %}
+                    {% for log in logs %}
+                        {% if 'decrypt' in log.action|lower %}
+                            {% set decrypt_count.value = decrypt_count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {{ decrypt_count.value }}
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="activity-stat-card">
+            <div class="stat-icon bg-warning">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Users Active</div>
+                <h4 class="stat-value">{{ logs|map(attribute='user_id')|unique|list|length }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Filter & Table -->
+<div class="admin-card mb-4">
+    <div class="card-body">
+        <!-- Filters -->
+        <div class="activity-filters mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" id="activitySearch" placeholder="Search activities...">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="activityTypeFilter">
+                        <option value="">All Activity Types</option>
+                        <option value="login">Login Events</option>
+                        <option value="encrypt">Encryption Events</option>
+                        <option value="decrypt">Decryption Events</option>
+                        <option value="update">Update Events</option>
+                        <option value="delete">Deletion Events</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            <i class="bi bi-calendar3"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" id="activityDateRange" placeholder="Date range">
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button class="admin-btn admin-btn-outline-secondary w-100" id="resetActivityFilters" title="Reset filters">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Activity Table -->
+        <div class="activity-table">
+            <table class="table table-hover" id="activityTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Timestamp</th>
+                        <th>IP Address</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr class="fade-in delay-{{ loop.index0 % 20 }}">
+                        <td>{{ log.id }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if log.user %}
+                                <div class="avatar avatar-{{ log.user.role }}" title="{{ log.user.role|capitalize }}">
+                                    {{ log.user.username[0].upper() }}
+                                </div>
+                                <div class="ms-2">
+                                    <a href="{{ url_for('admin_bp.user_detail', user_id=log.user.id) }}" class="user-name-link">
+                                        {{ log.user.username }}
+                                    </a>
+                                </div>
+                                {% else %}
+                                <div class="avatar avatar-system">
+                                    <i class="bi bi-cpu"></i>
+                                </div>
+                                <div class="ms-2">
+                                    <span>System</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="activity-badge 
+                                {{ 'login' if 'logged in' in log.action.lower() else
+                                   'encrypt' if 'encrypt' in log.action.lower() else
+                                   'decrypt' if 'decrypt' in log.action.lower() else
+                                   'update' if 'updat' in log.action.lower() or 'edit' in log.action.lower() else
+                                   'delete' if 'delet' in log.action.lower() or 'remov' in log.action.lower() else
+                                   'other' }}">
+                                {{ log.action }}
+                            </span>
+                        </td>
+                        <td data-order="{{ log.timestamp.strftime('%Y%m%d%H%M%S') if log.timestamp else '' }}">
+                            {{ log.timestamp.strftime('%b %d, %Y %H:%M:%S') if log.timestamp else 'Unknown' }}
+                        </td>
+                        <td>{{ log.ip_address or 'Unknown' }}</td>
+                        <td>
+                            <button class="admin-btn admin-btn-sm admin-btn-outline-primary activity-details-btn" 
+                                    data-activity-id="{{ log.id }}"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#activityDetailModal"
+                                    data-action="{{ log.action }}"
+                                    data-timestamp="{{ log.timestamp.strftime('%b %d, %Y %H:%M:%S') if log.timestamp else 'Unknown' }}"
+                                    data-ip="{{ log.ip_address or 'Unknown' }}"
+                                    data-user="{{ log.user.username if log.user else 'System' }}">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if logs.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin_bp.activity', page=logs.prev_num) }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in logs.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num == logs.page %}
+                        <li class="page-item active">
+                            <a class="page-link" href="{{ url_for('admin_bp.activity', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin_bp.activity', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if logs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin_bp.activity', page=logs.next_num) }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+            <p class="text-center text-muted">
+                Page {{ logs.page }} of {{ logs.pages }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Detail Modal -->
+<div class="modal fade" id="activityDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Activity Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="activity-detail-content">
+                    <div class="activity-detail-item">
+                        <div class="detail-label">User</div>
+                        <div class="detail-value" id="detailUser">John Doe</div>
+                    </div>
+                    <div class="activity-detail-item">
+                        <div class="detail-label">Action</div>
+                        <div class="detail-value" id="detailAction">Logged in</div>
+                    </div>
+                    <div class="activity-detail-item">
+                        <div class="detail-label">Timestamp</div>
+                        <div class="detail-value" id="detailTimestamp">Aug 15, 2023 14:30:45</div>
+                    </div>
+                    <div class="activity-detail-item">
+                        <div class="detail-label">IP Address</div>
+                        <div class="detail-value" id="detailIP">192.168.1.1</div>
+                    </div>
+                    <div class="activity-detail-item">
+                        <div class="detail-label">Browser</div>
+                        <div class="detail-value">Chrome on Windows</div>
+                    </div>
+                    <div class="activity-detail-map">
+                        <div class="map-placeholder">
+                            <div class="text-center py-4">
+                                <i class="bi bi-geo-alt" style="font-size: 2rem; color: var(--admin-primary);"></i>
+                                <p class="mt-2 mb-0">Estimated Location: United States</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block admin_scripts %}
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable
+    const table = $('#activityTable').DataTable({
+        dom: 'rtip',
+        pageLength: 15,
+        responsive: true,
+        order: [[3, 'desc']], // Sort by timestamp desc
+        columnDefs: [
+            { orderable: false, targets: [5] }, // Details column
+        ],
+        language: {
+            search: "",
+            searchPlaceholder: "Search activities...",
+            zeroRecords: "No activities found",
+            info: "Showing _START_ to _END_ of _TOTAL_ activities",
+            infoEmpty: "Showing 0 to 0 of 0 activities",
+            infoFiltered: "(filtered from _MAX_ total activities)"
+        }
+    });
+    
+    // Activity search
+    $('#activitySearch').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+    
+    // Activity type filter
+    $('#activityTypeFilter').on('change', function() {
+        const value = $(this).val().toLowerCase();
+        
+        // Custom filtering function
+        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            if (!value) return true; // Show all if no filter
+            
+            const actionText = data[2].toLowerCase(); // 3rd column is Action
+            return actionText.includes(value);
+        });
+        
+        table.draw();
+        
+        // Remove the filter after drawing
+        $.fn.dataTable.ext.search.pop();
+    });
+    
+    // Date range picker for activity filtering
+    $('#activityDateRange').daterangepicker({
+        opens: 'left',
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear',
+            format: 'MMM DD, YYYY'
+        },
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    });
+    
+    $('#activityDateRange').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MMM DD, YYYY') + ' - ' + picker.endDate.format('MMM DD, YYYY'));
+        
+        // Custom date range filtering
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                const min = picker.startDate.toDate();
+                const max = picker.endDate.toDate();
+                
+                const dateStr = data[3]; // 4th column is Timestamp
+                if (!dateStr || dateStr === 'Unknown') return false;
+                
+                // Try to parse the date - handle the format displayed in the table
+                const date = moment(dateStr, 'MMM DD, YYYY HH:mm:ss').toDate();
+                
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+        
+        table.draw();
+    });
+    
+    $('#activityDateRange').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+    });
+    
+    // Reset filters
+    $('#resetActivityFilters').click(function() {
+        $('#activitySearch').val('');
+        $('#activityTypeFilter').val('');
+        $('#activityDateRange').val('');
+        
+        $.fn.dataTable.ext.search.pop();
+        table.search('').draw();
+    });
+    
+    // Activity details modal
+    $('#activityDetailModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const action = button.data('action');
+        const timestamp = button.data('timestamp');
+        const ip = button.data('ip');
+        const user = button.data('user');
+        
+        $('#detailUser').text(user);
+        $('#detailAction').text(action);
+        $('#detailTimestamp').text(timestamp);
+        $('#detailIP').text(ip);
+    });
+    
+    // Export buttons
+    $('#exportCsvBtn').click(function() {
+        exportActivities('csv');
+    });
+    
+    $('#exportPdfBtn').click(function() {
+        exportActivities('pdf');
+    });
+    
+    function exportActivities(type) {
+        const exportTable = $('#activityTable').DataTable({
+            retrieve: true,
+            buttons: [
+                {
+                    extend: type,
+                    text: 'Export to ' + type.toUpperCase(),
+                    title: 'SteganoSafe Activity Logs - ' + moment().format('YYYY-MM-DD'),
+                    filename: 'activity_logs_' + moment().format('YYYY-MM-DD'),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4]
+                    }
+                }
+            ]
+        });
+        
+        exportTable.button('.buttons-' + type).trigger();
+    }
+});
+</script>
+
+<style>
+.activity-stat-card {
+    background: var(--admin-white);
+    border-radius: var(--admin-border-radius);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--admin-shadow);
+    transition: var(--admin-transition);
+    height: 100%;
+}
+
+.activity-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--admin-hover-shadow);
+}
+
+.activity-stat-card .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-right: 1rem;
+}
+
+.activity-stat-card .stat-content {
+    flex: 1;
+}
+
+.activity-stat-card .stat-label {
+    font-size: 0.85rem;
+    color: var(--admin-muted);
+    margin-bottom: 0.25rem;
+}
+
+.activity-stat-card .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.bg-primary {
+    background-color: var(--admin-primary);
+}
+
+.bg-success {
+    background-color: var(--admin-success);
+}
+
+.bg-info {
+    background-color: var(--admin-info);
+}
+
+.bg-warning {
+    background-color: var(--admin-warning);
+}
+
+.bg-danger {
+    background-color: var(--admin-danger);
+}
+
+.activity-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.activity-badge.login {
+    background-color: rgba(76, 201, 240, 0.15);
+    color: #4cc9f0;
+}
+
+.activity-badge.encrypt {
+    background-color: rgba(22, 199, 154, 0.15);
+    color: #16c79a;
+}
+
+.activity-badge.decrypt {
+    background-color: rgba(67, 97, 238, 0.15);
+    color: #4361ee;
+}
+
+.activity-badge.update {
+    background-color: rgba(248, 150, 30, 0.15);
+    color: #f8961e;
+}
+
+.activity-badge.delete {
+    background-color: rgba(239, 71, 111, 0.15);
+    color: #ef476f;
+}
+
+.activity-badge.other {
+    background-color: rgba(108, 117, 125, 0.15);
+    color: #6c757d;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.avatar-admin {
+    background: linear-gradient(135deg, #ef476f, #b5179e);
+}
+
+.avatar-mod {
+    background: linear-gradient(135deg, #4cc9f0, #4361ee);
+}
+
+.avatar-user {
+    background: linear-gradient(135deg, #06d6a0, #118ab2);
+}
+
+.avatar-system {
+    background: linear-gradient(135deg, #6c757d, #495057);
+}
+
+.user-name-link {
+    color: var(--admin-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--admin-transition);
+}
+
+.user-name-link:hover {
+    color: var(--admin-primary);
+}
+
+.activity-detail-item {
+    display: flex;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.activity-detail-item:last-child {
+    border-bottom: none;
+}
+
+.activity-detail-item .detail-label {
+    width: 30%;
+    font-weight: 600;
+    color: var(--admin-muted);
+}
+
+.activity-detail-item .detail-value {
+    width: 70%;
+}
+
+.activity-detail-map {
+    margin-top: 1.5rem;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-border-radius);
+}
+
+.map-placeholder {
+    height: 150px;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: calc(var(--admin-border-radius) - 1px);
+}
+
+/* Date range picker customizations */
+.daterangepicker {
+    font-family: 'Poppins', sans-serif;
+    border-radius: var(--admin-border-radius);
+    border: 1px solid var(--admin-border);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.daterangepicker .ranges li.active {
+    background-color: var(--admin-primary);
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+    background-color: var(--admin-primary);
+}
+
+/* DataTables customization */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--admin-primary-gradient);
+    color: white !important;
+    border: 1px solid var(--admin-primary);
+    border-radius: 4px;
+}
+
+.dataTables_wrapper .dataTables_length, 
+.dataTables_wrapper .dataTables_filter, 
+.dataTables_wrapper .dataTables_info, 
+.dataTables_wrapper .dataTables_processing, 
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 1rem;
+    color: var(--admin-muted);
+}
+</style>
+{% endblock %}

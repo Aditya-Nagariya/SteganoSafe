@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SteganoSafe Admin Dashboard{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ApexCharts CSS (for charts) -->
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.36.3/dist/apexcharts.css" rel="stylesheet">
+    
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-premium.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-animations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_notifications.css') }}">
+    
+    <!-- Dark Mode CSS (loaded conditionally) -->
+    {% if dark_mode %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-dark-mode.css') }}">
+    {% endif %}
+    
+    <!-- Custom CSS from child templates -->
+    {% block admin_styles %}{% endblock %}
+</head>
+<body class="admin-body {% if dark_mode %}dark-mode{% endif %}">
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <div class="splash-logo-text">SteganoSafe</div>
+                <div class="splash-logo-subtext">Admin Dashboard</div>
+            </div>
+            <div class="spinner">
+                <svg viewBox="0 0 50 50">
+                    <circle cx="25" cy="25" r="20"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo">S</div>
+                    <div class="logo-text">
+                        <h2>SteganoSafe</h2>
+                        <span>Admin Panel</span>
+                    </div>
+                </div>
+                <button class="mobile-toggle-btn">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-search">
+                <div class="search-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+            </div>
+            
+            <div class="sidebar-menu-container">
+                <ul class="sidebar-menu">
+                    <li class="menu-title">MAIN</li>
+                    <li class="menu-item {% if request.endpoint == 'admin_bp.index' %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.index') }}">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-title">MANAGEMENT</li>
+                    <li class="menu-item {% if 'users' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.users') }}">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Users</span>
+                            <span class="badge">{{ user_count|default(0) }}</span>
+                        </a>
+                    </li>
+                    <li class="menu-item {% if 'images' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.images') }}">
+                            <i class="bi bi-image-fill"></i>
+                            <span>Images</span>
+                            <span class="badge">{{ image_count|default(0) }}</span>
+                        </a>
+                    </li>
+                    <li class="menu-item {% if 'activity' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.activity') }}">
+                            <i class="bi bi-activity"></i>
+                            <span>Activity Logs</span>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-title">SYSTEM</li>
+                    <li class="menu-item {% if 'logs' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.view_logs') }}">
+                            <i class="bi bi-file-text-fill"></i>
+                            <span>System Logs</span>
+                        </a>
+                    </li>
+                    <li class="menu-item {% if 'analytics' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.analytics') }}">
+                            <i class="bi bi-bar-chart-fill"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="menu-item {% if 'settings' in request.endpoint %}active{% endif %}">
+                        <a href="{{ url_for('admin_bp.settings') }}">
+                            <i class="bi bi-gear-fill"></i>
+                            <span>Settings</span>
+                            <span class="badge bg-warning">New</span>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-title">ACCOUNT</li>
+                    <li class="menu-item">
+                        <a href="{% if 'profile' in url_for_security %}{{ url_for('profile') }}{% else %}{{ url_for('dashboard') }}{% endif %}">
+                            <i class="bi bi-person-circle"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="user-avatar">
+                        {{ current_user.username[0].upper() }}
+                    </div>
+                    <div class="user-info">
+                        <h5>{{ current_user.username }}</h5>
+                        <span>{{ current_user.role|capitalize }}</span>
+                    </div>
+                    <div class="user-menu-btn" id="userMenuBtn">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Top Navigation Bar -->
+            <div class="admin-topbar d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <button class="mobile-menu-btn me-3 d-lg-none">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ url_for('admin_bp.index') }}">Admin</a></li>
+                            {% block breadcrumbs %}{% endblock %}
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <button class="notification-btn" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown p-0" aria-labelledby="notificationDropdown">
+                            <div class="notification-header d-flex justify-content-between align-items-center p-3">
+                                <h6 class="mb-0">Notifications</h6>
+                                <span class="badge bg-primary rounded-pill">3 New</span>
+                            </div>
+                            <div class="notification-body">
+                                <a href="#" class="notification">
+                                    <div class="notification-icon bg-success">
+                                        <i class="bi bi-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">New user registered</p>
+                                        <p class="notification-time">2 mins ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="notification">
+                                    <div class="notification-icon bg-warning">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">Failed login attempt</p>
+                                        <p class="notification-time">1 hour ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="notification">
+                                    <div class="notification-icon bg-info">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-text">5 new images uploaded</p>
+                                        <p class="notification-time">3 hours ago</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="notification-footer text-center p-2">
+                                <a href="{{ url_for('admin_bp.activity') }}" class="text-decoration-none">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="settings-btn" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end settings-dropdown" aria-labelledby="settingsDropdown">
+                            <div class="settings-header p-3">
+                                <h6 class="mb-0">Settings</h6>
+                            </div>
+                            <div class="settings-body p-3">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" {% if dark_mode %}checked{% endif %}>
+                                    <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="notificationsSwitch" checked>
+                                    <label class="form-check-label" for="notificationsSwitch">Notifications</label>
+                                </div>
+                                <!-- Add link to encryption settings -->
+                                <div class="mt-3">
+                                    <a href="{{ url_for('admin_bp.settings') }}" class="btn btn-sm btn-outline-primary w-100">
+                                        <i class="bi bi-shield-lock me-1"></i> Encryption Settings
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="p-2">
+                                <a class="dropdown-item" href="{{ url_for('admin_bp.index') }}">
+                                    <i class="bi bi-grid-1x2-fill me-2"></i> Dashboard
+                                </a>
+                                <a class="dropdown-item" href="{% if 'profile' in url_for_security %}{{ url_for('profile') }}{% else %}{{ url_for('dashboard') }}{% endif %}">
+                                    <i class="bi bi-person-circle me-2"></i> My Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages mb-4">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Main Content -->
+            {% block admin_content %}{% endblock %}
+        </div>
+    </div>
+    
+    <!-- Quick Actions Button -->
+    <div class="quick-actions">
+        <button class="quick-action-btn" id="quickActionBtn">
+            <i class="bi bi-plus"></i>
+        </button>
+        <div class="quick-action-menu">
+            <a href="{{ url_for('admin_bp.users') }}" class="quick-action-item">
+                <i class="bi bi-person-plus"></i>
+                <span>Add New User</span>
+            </a>
+            <a href="{{ url_for('admin_bp.images') }}" class="quick-action-item">
+                <i class="bi bi-upload"></i>
+                <span>Upload Image</span>
+            </a>
+            <a href="{{ url_for('admin_bp.settings') }}" class="quick-action-item">
+                <i class="bi bi-shield-lock"></i>
+                <span>Encryption Settings</span>
+            </a>
+            <a href="{{ url_for('admin_bp.activity') }}" class="quick-action-item">
+                <i class="bi bi-activity"></i>
+                <span>Recent Activity</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- ApexCharts JS (for charts) -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.36.3/dist/apexcharts.min.js"></script>
+    
+    <!-- SweetAlert2 for better dialogs -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Core Admin JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide splash screen after page loads
+            setTimeout(function() {
+                const splashScreen = document.getElementById('splash-screen');
+                splashScreen.classList.add('fade-out');
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileSidebarToggle = document.querySelector('.mobile-toggle-btn');
+            const sidebar = document.querySelector('.admin-sidebar');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    sidebar.classList.add('open');
+                });
+            }
+            
+            if (mobileSidebarToggle) {
+                mobileSidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.remove('open');
+                });
+            }
+            
+            // Quick Actions toggle
+            const quickActionBtn = document.getElementById('quickActionBtn');
+            const quickActions = document.querySelector('.quick-actions');
+            
+            if (quickActionBtn) {
+                quickActionBtn.addEventListener('click', function() {
+                    quickActions.classList.toggle('open');
+                });
+                
+                // Close quick actions on click outside
+                document.addEventListener('click', function(event) {
+                    if (!quickActions.contains(event.target) && quickActions.classList.contains('open')) {
+                        quickActions.classList.remove('open');
+                    }
+                });
+            }
+            
+            // Dark Mode toggle
+            const darkModeSwitch = document.getElementById('darkModeSwitch');
+            
+            if (darkModeSwitch) {
+                darkModeSwitch.addEventListener('change', function() {
+                    const isDarkMode = this.checked;
+                    
+                    // Set a cookie to remember the preference
+                    document.cookie = `dark_mode=${isDarkMode ? '1' : '0'}; path=/; max-age=31536000`;
+                    
+                    // Reload to apply changes
+                    location.reload();
+                });
+            }
+            
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
+    </script>
+    
+    <!-- Custom JS from child templates -->
+    {% block admin_scripts %}{% endblock %}
+</body>
+</html>

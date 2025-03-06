@@ -1,0 +1,522 @@
+<header class="admin-topbar">
+    <div class="topbar-left">
+        <button id="mobile-menu-btn" class="mobile-menu-btn">
+            <i class="bi bi-list"></i>
+        </button>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% block breadcrumbs %}
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_bp.index') }}">Dashboard</a></li>
+                {% endblock %}
+            </ol>
+        </nav>
+    </div>
+    <div class="topbar-right">
+        <div class="search-global">
+            <div class="search-input-wrapper">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Search..." class="search-input" id="globalSearch">
+            </div>
+        </div>
+        
+        <div class="notification-center">
+            <div class="notification-item">
+                <button class="notification-btn" id="notificationToggle">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="notification-dropdown">
+                    <div class="notification-header">
+                        <h5>Notifications</h5>
+                        <button class="mark-all-read">Mark all as read</button>
+                    </div>
+                    <div class="notification-body">
+                        <a href="#" class="notification">
+                            <div class="notification-icon bg-primary">
+                                <i class="bi bi-person-plus"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>New user registered</p>
+                                <span>5 minutes ago</span>
+                            </div>
+                        </a>
+                        <a href="#" class="notification">
+                            <div class="notification-icon bg-success">
+                                <i class="bi bi-file-earmark-image"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>10 new images uploaded</p>
+                                <span>1 hour ago</span>
+                            </div>
+                        </a>
+                        <a href="#" class="notification">
+                            <div class="notification-icon bg-danger">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>System alert: Space usage at 85%</p>
+                                <span>2 hours ago</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <button class="mode-toggle" id="themeToggle">
+                    <i class="bi bi-moon"></i>
+                </button>
+            </div>
+            
+            <div class="notification-item">
+                <div class="user-profile-menu">
+                    <button class="profile-toggle" id="profileToggle">
+                        <div class="profile-avatar">
+                            {{ current_user.username[0].upper() }}
+                        </div>
+                    </button>
+                    <div class="profile-dropdown">
+                        <div class="profile-header">
+                            <div class="profile-avatar-lg">
+                                {{ current_user.username[0].upper() }}
+                            </div>
+                            <div class="profile-info">
+                                <h5>{{ current_user.username }}</h5>
+                                <span>{{ current_user.email }}</span>
+                                <span class="badge bg-{{ 'primary' if current_user.role == 'admin' else 'success' if current_user.role == 'mod' else 'secondary' }}">
+                                    {{ current_user.role|capitalize }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="profile-body">
+                            <a href="{{ url_for('admin_bp.user_detail', user_id=current_user.id) }}" class="profile-link">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="#" class="profile-link">
+                                <i class="bi bi-gear"></i>
+                                <span>Settings</span>
+                            </a>
+                            <a href="#" class="profile-link">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Help</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ url_for('logout') }}" class="profile-link text-danger">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Add CSS for the topbar component -->
+<style>
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--admin-white);
+    border-bottom: 1px solid var(--admin-border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
+    border-radius: var(--admin-border-radius);
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--admin-dark);
+    cursor: pointer;
+    margin-right: 15px;
+    padding: 5px;
+}
+
+.breadcrumb {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0,0,0,0.03);
+    border-radius: 30px;
+}
+
+.breadcrumb-item a {
+    color: var(--admin-primary);
+    text-decoration: none;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.search-global {
+    margin-right: 20px;
+}
+
+.search-input-wrapper {
+    position: relative;
+}
+
+.search-input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--admin-muted);
+}
+
+.search-input {
+    padding: 8px 15px 8px 40px;
+    border-radius: 30px;
+    border: 1px solid var(--admin-border);
+    background: rgba(0,0,0,0.03);
+    width: 250px;
+    font-size: 0.9rem;
+    transition: var(--admin-transition);
+}
+
+.search-input:focus {
+    width: 300px;
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+    outline: none;
+}
+
+.notification-center {
+    display: flex;
+    align-items: center;
+}
+
+.notification-item {
+    position: relative;
+    margin-left: 15px;
+}
+
+.notification-btn, .mode-toggle, .profile-toggle {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--admin-dark);
+    cursor: pointer;
+    transition: var(--admin-transition);
+    background-color: rgba(0,0,0,0.03);
+}
+
+.notification-btn:hover, .mode-toggle:hover, .profile-toggle:hover {
+    background-color: rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+.notification-btn .badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 0.65rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--admin-danger);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--admin-white);
+}
+
+.notification-dropdown, .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--admin-white);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    border: 1px solid var(--admin-border);
+    z-index: 1000;
+}
+
+.notification-item.open .notification-dropdown,
+.notification-item.open .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-header, .profile-header, .notification-footer {
+    padding: 15px;
+    border-bottom: 1px solid var(--admin-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-footer {
+    border-top: 1px solid var(--admin-border);
+    border-bottom: none;
+    text-align: center;
+    justify-content: center;
+}
+
+.notification-footer a {
+    color: var(--admin-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.notification-header h5, .profile-header h5 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: var(--admin-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.notification-body, .profile-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification {
+    display: flex;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--admin-border);
+    transition: background-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.notification:last-child {
+    border-bottom: none;
+}
+
+.notification:hover {
+    background-color: rgba(0,0,0,0.02);
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.notification-icon i {
+    font-size: 1.2rem;
+}
+
+.notification-content {
+    flex-grow: 1;
+}
+
+.notification-content p {
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.notification-content span {
+    font-size: 0.75rem;
+    color: var(--admin-muted);
+}
+
+.profile-toggle {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--admin-primary-gradient);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-avatar-lg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--admin-primary-gradient);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.profile-info h5 {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.profile-info span {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--admin-muted);
+}
+
+.profile-info .badge {
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.profile-link:hover {
+    background-color: rgba(0,0,0,0.03);
+}
+
+.profile-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.text-danger {
+    color: var(--admin-danger) !important;
+}
+
+.dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid var(--admin-border);
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .search-input {
+        width: 180px;
+    }
+    
+    .search-input:focus {
+        width: 220px;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-topbar {
+        padding: 15px;
+    }
+    
+    .search-global {
+        display: none;
+    }
+    
+    .notification-dropdown, .profile-dropdown {
+        width: 300px;
+        right: -100px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile dropdown toggle
+    const profileToggle = document.getElementById('profileToggle');
+    if (profileToggle) {
+        profileToggle.addEventListener('click', function() {
+            this.closest('.notification-item').classList.toggle('open');
+            
+            // Close other dropdowns
+            document.querySelectorAll('.notification-item.open').forEach(item => {
+                if (!item.contains(this)) {
+                    item.classList.remove('open');
+                }
+            });
+        });
+    }
+    
+    // Global search functionality
+    const globalSearch = document.getElementById('globalSearch');
+    if (globalSearch) {
+        globalSearch.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                // Perform search action
+                console.log('Searching for:', this.value);
+                
+                // Show loading state
+                this.classList.add('loading');
+                
+                // Simulate search request
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                    
+                    // Show search results (in a real app, you'd show actual results)
+                    Swal.fire({
+                        title: 'Search Results',
+                        text: `Showing results for: "${this.value}"`,
+                        icon: 'info'
+                    });
+                }, 1000);
+            }
+        });
+    }
+});
+</script>

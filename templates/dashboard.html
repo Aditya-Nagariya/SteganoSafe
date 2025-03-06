@@ -1,59 +1,21 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard | SteganoSafe{% endblock %}
+
 {% block content %}
-<div class="animate__animated animate__fadeIn">
-    <!-- Dashboard header section -->
-    <div class="mb-4 pb-2 border-bottom">
-        <h1 class="display-5 fw-bold">Welcome, {{ current_user.username }}</h1>
-        <p class="lead text-muted">Hide and extract your secure messages with our steganography tools.</p>
-    </div>
-
-    <!-- Quick stats with updated color scheme -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #2c7da0, #1a5e7e);">
-                <div class="card-body p-4 text-white">
-                    <div class="d-flex justify-content-between align-items-center">
+<div class="container py-5">
+    <!-- Welcome Banner -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
                         <div>
-                            <h5 class="fw-bold mb-0">Total Images</h5>
-                            <h2 class="display-5 fw-bold mb-0 mt-2">{{ images|length }}</h2>
+                            <h2 class="fw-bold mb-1">Welcome, {{ user.username }}!</h2>
+                            <p class="mb-0">This is your SteganoSafe dashboard. Encrypt your messages or decrypt images.</p>
                         </div>
-                        <div class="bg-white bg-opacity-25 p-3 rounded-3">
-                            <i class="bi bi-image-fill text-white" style="font-size: 2rem;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #38b000, #007f5f);">
-                <div class="card-body p-4 text-white">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="fw-bold mb-0">Account Status</h5>
-                            <h2 class="display-5 fw-bold mb-0 mt-2">Verified</h2>
-                        </div>
-                        <div class="bg-white bg-opacity-25 p-3 rounded-3">
-                            <i class="bi bi-check-circle-fill text-white" style="font-size: 2rem;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #4ea8de, #2c7da0);">
-                <div class="card-body p-4 text-white">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="fw-bold mb-0">Role</h5>
-                            <h2 class="display-5 fw-bold mb-0 mt-2">
-                                {{ current_user.role|capitalize }}
-                            </h2>
-                        </div>
-                        <div class="bg-white bg-opacity-25 p-3 rounded-3">
-                            <i class="bi bi-person-badge-fill text-white" style="font-size: 2rem;"></i>
+                        <div class="ms-auto">
+                            <span class="display-4"><i class="bi bi-shield-check"></i></span>
                         </div>
                     </div>
                 </div>
@@ -61,267 +23,226 @@
         </div>
     </div>
 
-    <div class="row">
-        <!-- Encryption Panel -->
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #2c7da0, #1a5e7e);">
-                    <h3 class="card-title mb-0">
-                        <i class="bi bi-lock me-2"></i> Encrypt Image
-                    </h3>
+    <!-- Main Dashboard Actions -->
+    <div class="row mb-4">
+        <!-- Encrypt Section -->
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card h-100 shadow-sm hover-effect">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="bi bi-lock-fill me-2"></i>Encrypt Message</h4>
                 </div>
-                <div class="card-body p-4">
-                    <form id="encryptForm" action="{{ url_for('encrypt') }}" method="POST"
-                        enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-image me-2"></i> Select Image
-                            </label>
-                            <div class="custom-file-upload">
-                                <input type="file" class="form-control" name="image" accept="image/*" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-chat-square-text me-2"></i> Message to Hide
-                            </label>
-                            <textarea class="form-control" name="message" rows="3" placeholder="Type your secret message here..." required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-key me-2"></i> Encryption Password
-                            </label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="password" id="encrypt_password" placeholder="Enter a strong password" required>
-                                <button class="btn btn-outline-secondary" type="button" id="toggleEncryptPassword">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </div>
-                            <small class="form-text text-muted">You'll need this password to decrypt the message later</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-2">
-                            <i class="bi bi-lock"></i> Encrypt Message
-                        </button>
-                    </form>
+                <div class="card-body">
+                    <p class="text-muted">Hide a secret message in an image that only someone with the password can read.</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('encrypt') }}" class="btn btn-success btn-lg">
+                            <i class="bi bi-lock me-2"></i>Encrypt Message
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Decryption Panel -->
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #38b000, #007f5f);">
-                    <h3 class="card-title mb-0">
-                        <i class="bi bi-unlock me-2"></i> Decrypt Image
-                    </h3>
+        <!-- Decrypt Section -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm hover-effect">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-unlock-fill me-2"></i>Decrypt Image</h4>
                 </div>
-                <div class="card-body p-4">
-                    <form id="decryptForm" action="{{ url_for('decrypt') }}" method="POST"
-                        enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-image me-2"></i> Select Encrypted Image
-                            </label>
-                            <div class="custom-file-upload">
-                                <input type="file" class="form-control" name="image" accept="image/*" required>
+                <div class="card-body">
+                    <!-- Decrypt Form Section -->
+                    <div id="decrypt-form-container">
+                        <form id="dashboard-decrypt-form" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Image with hidden message</label>
+                                <input type="file" class="form-control" id="image" name="image" required>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-key me-2"></i> Decryption Password
-                            </label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="password" id="decrypt_password" placeholder="Enter the decryption password" required>
-                                <button class="btn btn-outline-secondary" type="button" id="toggleDecryptPassword">
-                                    <i class="bi bi-eye"></i>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-info">
+                                    <i class="bi bi-unlock me-2"></i>Decrypt Message
                                 </button>
                             </div>
+                        </form>
+                        
+                        <!-- Loading indicator -->
+                        <div id="dashboard-loading-indicator" style="display: none;" class="text-center my-4">
+                            <div class="spinner-border text-info" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Decrypting message...</p>
                         </div>
-                        <button type="submit" class="btn btn-success w-100 mt-2">
-                            <i class="bi bi-unlock"></i> Decrypt Message
-                        </button>
-                    </form>
+                    </div>
                     
-                    <div id="decryptResult" class="mt-4 d-none">
-                        <div class="card border-0 bg-light">
-                            <div class="card-body">
-                                <h5 class="mb-3">
-                                    <i class="bi bi-envelope-open me-2"></i> Hidden Message
-                                </h5>
-                                <div class="p-3 bg-white rounded border">
-                                    <p id="decryptedMessage" class="mb-0 font-monospace"></p>
+                    <!-- Decryption Result - Now inside the same card -->
+                    <div id="dashboard-decryption-result" style="display: none;">
+                        <hr class="my-4">
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i>Message successfully decrypted!
+                        </div>
+                        <div class="form-group">
+                            <label for="dashboard-decrypted-message" class="form-label fw-bold">Decrypted Message:</label>
+                            <div class="input-group">
+                                <textarea id="dashboard-decrypted-message" class="form-control" rows="4" readonly></textarea>
+                                <button class="btn btn-outline-secondary" type="button" id="dashboard-copy-message" title="Copy to clipboard">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button id="decrypt-another" class="btn btn-outline-info">
+                                <i class="bi bi-arrow-left me-2"></i>Decrypt Another
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Your Images -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Your Encrypted Images</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for image in images %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img src="data:image/png;base64,{{ image.image_data|b64encode }}" class="card-img-top" alt="{{ image.original_filename }}">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate">{{ image.original_filename }}</h5>
+                                    <p class="card-text">
+                                        <small class="text-muted">Uploaded: {{ image.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                        <!-- Add encryption method badge -->
+                                        <span class="badge bg-info float-end">
+                                            {{ image.encryption_type or 'LSB' }}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100">
+                                        <a href="{{ url_for('download_image', filename=image.filename) }}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-success decrypt-btn" data-image-id="{{ image.id }}">
+                                            <i class="bi bi-unlock"></i> Decrypt
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="col-12 text-center">
+                            <div class="alert alert-info">
+                                <h5>No encrypted images yet</h5>
+                                <p>Create your first encrypted image by clicking "Encrypt Message" button above.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- History with improved styling -->
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-header bg-light">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3 class="card-title mb-0">
-                    <i class="bi bi-clock-history me-2"></i> Image History
-                </h3>
-                <span class="badge bg-primary rounded-pill">{{ images|length }}</span>
+</div>
+<!-- Fix the Decrypt Modal structure and styling -->
+<div class="modal fade" id="decryptModal" tabindex="-1" aria-labelledby="decryptModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decryptModalLabel">Decrypt Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="decrypt-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" id="decrypt-image-id" name="image_id">
+          
+          <div class="mb-3">
+            <label for="decrypt-password" class="form-label">Decryption Password</label>
+            <input type="password" class="form-control" id="decrypt-password" name="password" required>
+            <div class="form-text">Enter the password you used when encrypting this message.</div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="decrypt-method" class="form-label">Encryption Method</label>
+            <select class="form-select" id="decrypt-method" name="encryption_method">
+              <option value="LSB">LSB (Least Significant Bit)</option>
+              <option value="PVD">PVD (Pixel Value Differencing)</option>
+              <option value="DCT">DCT (Discrete Cosine Transform)</option>
+              <option value="DWT">DWT (Discrete Wavelet Transform)</option>
+            </select>
+            <div class="form-text">This will be auto-selected if the method is stored with the image.</div>
+          </div>
+          
+          <div id="decrypt-error" class="alert alert-danger d-none">
+            <p id="decrypt-error-message"></p>
+          </div>
+          
+          <div id="decrypt-result" class="alert alert-success d-none">
+            <h6>Decrypted Message:</h6>
+            <div class="form-floating">
+              <textarea class="form-control" id="decrypted-message" style="height: 100px" readonly></textarea>
             </div>
-        </div>
-        <div class="card-body p-0">
-            {% if images %}
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th><i class="bi bi-calendar me-1"></i> Date</th>
-                            <th><i class="bi bi-file-earmark me-1"></i> Filename</th>
-                            <th><i class="bi bi-tag me-1"></i> Type</th>
-                            <th><i class="bi bi-gear me-1"></i> Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for image in images %}
-                        <tr>
-                            <td>{{ image.created_at.strftime('%b %d, %Y - %H:%M') }}</td>
-                            <td>{{ image.original_filename }}</td>
-                            <td><span class="badge bg-info">{{ image.encryption_type }}</span></td>
-                            <td>
-                                <a href="{{ url_for('download_image', filename=image.filename) }}"
-                                    class="btn btn-sm btn-outline-primary"
-                                    download="{{ image.original_filename }}">
-                                    <i class="bi bi-download"></i> Download
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+          </div>
+          
+          <div class="d-grid">
+            <button type="submit" id="decrypt-btn" class="btn btn-primary">Decrypt</button>
+            <div id="decrypt-spinner" class="text-center d-none">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Decrypting message...</p>
             </div>
-            {% else %}
-            <div class="p-4 text-center">
-                <i class="bi bi-image text-muted mb-3" style="font-size: 3rem;"></i>
-                <p class="mb-0 text-muted">You haven't created any encrypted images yet.</p>
-            </div>
-            {% endif %}
-        </div>
+          </div>
+        </form>
+      </div>
     </div>
-
-    {% if current_user.is_admin %}
-    <div class="mt-4 text-center">
-        <a href="{{ url_for('admin_bp.index') }}" class="btn btn-outline-dark">
-            <i class="bi bi-gear me-2"></i> Admin Dashboard
-        </a>
-    </div>
-    {% endif %}
+  </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<!-- Include the decrypt handler script -->
-<script src="{{ url_for('static', filename='js/decrypt_handler.js') }}"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Toggle password visibility
-    function setupPasswordToggle(toggleId, passwordId) {
-        const toggleButton = document.getElementById(toggleId);
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                const passwordInput = document.getElementById(passwordId);
-                const icon = this.querySelector('i');
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    icon.classList.remove('bi-eye');
-                    icon.classList.add('bi-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    icon.classList.remove('bi-eye-slash');
-                    icon.classList.add('bi-eye');
-                }
-            });
-        }
-    }
-    
-    // Setup password toggles
-    setupPasswordToggle('toggleEncryptPassword', 'encrypt_password');
-    setupPasswordToggle('toggleDecryptPassword', 'decrypt_password');
+<script src="{{ url_for('static', filename='js/dashboard_decrypt.js') }}"></script>
 
-    // Encrypt form event listener
-    const encryptForm = document.getElementById('encryptForm');
-    if (encryptForm) {
-        encryptForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            // Show loading state
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.innerHTML;
-            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processing...';
-            submitButton.disabled = true;
-            
-            const formData = new FormData(this);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken
-                },
-                credentials: 'same-origin'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(data.message || `Server error: ${response.status}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Reset button state
-                submitButton.innerHTML = originalButtonText;
-                submitButton.disabled = false;
-                
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Your message has been encrypted successfully.',
-                        confirmButtonColor: '#4361ee'
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message || 'There was a problem encrypting your message.',
-                        confirmButtonColor: '#4361ee'
-                    });
-                }
-            })
-            .catch(error => {
-                // Reset button state
-                submitButton.innerHTML = originalButtonText;
-                submitButton.disabled = false;
-                
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error.message || 'There was a problem connecting to the server.',
-                    confirmButtonColor: '#4361ee'
-                });
-            });
-        });
-    }
+<style>
+.hover-effect {
+    transition: all 0.3s ease;
+}
 
-    // Decrypt form handling is now in decrypt_handler.js
-});
-</script>
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.status-indicator-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-indicator-dot.success {
+    background-color: #16c79a;
+    box-shadow: 0 0 0 2px rgba(22, 199, 154, 0.2);
+}
+
+.status-indicator-dot.danger {
+    background-color: #ef476f;
+    box-shadow: 0 0 0 2px rgba(239, 71, 111, 0.2);
+}
+</style>
+{{ super() }}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

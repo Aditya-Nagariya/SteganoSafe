@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="256" height="256">
+  <style>
+    .primary { fill: #6C5CE7; }
+    .secondary { fill: #00cec9; }
+    .accent { fill: #FD79A8; }
+    .light { fill: #f9fafb; }
+  </style>
+  <rect x="68" y="68" width="376" height="376" rx="24" class="light" />
+  <path d="M256 128c-44.183 0-80 35.817-80 80v48h-16c-17.673 0-32 14.327-32 32v112c0 17.673 14.327 32 32 32h192c17.673 0 32-14.327 32-32V288c0-17.673-14.327-32-32-32h-16v-48c0-44.183-35.817-80-80-80zm0 32c26.51 0 48 21.49 48 48v48H208v-48c0-26.51 21.49-48 48-48z" class="primary" />
+  <circle cx="256" cy="320" r="32" class="accent" />
+  <path d="M256 352c-8.837 0-16 7.163-16 16v32c0 8.837 7.163 16 16 16s16-7.163 16-16v-32c0-8.837-7.163-16-16-16z" class="secondary" />
+  <g class="code-lines">
+    <rect x="104" y="148" width="96" height="8" rx="4" class="secondary" opacity="0.5" />
+    <rect x="104" y="172" width="144" height="8" rx="4" class="secondary" opacity="0.6" />
+    <rect x="104" y="196" width="72" height="8" rx="4" class="secondary" opacity="0.7" />
+    <rect x="104" y="364" width="120" height="8" rx="4" class="accent" opacity="0.5" />
+    <rect x="104" y="388" width="80" height="8" rx="4" class="accent" opacity="0.6" />
+  </g>
+</svg>

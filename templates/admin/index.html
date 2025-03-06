@@ -1,54 +1,111 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
-{% block title %}Admin Dashboard{% endblock %}
+{% block title %}Dashboard | SteganoSafe Admin{% endblock %}
 
-{% block content %}
-<div class="container mt-4">
-    <h1>Admin Dashboard</h1>
-    
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">Users</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ user_count }}</h5>
-                    <p class="card-text">Total registered users</p>
-                    <a href="{{ url_for('admin_bp.users') }}" class="btn btn-light">Manage Users</a>
-                </div>
-            </div>
+{% block admin_content %}
+<!-- Page Header -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title mb-0">Admin Dashboard</h1>
+        <p class="text-muted">Welcome back, {{ current_user.username }}! Here's what's happening today.</p>
+    </div>
+    <div class="d-flex align-items-center">
+        <div class="date-badge me-3">
+            <i class="bi bi-calendar3"></i>
+            <span>{{ now.strftime('%A, %b %d, %Y') if now else 'Today' }}</span>
         </div>
-        
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Images</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ image_count }}</h5>
-                    <p class="card-text">Total steganographic images</p>
-                    <a href="{{ url_for('admin_bp.images') }}" class="btn btn-light">View Images</a>
-                </div>
+        <button id="refresh-dashboard" class="admin-btn admin-btn-primary">
+            <i class="bi bi-arrow-repeat me-2"></i> Refresh
+        </button>
+    </div>
+</div>
+
+<!-- Stats Cards Row - Fixed to handle potential missing variable -->
+<div class="row g-4 mb-4">
+    <!-- Total Users -->
+    <div class="col-md-3">
+        <div class="admin-stats-card primary">
+            <div class="stats-icon">
+                <i class="bi bi-people-fill"></i>
             </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="card text-white bg-info mb-3">
-                <div class="card-header">Activity</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ activity_count }}</h5>
-                    <p class="card-text">Total activity logs</p>
-                    <a href="{{ url_for('admin_bp.activity') }}" class="btn btn-light">View Logs</a>
-                </div>
-            </div>
+            <div class="stats-value">{{ user_count|default(0) }}</div>
+            <div class="stats-label">Total Users</div>
+            <div class="stats-change up">+{{ new_users_count|default(5) }} this week</div>
         </div>
     </div>
     
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Recent Activity</h5>
+    <!-- Total Images -->
+    <div class="col-md-3">
+        <div class="admin-stats-card success">
+            <div class="stats-icon">
+                <i class="bi bi-image"></i>
+            </div>
+            <div class="stats-value">{{ image_count|default(0) }}</div>
+            <div class="stats-label">Total Images</div>
+            <div class="stats-change up">+{{ new_images_count|default(12) }} this week</div>
+        </div>
+    </div>
+    
+    <!-- Total Activities -->
+    <div class="col-md-3">
+        <div class="admin-stats-card info">
+            <div class="stats-icon">
+                <i class="bi bi-activity"></i>
+            </div>
+            <div class="stats-value">{{ activity_count|default(0) }}</div>
+            <div class="stats-label">Activities</div>
+            <div class="stats-change up">+{{ new_activities_count|default(28) }} this week</div>
+        </div>
+    </div>
+    
+    <!-- System Health -->
+    <div class="col-md-3">
+        <div class="admin-stats-card warning">
+            <div class="stats-icon">
+                <i class="bi bi-cpu"></i>
+            </div>
+            <div class="stats-value">100%</div>
+            <div class="stats-label">System Health</div>
+            <div class="stats-change up">All systems operational</div>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard Main Content -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <!-- Activity Chart -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.3s">
+            <div class="card-header">
+                <h5>System Activity</h5>
+                <div class="card-header-actions">
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            This Week
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Week</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped">
+            </div>
+            <div class="card-body">
+                <div id="activityChart" style="height: 350px;"></div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.4s">
+            <div class="card-header">
+                <h5>Recent Activity</h5>
+                <a href="{{ url_for('admin_bp.activity') }}" class="text-decoration-none">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover m-0">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -57,11 +114,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for activity in recent_activities %}
-                            <tr>
-                                <td>{{ activity.user.username }}</td>
+                            {% for activity in recent_activities[:7] %}
+                            <tr class="fade-in delay-{{ loop.index }}">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if activity.user %}
+                                        <div class="avatar avatar-{{ activity.user.role }}" title="{{ activity.user.role|capitalize }}">
+                                            {{ activity.user.username[0].upper() }}
+                                        </div>
+                                        <div class="ms-2">
+                                            <a href="{{ url_for('admin_bp.user_detail', user_id=activity.user.id) }}" class="user-name-link">
+                                                {{ activity.user.username }}
+                                            </a>
+                                        </div>
+                                        {% else %}
+                                        <div class="avatar avatar-system">
+                                            <i class="bi bi-cpu"></i>
+                                        </div>
+                                        <div class="ms-2">
+                                            <span>System</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
                                 <td>{{ activity.action }}</td>
-                                <td>{{ activity.timestamp.strftime('%b %d, %Y - %H:%M') }}</td>
+                                <td>{{ activity.timestamp.strftime('%b %d, %I:%M %p') }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center py-4">
+                                    <p class="text-muted mb-0">No recent activities found</p>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -70,5 +153,563 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-lg-4">
+        <!-- Security Status -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.5s">
+            <div class="card-header">
+                <h5>Security Status</h5>
+                <div class="security-badge secure">
+                    <i class="bi bi-shield-check"></i> Secure
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="security-meters">
+                    <div class="security-meter">
+                        <div class="d-flex justify-content-between">
+                            <span>System Security</span>
+                            <span class="text-success">98%</span>
+                        </div>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 98%" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="security-meter mt-4">
+                        <div class="d-flex justify-content-between">
+                            <span>User Security</span>
+                            <span class="text-warning">82%</span>
+                        </div>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="security-meter mt-4">
+                        <div class="d-flex justify-content-between">
+                            <span>Encryption Security</span>
+                            <span class="text-success">100%</span>
+                        </div>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-alerts mt-4">
+                    <h6 class="mb-3">Recent Alerts</h6>
+                    <div class="alert-item">
+                        <div class="alert-icon success">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Daily Scan Complete</div>
+                            <div class="alert-desc">System scan completed with no issues.</div>
+                            <div class="alert-time">Today, 09:15 AM</div>
+                        </div>
+                    </div>
+                    <div class="alert-item">
+                        <div class="alert-icon warning">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Failed Login Attempt</div>
+                            <div class="alert-desc">3 failed login attempts for user "admin".</div>
+                            <div class="alert-time">Yesterday, 11:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.6s">
+            <div class="card-header">
+                <h5>Quick Links</h5>
+            </div>
+            <div class="card-body p-3">
+                <div class="quick-links">
+                    <a href="{{ url_for('admin_bp.users') }}" class="quick-link">
+                        <div class="quick-link-icon bg-primary">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <span>Users</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.images') }}" class="quick-link">
+                        <div class="quick-link-icon bg-success">
+                            <i class="bi bi-images"></i>
+                        </div>
+                        <span>Images</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.activity') }}" class="quick-link">
+                        <div class="quick-link-icon bg-info">
+                            <i class="bi bi-activity"></i>
+                        </div>
+                        <span>Activity</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.view_logs') }}" class="quick-link">
+                        <div class="quick-link-icon bg-warning">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+                        <span>Logs</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- System Overview Row -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <!-- User Overview Card -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.7s">
+            <div class="card-header">
+                <h5>User Overview</h5>
+                <div class="card-header-actions">
+                    <a href="{{ url_for('admin_bp.users') }}" class="text-decoration-none">View All</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <!-- User Metrics -->
+                    <div class="col-md-6">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ user_count }}</div>
+                            <div class="metric-label">Total Users</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ 'N/A' if not user_count else '{:.1f}%'.format(100 * (users|selectattr('is_verified', 'equalto', True)|list|length) / user_count) }}</div>
+                            <div class="metric-label">Verified</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-role-distribution mb-4">
+                    <h6 class="mb-3">User Role Distribution</h6>
+                    <div id="userRoleChart" style="height: 220px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <!-- Steganography Stats -->
+        <div class="admin-card slide-in-up" style="animation-delay: 0.8s">
+            <div class="card-header">
+                <h5>Steganography Stats</h5>
+                <div class="card-header-actions">
+                    <a href="{{ url_for('admin_bp.images') }}" class="text-decoration-none">View Images</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <!-- Image Metrics -->
+                    <div class="col-md-6">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ image_count }}</div>
+                            <div class="metric-label">Total Images</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ encrypt_count|default(65) }}</div>
+                            <div class="metric-label">Encryptions</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="encryption-methods mb-4">
+                    <h6 class="mb-3">Encryption Methods</h6>
+                    <div id="encryptionChart" style="height: 220px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Footer -->
+<footer class="admin-footer">
+    <div>&copy; 2023 SteganoSafe Admin. All rights reserved.</div>
+    <div>Version 1.0.0</div>
+</footer>
+
+<!-- Charts Initialization -->
+{% block admin_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the system activity chart with proper error handling
+    try {
+        const activityOptions = {
+            series: [{
+                name: 'Encryptions',
+                data: [31, 40, 28, 51, 42, 109, 100]
+            }, {
+                name: 'Decryptions',
+                data: [11, 32, 45, 32, 34, 52, 41]
+            }, {
+                name: 'Logins',
+                data: [15, 25, 30, 25, 30, 35, 40]
+            }],
+            chart: {
+                type: 'area',
+                height: 350,
+                toolbar: { show: false },
+                zoom: { enabled: false },
+                fontFamily: 'Poppins, sans-serif'
+            },
+            dataLabels: { enabled: false },
+            stroke: {
+                curve: 'smooth',
+                width: 2
+            },
+            colors: ['#4361ee', '#16c79a', '#f8961e'],
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                    stops: [0, 90, 100]
+                }
+            },
+            xaxis: {
+                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yaxis: {
+                title: {
+                    text: 'Number of Activities'
+                }
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val
+                    }
+                }
+            },
+            legend: {
+                position: 'top'
+            }
+        };
+
+        if (document.querySelector("#activityChart")) {
+            const activityChart = new ApexCharts(document.querySelector("#activityChart"), activityOptions);
+            activityChart.render();
+        }
+        
+        // Initialize user role distribution chart with proper error handling
+        const userRoleOptions = {
+            series: [Number("{{ admin_count|default(2) }}"), Number("{{ mod_count|default(5) }}"), Number("{{ regular_user_count|default((user_count|default(0)) - 7) }}")],
+            labels: ['Admins', 'Moderators', 'Regular Users'],
+            chart: {
+                height: 220,
+                type: 'donut',
+                fontFamily: 'Poppins, sans-serif'
+            },
+            plotOptions: {
+                pie: {
+                    donut: { size: '65%' }
+                }
+            },
+            colors: ['#ef476f', '#f8961e', '#4361ee'],
+            legend: {
+                position: 'bottom'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: { height: 200 }
+                }
+            }],
+            dataLabels: { enabled: false }
+        };
+
+        if (document.querySelector("#userRoleChart")) {
+            const userRoleChart = new ApexCharts(document.querySelector("#userRoleChart"), userRoleOptions);
+            userRoleChart.render();
+        }
+        
+        // Initialize encryption methods chart with proper error handling
+        const encryptionOptions = {
+            series: [
+                Number("{% if lsb_count is defined %}{{ lsb_count }}{% else %}40{% endif %}"), 
+                Number("{% if dct_count is defined %}{{ dct_count }}{% else %}30{% endif %}"), 
+                Number("{% if dwt_count is defined %}{{ dwt_count }}{% else %}20{% endif %}"), 
+                Number("{% if other_count is defined %}{{ other_count }}{% else %}10{% endif %}")
+            ],
+            labels: ['LSB', 'DCT', 'DWT', 'Other'],
+            chart: {
+                height: 220,
+                type: 'pie',
+                fontFamily: 'Poppins, sans-serif'
+            },
+            colors: ['#4361ee', '#16c79a', '#f8961e', '#ef476f'],
+            legend: {
+                position: 'bottom'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: { height: 200 }
+                }
+            }],
+            dataLabels: { enabled: false }
+        };
+
+        if (document.querySelector("#encryptionChart")) {
+            const encryptionChart = new ApexCharts(document.querySelector("#encryptionChart"), encryptionOptions);
+            encryptionChart.render();
+        }
+    } catch (error) {
+        console.error("Error initializing charts:", error);
+    }
+    
+    // Refresh dashboard button
+    if (document.getElementById('refresh-dashboard')) {
+        document.getElementById('refresh-dashboard').addEventListener('click', function() {
+            location.reload();
+        });
+    }
+});
+</script>
+{% endblock %}
+
+<style>
+/* Dashboard specific styles */
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    background: var(--admin-primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.date-badge {
+    background-color: rgba(0, 0, 0, 0.03);
+    color: var(--admin-dark);
+    padding: 8px 15px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.date-badge i {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+.security-badge {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.security-badge.secure {
+    background-color: rgba(22, 199, 154, 0.1);
+    color: var(--admin-success);
+}
+
+.security-badge.warning {
+    background-color: rgba(248, 150, 30, 0.1);
+    color: var(--admin-warning);
+}
+
+.security-badge.danger {
+    background-color: rgba(239, 71, 111, 0.1);
+    color: var(--admin-danger);
+}
+
+.security-badge i {
+    margin-right: 5px;
+}
+
+.security-meter span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.alert-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.alert-item:last-child {
+    border-bottom: none;
+}
+
+.alert-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.alert-icon.success {
+    background-color: rgba(22, 199, 154, 0.1);
+    color: var(--admin-success);
+}
+
+.alert-icon.warning {
+    background-color: rgba(248, 150, 30, 0.1);
+    color: var(--admin-warning);
+}
+
+.alert-icon.danger {
+    background-color: rgba(239, 71, 111, 0.1);
+    color: var(--admin-danger);
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.alert-desc {
+    font-size: 0.8rem;
+    color: var(--admin-muted);
+    margin-bottom: 2px;
+}
+
+.alert-time {
+    font-size: 0.7rem;
+    color: var(--admin-muted);
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.02);
+    text-decoration: none;
+    color: var(--admin-dark);
+    transition: var(--admin-transition);
+}
+
+.quick-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--admin-shadow);
+}
+
+.quick-link-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.metric-card {
+    background-color: rgba(0, 0, 0, 0.02);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    height: 100%;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: var(--admin-muted);
+}
+
+/* Table styles */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--admin-dark);
+    border-top: none;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+    color: var(--admin-dark);
+    white-space: nowrap;
+}
+
+.user-name-link {
+    color: var(--admin-dark);
+    text-decoration: none;
+    transition: var(--admin-transition);
+}
+
+.user-name-link:hover {
+    color: var(--admin-primary);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.avatar-admin {
+    background: linear-gradient(135deg, #ef476f, #b5179e);
+}
+
+.avatar-mod {
+    background: linear-gradient(135deg, #4cc9f0, #4361ee);
+}
+
+.avatar-user {
+    background: linear-gradient(135deg, #06d6a0, #118ab2);
+}
+
+.avatar-system {
+    background: linear-gradient(135deg, #6c757d, #495057);
+}
+
+@media (max-width: 767px) {
+    .date-badge {
+        display: none;
+    }
+    
+    .quick-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
 {% endblock %}

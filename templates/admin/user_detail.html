@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}User Details | Admin | SteganoSafe{% endblock %}
 
@@ -127,11 +127,11 @@
 </style>
 {% endblock %}
 
-{% block content %}
+{% block admin_content %}
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>User Details</h1>
-        <a href="{{ url_for('admin.user_list') }}" class="btn btn-outline-secondary">
+        <a href="{{ url_for('admin_bp.users') }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Back to Users List
         </a>
     </div>
@@ -193,11 +193,11 @@
                             <span class="role-badge {{ user.role }}">{{ user.role }}</span>
                             
                             {% if user.role != 'admin' %}
-                                <a href="{{ url_for('admin.change_user_role', user_id=user.id, role='admin') }}" class="btn btn-sm btn-outline-success ms-2">
+                                <a href="{{ url_for('admin_bp.change_user_role', user_id=user.id, role='admin') }}" class="btn btn-sm btn-outline-success ms-2">
                                     <i class="bi bi-arrow-up-circle-fill"></i> Make Admin
                                 </a>
                             {% elif current_user.id != user.id %}
-                                <a href="{{ url_for('admin.demote_user', user_id=user.id) }}" class="btn btn-sm btn-outline-warning ms-2">
+                                <a href="{{ url_for('admin_bp.demote_user', user_id=user.id) }}" class="btn btn-sm btn-outline-warning ms-2">
                                     <i class="bi bi-arrow-down-circle-fill"></i> Demote
                                 </a>
                             {% endif %}
@@ -210,7 +210,7 @@
                                 <span class="badge bg-success">Verified</span>
                             {% else %}
                                 <span class="badge bg-warning text-dark">Unverified</span>
-                                <a href="{{ url_for('admin.verify_user', user_id=user.id) }}" class="btn btn-sm btn-outline-primary ms-2">
+                                <a href="{{ url_for('admin_bp.verify_user', user_id=user.id) }}" class="btn btn-sm btn-outline-primary ms-2">
                                     <i class="bi bi-check-circle"></i> Verify Manually
                                 </a>
                             {% endif %}
@@ -301,7 +301,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST">
+                <form action="{{ url_for('admin_bp.delete_user', user_id=user.id) }}" method="POST">
                     <button type="submit" class="btn btn-danger">Delete User</button>
                 </form>
             </div>

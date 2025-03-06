@@ -108,6 +108,24 @@
                     <div class="form-text">This password will be needed to decrypt the message later.</div>
                 </div>
                 
+                <div class="mb-3">
+                    <label for="encryption_method" class="form-label">Encryption Method:</label>
+                    
+                    <!-- Use the simplest possible select - no Bootstrap styling -->
+                    <select name="encryption_method" id="encryption_method" class="w-100 p-2"
+                            style="height: 40px; border: 1px solid #ced4da; border-radius: 4px;">
+                        <option value="LSB" selected>LSB</option>
+                        <option value="PVD">PVD</option>
+                        <option value="DWT">DWT</option>
+                        <option value="DCT">DCT</option>
+                    </select>
+                    
+                    <div class="form-text">
+                        <strong>LSB</strong>: Fast but less secure. <strong>PVD</strong>: Better security. 
+                        <strong>DCT/DWT</strong>: Advanced methods with better stealth.
+                    </div>
+                </div>
+                
                 <div class="progress-container">
                     <label class="form-label">Processing</label>
                     <div class="progress">
@@ -127,6 +145,8 @@
 {% endblock %}
 
 {% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/encryption-method-fix.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('image');
@@ -137,6 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const encryptForm = document.getElementById('encrypt-form');
     const progressContainer = document.querySelector('.progress-container');
     const progressBar = document.querySelector('.progress-bar');
+    
+    // Debug available encryption methods
+    console.log("Available encryption methods:", JSON.parse('{{ encryption_methods|tojson|safe }}'));
     
     // Preview uploaded image
     imageInput.addEventListener('change', function() {
@@ -297,6 +320,26 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => alertDiv.remove(), 300);
         }, 5000);
     }
+    
+    // Show the actual values in the dropdown
+    const encryptionMethods = JSON.parse('{{ encryption_methods|tojson|safe }}');
+    const selectElement = document.getElementById('encryption_method');
+    if (selectElement && encryptionMethods.length > 0) {
+        // Clear existing options
+        selectElement.innerHTML = '';
+        
+        // Add server-provided options
+        encryptionMethods.forEach(method => {
+            const option = document.createElement('option');
+            option.value = method;
+            option.text = method;
+            if (method === '{{ default_method }}') {
+                option.selected = true;
+            }
+            selectElement.appendChild(option);
+        });
+    }
 });
 </script>
 {% endblock %}
+

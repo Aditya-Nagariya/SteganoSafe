@@ -1,0 +1,296 @@
+/**
+ * Admin Image Management CSS
+ * Styling for the admin image management interface
+ */
+
+/* Image table styling */
+.table-container {
+    position: relative;
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.admin-images-table th {
+    white-space: nowrap;
+    user-select: none;
+}
+
+.admin-images-table th[data-sort] {
+    cursor: pointer;
+}
+
+.admin-images-table th[data-sort]:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Sortable headers */
+.admin-images-table th[data-sort]::after {
+    content: '↕';
+    margin-left: 5px;
+    font-size: 0.8em;
+    opacity: 0.5;
+}
+
+.admin-images-table th[data-sort].sort-asc::after {
+    content: '↑';
+    opacity: 1;
+}
+
+.admin-images-table th[data-sort].sort-desc::after {
+    content: '↓';
+    opacity: 1;
+}
+
+/* Image cell styling */
+.image-cell {
+    width: 80px;
+    text-align: center;
+}
+
+.image-cell img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: zoom-in;
+    border: 1px solid #e9ecef;
+    background: #f8f9fa url('/static/img/image-loading.gif') center no-repeat;
+    background-size: 24px;
+}
+
+.image-cell img.loading {
+    opacity: 0.5;
+}
+
+.image-cell img.error {
+    opacity: 0.3;
+    border: 1px solid #dc3545;
+}
+
+/* Image zoom effect */
+.image-cell img.zoomed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 9999;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    cursor: zoom-out;
+}
+
+/* Overlay for zoomed images */
+.zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 9998;
+}
+
+/* Filename cell styling */
+.filename-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Actions cell styling */
+.actions-cell {
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Placeholder styling for missing images */
+.image-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #f8f9fa;
+    border: 1px dashed #ced4da;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 1.5rem;
+}
+
+/* Image row hover effect */
+.image-row:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Badge styling */
+.badge {
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 0.35em 0.65em;
+}
+
+/* Modal image styling */
+#modalImageContainer {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 10px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalImage {
+    max-height: 60vh;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.image-info {
+    margin-top: 15px;
+}
+
+/* Bulk delete modal styling */
+#bulkDeleteModal .form-check-label {
+    font-weight: 600;
+}
+
+/* Filter buttons styling */
+.filter-btn {
+    margin-right: 5px;
+}
+
+.filter-btn.active {
+    font-weight: 600;
+}
+
+/* Add some animation for loading */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Loading spinner for lazy loaded images */
+.lazy-load-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Additional styles for the admin images page */
+.admin-images-table img {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 4px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #dee2e6;
+    padding: 2px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.admin-images-table img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Add zoomed state with higher z-index */
+.admin-images-table img.zoomed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(3);
+    max-width: 80vw;
+    max-height: 80vh;
+    z-index: 9999;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.admin-images-table .image-cell {
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.admin-images-table .filename-cell {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-images-table .actions-cell {
+    width: 80px;
+    text-align: center;
+}
+
+/* Ensure proper spacing in table cells */
+.admin-images-table td {
+    vertical-align: middle;
+    padding: 12px;
+}
+
+/* Add a gentle hover effect to rows */
+.admin-images-table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Image placeholders */
+.image-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6c757d;
+    font-size: 1.5rem;
+    margin: 0 auto;
+}
+
+/* Add loading state styling */
+.lazy-load-image.loading {
+    opacity: 0.5;
+    filter: blur(2px);
+}
+
+.lazy-load-image.loaded {
+    opacity: 1;
+}
+
+.lazy-load-image.error {
+    border: 1px solid #dc3545;
+}
+
+/* Pagination styling */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}

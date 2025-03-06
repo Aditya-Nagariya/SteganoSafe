@@ -7,12 +7,16 @@ import secrets
 from datetime import timedelta
 import logging
 from contextlib import suppress
+import json
 
 # Ensure .env is loaded early
 load_dotenv()
 
 # Setup logger
 logger = logging.getLogger(__name__)
+
+# Path to config file for persistent settings
+CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'app_config.json')
 
 class Config:
     # Create data directory if it doesn't exist
@@ -57,10 +61,13 @@ class Config:
     CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND') or 'redis://localhost:6379/0'
     CELERY_TASK_ALWAYS_EAGER = True  # Force tasks to execute synchronously in development
     
-    # Session configuration
+    # Session configuration - modify these settings
     SESSION_TYPE = 'filesystem'
-    PERMANENT_SESSION_LIFETIME = timedelta(seconds=3600)  # 1 hour in seconds
-    SESSION_COOKIE_SECURE = os.getenv('FLASK_ENV') == 'production'
+    SESSION_PERMANENT = True
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)  # Extend to 7 days
+    SESSION_COOKIE_SECURE = False  # Set to False for development
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'  # Use 'Lax' for login redirects to work
     
     # CSRF settings
     WTF_CSRF_SECRET_KEY = os.getenv('CSRF_SECRET_KEY', 'csrf-dev-key')
@@ -87,3 +94,64 @@ class Config:
     # Email validation settings
     SKIP_EMAIL_DOMAIN_CHECK = True  # Set to False in production
     ALLOWED_TEST_DOMAINS = ['example.com', 'example.org', 'example.net', 'test.com']
+    
+    # Steganography settings
+    DEFAULT_ENCRYPTION_METHOD = 'LSB'
+    
+    # Load custom settings from file if exists
+    @classmethod
+    def load_from_file(cls):
+        if os.path.exists(CONFIG_FILE):
+            try:
+                with open(CONFIG_FILE, 'r') as f:
+                    custom_config = json.load(f)
+                
+                for key, value in custom_config.items():
+                    setattr(cls, key, value)
+                    
+                logger.info(f"Loaded custom config from {CONFIG_FILE}")
+            except Exception as e:
+                logger.error(f"Error loading config file: {str(e)}")
+
+# Load custom config at module import
+Config.load_from_file()
+
+def update_config(key, value):
+    """Update a configuration value both in memory and in file"""
+    # Update in the current running instance
+    setattr(Config, key, value)
+    
+    try:
+        # Read current config file
+        import os
+        config_path = os.path.join(os.path.dirname(__file__), 'config.py')
+        with open(config_path, 'r') as file:
+            config_content = file.readlines()
+        
+        # Find the line with the setting or append to the end
+        found = False
+        for i, line in enumerate(config_content):
+            if line.strip().startswith(f"{key} ="):
+                if isinstance(value, str):
+                    config_content[i] = f"{key} = '{value}'\n"
+                else:
+                    config_content[i] = f"{key} = {value}\n"
+                found = True
+                break
+        
+        if not found:
+            # Add new setting to the end of the file
+            if isinstance(value, str):
+                config_content.append(f"{key} = '{value}'\n")
+            else:
+                config_content.append(f"{key} = {value}\n")
+        
+        # Write updated content back to file
+        with open(config_path, 'w') as file:
+            file.writelines(config_content)
+            
+        return True
+    except Exception as e:
+        import logging
+        logging.error(f"Failed to update config file: {str(e)}")
+        return False

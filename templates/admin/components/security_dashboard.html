@@ -1,0 +1,314 @@
+<div class="admin-card security-dashboard">
+    <div class="card-header">
+        <h5>Security Overview</h5>
+        <div class="security-status">
+            <span class="status-indicator status-secure"></span>
+            <span>System Secure</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="security-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon bg-success">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="metric-title">
+                            <h6>System Health</h6>
+                            <div class="metric-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="progress-value">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-body">
+                        <ul class="metric-list">
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> Database Secure</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> File Storage Secure</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> SSL Certificate Valid</li>
+                            <li class="warning"><i class="bi bi-exclamation-circle-fill"></i> Storage Usage High</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="security-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon bg-warning">
+                            <i class="bi bi-lock"></i>
+                        </div>
+                        <div class="metric-title">
+                            <h6>User Security</h6>
+                            <div class="metric-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="progress-value">82%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-body">
+                        <ul class="metric-list">
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> 2FA Available</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> Password Policy Enforced</li>
+                            <li class="warning"><i class="bi bi-exclamation-circle-fill"></i> 18% Users Unverified</li>
+                            <li class="danger"><i class="bi bi-x-circle-fill"></i> Several Weak Passwords</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="security-metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon bg-primary">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <div class="metric-title">
+                            <h6>Encryption Security</h6>
+                            <div class="metric-progress">
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="progress-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-body">
+                        <ul class="metric-list">
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> All Algorithms Up-to-Date</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> Key Management Secure</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> Encryption Strong</li>
+                            <li class="success"><i class="bi bi-check-circle-fill"></i> No Algorithm Vulnerabilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Timeline -->
+        <div class="security-timeline mt-4">
+            <h6 class="security-timeline-title">Recent Security Events</h6>
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-badge bg-success">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">Today, 10:30 AM</div>
+                        <h6 class="timeline-title">Weekly Security Scan Completed</h6>
+                        <p class="timeline-text">No vulnerabilities detected in the system.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge bg-warning">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">Yesterday, 3:15 PM</div>
+                        <h6 class="timeline-title">Multiple Failed Login Attempts</h6>
+                        <p class="timeline-text">5 failed login attempts detected for user "admin" from IP 192.168.1.53.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge bg-info">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">2 days ago</div>
+                        <h6 class="timeline-title">User Account Secured</h6>
+                        <p class="timeline-text">Admin user "johndoe" enabled two-factor authentication.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.security-dashboard .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.security-status {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-secure {
+    background-color: var(--admin-success);
+    box-shadow: 0 0 0 4px rgba(22, 199, 154, 0.2);
+}
+
+.status-warning {
+    background-color: var(--admin-warning);
+    box-shadow: 0 0 0 4px rgba(248, 150, 30, 0.2);
+}
+
+.status-danger {
+    background-color: var(--admin-danger);
+    box-shadow: 0 0 0 4px rgba(239, 71, 111, 0.2);
+}
+
+.security-metric-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 10px;
+    padding: 1.25rem;
+    height: 100%;
+}
+
+.metric-header {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.metric-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}
+
+.metric-title {
+    flex: 1;
+}
+
+.metric-title h6 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.metric-progress {
+    display: flex;
+    align-items: center;
+}
+
+.metric-progress .progress {
+    flex: 1;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.metric-progress .progress-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.metric-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.metric-list li {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 6px 0;
+}
+
+.metric-list li i {
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.metric-list li.success i {
+    color: var(--admin-success);
+}
+
+.metric-list li.warning i {
+    color: var(--admin-warning);
+}
+
+.metric-list li.danger i {
+    color: var(--admin-danger);
+}
+
+.security-timeline-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.timeline-container {
+    position: relative;
+}
+
+.timeline-container:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 16px;
+    height: 100%;
+    width: 2px;
+    background: var(--admin-border);
+    z-index: 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 20px;
+}
+
+.timeline-badge {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 1;
+}
+
+.timeline-content {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.timeline-time {
+    font-size: 0.75rem;
+    color: var(--admin-muted);
+    margin-bottom: 5px;
+}
+
+.timeline-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.timeline-text {
+    font-size: 0.85rem;
+    color: var(--admin-dark);
+    margin: 0;
+}
+</style>

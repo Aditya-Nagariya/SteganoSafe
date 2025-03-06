@@ -1,258 +1,70 @@
 {% extends "base.html" %}
 
-{% block title %}Login | SteganoSafe{% endblock %}
-
-{% block head %}
-<style>
-    .login-card {
-        border: none;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-lg);
-        overflow: hidden;
-    }
-    
-    .card-header.gradient {
-        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
-    }
-    
-    .nav-pills .nav-link.active {
-        background-color: #2c7da0;
-    }
-    
-    .nav-pills .nav-link {
-        color: #2c7da0;
-        font-weight: 500;
-    }
-    
-    .security-feature-icon {
-        font-size: 1.5rem;
-        color: #38b000;
-        margin-right: 1rem;
-    }
-    
-    .form-control:focus {
-        border-color: #2c7da0;
-        box-shadow: 0 0 0 0.25rem rgba(44, 125, 160, 0.25);
-    }
-    
-    .btn-primary {
-        background: linear-gradient(135deg, #2c7da0, #1a5e7e);
-        border: none;
-    }
-    
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #1a5e7e, #152238);
-    }
-    
-    .btn-outline-primary {
-        color: #2c7da0;
-        border-color: #2c7da0;
-    }
-    
-    .btn-outline-primary:hover {
-        background-color: #2c7da0;
-        color: white;
-    }
-    
-    /* Animated background */
-    .login-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(44, 125, 160, 0.05), rgba(78, 168, 222, 0.05));
-        z-index: -1;
-    }
-    
-    .login-background::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(44, 125, 160, 0.03) 10%, transparent 10.5%),
-                    radial-gradient(circle, rgba(44, 125, 160, 0.02) 10%, transparent 10.5%);
-        background-size: 50px 50px;
-        background-position: 0 0, 25px 25px;
-        animation: backgroundScroll 60s linear infinite;
-        opacity: 0.5;
-    }
-    
-    @keyframes backgroundScroll {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(50px); }
-    }
-</style>
-{% endblock %}
+{% block title %}Login - SteganoSafe{% endblock %}
 
 {% block content %}
-<!-- Animated background -->
-<div class="login-background"></div>
-
-<div class="row justify-content-center animate__animated animate__fadeIn">
-    <div class="col-md-10 col-lg-6 col-xl-5">
-        <div class="login-card mb-4">
-            <div class="card-header gradient text-center py-4">
-                <h2 class="text-white mb-0">Welcome Back</h2>
-                <p class="text-white-50 mb-0">Sign in to access your secure messages</p>
-            </div>
-            
-            <div class="card-body p-4 p-md-5">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                                {% if category == 'success' %}
-                                    <i class="bi bi-check-circle me-2"></i>
-                                {% elif category == 'danger' %}
-                                    <i class="bi bi-exclamation-triangle me-2"></i>
-                                {% elif category == 'warning' %}
-                                    <i class="bi bi-exclamation-circle me-2"></i>
-                                {% elif category == 'info' %}
-                                    <i class="bi bi-info-circle me-2"></i>
-                                {% endif %}
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 login-container">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0">
+                        <i class="bi bi-lock-fill me-2"></i>Login
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form id="login-form" method="POST" action="{{ url_for('login') }}">
+                        {{ form.csrf_token }}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id }}" class="form-label">
+                                <i class="bi bi-person-fill me-2"></i>Username
+                            </label>
+                            {{ form.username(class="form-control", placeholder="Enter your username") }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password.id }}" class="form-label">
+                                <i class="bi bi-key-fill me-2"></i>Password
+                            </label>
+                            <div class="input-group">
+                                {{ form.password(class="form-control", placeholder="Enter your password") }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                
-                <!-- Login Tabs -->
-                <ul class="nav nav-pills mb-4 nav-justified" id="loginTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active w-100" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-login" type="button" role="tab" aria-selected="true">
-                            <i class="bi bi-key me-2"></i> Password
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link w-100" id="phone-tab" data-bs-toggle="tab" data-bs-target="#phone-login" type="button" role="tab" aria-selected="false">
-                            <i class="bi bi-phone me-2"></i> Phone OTP
-                        </button>
-                    </li>
-                </ul>
-                
-                <!-- Tab Content -->
-                <div class="tab-content" id="loginTabContent">
-                    <!-- Password Login -->
-                    <div class="tab-pane fade show active" id="password-login" role="tabpanel" aria-labelledby="password-tab">
-                        <form id="loginForm" method="POST" action="{{ url_for('login') }}">
-                            {{ form.hidden_tag() }}
-                            <div class="mb-4">
-                                <label for="{{ form.username.id }}" class="form-label">Username</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-person"></i>
-                                    </span>
-                                    {{ form.username(class="form-control", placeholder="Enter your username", required=True) }}
-                                </div>
-                                {% if form.username.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {% for error in form.username.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="{{ form.password.id }}" class="form-label">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
-                                    {{ form.password(class="form-control", placeholder="Enter your password", required=True) }}
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                </div>
-                                {% if form.password.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {% for error in form.password.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="d-flex justify-content-between mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="rememberMe" name="remember">
-                                    <label class="form-check-label" for="rememberMe">
-                                        Remember me
-                                    </label>
-                                </div>
-                                <a href="#" class="text-decoration-none" style="color: #2c7da0;">Forgot password?</a>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100 py-2 mb-4">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            {{ form.remember(class="form-check-input") }}
+                            <label class="form-check-label" for="{{ form.remember.id }}">
+                                Remember me
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                     
-                    <!-- Phone OTP Login -->
-                    <div class="tab-pane fade" id="phone-login" role="tabpanel" aria-labelledby="phone-tab">
-                        <form id="phoneLoginForm" method="POST" action="{{ url_for('login_phone') }}">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            
-                            <div class="mb-4">
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-phone"></i>
-                                    </span>
-                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1234567890" required>
-                                </div>
-                                <div class="form-text">Enter your phone number in E.164 format (e.g., +1234567890)</div>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="otp" class="form-label">One-Time Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-shield-lock"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
-                                    <button type="button" class="btn btn-outline-primary" id="requestOtpBtn">
-                                        Request OTP
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100 py-2 mb-4">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> Sign In with OTP
-                            </button>
-                        </form>
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-2">Don't have an account?</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus-fill me-2"></i>Register
+                        </a>
                     </div>
-                </div>
-                
-                <div class="text-center">
-                    <p class="mb-0">Don't have an account? 
-                        <a href="{{ url_for('register') }}" style="color: #2c7da0;" class="fw-bold">Register</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Security Features Callout -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body p-3">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="bi bi-shield-check security-feature-icon"></i>
-                    <div>
-                        <h6 class="mb-0 fw-bold">Secure Authentication</h6>
-                        <p class="mb-0 small text-muted">All connections are encrypted and protected</p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-lock security-feature-icon"></i>
-                    <div>
-                        <h6 class="mb-0 fw-bold">End-to-End Encryption</h6>
-                        <p class="mb-0 small text-muted">Your messages remain private throughout the process</p>
-                    </div>
+
+                    <!-- Hidden form for direct submission -->
+                    <form id="direct-login-form" action="{{ url_for('login') }}" method="POST" style="display: none;">
+                        {{ form.csrf_token }}
+                        <input type="hidden" name="username" id="direct-username">
+                        <input type="hidden" name="password" id="direct-password">
+                        <input type="hidden" name="remember" id="direct-remember">
+                    </form>
                 </div>
             </div>
         </div>
@@ -261,239 +73,53 @@
 {% endblock %}
 
 {% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/login_handler.js') }}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     // Toggle password visibility
-    const togglePasswordButton = document.getElementById('togglePassword');
-    if (togglePasswordButton) {
-        togglePasswordButton.addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('{{ form.password.id }}');
+    
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function() {
             const icon = this.querySelector('i');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
             
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
+            if (type === 'text') {
                 icon.classList.remove('bi-eye');
                 icon.classList.add('bi-eye-slash');
             } else {
-                passwordInput.type = 'password';
                 icon.classList.remove('bi-eye-slash');
                 icon.classList.add('bi-eye');
             }
         });
     }
     
-    // Regular login form submit with AJAX
-    const loginForm = document.getElementById('loginForm');
+    // Fallback for login if AJAX fails
+    const loginForm = document.getElementById('login-form');
     if (loginForm) {
+        // Store original form submission
+        const originalSubmit = loginForm.onsubmit;
+        
+        // Add timeout fallback
         loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // If AJAX fails, submit form directly after 3 seconds
+            const username = document.getElementById('{{ form.username.id }}').value;
+            const password = document.getElementById('{{ form.password.id }}').value;
+            const remember = document.getElementById('{{ form.remember.id }}').checked;
             
-            const formData = new FormData(this);
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
+            // Set values in direct form
+            document.getElementById('direct-username').value = username;
+            document.getElementById('direct-password').value = password;
+            document.getElementById('direct-remember').checked = remember;
             
-            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Signing in...';
-            submitButton.disabled = true;
-            
-            // Get CSRF token from both possible locations
-            const csrfToken = document.querySelector('input[name="csrf_token"]').value || 
-                              document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken
-                },
-                credentials: 'same-origin'
-            })
-            .then(response => {
-                console.log("Login response status:", response.status);
-                
-                // Try to parse the response as JSON
-                return response.json().catch(() => {
-                    // If JSON parsing fails, return based on status code
-                    if (response.ok) {
-                        return { success: true, redirect: '/dashboard' };
-                    } else {
-                        return { 
-                            success: false, 
-                            message: `Invalid credentials or server error (${response.status})`, 
-                            status: response.status 
-                        };
-                    }
-                });
-            })
-            .then(data => {
-                console.log("Login response data:", data);
-                
-                if (data.success) {
-                    window.location.href = data.redirect || '/dashboard';
-                } else {
-                    // Reset button state
-                    submitButton.innerHTML = originalText;
-                    submitButton.disabled = false;
-                    
-                    // Show error message
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Failed',
-                        text: data.message || 'Invalid credentials. Please try again.',
-                        confirmButtonColor: '#2c7da0'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                
-                // Reset button state
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Error',
-                    text: 'An error occurred during login. Please try again.',
-                    confirmButtonColor: '#2c7da0'
-                });
-            });
-        });
-    }
-    
-    // Phone OTP request
-    const requestOtpBtn = document.getElementById('requestOtpBtn');
-    if (requestOtpBtn) {
-        requestOtpBtn.addEventListener('click', function() {
-            const phoneInput = document.getElementById('phone');
-            const phone = phoneInput.value.trim();
-            
-            if (!phone) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Phone Required',
-                    text: 'Please enter your phone number first',
-                    confirmButtonColor: '#2c7da0'
-                });
-                return;
-            }
-            
-            const originalText = this.innerHTML;
-            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
-            this.disabled = true;
-            
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            
-            fetch('/request_otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrfToken
-                },
-                body: `phone=${encodeURIComponent(phone)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                this.innerHTML = originalText;
-                this.disabled = false;
-                
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'OTP Sent!',
-                        text: 'A one-time password has been sent to your phone',
-                        timer: 3000,
-                        timerProgressBar: true,
-                        confirmButtonColor: '#2c7da0'
-                    });
-                    document.getElementById('otp').focus();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'OTP Error',
-                        text: data.message || 'Failed to send OTP. Please try again.',
-                        confirmButtonColor: '#2c7da0'
-                    });
-                }
-            })
-            .catch(error => {
-                this.innerHTML = originalText;
-                this.disabled = false;
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Server Error',
-                    text: 'Failed to connect to the server. Please try again later.',
-                    confirmButtonColor: '#2c7da0'
-                });
-            });
-        });
-    }
-    
-    // Phone login form handling
-    const phoneLoginForm = document.getElementById('phoneLoginForm');
-    if (phoneLoginForm) {
-        phoneLoginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const phoneInput = document.getElementById('phone');
-            const otpInput = document.getElementById('otp');
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
-            
-            if (!phoneInput.value.trim() || !otpInput.value.trim()) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Missing Information',
-                    text: 'Please enter both your phone number and OTP',
-                    confirmButtonColor: '#2c7da0'
-                });
-                return;
-            }
-            
-            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Verifying...';
-            submitButton.disabled = true;
-            
-            const formData = new FormData(this);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken
-                },
-                credentials: 'same-origin'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect;
-                } else {
-                    submitButton.innerHTML = originalText;
-                    submitButton.disabled = false;
-                    
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Failed',
-                        text: data.message || 'Invalid OTP. Please try again.',
-                        confirmButtonColor: '#2c7da0'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Server Error',
-                    text: 'An error occurred during login. Please try again.',
-                    confirmButtonColor: '#2c7da0'
-                });
-            });
+            // Set timeout for fallback submission
+            setTimeout(function() {
+                console.log('Fallback login triggered');
+                document.getElementById('direct-login-form').submit();
+            }, 3000);
         });
     }
 });
