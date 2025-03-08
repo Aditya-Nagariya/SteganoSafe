@@ -37164,3 +37164,418 @@ jinja2.exceptions.UndefinedError: 'hasattr' is undefined
 2025-03-08 22:07:18,976 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:07:18] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
 2025-03-08 22:07:19,078 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:07:19] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
 2025-03-08 22:07:19,078 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:07:19] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-08 22:08:20,375 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-08 22:08:20,434 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "GET / HTTP/1.1" 200 -
+2025-03-08 22:08:20,564 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:08:20,565 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:08:20,570 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:08:20,575 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:20] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-08 22:08:22,010 - app - DEBUG - Request method: GET
+2025-03-08 22:08:22,053 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:22] "GET /register HTTP/1.1" 200 -
+2025-03-08 22:08:22,093 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:22] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:08:22,113 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:22] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:08:22,128 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:22] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:08:22,131 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:08:22] "GET /static/js/form-validation.js HTTP/1.1" 200 -
+2025-03-08 22:09:04,824 - app - DEBUG - Request method: POST
+2025-03-08 22:09:04,825 - app - DEBUG - Form data received:
+2025-03-08 22:09:04,825 - app - DEBUG -   csrf_token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:04,825 - app - DEBUG -   phone_validated: true
+2025-03-08 22:09:04,825 - app - DEBUG -   username: aditya
+2025-03-08 22:09:04,825 - app - DEBUG -   email: aditya@gmail.com
+2025-03-08 22:09:04,826 - app - DEBUG -   phone_number: +919998767676
+2025-03-08 22:09:04,826 - app - DEBUG -   otp: 123456
+2025-03-08 22:09:04,853 - app - DEBUG - AJAX request received for registration
+2025-03-08 22:09:04,854 - app - DEBUG - CSRF Token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:04,870 - app - DEBUG - Username already exists
+2025-03-08 22:09:04,872 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:04] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-03-08 22:09:17,344 - app - DEBUG - Request method: POST
+2025-03-08 22:09:17,345 - app - DEBUG - Form data received:
+2025-03-08 22:09:17,345 - app - DEBUG -   csrf_token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:17,345 - app - DEBUG -   phone_validated: true
+2025-03-08 22:09:17,345 - app - DEBUG -   username: Aditya
+2025-03-08 22:09:17,345 - app - DEBUG -   email: aditya@gmail.com
+2025-03-08 22:09:17,345 - app - DEBUG -   phone_number: +919998767676
+2025-03-08 22:09:17,345 - app - DEBUG -   otp: 123456
+2025-03-08 22:09:17,346 - app - DEBUG - AJAX request received for registration
+2025-03-08 22:09:17,346 - app - DEBUG - CSRF Token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:17,356 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:17] "[31m[1mPOST /register HTTP/1.1[0m" 400 -
+2025-03-08 22:09:31,075 - app - DEBUG - Request method: POST
+2025-03-08 22:09:31,076 - app - DEBUG - Form data received:
+2025-03-08 22:09:31,076 - app - DEBUG -   csrf_token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:31,076 - app - DEBUG -   phone_validated: true
+2025-03-08 22:09:31,076 - app - DEBUG -   username: Adityan
+2025-03-08 22:09:31,076 - app - DEBUG -   email: adityan@gmail.com
+2025-03-08 22:09:31,076 - app - DEBUG -   phone_number: +919998767676
+2025-03-08 22:09:31,076 - app - DEBUG -   otp: 123456
+2025-03-08 22:09:31,077 - app - DEBUG - AJAX request received for registration
+2025-03-08 22:09:31,077 - app - DEBUG - CSRF Token: IjdmZTgxZTI0ZWM2YzVjNzQ1YjUyMjRlMzNlMjcxMGE3N2RjNzZjN2Qi.Z8xyfg.Z9LCzsPfkHIj_7q2PH1oEcPKVo0
+2025-03-08 22:09:31,286 - app - DEBUG - User registered successfully via AJAX
+2025-03-08 22:09:31,287 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:31] "POST /register HTTP/1.1" 200 -
+2025-03-08 22:09:33,325 - __main__ - DEBUG - Login request received: GET
+2025-03-08 22:09:33,345 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:33] "GET /login HTTP/1.1" 200 -
+2025-03-08 22:09:33,446 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:33] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:09:33,448 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:33] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:09:33,449 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:33] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:09:33,454 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:33] "GET /static/js/login_handler.js HTTP/1.1" 200 -
+2025-03-08 22:09:47,906 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:09:47,907 - __main__ - DEBUG - AJAX login request
+2025-03-08 22:09:47,908 - __main__ - DEBUG - Login attempt for username: adityan
+2025-03-08 22:09:47,918 - __main__ - DEBUG - Database connection test succeeded
+2025-03-08 22:09:47,920 - __main__ - WARNING - Failed login attempt for username: adityan
+2025-03-08 22:09:47,921 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:47] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2025-03-08 22:09:50,930 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:09:50,931 - __main__ - DEBUG - Login attempt for username: adityan
+2025-03-08 22:09:50,935 - __main__ - DEBUG - Database connection test succeeded
+2025-03-08 22:09:50,936 - __main__ - WARNING - Failed login attempt for username: adityan
+2025-03-08 22:09:50,939 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:50] "POST /login HTTP/1.1" 200 -
+2025-03-08 22:09:51,022 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:51] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:09:51,023 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:51] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:09:51,025 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:51] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:09:51,025 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:09:51] "GET /static/js/login_handler.js HTTP/1.1" 200 -
+2025-03-08 22:10:01,438 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:10:01,439 - __main__ - DEBUG - AJAX login request
+2025-03-08 22:10:01,440 - __main__ - DEBUG - Login attempt for username: Adityan
+2025-03-08 22:10:01,442 - __main__ - DEBUG - Database connection test succeeded
+2025-03-08 22:10:01,633 - __main__ - DEBUG - Login successful for user: Adityan
+2025-03-08 22:10:01,636 - __main__ - DEBUG - Redirect URL: /dashboard
+2025-03-08 22:10:01,637 - __main__ - DEBUG - Sending JSON response for AJAX login with redirect to /dashboard
+2025-03-08 22:10:01,638 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "POST /login HTTP/1.1" 200 -
+2025-03-08 22:10:01,658 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "[33mGET /check-session HTTP/1.1[0m" 404 -
+2025-03-08 22:10:01,671 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:10:01,672 - __main__ - DEBUG - User Adityan already authenticated, redirecting to dashboard
+2025-03-08 22:10:01,673 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-03-08 22:10:01,681 - __main__ - DEBUG - Dashboard requested by user: Adityan (id: 3)
+2025-03-08 22:10:01,682 - __main__ - DEBUG - Found 0 images for user
+2025-03-08 22:10:01,683 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /dashboard HTTP/1.1" 200 -
+2025-03-08 22:10:01,723 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:10:01,724 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:01,725 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:01,726 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-08 22:10:01,728 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:01] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-08 22:10:05,761 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /encrypt HTTP/1.1" 200 -
+2025-03-08 22:10:05,803 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:10:05,805 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:05,805 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:05,805 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-08 22:10:05,807 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:05] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-08 22:10:41,777 - __main__ - DEBUG - Opening image for encryption
+2025-03-08 22:10:42,069 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-08 22:10:42,070 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-08 22:10:42,237 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-08 22:10:42,237 - __main__ - DEBUG - Encrypting message
+2025-03-08 22:10:42,237 - stego - DEBUG - Encrypting message of length 108
+2025-03-08 22:10:42,457 - stego - DEBUG - Encryption successful, result length: 204
+2025-03-08 22:10:42,457 - __main__ - DEBUG - Encoding message into image
+2025-03-08 22:10:42,457 - stego - DEBUG - Encoding message of length 204 into image
+2025-03-08 22:10:42,489 - stego - DEBUG - Message encoded successfully, used 1640 bits
+2025-03-08 22:10:42,495 - __main__ - DEBUG - Saving encoded image
+2025-03-08 22:10:43,360 - __main__ - DEBUG - Creating database record for: 20250308164043_Screenshot_2025-03-08_at_3.23.38_PM.png
+2025-03-08 22:10:43,369 - __main__ - DEBUG - Database records created successfully
+2025-03-08 22:10:43,371 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:43] "POST /encrypt HTTP/1.1" 200 -
+2025-03-08 22:10:44,896 - __main__ - DEBUG - Dashboard requested by user: Adityan (id: 3)
+2025-03-08 22:10:44,899 - __main__ - DEBUG - Found 1 images for user
+2025-03-08 22:10:44,915 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:44] "GET /dashboard HTTP/1.1" 200 -
+2025-03-08 22:10:45,029 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:45] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:10:45,034 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:45] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:45,037 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:45] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:10:45,037 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:45] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-08 22:10:45,039 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:45] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-08 22:10:53,515 - root - INFO - API decrypt request for image 18 using LSB
+2025-03-08 22:10:53,525 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:10:53,526 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:10:53,526 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:10:53,528 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:53] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-08 22:10:53,541 - root - INFO - API decrypt request for image 18 using LSB
+2025-03-08 22:10:53,543 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:10:53,543 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:10:53,543 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:10:54,972 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:10:55,375 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:10:56,600 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:10:56,781 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:10:57,194 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:10:57,196 - root - ERROR - Error decrypting message: 
+2025-03-08 22:10:57,378 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:10:57,378 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:10:57,378 - root - ERROR - Error decrypting message: 
+2025-03-08 22:10:57,379 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:10:57,379 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:10:57,380 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:10:57,380 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:10:57,561 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:10:57,561 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:10:57,561 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:10:57,742 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:10:57,743 - app - DEBUG - API request to /api/decrypt_saved_image took 4.2328s
+2025-03-08 22:10:57,743 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:10:57,744 - app - DEBUG - API request to /api/decrypt_saved_image took 4.2050s
+2025-03-08 22:10:57,745 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:57] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:10:57,746 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:10:57] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:02,462 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:02,467 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:02] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-08 22:11:02,468 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:02,468 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:02,469 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:02,478 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:02,480 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:02,480 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:02,481 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:05,190 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:05,190 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:05,987 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:05,987 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:06,349 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:06,350 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:06,350 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:06,350 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:06,350 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:06,350 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:06,350 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:06,351 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:06,351 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:06,351 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:06,533 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:06,713 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:06,714 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:06,714 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:06,714 - app - DEBUG - API request to /api/decrypt_saved_image took 4.2370s
+2025-03-08 22:11:06,714 - app - DEBUG - API request to /api/decrypt_saved_image took 4.2565s
+2025-03-08 22:11:06,717 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:06] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:06,718 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:06] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:14,132 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:14,136 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:14] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-08 22:11:14,136 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:14,137 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:14,137 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:14,145 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:14,147 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:14,147 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:14,147 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:15,488 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:17,127 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:17,127 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:17,526 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:17,707 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:17,887 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:17,888 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:17,888 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:17,888 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:17,888 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:17,888 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:17,888 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:17,888 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:17,888 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:18,069 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:18,251 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:18,251 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:18,251 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:18,251 - app - DEBUG - API request to /api/decrypt_saved_image took 4.1234s
+2025-03-08 22:11:18,252 - app - DEBUG - API request to /api/decrypt_saved_image took 4.1079s
+2025-03-08 22:11:18,253 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:18] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:18,254 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:18] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:24,185 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:24,190 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:24] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-08 22:11:24,190 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:24,191 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:24,191 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:24,201 - root - INFO - API decrypt request for image 18 using PVD
+2025-03-08 22:11:24,203 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:11:24,203 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-08 22:11:24,203 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:11:25,564 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:27,197 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:27,200 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (444 chars)
+2025-03-08 22:11:27,787 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:27,787 - root - DEBUG - Decrypting message of length 444
+2025-03-08 22:11:27,788 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:27,968 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 416
+2025-03-08 22:11:27,968 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:27,969 - root - ERROR - Error decrypting message: 
+2025-03-08 22:11:27,969 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:27,969 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:11:27,969 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:27,969 - stego - DEBUG - Safely decrypting message of length 444
+2025-03-08 22:11:28,149 - stego - DEBUG - Base64 decoding succeeded, got 333 bytes
+2025-03-08 22:11:28,330 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:28,330 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:28,330 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:28,330 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-08 22:11:28,331 - app - DEBUG - API request to /api/decrypt_saved_image took 4.1491s
+2025-03-08 22:11:28,331 - app - DEBUG - API request to /api/decrypt_saved_image took 4.1314s
+2025-03-08 22:11:28,333 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:28] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:28,333 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:28] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-08 22:11:34,589 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /encrypt HTTP/1.1" 200 -
+2025-03-08 22:11:34,667 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:11:34,673 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:11:34,686 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-08 22:11:34,691 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:11:34,691 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:11:34] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-08 22:12:00,299 - __main__ - DEBUG - Opening image for encryption
+2025-03-08 22:12:00,300 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:12:00,300 - PIL.PngImagePlugin - DEBUG - STREAM b'iCCP' 41 3146
+2025-03-08 22:12:00,301 - PIL.PngImagePlugin - DEBUG - iCCP profile name b'ICC Profile'
+2025-03-08 22:12:00,304 - PIL.PngImagePlugin - DEBUG - Compression method 0
+2025-03-08 22:12:00,305 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 3199 138
+2025-03-08 22:12:00,305 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 3349 9
+2025-03-08 22:12:00,305 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 3370 470
+2025-03-08 22:12:00,306 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 3852 28
+2025-03-08 22:12:00,306 - PIL.PngImagePlugin - DEBUG - b'iDOT' 3852 28 (unknown)
+2025-03-08 22:12:00,306 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 3892 7850
+2025-03-08 22:12:00,310 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-08 22:12:00,311 - __main__ - DEBUG - Encrypting message
+2025-03-08 22:12:00,311 - stego - DEBUG - Encrypting message of length 87
+2025-03-08 22:12:00,492 - stego - DEBUG - Encryption successful, result length: 176
+2025-03-08 22:12:00,492 - __main__ - DEBUG - Encoding message into image
+2025-03-08 22:12:00,492 - stego - DEBUG - Encoding message of length 176 into image
+2025-03-08 22:12:00,501 - stego - DEBUG - Message encoded successfully, used 1416 bits
+2025-03-08 22:12:00,502 - __main__ - DEBUG - Saving encoded image
+2025-03-08 22:12:00,509 - __main__ - DEBUG - Creating database record for: 20250308164200_Screenshot_2025-02-13_at_12.28.00_PM.png
+2025-03-08 22:12:00,514 - __main__ - DEBUG - Database records created successfully
+2025-03-08 22:12:00,515 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:00] "POST /encrypt HTTP/1.1" 200 -
+2025-03-08 22:12:02,043 - __main__ - DEBUG - Dashboard requested by user: Adityan (id: 3)
+2025-03-08 22:12:02,049 - __main__ - DEBUG - Found 2 images for user
+2025-03-08 22:12:02,071 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /dashboard HTTP/1.1" 200 -
+2025-03-08 22:12:02,124 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:12:02,126 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:02,126 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:02,128 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-08 22:12:02,130 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:02] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-08 22:12:12,214 - root - INFO - API decrypt request for image 19 using PVD
+2025-03-08 22:12:12,218 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:12:12,219 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:12] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-08 22:12:12,219 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 13000
+2025-03-08 22:12:12,220 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:12:12,248 - root - DEBUG - Found base64 candidate: CpVuAGDoIkCSjBqgIvrW... (176 chars)
+2025-03-08 22:12:12,253 - root - DEBUG - Decrypting message of length 176
+2025-03-08 22:12:12,437 - root - INFO - API decrypt request for image 19 using PVD
+2025-03-08 22:12:12,437 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 148
+2025-03-08 22:12:12,438 - root - ERROR - Error decrypting message: 
+2025-03-08 22:12:12,438 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:12:12,439 - stego - DEBUG - Safely decrypting message of length 176
+2025-03-08 22:12:12,439 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-08 22:12:12,439 - stego - DEBUG - Base64 decoding succeeded, got 131 bytes
+2025-03-08 22:12:12,439 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 13000
+2025-03-08 22:12:12,617 - stego - DEBUG - Safe decryption successful
+2025-03-08 22:12:12,617 - root - DEBUG - Starting direct LSB decoding
+2025-03-08 22:12:12,620 - app - DEBUG - API request to /api/decrypt_saved_image took 0.4100s
+2025-03-08 22:12:12,635 - root - DEBUG - Found base64 candidate: CpVuAGDoIkCSjBqgIvrW... (176 chars)
+2025-03-08 22:12:12,636 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:12] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-08 22:12:12,641 - root - DEBUG - Decrypting message of length 176
+2025-03-08 22:12:12,818 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 148
+2025-03-08 22:12:12,818 - root - ERROR - Error decrypting message: 
+2025-03-08 22:12:12,819 - root - ERROR - Error in decrypt_message: 
+2025-03-08 22:12:12,819 - stego - DEBUG - Safely decrypting message of length 176
+2025-03-08 22:12:12,819 - stego - DEBUG - Base64 decoding succeeded, got 131 bytes
+2025-03-08 22:12:13,001 - stego - DEBUG - Safe decryption successful
+2025-03-08 22:12:13,003 - app - DEBUG - API request to /api/decrypt_saved_image took 0.7452s
+2025-03-08 22:12:13,004 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:13] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-08 22:12:20,883 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-08 22:12:20,894 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "GET / HTTP/1.1" 200 -
+2025-03-08 22:12:20,930 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:12:20,931 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:20,931 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:20,937 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:20] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-08 22:12:22,370 - __main__ - DEBUG - Login request received: GET
+2025-03-08 22:12:22,375 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:22] "GET /login HTTP/1.1" 200 -
+2025-03-08 22:12:22,412 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:22] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:12:22,415 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:22] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:22,415 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:22] "GET /static/js/login_handler.js HTTP/1.1" 200 -
+2025-03-08 22:12:22,417 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:22] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:29,135 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:12:29,135 - __main__ - DEBUG - AJAX login request
+2025-03-08 22:12:29,136 - __main__ - DEBUG - Login attempt for username: admin
+2025-03-08 22:12:29,138 - __main__ - DEBUG - Database connection test succeeded
+2025-03-08 22:12:29,322 - __main__ - DEBUG - Login successful for user: admin
+2025-03-08 22:12:29,324 - __main__ - DEBUG - Redirect URL: /dashboard
+2025-03-08 22:12:29,325 - __main__ - DEBUG - Sending JSON response for AJAX login with redirect to /dashboard
+2025-03-08 22:12:29,326 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "POST /login HTTP/1.1" 200 -
+2025-03-08 22:12:29,346 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "[33mGET /check-session HTTP/1.1[0m" 404 -
+2025-03-08 22:12:29,359 - __main__ - DEBUG - Login request received: POST
+2025-03-08 22:12:29,360 - __main__ - DEBUG - User admin already authenticated, redirecting to dashboard
+2025-03-08 22:12:29,361 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-03-08 22:12:29,369 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-08 22:12:29,388 - __main__ - DEBUG - Found 17 images for user
+2025-03-08 22:12:29,526 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /dashboard HTTP/1.1" 200 -
+2025-03-08 22:12:29,579 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:12:29,590 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:29,591 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:29,678 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-08 22:12:29,678 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:29] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-08 22:12:35,389 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /encrypt HTTP/1.1" 200 -
+2025-03-08 22:12:35,423 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:12:35,426 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:35,428 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:35,428 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-08 22:12:35,428 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:35] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,112 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /admin/ HTTP/1.1" 200 -
+2025-03-08 22:12:39,157 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,161 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,162 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,163 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,164 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,167 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,173 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,174 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-08 22:12:39,174 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:39] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-08 22:12:53,738 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /admin/users HTTP/1.1" 200 -
+2025-03-08 22:12:53,791 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,794 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,796 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,796 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,796 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,796 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,801 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,805 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-08 22:12:53,805 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:53] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-08 22:12:55,690 - root - INFO - Admin images route called
+2025-03-08 22:12:55,720 - root - INFO - Retrieved 10 image records for page 1
+2025-03-08 22:12:55,755 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/images HTTP/1.1" 200 -
+2025-03-08 22:12:55,801 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,806 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,808 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,811 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,811 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,813 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,814 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,818 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/admin_images.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,819 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-08 22:12:55,820 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-08 22:12:55,828 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/19 HTTP/1.1" 200 -
+2025-03-08 22:12:55,830 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/18 HTTP/1.1" 200 -
+2025-03-08 22:12:55,837 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/17 HTTP/1.1" 200 -
+2025-03-08 22:12:55,838 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/16 HTTP/1.1" 200 -
+2025-03-08 22:12:55,847 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-08 22:12:55,848 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-08 22:12:55,858 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-08 22:12:55,858 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-08 22:12:55,876 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "[33mGET /static/img/image-loading.gif HTTP/1.1[0m" 404 -
+2025-03-08 22:12:55,878 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-08 22:12:55,880 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:12:55] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-08 22:13:06,367 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-08 22:13:06,405 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,415 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,415 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,417 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,417 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,420 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,422 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,425 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-08 22:13:06,425 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:06] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-08 22:13:16,732 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:16] "GET /admin/view-logs HTTP/1.1" 200 -
+2025-03-08 22:13:16,770 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:16] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:13:16,770 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:16] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:16,771 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:16] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:54,881 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-08 22:13:54,904 - __main__ - DEBUG - Found 17 images for user
+2025-03-08 22:13:55,139 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /dashboard HTTP/1.1" 200 -
+2025-03-08 22:13:55,253 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:55,253 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-08 22:13:55,255 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-08 22:13:55,413 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-08 22:13:55,414 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/js/dashboard.js HTTP/1.1" 200 -
