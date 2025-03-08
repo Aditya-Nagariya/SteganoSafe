@@ -1,0 +1,105 @@
+/* Additional minimalist styles for analytics fallbacks */
+
+.chart-error-container {
+    padding: 30px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.chart-error-icon {
+    font-size: 48px;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.chart-error-message {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+/* Minimal stats card */
+.stats-card-minimal {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stats-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.stats-label {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* Plain table styles */
+.table-plain {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-plain th,
+.table-plain td {
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table-plain th {
+    background-color: #f8f9fa;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Error message styling */
+.error-message {
+    background-color: #f8d7da;
+    color: #842029;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc3545;
+}
+
+/* Success message styling */
+.success-message {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #198754;
+}
+
+/* Buttons */
+.btn-minimal {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #212529;
+    cursor: pointer;
+}
+
+.btn-minimal:hover {
+    background-color: #e9ecef;
+}
+
+.btn-minimal-primary {
+    background-color: #cfe2ff;
+    border-color: #9ec5fe;
+    color: #084298;
+}
+
+.btn-minimal-primary:hover {
+    background-color: #9ec5fe;
+}

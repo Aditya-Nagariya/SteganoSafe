@@ -1,0 +1,291 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .chart-container {
+        width: 100%;
+        min-height: 300px;
+        position: relative;
+    }
+    .debug-button {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+    .stats-card {
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .stats-value {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .stats-label {
+        color: #6c757d;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h2>Analytics Dashboard</h2>
+            <button id="load-data-btn" class="btn btn-primary">Load Data</button>
+        </div>
+    </div>
+
+    <div id="error-container"></div>
+
+    <div id="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading analytics data...</p>
+    </div>
+
+    <div id="dashboard" style="display: none;">
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-label">Total Users</div>
+                    <div class="stats-value" id="total-users">-</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-label">Encryptions</div>
+                    <div class="stats-value" id="total-encryptions">-</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-label">Decryptions</div>
+                    <div class="stats-value" id="total-decryptions">-</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-label">Active Users</div>
+                    <div class="stats-value" id="active-users">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Activity Over Time</div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="activity-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Methods Distribution</div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="methods-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-danger debug-button" onclick="toggleDebug()">Debug</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+    // Global variables
+    let activityChart = null;
+    let methodsChart = null;
+    let debugMode = false;
+
+    // Toggle debug mode
+    function toggleDebug() {
+        debugMode = !debugMode;
+        if (debugMode) {
+            console.log('Debug mode enabled');
+            // Load data from test endpoint
+            loadData('/admin/api/analytics/test');
+        }
+    }
+
+    // Format numbers with commas
+    function formatNumber(num) {
+        return num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "-";
+    }
+
+    // Show error
+    function showError(message) {
+        const container = document.getElementById('error-container');
+        container.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        document.getElementById('loading').style.display = 'none';
+    }
+
+    // Load data from API
+    function loadData(url = '/admin/api/analytics/summary?days=7') {
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('error-container').innerHTML = '';
+        
+        console.log(`Loading data from: ${url}`);
+        
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    updateDashboard(data);
+                } else {
+                    showError(data.error || 'Unknown error loading data');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                showError(`Failed to load analytics data: ${error.message}`);
+            });
+    }
+
+    // Update dashboard with data
+    function updateDashboard(data) {
+        // Update stats
+        document.getElementById('total-users').textContent = formatNumber(data.summary.total_users);
+        document.getElementById('total-encryptions').textContent = formatNumber(data.summary.encryptions);
+        document.getElementById('total-decryptions').textContent = formatNumber(data.summary.decryptions);
+        document.getElementById('active-users').textContent = formatNumber(data.summary.active_users);
+        
+        // Update charts
+        updateActivityChart(data.daily_activity);
+        updateMethodsChart(data.method_counts);
+        
+        // Show dashboard
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    }
+
+    // Update activity chart
+    function updateActivityChart(dailyActivity) {
+        const ctx = document.getElementById('activity-chart');
+        if (!ctx) return;
+        
+        const labels = dailyActivity.map(day => day.label);
+        const encryptions = dailyActivity.map(day => day.encryptions);
+        const decryptions = dailyActivity.map(day => day.decryptions);
+        
+        if (activityChart) {
+            activityChart.destroy();
+        }
+        
+        activityChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Encryptions',
+                        data: encryptions,
+                        borderColor: '#0d6efd',
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Decryptions',
+                        data: decryptions,
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Update methods chart
+    function updateMethodsChart(methodCounts) {
+        const ctx = document.getElementById('methods-chart');
+        if (!ctx) return;
+        
+        const labels = Object.keys(methodCounts);
+        const data = Object.values(methodCounts);
+        
+        if (methodsChart) {
+            methodsChart.destroy();
+        }
+        
+        methodsChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#0d6efd',
+                        '#198754',
+                        '#ffc107',
+                        '#dc3545'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Analytics minimal template loaded');
+        
+        // Set up the load data button
+        document.getElementById('load-data-btn').addEventListener('click', function() {
+            loadData();
+        });
+        
+        // Load data initially
+        loadData('/admin/api/analytics/test');
+    });
+</script>
+{% endblock %}

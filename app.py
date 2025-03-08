@@ -3,6 +3,7 @@ import os
 import logging
 import traceback
 from contextlib import suppress
+from routes.user import init_user_routes
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, send_from_directory, abort, session
 import base64
 
@@ -16,6 +17,13 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+
+# Import filters early to ensure they're available
+try:
+    import filters
+    logger.info("Successfully imported filters module")
+except ImportError as e:
+    logger.error(f"Failed to import filters module: {e}")
 
 sys.path.insert(0, os.getcwd())
 
@@ -1102,8 +1110,6 @@ def apple_touch_icon_precomposed():
         mimetype='image/png'
     )
 
-# At the top with other imports, add:
-from routes.user import init_user_routes
 
 # After registering other blueprints (near line 100), add:
 init_user_routes(app)
@@ -1252,3 +1258,18 @@ register_filters(app)
 
 #     ...# @app.template_filter('b64encode')
 # def b64encode_filter(data):
+# Replace the broken b64encode filter with a proper implementation
+@app.template_filter('b64encode')
+def b64encode_filter(data):
+    """Convert binary data to base64 encoded string for displaying images in HTML"""
+    if data is None:
+        return ''
+    if isinstance(data, str):
+        return data
+    try:
+        # Encode binary data to base64
+        encoded = base64.b64encode(data).decode('utf-8')
+        return encoded
+    except Exception as e:
+        logger.error(f"Error encoding data to base64: {str(e)}")
+        return ''

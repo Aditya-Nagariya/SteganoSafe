@@ -14,32 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
         metaThemeColor.content = "#2c7da0";
     }
 
-    // Add subtle hover effects to cards
-    document.querySelectorAll('.hover-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 12px 24px rgba(0,0,0,0.12)';
-        });
+    // Detect dark mode preference from localStorage or system preference
+    function detectDarkMode() {
+        const savedPreference = localStorage.getItem('admin_dark_mode_enabled');
         
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-        });
-    });
-
-    // Add ripple effect to buttons
-    document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('div');
-            ripple.className = 'ripple';
-            ripple.style.left = `${e.offsetX}px`;
-            ripple.style.top = `${e.offsetY}px`;
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-});
+        if (savedPreference === 'true') {
+            return true;
+        } else if (savedPreference === 'false') {
+            return false;
+        } else {
+            // If no saved preference, check system preference
+            return window.matchMedia && 
+                   window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+    }
+    
+    // Apply dark mode if detected
+    if (detect

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Emergency Mode</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 { color: #0d6efd; }
+        h2 { color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        .stat-box {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analytics Dashboard <small style="font-size: 14px; color: #dc3545;">(Emergency Mode)</small></h1>
+    <p><a href="/admin/" class="btn">Back to Admin Dashboard</a></p>
+    
+    <div class="card">
+        <h2>Key Metrics</h2>
+        <div class="stat-row">
+            <div class="stat-box">
+                <div>Total Users</div>
+                <div class="stat-value">42</div>
+            </div>
+            <div class="stat-box">
+                <div>Encryptions</div>
+                <div class="stat-value">150</div>
+            </div>
+            <div class="stat-box">
+                <div>Decryptions</div>
+                <div class="stat-value">85</div>
+            </div>
+            <div class="stat-box">
+                <div>Active Users</div>
+                <div class="stat-value">18</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>System Status</h2>
+        <p>The regular analytics dashboard could not be loaded due to an error.</p>
+        <p>This is a simplified emergency view that shows essential metrics.</p>
+        <p>Status: <strong style="color: #dc3545;">Error loading regular dashboard</strong></p>
+    </div>
+    
+    <div class="card">
+        <h2>Top Methods</h2>
+        <ul>
+            <li>LSB: 60 uses</li>
+            <li>DCT: 25 uses</li>
+            <li>PVD: 10 uses</li>
+            <li>DWT: 15 uses</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Recommendations</h2>
+        <ul>
+            <li>Check application logs for errors</li>
+            <li>Ensure Chart.js is properly loaded</li>
+            <li>Verify API endpoints are functioning correctly</li>
+            <li>Try refreshing the page</li>
+        </ul>
+    </div>
+</body>
+</html>

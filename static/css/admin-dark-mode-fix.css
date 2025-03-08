@@ -1,0 +1,65 @@
+/**
+ * Emergency dark mode overrides
+ * Use this file to force dark mode on specific elements that aren't being styled correctly
+ */
+
+/* Force dark mode on the entire page */
+html.dark-mode,
+html.dark-mode body,
+body.dark-mode {
+    filter: invert(0) !important;
+    background: #1a1d21 !important;
+    color: #e1e2f6 !important;
+}
+
+/* Make sure the admin wrapper gets dark background */
+body.dark-mode .admin-wrapper {
+    background-color: #1a1d21 !important;
+}
+
+/* Force dark background on main content area */
+body.dark-mode .admin-content {
+    background-color: #1a1d21 !important;
+}
+
+/* Force dark mode on sidebar */
+body.dark-mode .admin-sidebar {
+    background: linear-gradient(135deg, #2a2d35, #1e1f25) !important;
+    color: #e1e2f6 !important;
+    border-right: 1px solid #3a3f48 !important;
+}
+
+/* Force dark mode on cards */
+body.dark-mode .card,
+body.dark-mode .admin-card {
+    background-color: #2a2d35 !important;
+    border-color: #3a3f48 !important;
+    color: #e1e2f6 !important;
+}
+
+/* Force dark mode on top bar */
+body.dark-mode .admin-topbar {
+    background-color: #2a2d35 !important;
+    border-bottom-color: #3a3f48 !important;
+}
+
+/* Force dark mode on dropdown menus */
+body.dark-mode .dropdown-menu {
+    background-color: #2a2d35 !important;
+    border-color: #3a3f48 !important;
+}
+
+body.dark-mode .dropdown-item {
+    color: #e1e2f6 !important;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background-color: rgba(255,255,255,0.05) !important;
+}
+
+/* Force dark mode on modals */
+body.dark-mode .modal-content {
+    background-color: #2a2d35 !important;
+    border-color: #3a3f48 !important;
+    color: #e1e2f6 !important;
+}

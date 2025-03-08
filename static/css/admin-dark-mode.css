@@ -1,13 +1,41 @@
 /* Dark Mode Styles for Admin Panel */
-body.dark-mode {
+body.dark-mode,
+html.dark-mode body {
+    /* Core variables */
     --admin-bg: #1a1d21;
     --admin-white: #2a2d35;
     --admin-dark: #e1e2f6;
     --admin-border: #3a3f48;
     --admin-text: #e1e2f6;
     --admin-muted: #a0a3bd;
+    --admin-primary: #4a89dc;
+    --admin-secondary: #6c757d;
+    --admin-success: #37bc9b;
+    --admin-danger: #da4453;
+    --admin-warning: #f6bb42;
+    --admin-info: #3bafda;
+    
+    /* Background and text color */
+    background-color: var(--admin-bg) !important;
+    color: var(--admin-text) !important;
+}
+
+/* Make sure all admin wrappers and containers get dark background */
+.dark-mode .admin-wrapper,
+.dark-mode .admin-content,
+.dark-mode .admin-sidebar,
+.dark-mode .sidebar-menu-container,
+.dark-mode .card,
+.dark-mode .modal-content {
+    background-color: var(--admin-bg) !important;
+}
+
+/* Global container backgrounds */
+body.dark-mode .container,
+body.dark-mode .container-fluid,
+body.dark-mode .admin-wrapper,
+body.dark-mode .content-wrapper {
     background-color: var(--admin-bg);
-    color: var(--admin-text);
 }
 
 /* Sidebar Dark Mode */
@@ -15,137 +43,287 @@ body.dark-mode .admin-sidebar {
     background: linear-gradient(135deg, #2a2d35, #1e1f25);
 }
 
-/* Cards Dark Mode */
+body.dark-mode .sidebar-menu .menu-title,
+body.dark-mode .sidebar-menu .menu-item a,
+body.dark-mode .sidebar-menu .menu-item .badge {
+    color: var(--admin-text);
+}
+
+body.dark-mode .sidebar-menu .menu-item:hover > a,
+body.dark-mode .sidebar-menu .menu-item.active > a {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* User card in sidebar */
+body.dark-mode .sidebar-footer,
+body.dark-mode .user-card {
+    background-color: rgba(42, 45, 53, 0.5) !important;
+    border-color: var(--admin-border) !important;
+}
+
+body.dark-mode .user-info h5,
+body.dark-mode .user-info span {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .user-avatar {
+    background-color: var(--admin-primary);
+    color: white;
+}
+
+/* Cards Dark Mode - be more specific to ensure proper application */
 body.dark-mode .admin-card,
-body.dark-mode .admin-stats-card {
-    background: var(--admin-white);
+body.dark-mode .admin-stats-card,
+body.dark-mode .card {
+    background-color: var(--admin-white) !important;
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text);
 }
 
 /* Card Header Dark Mode */
-body.dark-mode .admin-card .card-header {
-    border-bottom: 1px solid var(--admin-border);
+body.dark-mode .admin-card .card-header,
+body.dark-mode .card-header {
+    background-color: var(--admin-white) !important;
+    border-bottom-color: var(--admin-border) !important;
+    color: var(--admin-text);
 }
 
-body.dark-mode .admin-card .card-header h5 {
+body.dark-mode .admin-card .card-header h5,
+body.dark-mode .card-header h5,
+body.dark-mode .card-title {
+    color: var(--admin-text) !important;
+}
+
+/* Card body and footer */
+body.dark-mode .card-body,
+body.dark-mode .card-footer {
+    background-color: var(--admin-white) !important;
+    border-color: var(--admin-border) !important;
     color: var(--admin-text);
 }
 
 /* Tables Dark Mode */
-body.dark-mode .table thead th {
-    background: #2a2d35;
-    color: var(--admin-muted);
+body.dark-mode .table {
+    color: var(--admin-text) !important;
+    border-color: var(--admin-border) !important;
 }
 
-body.dark-mode .table tbody td {
+body.dark-mode .table thead th {
+    background-color: #2a2d35 !important;
+    color: var(--admin-muted);
+    border-color: var(--admin-border) !important;
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+body.dark-mode .table tbody td,
+body.dark-mode .table tbody th {
     color: var(--admin-text);
-    border-top: 1px solid var(--admin-border);
+    border-color: var(--admin-border) !important;
 }
 
 body.dark-mode .table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 /* Timeline Dark Mode */
 body.dark-mode .admin-timeline:before {
-    background: var(--admin-border);
+    background-color: var(--admin-border);
 }
 
 body.dark-mode .admin-timeline .timeline-content {
-    background: var(--admin-white);
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
 }
 
 /* Form Controls Dark Mode */
 body.dark-mode .form-control,
-body.dark-mode .form-select {
-    background-color: #2a2d35;
-    border-color: var(--admin-border);
-    color: var(--admin-text);
+body.dark-mode .form-select,
+body.dark-mode .input-group-text,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #2a2d35 !important;
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text) !important;
 }
 
 body.dark-mode .form-control:focus,
-body.dark-mode .form-select:focus {
-    background-color: #2a2d35;
-    color: var(--admin-text);
-    border-color: var(--admin-primary);
+body.dark-mode .form-select:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    background-color: #2a2d35 !important;
+    color: var(--admin-text) !important;
+    border-color: var(--admin-primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(74, 137, 220, 0.25) !important;
 }
 
 body.dark-mode .form-control::placeholder {
-    color: var(--admin-muted);
+    color: var(--admin-muted) !important;
+}
+
+body.dark-mode .form-check-input {
+    background-color: #2a2d35;
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .form-check-input:checked {
+    background-color: var(--admin-primary);
+    border-color: var(--admin-primary);
 }
 
 /* Dropdown Dark Mode */
 body.dark-mode .dropdown-menu {
-    background-color: #2a2d35;
-    border-color: var(--admin-border);
+    background-color: #2a2d35 !important;
+    border-color: var(--admin-border) !important;
 }
 
 body.dark-mode .dropdown-item {
-    color: var(--admin-text);
+    color: var(--admin-text) !important;
 }
 
-body.dark-mode .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+body.dark-mode .dropdown-item:hover,
+body.dark-mode .dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--admin-text) !important;
 }
 
 body.dark-mode .dropdown-divider {
+    border-color: var(--admin-border) !important;
+}
+
+/* Buttons in Dark Mode */
+body.dark-mode .btn-light {
+    background-color: #2a2d35;
+    border-color: #3a3f48;
+    color: var(--admin-text);
+}
+
+body.dark-mode .btn-light:hover {
+    background-color: #22252c;
+    border-color: #2a2d35;
+    color: var(--admin-text);
+}
+
+body.dark-mode .btn-outline-secondary {
+    color: var(--admin-text);
     border-color: var(--admin-border);
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--admin-text);
+}
+
+/* Primary and other button types in dark mode */
+body.dark-mode .btn-primary {
+    background-color: var(--admin-primary);
+    border-color: var(--admin-primary);
+}
+
+body.dark-mode .btn-success {
+    background-color: var(--admin-success);
+    border-color: var(--admin-success);
+}
+
+body.dark-mode .btn-danger {
+    background-color: var(--admin-danger);
+    border-color: var(--admin-danger);
+}
+
+body.dark-mode .btn-warning {
+    background-color: var(--admin-warning);
+    border-color: var(--admin-warning);
+    color: #212529;
+}
+
+body.dark-mode .btn-info {
+    background-color: var(--admin-info);
+    border-color: var(--admin-info);
 }
 
 /* Modals Dark Mode */
 body.dark-mode .modal-content {
-    background-color: var(--admin-white);
-    border-color: var(--admin-border);
+    background-color: var(--admin-white) !important;
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text);
 }
 
 body.dark-mode .modal-header,
 body.dark-mode .modal-footer {
-    border-color: var(--admin-border);
+    border-color: var(--admin-border) !important;
+}
+
+body.dark-mode .close {
+    color: var(--admin-text);
 }
 
 /* Top Navigation Bar Dark Mode */
 body.dark-mode .admin-topbar {
-    background-color: var(--admin-white);
-    border-color: var(--admin-border);
+    background-color: var(--admin-white) !important;
+    border-color: var(--admin-border) !important;
+}
+
+body.dark-mode .breadcrumb {
+    background-color: transparent !important;
 }
 
 body.dark-mode .breadcrumb-item + .breadcrumb-item::before {
-    color: var(--admin-muted);
+    color: var(--admin-muted) !important;
 }
 
 body.dark-mode .breadcrumb-item a {
-    color: var(--admin-primary);
+    color: var(--admin-primary) !important;
+}
+
+/* Notification and settings buttons */
+body.dark-mode .notification-btn,
+body.dark-mode .settings-btn {
+    background-color: rgba(42, 45, 53, 0.8) !important;
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .notification-badge {
+    background-color: var(--admin-primary) !important;
 }
 
 /* Notifications Dark Mode */
 body.dark-mode .notification-dropdown,
 body.dark-mode .settings-dropdown {
-    background-color: var(--admin-white);
-    border-color: var(--admin-border);
+    background-color: var(--admin-white) !important;
+    border-color: var(--admin-border) !important;
 }
 
 body.dark-mode .notification-header,
 body.dark-mode .notification-footer,
 body.dark-mode .settings-header {
-    border-color: var(--admin-border);
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text) !important;
 }
 
 body.dark-mode .notification {
-    border-bottom: 1px solid var(--admin-border);
+    border-bottom: 1px solid var(--admin-border) !important;
 }
 
 body.dark-mode .notification:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+body.dark-mode .notification-text,
+body.dark-mode .notification-time {
+    color: var(--admin-text) !important;
 }
 
 /* Footer Dark Mode */
 body.dark-mode .admin-footer {
-    border-color: var(--admin-border);
-    color: var(--admin-muted);
+    border-color: var(--admin-border) !important;
+    color: var(--admin-muted) !important;
 }
 
 /* Charts Dark Mode */
 body.dark-mode .apexcharts-text tspan {
-    fill: var(--admin-text);
+    fill: var(--admin-text) !important;
 }
 
 body.dark-mode .apexcharts-legend-text {
@@ -153,25 +331,25 @@ body.dark-mode .apexcharts-legend-text {
 }
 
 body.dark-mode .apexcharts-gridline {
-    stroke: var(--admin-border);
+    stroke: var(--admin-border) !important;
 }
 
 body.dark-mode .apexcharts-tooltip {
-    background: #373d49;
-    border: 1px solid var(--admin-border);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background: #373d49 !important;
+    border: 1px solid var(--admin-border) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.dark-mode .apexcharts-tooltip-title {
-    background: #2a2d35;
-    border-bottom: 1px solid var(--admin-border);
+    background: #2a2d35 !important;
+    border-bottom: 1px solid var(--admin-border) !important;
 }
 
 body.dark-mode .apexcharts-xaxistooltip,
 body.dark-mode .apexcharts-yaxistooltip {
-    background: #373d49;
-    border: 1px solid var(--admin-border);
-    color: var(--admin-text);
+    background: #373d49 !important;
+    border: 1px solid var(--admin-border) !important;
+    color: var(--admin-text) !important;
 }
 
 /* Scrollbar for Dark Mode */
@@ -191,4 +369,146 @@ body.dark-mode::-webkit-scrollbar-thumb {
 
 body.dark-mode::-webkit-scrollbar-thumb:hover {
     background: var(--admin-muted);
+}
+
+/* Alert colors in dark mode */
+body.dark-mode .alert-success {
+    background-color: rgba(55, 188, 155, 0.15) !important;
+    border-color: rgba(55, 188, 155, 0.4) !important;
+    color: #b7ded4 !important;
+}
+
+body.dark-mode .alert-danger {
+    background-color: rgba(218, 68, 83, 0.15) !important;
+    border-color: rgba(218, 68, 83, 0.4) !important;
+    color: #f1b8be !important;
+}
+
+body.dark-mode .alert-warning {
+    background-color: rgba(246, 187, 66, 0.15) !important;
+    border-color: rgba(246, 187, 66, 0.4) !important;
+    color: #f8dcab !important;
+}
+
+body.dark-mode .alert-info {
+    background-color: rgba(59, 175, 218, 0.15) !important;
+    border-color: rgba(59, 175, 218, 0.4) !important;
+    color: #b8e2f2 !important;
+}
+
+/* Links in dark mode */
+body.dark-mode a:not(.btn):not(.dropdown-item):not(.nav-link) {
+    color: #73a3e0;
+}
+
+body.dark-mode a:not(.btn):not(.dropdown-item):not(.nav-link):hover {
+    color: #9ebeeb;
+}
+
+/* Fix for splash screen in dark mode */
+body.dark-mode #splash-screen {
+    background-color: var(--admin-bg);
+}
+
+body.dark-mode .splash-logo-text,
+body.dark-mode .splash-logo-subtext {
+    color: var(--admin-text);
+}
+
+body.dark-mode #splash-screen .spinner circle {
+    stroke: var(--admin-primary);
+}
+
+/* Quick actions in dark mode */
+body.dark-mode .quick-actions .quick-action-btn {
+    background-color: var(--admin-primary);
+    color: #fff;
+}
+
+body.dark-mode .quick-actions .quick-action-menu {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .quick-actions .quick-action-item {
+    color: var(--admin-text);
+}
+
+body.dark-mode .quick-actions .quick-action-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Search field in dark mode */
+body.dark-mode .sidebar-search,
+body.dark-mode .search-wrapper {
+    background-color: rgba(26, 29, 33, 0.3);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .search-input {
+    background-color: transparent !important;
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .search-input::placeholder {
+    color: var(--admin-muted) !important;
+}
+
+/* Handle SweetAlert dark mode */
+body.dark-mode .swal2-popup {
+    background-color: var(--admin-white) !important;
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .swal2-title,
+body.dark-mode .swal2-html-container,
+body.dark-mode .swal2-content {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .swal2-input,
+body.dark-mode .swal2-textarea,
+body.dark-mode .swal2-select {
+    background-color: #2a2d35 !important;
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text) !important;
+}
+
+/* All other text elements */
+body.dark-mode p,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode label,
+body.dark-mode .form-label,
+body.dark-mode .form-text,
+body.dark-mode .small,
+body.dark-mode .text-muted {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .text-muted {
+    color: var(--admin-muted) !important;
+}
+
+/* Force dark mode on absolutely everything for troubleshooting */
+body.dark-mode * {
+    background-color: inherit;
+    color: inherit;
+}
+
+/* Then override specific elements that need different styling */
+body.dark-mode .btn,
+body.dark-mode .badge,
+body.dark-mode .card,
+body.dark-mode .modal-content,
+body.dark-mode .dropdown-menu,
+body.dark-mode .table,
+body.dark-mode .form-control,
+body.dark-mode .nav-link {
+    background-color: auto;
+    color: auto;
 }
