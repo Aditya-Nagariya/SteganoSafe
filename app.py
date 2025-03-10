@@ -2,6 +2,7 @@ import sys
 import os
 import logging
 import traceback
+import json
 from contextlib import suppress
 from routes.user import init_user_routes
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file, send_from_directory, abort, session
@@ -1184,6 +1185,7 @@ def decrypt_stored():
         image_id = request.form.get('image_id')
         password = request.form.get('password')
         encryption_method = request.form.get('encryption_method', 'AUTO')  # Default to AUTO
+        try_recovery = request.form.get('try_recovery', 'false').lower() == 'true'
         
         logger.info(f"Decrypting stored image {image_id} using method {encryption_method}")
         
@@ -1201,82 +1203,37 @@ def decrypt_stored():
             logger.error(f"Image {image_id} has no data")
             return jsonify({'success': False, 'message': 'Image has no data'}), 400
             
-        # Load image from binary data
+        # Use the API method with detailed error handling
         try:
-            img_io = BytesIO(image.image_data)
-            img = PilImage.open(img_io)
+            # Use JSON request format for the API endpoint with our parameters 
+            api_response = api_decrypt_saved_image()
             
-            if img.mode != 'RGB':
-                img = img.convert('RGB')
-        except Exception as e:
-            logger.error(f"Failed to load image data: {e}")
-            return jsonify({
-                'success': False,
-                'message': f"Failed to load image: {str(e)}"
-            }), 500
+            # If it's a successful response, return it
+            if api_response.status_code == 200:
+                return api_response
             
-        # Try our direct decoding first
-        try:
-            logger.debug("Trying direct LSB decoding")
-            from stego import direct_lsb_decode
-            ciphertext = direct_lsb_decode(img, debug=True)
-            
-            # If direct decoding failed, try other methods
-            if not ciphertext:
-                logger.debug("Direct decoding failed, trying with AUTO method")
-                from stego import decode_message
-                ciphertext = decode_message(img, method='AUTO', debug=True)
-        except Exception as e:
-            logger.error(f"Failed to decode message from image: {e}")
-            return jsonify({
-                'success': False,
-                'message': f"Failed to extract hidden message: {str(e)}"
-            }), 400
-            
-        # If we still don't have anything, return an error
-        if not ciphertext:
-            logger.warning(f"No hidden message found in image {image_id}")
-            return jsonify({
-                'success': False, 
-                'message': 'No hidden message found in this image.'
-            }), 400
-        
-        # Try decrypting
-        try:
-            logger.debug(f"Attempting to decrypt found ciphertext of length {len(ciphertext)}")
-            from stego import decrypt_message, decrypt_message_safe
-            
-            try:
-                decrypted_message = decrypt_message(ciphertext, password, debug=True)
-            except Exception as e:
-                logger.warning(f"Standard decryption failed: {e}, trying safe decryption")
-                decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+            # If recovery isn't enabled but might help, suggest it
+            if not try_recovery and api_response.status_code == 400:
+                try:
+                    response_data = json.loads(api_response.data)
+                    if response_data.get('recovery_available'):
+                        # Modify the response to suggest enabling recovery mode
+                        response_data['message'] += " Try enabling recovery mode for better results."
+                        if 'suggestions' in response_data:
+                            response_data['suggestions'].append("Enable recovery mode to try more aggressive decryption methods")
+                        return jsonify(response_data), 400
+                except Exception:
+                    pass
                 
-            # Log success
-            logger.info(f"Successfully decrypted message from image {image_id}")
+            # Otherwise just return the original response
+            return api_response
             
-            # Log activity with more robust transaction handling
-            try:
-                activity = ActivityLog(
-                    user_id=current_user.id,
-                    action=f"Decrypted image {image.original_filename}"
-                )
-                db.session.add(activity)
-                db.session.commit()
-            except Exception as db_err:
-                logger.error(f"Failed to record activity log: {db_err}")
-                db.session.rollback()  # Ensure we rollback on error
-            
-            return jsonify({
-                'success': True,
-                'decrypted_message': decrypted_message
-            })
         except Exception as e:
-            logger.error(f"Decryption error: {str(e)}")
+            logger.error(f"Error calling API endpoint: {e}")
             return jsonify({
                 'success': False,
-                'message': f"Failed to decrypt message. Check your password and try again."
-            }), 400
+                'message': f"Failed to decrypt image: {str(e)}"
+            }), 500
     except Exception as e:
         logger.error(f"Error in decrypt-stored: {str(e)}")
         logger.error(traceback.format_exc())
@@ -1544,12 +1501,17 @@ def api_decrypt_saved_image():
                     "Passwords are case-sensitive",
                     "Make sure you're using the same password used during encryption"
                 ]
+                
+            if 'tag' in error_message.lower() or 'auth' in error_message.lower():
+                suggestions.append("The encrypted data may be corrupted")
+                suggestions.append("Try enabling recovery mode for more aggressive decryption")
             
             return jsonify({
                 'success': False,
                 'message': 'Failed to decrypt message. Please check your password or try a different decryption method.',
                 'details': error_message,
-                'suggestions': suggestions
+                'suggestions': suggestions,
+                'recovery_available': True
             }), 400
             
     except Exception as e:

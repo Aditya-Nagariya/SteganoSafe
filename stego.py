@@ -76,14 +76,14 @@ def encrypt_message(message, password, debug=False):
 
 def decrypt_message(ciphertext, password, debug=False, bypass_auth=False):
     """
-    Decrypt a message using AES-GCM with enhanced error handling and recovery options
+    Decrypt a message using AES-GCM with better error handling
     
     Args:
         ciphertext: The encrypted message as bytes or base64 string
         password: The encryption password
         debug: Whether to print debug information
         bypass_auth: Set to True to attempt decryption even if tag verification fails
-        
+    
     Returns:
         The decrypted message as a string
     """
@@ -103,102 +103,162 @@ def decrypt_message(ciphertext, password, debug=False, bypass_auth=False):
                 raise ValueError(f"Invalid base64 encoded ciphertext: {e}")
         
         # Validate ciphertext length
-        if len(ciphertext) < 28:  # 16 (salt) + 12 (nonce)
+        if len(ciphertext) < 28:  # 12 (nonce) + 16 (tag)
             raise ValueError(f"Ciphertext too short: {len(ciphertext)} bytes. Minimum required: 28 bytes")
         
         # For compatibility with older encrypted data, try different salt approaches
-        salt_options = []
-        
-        # Option 1: Use salt from the data (standard format)
-        if len(ciphertext) >= 16 + 12:
-            salt_options.append(ciphertext[:16])
-            
-        # Option 2: Use the constant salt (for backward compatibility)
-        salt_options.append(SALT)
-        
-        # Option 3: Try with zero salt (fallback)
-        salt_options.append(bytes([0] * 16))
-        
-        # Extract nonce and ciphertext
-        nonce = ciphertext[16:28] if len(ciphertext) >= 28 else ciphertext[:12]
-        
-        # Try different tag scenarios
-        tag_options = []
-        
-        # Option 1: Tag at the end (standard format)
-        tag_options.append((ciphertext[28:-16], ciphertext[-16:]))
-        
-        # Option 2: No separate tag (try with empty tag)
-        tag_options.append((ciphertext[28:], b''))
-        
-        # For each combination of salt, tag and nonce, try to decrypt
-        last_exception = None
-        
-        for salt in salt_options:
-            # Derive the key using the salt
-            kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt,
-                iterations=100000,
-                backend=default_backend()
-            )
-            key = kdf.derive(password.encode())
-            cipher = AESGCM(key)
-            
-            for encrypted_data, tag in tag_options:
+        # Use the stored salt if it's in the data, otherwise use the constant
+        if len(ciphertext) >= 16 + 12:  # Has enough room for salt + nonce
+            try:
+                # Extract salt, nonce, and ciphertext
+                salt = ciphertext[:16]
+                nonce = ciphertext[16:28]
+                tag = ciphertext[-16:]
+                encrypted_data = ciphertext[28:-16]
+                
+                if debug:
+                    logging.debug(f"Extracted salt, nonce and tag: salt={len(salt)}, nonce={len(nonce)}, tag={len(tag)}")
+                
+                # Derive the key using the extracted salt
+                kdf = PBKDF2HMAC(
+                    algorithm=hashes.SHA256(),
+                    length=32,
+                    salt=salt,
+                    iterations=100000,
+                    backend=default_backend()
+                )
+                key = kdf.derive(password.encode())
+                
+                # Decrypt the message
+                cipher = AESGCM(key)
                 try:
-                    # Try standard decryption
                     plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
                     
-                    # If successful, return the result
+                    # Try to decode as UTF-8
                     result = plaintext.decode('utf-8', errors='replace')
-                    if debug:
-                        logging.debug("Decryption successful")
                     return result
-                    
                 except Exception as e:
-                    # Just store the exception and continue trying
-                    last_exception = e
                     if debug:
-                        logging.debug(f"Decryption attempt failed: {e}")
+                        logging.error(f"AESGCM decryption failed: {e}")
+                        logging.error(traceback.format_exc())
+                    
+                    # Try using the constant SALT as fallback
+                    if debug:
+                        logging.debug("Trying decryption with constant SALT")
+                    
+                    kdf = PBKDF2HMAC(
+                        algorithm=hashes.SHA256(),
+                        length=32,
+                        salt=SALT,
+                        iterations=100000,
+                        backend=default_backend()
+                    )
+                    key = kdf.derive(password.encode())
+                    
+                    try:
+                        cipher = AESGCM(key)
+                        plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
                         
-                    # If bypass_auth is enabled, try raw decryption for AES-GCM
-                    if bypass_auth:
-                        try:
-                            # This imports a special function to bypass AESGCM tag verification
+                        # Try to decode as UTF-8
+                        result = plaintext.decode('utf-8', errors='replace')
+                        return result
+                    except Exception as salt_e:
+                        # If bypass_auth is enabled, try raw decryption
+                        if bypass_auth:
+                            if debug:
+                                logging.debug("Standard decryption failed, attempting raw decryption")
+                            
+                            # Try to import raw_aes_gcm_decrypt
                             try:
-                                # First check if the module exists
                                 from cryptography_utils import raw_aes_gcm_decrypt
                                 
-                                try:
-                                    plaintext = raw_aes_gcm_decrypt(key, nonce, encrypted_data, tag)
-                                    if plaintext and len(plaintext) > 0:
-                                        result = plaintext.decode('utf-8', errors='replace')
-                                        if debug:
-                                            logging.debug("Raw decryption successful")
-                                        return f"[RECOVERED] {result}"
-                                except Exception as raw_err:
-                                    if debug:
-                                        logging.debug(f"Raw decryption failed: {raw_err}")
+                                if debug:
+                                    logging.debug("Using cryptography_utils.raw_aes_gcm_decrypt")
+                                    
+                                plaintext = raw_aes_gcm_decrypt(key, nonce, encrypted_data, tag)
+                                if plaintext:
+                                    result = plaintext.decode('utf-8', errors='replace')
+                                    return f"[RECOVERED] {result}"
                             except ImportError:
                                 if debug:
-                                    logging.debug("cryptography_utils not available - cannot use raw decryption")
-                        except Exception as bypass_err:
-                            if debug:
-                                logging.debug(f"Bypass auth decryption failed: {bypass_err}")
-        
-        # If we tried all combinations and none worked, raise an error
-        if last_exception:
-            raise ValueError(f"All decryption attempts failed: {last_exception}")
-        else:
-            raise ValueError("Decryption failed with unknown error")
+                                    logging.debug("cryptography_utils not available, using internal fallback")
+                                
+                                # Fallback to our own implementation if cryptography_utils not available
+                                try:
+                                    # Create a counter mode cipher with the key and nonce
+                                    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+                                    counter = modes.CTR(nonce + b'\x00\x00\x00\x01')
+                                    cipher = Cipher(algorithms.AES(key), counter, backend=default_backend())
+                                    decryptor = cipher.decryptor()
+                                    
+                                    # Decrypt without verification
+                                    plaintext = decryptor.update(encrypted_data) + decryptor.finalize()
+                                    result = plaintext.decode('utf-8', errors='replace')
+                                    
+                                    if debug:
+                                        logging.debug("Internal raw decryption succeeded")
+                                        
+                                    return f"[RECOVERED-INTERNAL] {result}"
+                                except Exception as internal_e:
+                                    if debug:
+                                        logging.debug(f"Internal raw decryption failed: {internal_e}")
+                                    raise ValueError(f"Failed to decrypt message. Tried multiple recovery methods.")
+                            except Exception as raw_e:
+                                if debug:
+                                    logging.debug(f"Raw decryption failed: {raw_e}")
+                                raise ValueError(f"Raw decryption failed: {raw_e}")
+                        else:
+                            raise salt_e
             
+            except Exception as e:
+                if debug:
+                    logging.error(f"Error during decryption process: {e}")
+                    logging.error(traceback.format_exc())
+                
+                # If bypass_auth is true and all other methods failed, try direct decryption mode
+                if bypass_auth:
+                    try:
+                        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+                        
+                        # Try ECB mode as absolute last resort (insecure but might recover data)
+                        kdf = PBKDF2HMAC(
+                            algorithm=hashes.SHA256(),
+                            length=16,  # AES-128 for simplicity
+                            salt=SALT,
+                            iterations=100000,
+                            backend=default_backend()
+                        )
+                        key = kdf.derive(password.encode())
+                        
+                        # Skip all headers and just try to decrypt the bulk data
+                        bulk_data = ciphertext[28:]
+                        if len(bulk_data) % 16 != 0:
+                            # Need to pad to 16 byte blocks for ECB
+                            pad_len = 16 - (len(bulk_data) % 16)
+                            bulk_data += bytes([pad_len]) * pad_len
+                            
+                        cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
+                        decryptor = cipher.decryptor()
+                        decrypted = decryptor.update(bulk_data) + decryptor.finalize()
+                        
+                        # Try to extract printable ASCII
+                        printable = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in decrypted)
+                        
+                        if debug:
+                            logging.debug(f"Emergency direct mode recovered {len(printable)} printable chars")
+                            
+                        return f"[EMERGENCY RECOVERY] {printable}"
+                    except Exception as emerg_e:
+                        if debug:
+                            logging.debug(f"Emergency decryption failed: {emerg_e}")
+                
+                raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+        
     except Exception as e:
         if debug:
-            logging.error(f"decrypt_message error: {str(e)}")
+            logging.error(f"decrypt_message error: {e}")
             logging.error(traceback.format_exc())
-        raise ValueError(f"Decryption failed: {str(e)}")
+        raise ValueError(f"Decryption failed: {e}")
 
 from base64_utils import safe_base64_decode
 
@@ -285,6 +345,10 @@ def decrypt_message_safe(encoded_message, password, debug=False):
                     # Only return if we found something reasonable
                     if any(word in recovery_text.lower() for word in ['the', 'and', 'this', 'message']):
                         return f"[EMERGENCY RECOVERY] {recovery_text}"
+                        
+                    # If no common words found, just return what we have
+                    return f"[EMERGENCY RECOVERY] {recovery_text[:100]}..."
+                    
                 except Exception as last_e:
                     if debug:
                         logger.debug(f"All recovery methods failed: {last_e}")

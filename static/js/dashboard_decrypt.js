@@ -43,6 +43,23 @@ function setupDecryptButtons() {
     // Get the decrypt form
     const decryptForm = document.getElementById('decrypt-form');
     
+    // Add recovery mode checkbox after method selection
+    const methodContainer = document.querySelector('.decrypt-method-container');
+    if (methodContainer) {
+        const recoveryOption = document.createElement('div');
+        recoveryOption.className = 'form-check mt-3';
+        recoveryOption.innerHTML = `
+            <input class="form-check-input" type="checkbox" id="decrypt-recovery-mode">
+            <label class="form-check-label" for="decrypt-recovery-mode">
+                Enable recovery mode (for difficult decryption)
+            </label>
+            <small class="form-text text-muted d-block">
+                Use when standard decryption fails. May recover corrupted data.
+            </small>
+        `;
+        methodContainer.appendChild(recoveryOption);
+    }
+    
     // Handle decrypt form submission
     if (decryptForm) {
         decryptForm.addEventListener('submit', function(event) {
@@ -53,9 +70,10 @@ function setupDecryptButtons() {
             const imageId = document.getElementById('decrypt-image-id').value;
             const password = document.getElementById('decrypt-password').value;
             const method = document.querySelector('input[name="decrypt-method"]:checked')?.value || 'LSB';
+            const tryRecovery = document.getElementById('decrypt-recovery-mode')?.checked || false;
             
             // Log for debugging
-            console.log('Decrypting image:', imageId, 'using method:', method);
+            console.log('Decrypting image:', imageId, 'using method:', method, 'recovery mode:', tryRecovery);
             
             // Show loading state
             showDecryptLoading(true);
@@ -65,7 +83,7 @@ function setupDecryptButtons() {
             if (tips) tips.remove();
             
             // Make API request to decrypt
-            decryptImage(imageId, password, method)
+            decryptImage(imageId, password, method, tryRecovery)
                 .then(response => {
                     if (response.success) {
                         // Check if this was a recovered message
@@ -175,7 +193,8 @@ function showDecryptResult(message, isSuccess, suggestions = null) {
     }
 }
 
-async function decryptImage(imageId, password, method) {
+// Update decryptImage function to include recovery option
+async function decryptImage(imageId, password, method, tryRecovery = false) {
     return new Promise((resolve, reject) => {
         // Show suggestions for common password issues while waiting
         const suggestionTimer = setTimeout(() => {
@@ -197,7 +216,7 @@ async function decryptImage(imageId, password, method) {
                 image_id: imageId,
                 password: password,
                 method: method,
-                try_recovery: true  // Add this flag to attempt recovery methods
+                try_recovery: tryRecovery  // Include the recovery mode flag
             })
         })
         .then(response => {
