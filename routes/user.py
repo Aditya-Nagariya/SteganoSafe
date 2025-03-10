@@ -55,8 +55,8 @@ def settings():
 # This function should be called in app.py to register the blueprint
 def init_user_routes(app):
     app.register_blueprint(user_bp)
-    # Also register a direct route for the profile
-    @app.route('/profile')
-    @login_required
-    def profile():
-        return redirect(url_for('user_bp.profile'))
+    
+    # Register a main profile route WITHOUT creating a new route handler
+    # This avoids the "overwriting an existing endpoint" error
+    app.add_url_rule('/profile', 'profile', 
+                    lambda: redirect(url_for('user_bp.profile')))

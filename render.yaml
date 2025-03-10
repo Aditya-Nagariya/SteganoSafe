@@ -3,7 +3,11 @@ services:
     name: steganosafe
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi:app
+    startCommand: gunicorn --log-level info wsgi:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+      - key: FLASK_APP
+        value: wsgi:app
+      - key: FLASK_ENV
+        value: production

@@ -38117,3 +38117,15 @@ jinja2.exceptions.UndefinedError: 'hasattr' is undefined
 2025-03-10 09:46:10,163 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:46:10] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
 2025-03-10 09:46:10,164 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:46:10] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
 2025-03-10 09:46:10,164 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:46:10] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-10 09:50:42,705 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/wsgi.py', reloading
+2025-03-10 09:50:44,488 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 09:50:46,686 - __main__ - INFO - Successfully imported filters module
+2025-03-10 09:50:46,689 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 09:50:46,689 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:50:46,689 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:50:47,727 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 09:50:47,828 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 09:50:47,870 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 09:50:47,889 - __main__ - INFO - Database initialization complete
+2025-03-10 09:50:47,916 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 09:50:48,189 - werkzeug - INFO -  * Debugger PIN: 739-833-464
