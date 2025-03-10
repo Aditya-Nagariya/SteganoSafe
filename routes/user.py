@@ -7,8 +7,11 @@ from flask_login import login_required, current_user
 from models import db, User, ActivityLog
 import logging
 
-# Create blueprint
-user_bp = Blueprint('user_bp', __name__)
+# Setup logging
+logger = logging.getLogger(__name__)
+
+# Create blueprint with a url_prefix to avoid route conflicts
+user_bp = Blueprint('user_bp', __name__, url_prefix='/user')
 
 @user_bp.route('/profile')
 @login_required
@@ -23,7 +26,7 @@ def profile():
                           user=current_user,
                           activities=activities)
 
-@user_bp.route('/profile/settings', methods=['GET', 'POST'])
+@user_bp.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
     """User settings page"""
@@ -54,9 +57,18 @@ def settings():
 
 # This function should be called in app.py to register the blueprint
 def init_user_routes(app):
+    logger.info("Registering user routes")
     app.register_blueprint(user_bp)
     
-    # Register a main profile route WITHOUT creating a new route handler
-    # This avoids the "overwriting an existing endpoint" error
-    app.add_url_rule('/profile', 'profile', 
-                    lambda: redirect(url_for('user_bp.profile')))
+    # DO NOT register a duplicate /profile route 
+    # The main app.py already has this route defined
+    # Instead, mention in a log that we found it
+    logger.info("Note: /profile route should be configured in main app.py to redirect to user_bp.profile")
+    
+    # If you want to provide a utility function the main app can use:
+    def get_profile_redirect():
+        """Helper function that can be imported in app.py to redirect to the profile page"""
+        return redirect(url_for('user_bp.profile'))
+    
+    # Attach the function to the app for use in app.py
+    app.get_profile_redirect = get_profile_redirect

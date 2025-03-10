@@ -2,12 +2,12 @@ services:
   - type: web
     name: steganosafe
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --log-level info wsgi:app
+    buildCommand: |
+      pip install -r requirements.txt
+      pip install pandas --no-deps
+    startCommand: gunicorn wsgi:app --log-level info
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
-      - key: FLASK_APP
-        value: wsgi:app
       - key: FLASK_ENV
         value: production
