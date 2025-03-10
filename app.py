@@ -34,8 +34,8 @@ try:
     logger.info(f"Database ensured at: {db_path}")
     
     # Update environment with database path
-    os.environ['DATABASE_URL'] = f'sqlite:///{db_path}'
-    logger.info(f"Set DATABASE_URL to {os.environ['DATABASE_URL']}")
+    os.environ['DATABASE_PATH'] = db_path
+    logger.info(f"Set DATABASE_PATH to {os.environ['DATABASE_PATH']}")
 except Exception as e:
     logger.error(f"Database initialization error: {str(e)}")
     logger.error(traceback.format_exc())
@@ -99,6 +99,20 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
 app.config['REMEMBER_COOKIE_REFRESH_EACH_REQUEST'] = True
 app.config['REMEMBER_COOKIE_HTTPONLY'] = True
+app.config['SESSION_FILE_DIR'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flask_session')
+app.config['SESSION_KEY_PREFIX'] = 'steganosafe_'
+os.makedirs(app.config['SESSION_FILE_DIR'], exist_ok=True)
+
+# Configure SQLAlchemy for better durability
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,  # Verify connections before using
+    'pool_recycle': 280,    # Recycle connections before idle timeout
+    'pool_timeout': 30,     # Wait 30s for connection
+    'connect_args': {       # SQLite specific settings
+        'timeout': 30,      # Wait 30s for locked database
+        'check_same_thread': False  # Allow multithreaded access
+    }
+}
 
 # Add this immediately after initializing the app:
 from filters import register_filters
@@ -641,26 +655,49 @@ def encrypt():
             unique_filename = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
             
             logger.debug(f"Creating database record for: {unique_filename}")
-            # Create database record
-            new_image = StegoImage(
-                user_id=current_user.id,
-                filename=unique_filename,
-                original_filename=image_file.filename,
-                image_data=image_data,
-                encryption_type='LSB'
-            )
             
-            db.session.add(new_image)
-            
-            # Log activity
-            activity = ActivityLog(
-                user_id=current_user.id,
-                action=f"Encrypted image: {image_file.filename}"
-            )
-            
-            db.session.add(activity)
-            db.session.commit()
-            logger.debug("Database records created successfully")
+            # Use explicit database transaction for reliability
+            try:
+                # Create database record
+                new_image = StegoImage(
+                    user_id=current_user.id,
+                    filename=unique_filename,
+                    original_filename=image_file.filename,
+                    image_data=image_data,
+                    encryption_type='LSB'
+                )
+                
+                db.session.add(new_image)
+                
+                # Log activity
+                activity = ActivityLog(
+                    user_id=current_user.id,
+                    action=f"Encrypted image: {image_file.filename}"
+                )
+                
+                db.session.add(activity)
+                
+                # Explicitly flush to detect errors early
+                db.session.flush()
+                
+                # Now commit the transaction
+                db.session.commit()
+                logger.debug("Database records created successfully")
+                
+                # Double check the image was stored by reading it back
+                verification = StegoImage.query.filter_by(filename=unique_filename).first()
+                if not verification or not verification.image_data:
+                    logger.warning(f"Image verification failed for {unique_filename}!")
+                else:
+                    logger.debug(f"Image verified in database with ID {verification.id}")
+                
+            except Exception as db_error:
+                db.session.rollback()
+                logger.error(f"Database error: {str(db_error)}")
+                return jsonify({
+                    'success': False,
+                    'message': f'Database error: {str(db_error)}'
+                }), 500
             
             return jsonify({
                 'success': True,

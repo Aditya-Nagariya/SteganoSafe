@@ -18,6 +18,14 @@ logger = logging.getLogger(__name__)
 # Path to config file for persistent settings
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'app_config.json')
 
+# Get the persistent database path from the environment
+# This will be set by ensure_db.py
+database_path = os.environ.get('DATABASE_PATH', 'sqlite:///instance/steganosafe.db')
+
+# If database_path doesn't include the sqlite:/// prefix, add it
+if not database_path.startswith('sqlite:///'):
+    database_path = f'sqlite:///{database_path}'
+
 class Config:
     # Create data directory if it doesn't exist
     data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -41,8 +49,19 @@ class Config:
         # Log the database URI we're using
         logger.info(f"Using database at: {db_path}")
         
-    SQLALCHEMY_DATABASE_URI = db_uri
+    SQLALCHEMY_DATABASE_URI = database_path
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Connection pool settings for better durability
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,  # Verify connections before using them
+        'pool_recycle': 280,    # Recycle connections before idle timeout
+        'pool_timeout': 30,     # Wait 30s for connection
+        'connect_args': {       # SQLite specific settings
+            'timeout': 30,      # Wait 30s for locked database
+            'check_same_thread': False  # Allow multithreaded access
+        }
+    }
     
     # Upload configuration
     UPLOAD_FOLDER = os.path.join(data_dir, 'uploads')
@@ -64,10 +83,16 @@ class Config:
     # Session configuration - modify these settings
     SESSION_TYPE = 'filesystem'
     SESSION_PERMANENT = True
-    PERMANENT_SESSION_LIFETIME = timedelta(days=7)  # Extend to 7 days
+    PERMANENT_SESSION_LIFETIME = timedelta(days=30)
     SESSION_COOKIE_SECURE = False  # Set to False for development
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'  # Use 'Lax' for login redirects to work
+    SESSION_USE_SIGNER = True
+    SESSION_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flask_session')
+    SESSION_KEY_PREFIX = 'steganosafe_'
+    
+    # Ensure session directory exists
+    os.makedirs(SESSION_FILE_DIR, exist_ok=True)
     
     # CSRF settings
     WTF_CSRF_SECRET_KEY = os.getenv('CSRF_SECRET_KEY', 'csrf-dev-key')

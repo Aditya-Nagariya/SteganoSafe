@@ -5,9 +5,14 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       pip install pandas --no-deps
+      mkdir -p /data/db
     startCommand: gunicorn wsgi:app --log-level info
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
       - key: FLASK_ENV
         value: production
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

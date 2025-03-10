@@ -1,45 +1,88 @@
 """
-Utility to ensure database exists and is initialized properly
+Script to ensure the database exists and is in a persistent location
 """
 import os
 import logging
-from pathlib import Path
+import sys
+import platform
+import sqlite3
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+def get_persistent_data_dir():
+    """
+    Get a platform-appropriate persistent data directory that will survive restarts
+    """
+    # For cloud platforms like Render.com, use specific persistent directories
+    if os.environ.get('RENDER'):
+        # Render.com - use the persistent disk path
+        base_dir = '/data'
+        if not os.path.exists(base_dir):
+            # Try to create it if it doesn't exist
+            try:
+                os.makedirs(base_dir, exist_ok=True)
+                logger.info(f"Created persistent directory at {base_dir}")
+            except Exception as e:
+                logger.error(f"Failed to create persistent directory: {e}")
+                # Fall back to a directory that should work
+                base_dir = os.path.join(os.getcwd(), 'persistent_data')
+                os.makedirs(base_dir, exist_ok=True)
+    else:
+        # Local development - use a directory in the project
+        base_dir = os.path.join(os.getcwd(), 'persistent_data')
+        os.makedirs(base_dir, exist_ok=True)
+    
+    logger.info(f"Using persistent data directory: {base_dir}")
+    return base_dir
+
 def ensure_database():
-    """Ensure database directory exists and return paths"""
+    """
+    Ensure database exists and is in a persistent location
+    Returns (data_dir, database_path)
+    """
+    # Get persistent data directory
+    data_dir = get_persistent_data_dir()
+    
+    # Create database directory if it doesn't exist
+    db_dir = os.path.join(data_dir, 'db')
+    os.makedirs(db_dir, exist_ok=True)
+    
+    # Set up database path
+    db_path = os.path.join(db_dir, 'steganosafe.sqlite')
+    
+    # Log the database path for debugging
+    logger.info(f"Database path: {db_path}")
+    
+    # Test that we can create/access the database
     try:
-        # Base directory
-        base_dir = os.path.dirname(os.path.abspath(__file__))
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute('CREATE TABLE IF NOT EXISTS db_test (id INTEGER PRIMARY KEY, test TEXT)')
+        cursor.execute('INSERT INTO db_test (test) VALUES (?)', ('Database initialization test',))
+        conn.commit()
+        cursor.execute('SELECT * FROM db_test')
+        result = cursor.fetchone()
+        logger.info(f"Database test result: {result}")
+        conn.close()
         
-        # Data directory
-        data_dir = os.path.join(base_dir, 'data')
-        os.makedirs(data_dir, exist_ok=True)
+        # Ensure the database file exists and is writable
+        assert os.path.exists(db_path), "Database file doesn't exist after creation"
+        assert os.access(db_path, os.W_OK), "Database file isn't writable"
         
-        # Database path
-        db_path = os.path.join(data_dir, 'steganography_app.db')
+        logger.info(f"Database successfully verified at {db_path}")
         
-        # Touch the file if it doesn't exist
-        if not os.path.exists(db_path):
-            Path(db_path).touch()
-            logger.info(f"Created empty database file: {db_path}")
-        
-        # Fix permissions
-        try:
-            os.chmod(data_dir, 0o777)
-            os.chmod(db_path, 0o666)
-            logger.info("Set permissions on data directory and database file")
-        except Exception as e:
-            logger.warning(f"Could not set permissions: {e}")
+        # Set environment variable for database path
+        os.environ['DATABASE_PATH'] = db_path
         
         return data_dir, db_path
+        
     except Exception as e:
-        logger.error(f"Error ensuring database: {e}")
+        logger.error(f"Database initialization error: {e}")
         raise
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     data_dir, db_path = ensure_database()
     print(f"Database ensured at: {db_path}")
     print(f"Data directory: {data_dir}")
