@@ -1,5 +1,5 @@
 """
-Utility functions for handling base64 encoding/decoding with enhanced error recovery
+Utility functions for handling base64 data with improved error handling
 """
 import base64
 import logging
@@ -20,47 +20,64 @@ def safe_base64_encode(data):
         logger.error(f"Base64 encoding error: {str(e)}")
         raise ValueError(f"Failed to encode data to base64: {str(e)}")
 
-def safe_base64_decode(encoded_data):
+def safe_base64_decode(data):
     """
-    Safely decode base64 data with error handling and recovery mechanisms
+    Safely decode base64 data with error handling for corrupted data
     """
-    try:
-        # First try direct decoding
-        if isinstance(encoded_data, bytes):
-            encoded_data = encoded_data.decode('ascii', errors='replace')
+    if not data:
+        return None
         
-        # Fix common base64 encoding issues
-        cleaned_data = encoded_data.strip()
-        
-        # Fix padding if needed
-        padding_needed = len(cleaned_data) % 4
-        if padding_needed:
-            cleaned_data += '=' * (4 - padding_needed)
-            
-        # Replace invalid chars with valid base64 chars
-        cleaned_data = re.sub(r'[^A-Za-z0-9+/=]', 'A', cleaned_data)
-        
-        return base64.b64decode(cleaned_data)
-    
-    except Exception as e:
-        logger.warning(f"Standard base64 decoding failed: {str(e)}. Trying recovery mode.")
-        
+    # If data is bytes, convert to string
+    if isinstance(data, bytes):
         try:
-            # Try more aggressive cleaning
-            # Keep only valid base64 characters
-            only_valid = ''.join(c for c in encoded_data if c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=')
+            data = data.decode('ascii', errors='replace')
+        except Exception as e:
+            logger.error(f"Error decoding bytes to ascii: {e}")
             
-            # Fix padding
-            while len(only_valid) % 4 != 0:
-                only_valid += '='
-                
-            # Try decoding again
-            return base64.b64decode(only_valid)
+    # Make sure we're working with a string
+    if not isinstance(data, str):
+        data = str(data)
+            
+    # Clean up the base64 string to handle common errors
+    
+    # 1. Keep only valid base64 characters
+    clean_data = re.sub(r'[^A-Za-z0-9+/=]', '', data)
+    
+    # 2. Fix padding
+    remainder = len(clean_data) % 4
+    if remainder > 0:
+        clean_data += '=' * (4 - remainder)
+    
+    # 3. Try to decode
+    try:
+        return base64.b64decode(clean_data)
+    except Exception as e:
+        logger.error(f"Error decoding base64: {e}")
         
+        # 4. Try more aggressive cleaning - only alphanumeric
+        alphanumeric_only = re.sub(r'[^A-Za-z0-9]', '', data)
+        
+        # Add padding if needed
+        remainder = len(alphanumeric_only) % 4
+        if remainder > 0:
+            alphanumeric_only += '=' * (4 - remainder)
+            
+        try:
+            return base64.b64decode(alphanumeric_only + "===")
         except Exception as e2:
-            logger.error(f"Base64 recovery decoding also failed: {str(e2)}")
-            # Return empty bytes as last resort
-            return b''
+            logger.error(f"Second attempt at decoding base64 failed: {e2}")
+            
+            # 5. Last resort - try various substrings
+            for start in range(0, min(20, len(data))):
+                try:
+                    # Try different starting points
+                    substr = data[start:] + "=="
+                    return base64.b64decode(substr)
+                except:
+                    continue
+            
+            # Nothing worked
+            return None
 
 def is_valid_base64(s):
     """Check if a string is valid base64"""

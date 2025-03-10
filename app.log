@@ -38141,3 +38141,813 @@ jinja2.exceptions.UndefinedError: 'hasattr' is undefined
 2025-03-10 10:05:51,749 - __main__ - INFO - Database initialization complete
 2025-03-10 10:05:51,776 - werkzeug - WARNING -  * Debugger is active!
 2025-03-10 10:05:51,984 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:23:38,317 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:23:38,346 - __main__ - DEBUG - Found 17 images for user
+2025-03-10 10:23:38,461 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:23:38,482 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "[36mGET /static/js/dashboard.js HTTP/1.1[0m" 304 -
+2025-03-10 10:23:38,482 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "[36mGET /static/css/dropdown-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:38,553 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:23:38,554 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:23:38,626 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:38] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 10:23:39,923 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:23:39,933 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "[36mGET /static/css/modal-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:39,935 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "[36mGET /static/css/custom.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:39,935 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "[36mGET /static/css/encrypt.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:39,935 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "[36mGET /static/css/dropdown-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:39,951 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:39] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:23:53,835 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:23:54,034 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:23:54,035 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:23:54,147 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:23:54,147 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:23:54,147 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:23:54,279 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:23:54,279 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:23:54,279 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:23:54,298 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:23:54,302 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:23:54,878 - __main__ - DEBUG - Creating database record for: 20250310045354_Screenshot_2025-03-09_at_10.35.20_AM.png
+2025-03-10 10:23:54,890 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:23:54,891 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:54] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:23:56,443 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:23:56,467 - __main__ - DEBUG - Found 18 images for user
+2025-03-10 10:23:56,593 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:23:56,608 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "[36mGET /static/js/dashboard.js HTTP/1.1[0m" 304 -
+2025-03-10 10:23:56,611 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "[36mGET /static/css/modal-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:56,616 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "[36mGET /static/css/dropdown-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:56,623 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "[36mGET /static/css/custom.css HTTP/1.1[0m" 304 -
+2025-03-10 10:23:56,629 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:23:56] "[36mGET /static/js/dashboard_decrypt.js HTTP/1.1[0m" 304 -
+2025-03-10 10:24:05,179 - root - INFO - API decrypt request for image 20 using PVD
+2025-03-10 10:24:05,193 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:05,193 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:05] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:24:05,194 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:05,194 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:05,204 - root - INFO - API decrypt request for image 20 using PVD
+2025-03-10 10:24:05,207 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:05,207 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:05,207 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:06,289 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:06,538 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:07,259 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:07,624 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:07,624 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:07,626 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:07,738 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:07,738 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:07,738 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:07,738 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:07,738 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:07,739 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:07,739 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:07,851 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:07,851 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:07,852 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:07,964 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:07,966 - app - DEBUG - API request to /api/decrypt_saved_image took 2.7954s
+2025-03-10 10:24:07,966 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:07,967 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:07] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:24:07,967 - app - DEBUG - API request to /api/decrypt_saved_image took 2.7638s
+2025-03-10 10:24:07,968 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:07] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:24:14,947 - root - INFO - API decrypt request for image 20 using PVD
+2025-03-10 10:24:14,952 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:14] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:24:14,952 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:14,953 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:14,953 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:14,961 - root - INFO - API decrypt request for image 20 using PVD
+2025-03-10 10:24:14,964 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:14,964 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:14,965 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:15,962 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:16,925 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:17,036 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:17,289 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:17,289 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:17,290 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:17,403 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:17,403 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:17,403 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:17,403 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:17,403 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:17,403 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:17,403 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:17,513 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:17,513 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:17,513 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:17,626 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:17,626 - app - DEBUG - API request to /api/decrypt_saved_image took 2.6828s
+2025-03-10 10:24:17,626 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:17,628 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:17] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:24:17,628 - app - DEBUG - API request to /api/decrypt_saved_image took 2.6682s
+2025-03-10 10:24:17,629 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:17] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:24:22,098 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:24:22,114 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "[36mGET /static/css/encrypt.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:22,118 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "[36mGET /static/css/dropdown-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:22,119 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "[36mGET /static/css/modal-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:22,120 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "[36mGET /static/js/encryption-method-fix.js HTTP/1.1[0m" 304 -
+2025-03-10 10:24:22,123 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:22] "[36mGET /static/css/custom.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:40,827 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:24:40,830 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:40,830 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:24:40,830 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:24:40,830 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:24:40,831 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:24:40,831 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:24:40,831 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:24:40,831 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:24:40,971 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:24:40,972 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:24:40,972 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:24:41,084 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:24:41,084 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:24:41,085 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:24:41,110 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:24:41,119 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:24:41,698 - __main__ - DEBUG - Creating database record for: 20250310045441_Screenshot_2025-03-09_at_10.35.20_AM.png
+2025-03-10 10:24:41,708 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:24:41,711 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:41] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:24:43,303 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:24:43,321 - __main__ - DEBUG - Found 19 images for user
+2025-03-10 10:24:43,437 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:24:43,450 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "[36mGET /static/js/dashboard.js HTTP/1.1[0m" 304 -
+2025-03-10 10:24:43,452 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "[36mGET /static/css/dropdown-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:43,462 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "[36mGET /static/js/dashboard_decrypt.js HTTP/1.1[0m" 304 -
+2025-03-10 10:24:43,462 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "[36mGET /static/css/custom.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:43,463 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:43] "[36mGET /static/css/modal-fix.css HTTP/1.1[0m" 304 -
+2025-03-10 10:24:53,225 - root - INFO - API decrypt request for image 21 using PVD
+2025-03-10 10:24:53,230 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:53] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:24:53,233 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:53,234 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:53,234 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:53,251 - root - INFO - API decrypt request for image 21 using PVD
+2025-03-10 10:24:53,254 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:24:53,254 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:24:53,254 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:24:54,274 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:54,521 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:55,343 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:24:55,343 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:55,594 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:24:55,596 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:55,708 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:24:55,708 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:55,709 - root - ERROR - Error decrypting message: 
+2025-03-10 10:24:55,709 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:55,709 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:24:55,709 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:55,709 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:24:55,821 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:55,821 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:24:55,821 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:55,934 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:55,935 - app - DEBUG - API request to /api/decrypt_saved_image took 2.7170s
+2025-03-10 10:24:55,935 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:24:55,936 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:55] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:24:55,936 - app - DEBUG - API request to /api/decrypt_saved_image took 2.6861s
+2025-03-10 10:24:55,937 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:24:55] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:29:21,223 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/routes/user.py', reloading
+2025-03-10 10:29:21,651 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:29:22,371 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:29:22,372 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:29:22,372 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:29:22,372 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:29:23,499 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:29:23,615 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:29:23,688 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:29:23,711 - __main__ - INFO - Database initialization complete
+2025-03-10 10:29:23,755 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:29:23,970 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:31:34,875 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/utils/inspect_routes.py', reloading
+2025-03-10 10:31:35,364 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:31:36,265 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:31:36,266 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:31:36,266 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:31:36,266 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:31:37,993 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:31:38,109 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:31:38,166 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:31:38,188 - __main__ - INFO - Database initialization complete
+2025-03-10 10:31:38,218 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:31:38,483 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:31:43,025 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:31:43,306 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-10 10:31:43,317 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:31:43,326 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:31:43,326 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:31:43,333 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:31:43] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:32:02,605 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:32:02,879 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:32:03,056 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:32:03,056 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:32:03,056 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:32:03,269 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:32:03,269 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:32:03,269 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:32:03,301 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:32:03,308 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:32:04,257 - __main__ - DEBUG - Creating database record for: 20250310050204_Screenshot_2025-03-09_at_10.35.20_AM.png
+2025-03-10 10:32:04,286 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:32:04,290 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:04] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:32:05,956 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:32:05,994 - __main__ - DEBUG - Found 20 images for user
+2025-03-10 10:32:06,190 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:32:06,289 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:32:06,290 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:32:06,291 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:32:06,413 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 10:32:06,414 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:06] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-10 10:32:12,067 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:12] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:32:12,078 - root - INFO - API decrypt request for image 22 using LSB
+2025-03-10 10:32:12,083 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:32:12,083 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:32:12,083 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:32:13,471 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:32:13,883 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:32:14,064 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:32:14,066 - root - ERROR - Error decrypting message: 
+2025-03-10 10:32:14,067 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:32:14,067 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:32:14,067 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:32:14,248 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:32:14,248 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:32:14,249 - app - DEBUG - API request to /api/decrypt_saved_image took 2.1722s
+2025-03-10 10:32:14,251 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:14] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:32:22,686 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:22] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:32:22,696 - root - INFO - API decrypt request for image 22 using PVD
+2025-03-10 10:32:22,700 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:32:22,700 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:32:22,701 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:32:24,336 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:32:24,746 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:32:24,928 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:32:24,928 - root - ERROR - Error decrypting message: 
+2025-03-10 10:32:24,928 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:32:24,928 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:32:24,928 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:32:25,110 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:32:25,110 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:32:25,110 - app - DEBUG - API request to /api/decrypt_saved_image took 2.4157s
+2025-03-10 10:32:25,112 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:25] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:32:59,546 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:32:59,717 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:32:59,724 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:32:59,726 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:32:59,735 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:32:59,741 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:32:59] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-10 10:33:12,222 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:33:12,227 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:33:12,408 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:33:12,408 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:33:12,408 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:33:12,601 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:33:12,601 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:33:12,602 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:33:12,639 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:33:12,653 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:33:13,604 - __main__ - DEBUG - Creating database record for: 20250310050313_Screenshot_2025-03-09_at_10.35.20_AM.png
+2025-03-10 10:33:13,626 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:33:13,630 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:13] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:33:15,309 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:33:15,367 - __main__ - DEBUG - Found 21 images for user
+2025-03-10 10:33:15,555 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:33:15,662 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:33:15,663 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:33:15,663 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:33:15,801 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 10:33:15,802 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:15] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-10 10:33:22,158 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:22] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:33:22,165 - root - INFO - API decrypt request for image 23 using LSB
+2025-03-10 10:33:22,171 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:33:22,171 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:33:22,171 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:33:23,643 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:33:24,050 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:33:24,233 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:33:24,234 - root - ERROR - Error decrypting message: 
+2025-03-10 10:33:24,234 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:33:24,234 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:33:24,235 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:33:24,416 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:33:24,416 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:33:24,417 - app - DEBUG - API request to /api/decrypt_saved_image took 2.2529s
+2025-03-10 10:33:24,420 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:33:24] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:34:02,782 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-10 10:34:03,317 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:34:04,220 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:34:04,221 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:34:04,222 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:34:04,222 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:34:06,182 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:34:06,448 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:34:06,642 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:34:06,680 - __main__ - INFO - Database initialization complete
+2025-03-10 10:34:06,729 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:34:07,696 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:34:09,692 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:34:09,881 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:34:09,881 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:34:09,881 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:34:09,887 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:34:09,893 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:09] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-10 10:34:17,249 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:17] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:34:17,258 - root - INFO - API decrypt request for image 23 using LSB
+2025-03-10 10:34:17,294 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:34:17,294 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:34:17,294 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:34:18,853 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:34:19,260 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:34:19,458 - root - DEBUG - Nonce length: 12, Tag length: 16, Data length: 460
+2025-03-10 10:34:19,463 - root - ERROR - Error decrypting message: 
+2025-03-10 10:34:19,463 - root - ERROR - Error in decrypt_message: 
+2025-03-10 10:34:19,463 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:34:19,463 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:34:19,641 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:34:19,641 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:34:19,642 - app - DEBUG - API request to /api/decrypt_saved_image took 2.3847s
+2025-03-10 10:34:19,644 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:34:19] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:37:30,580 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/routes/__init__.py', reloading
+2025-03-10 10:37:31,109 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:37:32,044 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:37:32,045 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:37:32,045 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:37:32,045 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:37:33,683 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:37:34,007 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:37:34,154 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:37:34,210 - __main__ - INFO - Database initialization complete
+2025-03-10 10:37:34,266 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:37:34,381 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:37:38,523 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:38] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:37:38,543 - root - INFO - API decrypt request for image 23 using LSB
+2025-03-10 10:37:38,577 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:37:38,577 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:37:38,577 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:37:40,455 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:37:40,849 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:37:40,849 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:37:41,180 - root - ERROR - AESGCM decryption failed: 
+2025-03-10 10:37:41,193 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:37:41,193 - root - DEBUG - Trying decryption with constant SALT
+2025-03-10 10:37:41,375 - root - ERROR - Error during decryption process: 
+2025-03-10 10:37:41,376 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1317, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:37:41,376 - root - ERROR - decrypt_message error: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:37:41,377 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1317, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1327, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+2025-03-10 10:37:41,378 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:37:41,378 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:37:41,561 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:37:41,561 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:37:41,563 - app - DEBUG - API request to /api/decrypt_saved_image took 3.0208s
+2025-03-10 10:37:41,566 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:41] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:37:45,023 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:37:45,285 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:37:45,289 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:37:45,291 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:37:45,301 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:37:45,301 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:37:45] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-10 10:38:02,155 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:38:02,158 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:38:02,158 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:38:02,158 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:38:02,158 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:38:02,158 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:38:02,159 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:38:02,159 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:38:02,159 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:38:02,333 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:38:02,334 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:38:02,334 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:38:02,527 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:38:02,527 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:38:02,528 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:38:02,555 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:38:02,561 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:38:03,508 - __main__ - DEBUG - Creating database record for: 20250310050803_Screenshot_2025-03-09_at_10.35.20_AM.png
+2025-03-10 10:38:03,539 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:38:03,544 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:03] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:38:05,195 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:38:05,249 - __main__ - DEBUG - Found 22 images for user
+2025-03-10 10:38:05,460 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:38:05,591 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:38:05,594 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:38:05,595 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:38:05,734 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 10:38:05,736 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:05] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-10 10:38:13,407 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:13] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:38:13,417 - root - INFO - API decrypt request for image 24 using LSB
+2025-03-10 10:38:13,428 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:38:13,429 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:38:13,429 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:38:14,945 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:38:15,336 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:38:15,336 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:38:15,526 - root - ERROR - AESGCM decryption failed: 
+2025-03-10 10:38:15,529 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:38:15,529 - root - DEBUG - Trying decryption with constant SALT
+2025-03-10 10:38:15,710 - root - ERROR - Error during decryption process: 
+2025-03-10 10:38:15,711 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1317, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:38:15,711 - root - ERROR - decrypt_message error: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:38:15,713 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1293, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1317, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1327, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+2025-03-10 10:38:15,713 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:38:15,713 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:38:15,893 - stego - ERROR - Safe decryption error: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:38:15,893 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: . Data might be corrupted or wrong password.
+2025-03-10 10:38:15,894 - app - DEBUG - API request to /api/decrypt_saved_image took 2.4769s
+2025-03-10 10:38:15,895 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:38:15] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:46:25,825 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/cryptography_utils.py', reloading
+2025-03-10 10:46:26,410 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:46:27,589 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:46:27,590 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:46:27,590 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:46:27,590 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:46:29,971 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:46:30,156 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:46:30,262 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:46:30,300 - __main__ - INFO - Database initialization complete
+2025-03-10 10:46:30,353 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:46:30,839 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:46:45,218 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:46:45] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:46:45,231 - root - INFO - API decrypt request for image 24 using LSB
+2025-03-10 10:46:45,263 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:46:45,263 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:46:45,263 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:46:48,541 - root - DEBUG - Found base64 candidate: mmmmmmmmmmmmmmmmmmmm... (488 chars)
+2025-03-10 10:46:49,107 - root - DEBUG - Decrypting message of length 488
+2025-03-10 10:46:49,108 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:46:49,317 - root - ERROR - AESGCM decryption failed: 
+2025-03-10 10:46:49,321 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:46:49,322 - root - DEBUG - Trying decryption with constant SALT
+2025-03-10 10:46:49,506 - root - ERROR - Error during decryption process: 
+2025-03-10 10:46:49,507 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:46:49,507 - root - ERROR - decrypt_message error: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:46:49,508 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+2025-03-10 10:46:49,508 - stego - DEBUG - Safely decrypting message of length 488
+2025-03-10 10:46:49,509 - stego - DEBUG - Base64 decoding succeeded, got 366 bytes
+2025-03-10 10:46:49,509 - root - DEBUG - Decrypting message of length 366
+2025-03-10 10:46:49,509 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:46:49,717 - root - ERROR - AESGCM decryption failed: 
+2025-03-10 10:46:49,736 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/api.py", line 287, in decrypt_saved_image
+    decrypted_message = decrypt_message(ciphertext, password, debug=True)
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1445, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}")
+ValueError: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:46:49,737 - root - DEBUG - Trying decryption with constant SALT
+2025-03-10 10:46:49,945 - root - ERROR - Error during decryption process: 
+2025-03-10 10:46:49,955 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/api.py", line 287, in decrypt_saved_image
+    decrypted_message = decrypt_message(ciphertext, password, debug=True)
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1445, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}")
+ValueError: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:46:49,958 - root - ERROR - decrypt_message error: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:46:49,961 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/api.py", line 287, in decrypt_saved_image
+    decrypted_message = decrypt_message(ciphertext, password, debug=True)
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1445, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}")
+ValueError: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+2025-03-10 10:46:49,962 - stego - DEBUG - Standard decryption failed, trying with auth bypass: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:46:49,963 - stego - DEBUG - Auth bypass failed, trying raw AES: decrypt_message() got an unexpected keyword argument 'bypass_auth'
+2025-03-10 10:46:49,969 - stego - DEBUG - Raw AES decryption produced 352 chars
+2025-03-10 10:46:49,969 - stego - ERROR - Safe decryption error: AESGCM decryption failed: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.. Data might be corrupted or wrong password.
+2025-03-10 10:46:49,969 - root - ERROR - Decryption error: Safe decryption failed: AESGCM decryption failed: Decryption failed: Decryption failed: . Check your password or the data may be corrupted.. Data might be corrupted or wrong password.
+2025-03-10 10:46:49,971 - app - DEBUG - API request to /api/decrypt_saved_image took 4.7405s
+2025-03-10 10:46:49,974 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:46:49] "[31m[1mPOST /api/decrypt_saved_image HTTP/1.1[0m" 400 -
+2025-03-10 10:47:19,959 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-10 10:47:20,367 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:47:21,030 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:47:21,032 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:47:21,032 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:47:21,032 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:47:22,307 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:47:22,363 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:47:22,464 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:47:22,485 - __main__ - INFO - Database initialization complete
+2025-03-10 10:47:22,522 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:47:22,618 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 10:47:26,672 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /encrypt HTTP/1.1" 200 -
+2025-03-10 10:47:26,885 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-10 10:47:26,886 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-10 10:47:26,887 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:47:26,888 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:47:26,888 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:26] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:47:43,245 - __main__ - DEBUG - Opening image for encryption
+2025-03-10 10:47:43,274 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:47:43,274 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2025-03-10 10:47:43,274 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 150
+2025-03-10 10:47:43,275 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 216 9
+2025-03-10 10:47:43,275 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 237 472
+2025-03-10 10:47:43,275 - PIL.PngImagePlugin - DEBUG - STREAM b'iDOT' 721 28
+2025-03-10 10:47:43,275 - PIL.PngImagePlugin - DEBUG - b'iDOT' 721 28 (unknown)
+2025-03-10 10:47:43,275 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 761 16384
+2025-03-10 10:47:43,473 - __main__ - DEBUG - Converted image to RGB mode
+2025-03-10 10:47:43,474 - __main__ - DEBUG - Encrypting message
+2025-03-10 10:47:43,474 - stego - DEBUG - Encrypting message of length 8
+2025-03-10 10:47:43,697 - stego - DEBUG - Encryption successful, result length: 72
+2025-03-10 10:47:43,697 - __main__ - DEBUG - Encoding message into image
+2025-03-10 10:47:43,697 - stego - DEBUG - Encoding message of length 72 into image
+2025-03-10 10:47:43,726 - stego - DEBUG - Message encoded successfully, used 584 bits
+2025-03-10 10:47:43,731 - __main__ - DEBUG - Saving encoded image
+2025-03-10 10:47:44,671 - __main__ - DEBUG - Creating database record for: 20250310051744_Screenshot_2025-03-09_at_1.55.45_PM.png
+2025-03-10 10:47:44,700 - __main__ - DEBUG - Database records created successfully
+2025-03-10 10:47:44,702 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:44] "POST /encrypt HTTP/1.1" 200 -
+2025-03-10 10:47:46,406 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 10:47:46,485 - __main__ - DEBUG - Found 23 images for user
+2025-03-10 10:47:46,707 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:46] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 10:47:46,783 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:46] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 10:47:46,786 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:46] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 10:47:46,787 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:46] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 10:47:47,001 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:47] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 10:47:47,001 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:47] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-10 10:47:53,431 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:53] "[33mPOST /decrypt-stored HTTP/1.1[0m" 404 -
+2025-03-10 10:47:53,441 - root - INFO - API decrypt request for image 25 using LSB
+2025-03-10 10:47:53,446 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-03-10 10:47:53,447 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 65536
+2025-03-10 10:47:53,447 - root - DEBUG - Starting direct LSB decoding
+2025-03-10 10:47:54,952 - root - DEBUG - Found base64 candidate: xVLSaZI9JO6lrpNCxXpJ... (72 chars)
+2025-03-10 10:47:55,356 - root - DEBUG - Decrypting message of length 72
+2025-03-10 10:47:55,356 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:47:55,539 - root - ERROR - AESGCM decryption failed: 
+2025-03-10 10:47:55,543 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:47:55,543 - root - DEBUG - Trying decryption with constant SALT
+2025-03-10 10:47:55,723 - root - ERROR - Error during decryption process: 
+2025-03-10 10:47:55,724 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+2025-03-10 10:47:55,724 - root - ERROR - decrypt_message error: Decryption failed: . Check your password or the data may be corrupted.
+2025-03-10 10:47:55,726 - root - ERROR - Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1405, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1429, in decrypt_message
+    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
+cryptography.exceptions.InvalidTag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/aditya/Desktop/steganography_app/stego.py", line 1439, in decrypt_message
+    raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+ValueError: Decryption failed: . Check your password or the data may be corrupted.
+
+2025-03-10 10:47:55,726 - stego - DEBUG - Safely decrypting message of length 72
+2025-03-10 10:47:55,726 - stego - DEBUG - Base64 decoding succeeded, got 52 bytes
+2025-03-10 10:47:55,726 - root - DEBUG - Decrypting message of length 52
+2025-03-10 10:47:55,726 - root - DEBUG - Extracted salt, nonce and tag: salt=16, nonce=12, tag=16
+2025-03-10 10:47:55,906 - app - DEBUG - API request to /api/decrypt_saved_image took 2.4655s
+2025-03-10 10:47:55,907 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 10:47:55] "POST /api/decrypt_saved_image HTTP/1.1" 200 -
+2025-03-10 10:48:05,572 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/app.py', reloading
+2025-03-10 10:48:05,937 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 10:48:06,813 - __main__ - INFO - Successfully imported filters module
+2025-03-10 10:48:06,814 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 10:48:06,815 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:48:06,815 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 10:48:09,377 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 10:48:09,643 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 10:48:09,732 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 10:48:09,763 - __main__ - INFO - Database initialization complete
+2025-03-10 10:48:09,819 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 10:48:09,937 - werkzeug - INFO -  * Debugger PIN: 739-833-464
