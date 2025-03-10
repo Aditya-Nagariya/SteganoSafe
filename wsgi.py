@@ -1,6 +1,11 @@
+"""
+WSGI entry point for the SteganoSafe application.
+This file is used for deployment on servers like Render, Heroku, etc.
+"""
 import os
 import sys
 import logging
+from steganography_app import create_app
 
 # Configure logging
 logging.basicConfig(
@@ -12,12 +17,9 @@ logger = logging.getLogger("WSGI")
 # Add the current directory to the Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Import app
-from app import app, socketio
-
-# The init_db.py script handles database initialization now
-# app is used by gunicorn, socketio is used for WebSocket support
+# Create the Flask application
+app = create_app()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    socketio.run(app, host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
