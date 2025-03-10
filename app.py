@@ -1159,23 +1159,42 @@ def decrypt_stored():
             logger.warning(f"Image {image_id} not found for user {current_user.id}")
             return jsonify({'success': False, 'message': 'Image not found'}), 404
         
+        # Check if image data exists
+        if not image.image_data:
+            logger.error(f"Image {image_id} has no data")
+            return jsonify({'success': False, 'message': 'Image has no data'}), 400
+            
         # Load image from binary data
-        img_io = BytesIO(image.image_data)
-        img = PilImage.open(img_io)
-        
-        if img.mode != 'RGB':
-            img = img.convert('RGB')
+        try:
+            img_io = BytesIO(image.image_data)
+            img = PilImage.open(img_io)
+            
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+        except Exception as e:
+            logger.error(f"Failed to load image data: {e}")
+            return jsonify({
+                'success': False,
+                'message': f"Failed to load image: {str(e)}"
+            }), 500
             
         # Try our direct decoding first
-        logger.debug("Trying direct LSB decoding")
-        from stego import direct_lsb_decode
-        ciphertext = direct_lsb_decode(img, debug=True)
-        
-        # If direct decoding failed, try other methods
-        if not ciphertext:
-            logger.debug("Direct decoding failed, trying with AUTO method")
-            from stego import decode_message
-            ciphertext = decode_message(img, method='AUTO', debug=True)
+        try:
+            logger.debug("Trying direct LSB decoding")
+            from stego import direct_lsb_decode
+            ciphertext = direct_lsb_decode(img, debug=True)
+            
+            # If direct decoding failed, try other methods
+            if not ciphertext:
+                logger.debug("Direct decoding failed, trying with AUTO method")
+                from stego import decode_message
+                ciphertext = decode_message(img, method='AUTO', debug=True)
+        except Exception as e:
+            logger.error(f"Failed to decode message from image: {e}")
+            return jsonify({
+                'success': False,
+                'message': f"Failed to extract hidden message: {str(e)}"
+            }), 400
             
         # If we still don't have anything, return an error
         if not ciphertext:
@@ -1199,13 +1218,17 @@ def decrypt_stored():
             # Log success
             logger.info(f"Successfully decrypted message from image {image_id}")
             
-            # Log activity
-            activity = ActivityLog(
-                user_id=current_user.id,
-                action=f"Decrypted image {image.original_filename}"
-            )
-            db.session.add(activity)
-            db.session.commit()
+            # Log activity with more robust transaction handling
+            try:
+                activity = ActivityLog(
+                    user_id=current_user.id,
+                    action=f"Decrypted image {image.original_filename}"
+                )
+                db.session.add(activity)
+                db.session.commit()
+            except Exception as db_err:
+                logger.error(f"Failed to record activity log: {db_err}")
+                db.session.rollback()  # Ensure we rollback on error
             
             return jsonify({
                 'success': True,
@@ -1297,6 +1320,7 @@ def api_decrypt_saved_image():
         data = request.get_json()
         
         if not data:
+            logger.error("No JSON data in request")
             return jsonify({
                 'success': False,
                 'message': 'No data provided'
@@ -1309,6 +1333,7 @@ def api_decrypt_saved_image():
         try_recovery = data.get('try_recovery', False)  # New parameter to enable recovery mode
         
         if not image_id or not password:
+            logger.error("Missing image_id or password")
             return jsonify({
                 'success': False,
                 'message': 'Image ID and password required'
@@ -1317,10 +1342,11 @@ def api_decrypt_saved_image():
         # Log the decryption attempt
         logger.info(f"API decrypt request for image {image_id} using {method}")
         
-        # Lookup the image
+        # Lookup the image - using get() instead of first() to handle None case better
         image = StegoImage.query.filter_by(id=image_id, user_id=current_user.id).first()
         
         if not image:
+            logger.error(f"Image {image_id} not found for user {current_user.id}")
             return jsonify({
                 'success': False,
                 'message': 'Image not found'
@@ -1332,11 +1358,13 @@ def api_decrypt_saved_image():
         
         # Load the image from binary data
         try:
+            logger.debug(f"Loading image data of size {len(image.image_data) if image.image_data else 0} bytes")
             img_io = BytesIO(image.image_data)
             img = PilImage.open(img_io)
             
             # Convert to RGB if needed
             if img.mode != 'RGB':
+                logger.debug(f"Converting image from {img.mode} to RGB mode")
                 img = img.convert('RGB')
         except Exception as e:
             logger.error(f"Error loading image: {e}")
@@ -1346,15 +1374,26 @@ def api_decrypt_saved_image():
             }), 500
         
         # First try direct_lsb_decode
-        logger.debug("Starting direct LSB decoding")
-        from stego import direct_lsb_decode
-        ciphertext = direct_lsb_decode(img, debug=True)
+        ciphertext = None
+        try:
+            logger.debug("Starting direct LSB decoding")
+            from stego import direct_lsb_decode
+            ciphertext = direct_lsb_decode(img, debug=True)
+            if ciphertext:
+                logger.debug(f"Direct LSB decoding yielded {len(ciphertext)} bytes")
+        except Exception as e:
+            logger.error(f"Direct LSB decoding error: {e}")
         
         # If direct decoding failed, try standard decode_message
         if not ciphertext:
-            logger.debug(f"Trying {method} method")
-            from stego import decode_message
-            ciphertext = decode_message(img, method=method, debug=True)
+            try:
+                logger.debug(f"Trying {method} method")
+                from stego import decode_message
+                ciphertext = decode_message(img, method=method, debug=True)
+                if ciphertext:
+                    logger.debug(f"Standard decoding yielded {len(ciphertext)} bytes")
+            except Exception as e:
+                logger.error(f"Standard decode_message error: {e}")
         
         # If we still don't have a message, return error
         if not ciphertext:
@@ -1370,62 +1409,84 @@ def api_decrypt_saved_image():
             
             # Check if we should use advanced password recovery
             if try_recovery:
-                from cryptography_utils import attempt_password_variants
-                
-                def decrypt_wrapper(data, pwd):
-                    from stego import decrypt_message_safe
-                    return decrypt_message_safe(data, pwd, debug=True)
-                
-                # Try password variants
-                success, decrypted, used_password = attempt_password_variants(
-                    ciphertext, password, decrypt_wrapper)
-                
-                if success:
-                    # Log success with password correction
-                    if used_password != password:
-                        logger.info(f"Decryption succeeded with corrected password: '{used_password}'")
-                        
-                    # Record activity
-                    activity = ActivityLog(
-                        user_id=current_user.id,
-                        action=f"Decrypted image {image.original_filename} (with auto-correction)"
-                    )
-                    db.session.add(activity)
-                    db.session.commit()
+                try:
+                    from cryptography_utils import attempt_password_variants
                     
-                    # Success response
-                    return jsonify({
-                        'success': True,
-                        'decrypted_message': f"[AUTO-CORRECTED] {decrypted}",
-                        'password_corrected': True
-                    })
+                    def decrypt_wrapper(data, pwd):
+                        from stego import decrypt_message_safe
+                        return decrypt_message_safe(data, pwd, debug=True)
+                    
+                    # Try password variants
+                    logger.debug("Attempting password variants")
+                    success, decrypted, used_password = attempt_password_variants(
+                        ciphertext, password, decrypt_wrapper)
+                    
+                    if success:
+                        # Log success with password correction
+                        if used_password != password:
+                            logger.info(f"Decryption succeeded with corrected password: '{used_password}'")
+                            
+                        # Record activity
+                        activity = ActivityLog(
+                            user_id=current_user.id,
+                            action=f"Decrypted image {image.original_filename} (with auto-correction)"
+                        )
+                        db.session.add(activity)
+                        db.session.commit()
+                        
+                        # Success response
+                        return jsonify({
+                            'success': True,
+                            'decrypted_message': f"[AUTO-CORRECTED] {decrypted}",
+                            'password_corrected': True
+                        })
+                except Exception as e:
+                    logger.error(f"Password variants attempt failed: {e}")
             
             # Standard decryption flow
             try:
+                logger.debug("Attempting standard decryption")
                 from stego import decrypt_message
                 decrypted_message = decrypt_message(ciphertext, password, debug=True)
+                logger.debug("Standard decryption successful")
             except Exception as decrypt_error:
                 logger.error(f"Standard decryption failed: {decrypt_error}")
                 
                 # If recovery mode, try with auth bypass
                 if try_recovery:
-                    logger.info("Attempting recovery with auth bypass")
-                    decrypted_message = decrypt_message(ciphertext, password, debug=True, bypass_auth=True)
+                    try:
+                        logger.info("Attempting recovery with auth bypass")
+                        from stego import decrypt_message
+                        decrypted_message = decrypt_message(ciphertext, password, debug=True, bypass_auth=True)
+                        logger.debug("Auth bypass decryption successful")
+                    except Exception as bypass_error:
+                        logger.error(f"Auth bypass failed: {bypass_error}")
+                        # Then try safe decrypt as fallback
+                        from stego import decrypt_message_safe
+                        decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                        logger.debug("Safe decryption successful")
                 else:
                     # Then try safe decrypt as fallback
                     from stego import decrypt_message_safe
                     decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                    logger.debug("Safe decryption successful")
             
             # Log success
             logger.info(f"Successfully decrypted message from image {image_id}")
             
-            # Record activity
-            activity = ActivityLog(
-                user_id=current_user.id,
-                action=f"Decrypted image {image.original_filename}"
-            )
-            db.session.add(activity)
-            db.session.commit()
+            # Record activity - use try/except to ensure database errors don't stop successful response
+            try:
+                activity = ActivityLog(
+                    user_id=current_user.id,
+                    action=f"Decrypted image {image.original_filename}"
+                )
+                db.session.add(activity)
+                db.session.commit()
+                logger.debug("Activity log recorded successfully")
+            except Exception as db_error:
+                logger.error(f"Failed to record activity log: {db_error}")
+                # Don't let DB errors prevent successful response
+                db.session.rollback()
             
             # Success response
             return jsonify({

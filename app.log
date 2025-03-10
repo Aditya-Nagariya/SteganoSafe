@@ -38951,3 +38951,27 @@ ValueError: Decryption failed: . Check your password or the data may be corrupte
 2025-03-10 10:48:09,763 - __main__ - INFO - Database initialization complete
 2025-03-10 10:48:09,819 - werkzeug - WARNING -  * Debugger is active!
 2025-03-10 10:48:09,937 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 11:51:53,090 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/utils/inspect_routes.py', reloading
+2025-03-10 11:51:53,600 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 11:51:54,622 - __main__ - INFO - Successfully imported filters module
+2025-03-10 11:51:54,624 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 11:51:54,625 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 11:51:54,625 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 11:51:56,140 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 11:51:56,266 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 11:51:56,325 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 11:51:56,350 - __main__ - INFO - Database initialization complete
+2025-03-10 11:51:56,387 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 11:51:56,729 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 11:59:14,637 - werkzeug - INFO -  * Detected change in '/Users/aditya/Desktop/steganography_app/stego.py', reloading
+2025-03-10 11:59:15,421 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 11:59:16,836 - __main__ - INFO - Successfully imported filters module
+2025-03-10 11:59:16,838 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 11:59:16,838 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 11:59:16,838 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 11:59:18,203 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 11:59:18,260 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 11:59:18,367 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 11:59:18,391 - __main__ - INFO - Database initialization complete
+2025-03-10 11:59:18,422 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 11:59:18,476 - werkzeug - INFO -  * Debugger PIN: 739-833-464

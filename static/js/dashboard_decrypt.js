@@ -183,14 +183,15 @@ async function decryptImage(imageId, password, method) {
         }, 2000);  // Show after 2 seconds of waiting
         
         // Make API request directly to the working endpoint
-        console.log('Making API request to decrypt image');
+        console.log('Making API request to decrypt image:', imageId, method);
         
         // Use fetch API with the correct endpoint
         fetch('/api/decrypt_saved_image', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({
                 image_id: imageId,
@@ -201,20 +202,34 @@ async function decryptImage(imageId, password, method) {
         })
         .then(response => {
             clearTimeout(suggestionTimer);  // Clear the timer
-            return response.json().then(data => {
-                if (!response.ok) {
-                    // Enhanced error handling - extract detailed error info
-                    const errorMsg = data.message || data.error || 'Failed to decrypt image';
-                    const error = new Error(errorMsg);
-                    error.details = data.details || '';
-                    error.code = response.status;
-                    error.suggestions = getDecryptionErrorSuggestions(error.code, errorMsg);
-                    throw error;
-                }
-                return data;
-            });
+            
+            if (!response.ok) {
+                // Try to get the JSON error message if available
+                return response.json()
+                    .then(data => {
+                        // Enhanced error handling - extract detailed error info
+                        const errorMsg = data.message || data.error || 'Failed to decrypt image';
+                        const error = new Error(errorMsg);
+                        error.details = data.details || '';
+                        error.code = response.status;
+                        error.suggestions = data.suggestions || getDecryptionErrorSuggestions(error.code, errorMsg);
+                        throw error;
+                    })
+                    .catch(err => {
+                        // If JSON parsing fails, use the status text
+                        if (!err.code) {
+                            const error = new Error(response.statusText || 'Server error');
+                            error.code = response.status;
+                            error.suggestions = getDecryptionErrorSuggestions(error.code, error.message);
+                            throw error;
+                        }
+                        throw err;
+                    });
+            }
+            return response.json();
         })
         .then(data => {
+            console.log('Decryption response received:', data);
             resolve(data);  // Success!
         })
         .catch(error => {

@@ -103,7 +103,7 @@ def decrypt_message(ciphertext, password, debug=False, bypass_auth=False):
                 raise ValueError(f"Invalid base64 encoded ciphertext: {e}")
         
         # Validate ciphertext length
-        if len(ciphertext) < 28:  # 12 (nonce) + 16 (tag)
+        if len(ciphertext) < 28:  # 16 (salt) + 12 (nonce)
             raise ValueError(f"Ciphertext too short: {len(ciphertext)} bytes. Minimum required: 28 bytes")
         
         # For compatibility with older encrypted data, try different salt approaches
@@ -167,21 +167,26 @@ def decrypt_message(ciphertext, password, debug=False, bypass_auth=False):
                     if bypass_auth:
                         try:
                             # This imports a special function to bypass AESGCM tag verification
-                            # You'll need to implement this function
-                            from cryptography_utils import raw_aes_gcm_decrypt
                             try:
-                                plaintext = raw_aes_gcm_decrypt(key, nonce, encrypted_data, tag)
-                                if plaintext and len(plaintext) > 0:
-                                    result = plaintext.decode('utf-8', errors='replace')
+                                # First check if the module exists
+                                from cryptography_utils import raw_aes_gcm_decrypt
+                                
+                                try:
+                                    plaintext = raw_aes_gcm_decrypt(key, nonce, encrypted_data, tag)
+                                    if plaintext and len(plaintext) > 0:
+                                        result = plaintext.decode('utf-8', errors='replace')
+                                        if debug:
+                                            logging.debug("Raw decryption successful")
+                                        return f"[RECOVERED] {result}"
+                                except Exception as raw_err:
                                     if debug:
-                                        logging.debug("Raw decryption successful")
-                                    return f"[RECOVERED] {result}"
-                            except Exception as raw_err:
+                                        logging.debug(f"Raw decryption failed: {raw_err}")
+                            except ImportError:
                                 if debug:
-                                    logging.debug(f"Raw decryption failed: {raw_err}")
-                        except ImportError:
+                                    logging.debug("cryptography_utils not available - cannot use raw decryption")
+                        except Exception as bypass_err:
                             if debug:
-                                logging.debug("cryptography_utils not available - cannot use raw decryption")
+                                logging.debug(f"Bypass auth decryption failed: {bypass_err}")
         
         # If we tried all combinations and none worked, raise an error
         if last_exception:
