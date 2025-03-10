@@ -1,0 +1,40 @@
+/* Minimal Dark Mode CSS */
+body.dark-mode {
+    --bg-color: #1a1d21;
+    --card-bg: #2a2d35;
+    --text-color: #e1e2f6;
+    --border-color: #3a3f48;
+    
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* Essential dark mode overrides */
+body.dark-mode .admin-wrapper,
+body.dark-mode .admin-content,
+body.dark-mode .admin-sidebar {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .admin-card,
+body.dark-mode .dropdown-menu,
+body.dark-mode .modal-content {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-mode .table {
+    color: var(--text-color) !important;
+}
+
+/* Force text color for common elements */
+body.dark-mode p,
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode .card-title,
+body.dark-mode .card-text {
+    color: var(--text-color) !important;
+}

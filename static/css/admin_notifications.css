@@ -1,15 +1,276 @@
-/* Reset default button styling for the notification button */
+/**
+ * SteganoSafe Admin Notifications CSS
+ * Styles for notification dropdown and components
+ */
+
+/* Notification button and badge */
 .notification-btn {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.03);
     border: none;
     outline: none;
     box-shadow: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    color: var(--admin-dark, #343a40);
+    font-size: 1.1rem;
+}
+
+.notification-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 2px solid #fff;
+}
+
+/* Settings button - used for gear icons and theme toggle */
+.settings-btn {
+    width: 40px;
+    height: 40px;
     padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.03);
+    border: none;
+    color: var(--admin-dark, #343a40);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.settings-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Notification dropdown container */
+.notification-dropdown {
+    width: 320px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.notification-header {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.notification-header h6 {
     margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.notification-badge-counter {
+    padding: 3px 8px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+}
+
+/* Notification body */
+.notification-body {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.notification {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    text-decoration: none;
     color: inherit;
 }
-/* Optionally, add a hover effect */
-.notification-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    cursor: pointer;
+
+.notification:last-child {
+    border-bottom: none;
+}
+
+.notification:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    text-decoration: none;
+}
+
+/* Notification icons */
+.notification-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* Notification icon colors */
+.notification-icon.bg-success { background-color: var(--admin-success, #28a745); }
+.notification-icon.bg-warning { background-color: var(--admin-warning, #ffc107); }
+.notification-icon.bg-danger { background-color: var(--admin-danger, #dc3545); }
+.notification-icon.bg-info { background-color: var(--admin-info, #17a2b8); }
+.notification-icon.bg-primary { background-color: var(--admin-primary, #007bff); }
+
+/* Notification content */
+.notification-content {
+    flex: 1;
+}
+
+.notification-text {
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--admin-dark, #343a40);
+}
+
+.notification-time {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--admin-muted, #6c757d);
+}
+
+/* Notification footer */
+.notification-footer {
+    padding: 10px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.notification-footer a {
+    color: var(--admin-primary, #007bff);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Dark mode specific styles */
+body.dark-mode .notification-btn,
+body.dark-mode .settings-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--admin-text, #e1e2f6);
+}
+
+body.dark-mode .notification-btn:hover,
+body.dark-mode .settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .notification-badge {
+    border-color: var(--admin-bg, #1a1d21);
+}
+
+body.dark-mode .notification-dropdown {
+    background-color: var(--admin-white, #2a2d35);
+    border-color: var(--admin-border, #3a3f48);
+}
+
+body.dark-mode .notification-header {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: var(--admin-border, #3a3f48);
+    color: var(--admin-text, #e1e2f6);
+}
+
+body.dark-mode .notification {
+    border-color: var(--admin-border, #3a3f48);
+}
+
+body.dark-mode .notification:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .notification-text {
+    color: var(--admin-text, #e1e2f6);
+}
+
+body.dark-mode .notification-time {
+    color: var(--admin-muted, #a0a3bd);
+}
+
+body.dark-mode .notification-footer {
+    border-color: var(--admin-border, #3a3f48);
+}
+
+/* Common styles for notification center arrangement */
+.notification-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-item {
+    position: relative;
+}
+
+/* User avatar styles */
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--admin-primary, #007bff);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.user-avatar-sm {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+}
+
+/* Settings dropdown */
+.settings-dropdown {
+    width: 280px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Ensure dropdown items are properly styled */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
 }

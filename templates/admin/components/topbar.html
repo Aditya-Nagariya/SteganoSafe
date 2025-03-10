@@ -19,97 +19,96 @@
             </div>
         </div>
         
+        <!-- Redesigned notification center -->
         <div class="notification-center">
-            <div class="notification-item">
-                <button class="notification-btn" id="notificationToggle">
+            <!-- Notification dropdown using Bootstrap component -->
+            <div class="notification-item dropdown">
+                <button class="notification-btn" id="notificationDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-bell"></i>
-                    <span class="badge">3</span>
+                    <span class="notification-badge">3</span>
                 </button>
-                <div class="notification-dropdown">
-                    <div class="notification-header">
-                        <h5>Notifications</h5>
-                        <button class="mark-all-read">Mark all as read</button>
+                <div class="dropdown-menu dropdown-menu-end notification-dropdown p-0" aria-labelledby="notificationDropdownBtn">
+                    <div class="notification-header d-flex justify-content-between align-items-center p-3">
+                        <h6 class="mb-0">Notifications</h6>
+                        <span class="badge bg-primary rounded-pill">3 New</span>
                     </div>
                     <div class="notification-body">
                         <a href="#" class="notification">
-                            <div class="notification-icon bg-primary">
+                            <div class="notification-icon bg-success">
                                 <i class="bi bi-person-plus"></i>
                             </div>
                             <div class="notification-content">
-                                <p>New user registered</p>
-                                <span>5 minutes ago</span>
+                                <p class="notification-text">New user registered</p>
+                                <p class="notification-time">5 minutes ago</p>
                             </div>
                         </a>
                         <a href="#" class="notification">
-                            <div class="notification-icon bg-success">
+                            <div class="notification-icon bg-info">
                                 <i class="bi bi-file-earmark-image"></i>
                             </div>
                             <div class="notification-content">
-                                <p>10 new images uploaded</p>
-                                <span>1 hour ago</span>
+                                <p class="notification-text">10 new images uploaded</p>
+                                <p class="notification-time">1 hour ago</p>
                             </div>
                         </a>
                         <a href="#" class="notification">
-                            <div class="notification-icon bg-danger">
+                            <div class="notification-icon bg-warning">
                                 <i class="bi bi-exclamation-triangle"></i>
                             </div>
                             <div class="notification-content">
-                                <p>System alert: Space usage at 85%</p>
-                                <span>2 hours ago</span>
+                                <p class="notification-text">System alert: Space usage at 85%</p>
+                                <p class="notification-time">2 hours ago</p>
                             </div>
                         </a>
                     </div>
-                    <div class="notification-footer">
-                        <a href="#">View all notifications</a>
+                    <div class="notification-footer text-center p-2">
+                        <a href="#" class="text-decoration-none">View all notifications</a>
                     </div>
                 </div>
             </div>
             
+            <!-- Theme toggle button -->
             <div class="notification-item">
-                <button class="mode-toggle" id="themeToggle">
+                <button class="settings-btn" id="themeToggle">
                     <i class="bi bi-moon"></i>
                 </button>
             </div>
             
-            <div class="notification-item">
-                <div class="user-profile-menu">
-                    <button class="profile-toggle" id="profileToggle">
-                        <div class="profile-avatar">
-                            {{ current_user.username[0].upper() }}
-                        </div>
-                    </button>
-                    <div class="profile-dropdown">
-                        <div class="profile-header">
-                            <div class="profile-avatar-lg">
+            <!-- User profile dropdown using Bootstrap component -->
+            <div class="notification-item dropdown">
+                <button class="settings-btn d-flex align-items-center justify-content-center" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar user-avatar-sm">
+                        {{ current_user.username[0].upper() }}
+                    </div>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end settings-dropdown" aria-labelledby="profileDropdownBtn">
+                    <div class="settings-header p-3 text-center">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="user-avatar mb-2">
                                 {{ current_user.username[0].upper() }}
                             </div>
-                            <div class="profile-info">
-                                <h5>{{ current_user.username }}</h5>
-                                <span>{{ current_user.email }}</span>
-                                <span class="badge bg-{{ 'primary' if current_user.role == 'admin' else 'success' if current_user.role == 'mod' else 'secondary' }}">
-                                    {{ current_user.role|capitalize }}
-                                </span>
-                            </div>
+                            <h6 class="mb-1">{{ current_user.username }}</h6>
+                            <span class="text-muted small">{{ current_user.email }}</span>
+                            <span class="badge bg-{{ 'primary' if current_user.role == 'admin' else 'success' if current_user.role == 'mod' else 'secondary' }} mt-2">
+                                {{ current_user.role|capitalize }}
+                            </span>
                         </div>
-                        <div class="profile-body">
-                            <a href="{{ url_for('admin_bp.user_detail', user_id=current_user.id) }}" class="profile-link">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                            <a href="#" class="profile-link">
-                                <i class="bi bi-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                            <a href="#" class="profile-link">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Help</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ url_for('logout') }}" class="profile-link text-danger">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Logout</span>
-                            </a>
-                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="p-2">
+                        <a class="dropdown-item" href="{{ url_for('admin_bp.user_detail', user_id=current_user.id) }}">
+                            <i class="bi bi-person-circle me-2"></i> My Profile
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-gear-fill me-2"></i> Settings
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-question-circle me-2"></i> Help
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </a>
                     </div>
                 </div>
             </div>
@@ -117,7 +116,6 @@
     </div>
 </header>
 
-<!-- Add CSS for the topbar component -->
 <style>
 .admin-topbar {
     display: flex;
@@ -474,22 +472,248 @@
         right: -100px;
     }
 }
+
+/* Redesigned notification center */
+.notification-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-item {
+    position: relative;
+}
+
+.notification-btn, 
+.settings-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.03);
+    border: none;
+    color: var(--admin-dark);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.notification-btn:hover, 
+.settings-btn:hover {
+    background-color: rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--admin-primary);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.user-avatar-sm {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--admin-danger);
+    color: white;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 2px solid var(--admin-white);
+}
+
+/* Notification dropdown styling */
+.notification-dropdown {
+    width: 320px;
+    padding: 0;
+    border-radius: var(--admin-border-radius);
+    border: 1px solid var(--admin-border);
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.notification-header {
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.notification-header h6 {
+    font-weight: 600;
+}
+
+.notification-body {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.notification {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--admin-border);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease;
+}
+
+.notification:last-child {
+    border-bottom: none;
+}
+
+.notification:hover {
+    background-color: rgba(0,0,0,0.02);
+    text-decoration: none;
+}
+
+.notification-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex-grow: 1;
+}
+
+.notification-text {
+    margin: 0 0 3px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--admin-dark);
+}
+
+.notification-time {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--admin-muted);
+}
+
+.notification-footer {
+    border-top: 1px solid var(--admin-border);
+}
+
+.notification-footer a {
+    color: var(--admin-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Dark mode specific styles */
+body.dark-mode .notification-btn,
+body.dark-mode .settings-btn {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--admin-text);
+}
+
+body.dark-mode .notification-btn:hover,
+body.dark-mode .settings-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .notification-badge {
+    border-color: var(--admin-bg);
+}
+
+body.dark-mode .notification:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+body.dark-mode .notification-text {
+    color: var(--admin-text);
+}
+
+body.dark-mode .dropdown-menu {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+/* Remove old notification dropdown styles */
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--admin-white);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    border: 1px solid var(--admin-border);
+    z-index: 1000;
+}
+
+.notification-item.open .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .notification-dropdown {
+        width: 290px;
+        right: -10px;
+    }
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Profile dropdown toggle
-    const profileToggle = document.getElementById('profileToggle');
-    if (profileToggle) {
-        profileToggle.addEventListener('click', function() {
-            this.closest('.notification-item').classList.toggle('open');
+    // Handle theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        // Update icon based on current mode
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        themeToggle.innerHTML = isDarkMode ? 
+            '<i class="bi bi-sun"></i>' : 
+            '<i class="bi bi-moon"></i>';
             
-            // Close other dropdowns
-            document.querySelectorAll('.notification-item.open').forEach(item => {
-                if (!item.contains(this)) {
-                    item.classList.remove('open');
-                }
-            });
+        themeToggle.addEventListener('click', function() {
+            // Toggle dark mode if DarkModeManager exists
+            if (window.DarkModeManager) {
+                const currentMode = window.DarkModeManager.getPreference();
+                window.DarkModeManager.toggle(!currentMode);
+                
+                // Update icon
+                this.innerHTML = !currentMode ? 
+                    '<i class="bi bi-sun"></i>' : 
+                    '<i class="bi bi-moon"></i>';
+            }
+        });
+        
+        // Listen for dark mode changes
+        document.addEventListener('darkModeChange', function(e) {
+            themeToggle.innerHTML = e.detail.darkMode ? 
+                '<i class="bi bi-sun"></i>' : 
+                '<i class="bi bi-moon"></i>';
         });
     }
     
@@ -508,12 +732,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     this.classList.remove('loading');
                     
-                    // Show search results (in a real app, you'd show actual results)
-                    Swal.fire({
-                        title: 'Search Results',
-                        text: `Showing results for: "${this.value}"`,
-                        icon: 'info'
-                    });
+                    // Show search results
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: 'Search Results',
+                            text: `Showing results for: "${this.value}"`,
+                            icon: 'info'
+                        });
+                    } else {
+                        alert(`Search results for: ${this.value}`);
+                    }
                 }, 1000);
             }
         });

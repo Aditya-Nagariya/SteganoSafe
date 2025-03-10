@@ -37579,3 +37579,503 @@ jinja2.exceptions.UndefinedError: 'hasattr' is undefined
 2025-03-08 22:13:55,255 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
 2025-03-08 22:13:55,413 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
 2025-03-08 22:13:55,414 - werkzeug - INFO - 127.0.0.1 - - [08/Mar/2025 22:13:55] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-09 10:05:29,449 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:05:29,451 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:05:29,451 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:05:29,451 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:05:53,351 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:05:54,204 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:05:54,661 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:05:54,685 - __main__ - INFO - Database initialization complete
+2025-03-09 10:05:54,938 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.250.226:8080
+2025-03-09 10:05:54,938 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-09 10:05:54,938 - werkzeug - INFO -  * Restarting with stat
+2025-03-09 10:05:55,658 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:05:55,659 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:05:55,659 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:05:55,659 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:05:56,754 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:05:56,807 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:05:56,907 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:05:56,925 - __main__ - INFO - Database initialization complete
+2025-03-09 10:05:56,953 - werkzeug - WARNING -  * Debugger is active!
+2025-03-09 10:05:57,212 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-09 10:10:03,445 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:10:03,447 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:10:03,447 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:10:03,447 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:10:04,793 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:10:04,850 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:10:04,957 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:10:04,980 - __main__ - INFO - Database initialization complete
+2025-03-09 10:10:05,034 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.250.226:8080
+2025-03-09 10:10:05,034 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-09 10:10:05,035 - werkzeug - INFO -  * Restarting with stat
+2025-03-09 10:10:05,595 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:10:05,596 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:10:05,596 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:10:05,596 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:10:06,526 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:10:06,573 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:10:06,669 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:10:06,687 - __main__ - INFO - Database initialization complete
+2025-03-09 10:10:06,716 - werkzeug - WARNING -  * Debugger is active!
+2025-03-09 10:10:06,768 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-09 10:10:50,284 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:50] "GET / HTTP/1.1" 200 -
+2025-03-09 10:10:50,387 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:50] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:50,387 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:50] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-09 10:10:50,387 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:50] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 10:10:50,388 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:50] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:57,085 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-09 10:10:57,124 - __main__ - DEBUG - Found 17 images for user
+2025-03-09 10:10:57,277 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /dashboard HTTP/1.1" 200 -
+2025-03-09 10:10:57,334 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 10:10:57,335 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:57,335 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:57,439 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-09 10:10:57,440 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:57] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-09 10:10:59,380 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:10:59,414 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,414 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,418 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,419 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,422 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,423 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,423 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:10:59,427 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:10:59,428 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:10:59] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,082 - root - INFO - Admin images route called
+2025-03-09 10:11:19,122 - root - INFO - Retrieved 10 image records for page 1
+2025-03-09 10:11:19,158 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/images HTTP/1.1" 200 -
+2025-03-09 10:11:19,203 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,204 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,204 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,204 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,206 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,209 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,216 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin_images.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,217 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,218 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:19,219 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:11:19,231 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/19 HTTP/1.1" 200 -
+2025-03-09 10:11:19,233 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/18 HTTP/1.1" 200 -
+2025-03-09 10:11:19,240 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/17 HTTP/1.1" 200 -
+2025-03-09 10:11:19,241 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/16 HTTP/1.1" 200 -
+2025-03-09 10:11:19,249 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-09 10:11:19,250 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-09 10:11:19,262 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-09 10:11:19,272 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "[33mGET /static/img/image-loading.gif HTTP/1.1[0m" 404 -
+2025-03-09 10:11:19,284 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-09 10:11:19,293 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-09 10:11:19,301 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:19] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-09 10:11:23,265 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-09 10:11:23,298 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,298 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,299 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,303 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,307 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,312 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,314 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,318 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:23,318 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:23] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:11:26,904 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:26] "GET /admin/view-logs HTTP/1.1" 200 -
+2025-03-09 10:11:26,936 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:26] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 10:11:26,937 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:26] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:26,937 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:26] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,388 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:11:32,431 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,434 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,435 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,442 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,442 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,444 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,446 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:11:32,446 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:32,446 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:32] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,077 - root - INFO - Analytics page requested - using guaranteed template
+2025-03-09 10:11:35,093 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /admin/analytics HTTP/1.1" 200 -
+2025-03-09 10:11:35,139 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,143 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,143 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,144 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,148 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,152 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,153 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,156 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/js/analytics_emergency.js HTTP/1.1" 200 -
+2025-03-09 10:11:35,158 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/admin_analytics.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,159 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:35,160 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:35] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:11:45,201 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-09 10:11:45,247 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,248 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,248 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,251 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,253 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,254 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,256 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,259 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:11:45,260 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:11:45,315 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:11:45] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-09 10:12:09,268 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-09 10:12:09,290 - __main__ - DEBUG - Found 17 images for user
+2025-03-09 10:12:09,425 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /dashboard HTTP/1.1" 200 -
+2025-03-09 10:12:09,465 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 10:12:09,465 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:09,466 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:09,568 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-09 10:12:09,570 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:09] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-09 10:12:14,908 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:12:14,947 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,947 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,947 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,949 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,950 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,951 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,959 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:14,959 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:12:14,960 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:14] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,061 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-09 10:12:20,108 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,109 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,109 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,110 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,113 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,117 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,118 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,120 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:12:20,122 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:20] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:12:59,821 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:59] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-09 10:12:59,822 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:59] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-09 10:12:59,822 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-09 10:12:59,824 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:12:59] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-09 10:13:26,833 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-09 10:13:26,923 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,923 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,928 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,934 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,936 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,963 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,964 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:13:26,971 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:13:26,979 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:13:26] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:15:32,888 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:15:32] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-03-09 10:15:32,889 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:15:32] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-03-09 10:15:32,890 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:15:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-09 10:15:32,891 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:15:32] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+2025-03-09 10:21:26,840 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-09 10:21:26,943 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:21:26,951 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:21:26,962 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:21:26,962 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:21:26,968 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:21:26,996 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:26] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:21:27,074 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:27] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:21:27,081 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:27] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:21:27,087 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:21:27] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:22:37,644 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:22:37,784 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,796 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,805 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,808 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,809 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,809 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,820 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:22:37,820 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:22:37,824 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:22:37] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:30:10,802 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:10] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:30:11,082 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,083 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,090 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,094 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,095 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,095 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,111 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:30:11,114 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:30:11,114 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:30:11] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:39:38,941 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:38] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:39:39,082 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,092 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,094 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,094 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,096 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,100 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,108 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:39:39,109 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:39:39,110 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:39:39] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:15,916 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:41:15,918 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:41:15,918 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:41:15,918 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:41:17,236 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:41:17,294 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:41:17,400 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:41:17,420 - __main__ - INFO - Database initialization complete
+2025-03-09 10:41:17,476 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.250.226:8080
+2025-03-09 10:41:17,476 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-09 10:41:17,476 - werkzeug - INFO -  * Restarting with stat
+2025-03-09 10:41:18,043 - __main__ - INFO - Successfully imported filters module
+2025-03-09 10:41:18,044 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-09 10:41:18,044 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:41:18,044 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-09 10:41:19,058 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-09 10:41:19,141 - engineio.server - INFO - Server initialized for threading.
+2025-03-09 10:41:19,365 - __main__ - INFO - Creating database tables if needed...
+2025-03-09 10:41:19,393 - __main__ - INFO - Database initialization complete
+2025-03-09 10:41:19,452 - werkzeug - WARNING -  * Debugger is active!
+2025-03-09 10:41:19,562 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-09 10:41:20,886 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:41:20,957 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,957 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,957 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,958 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,961 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,967 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,968 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:20,972 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:41:20,973 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:20] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,254 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:41:21,297 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,298 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,299 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,299 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,300 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,301 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,308 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,310 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:41:21,310 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:41:21,543 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:41:21,580 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-premium.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,581 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,588 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/dark-mode-minimal.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,588 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin_notifications.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,591 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-animations.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,593 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/analytics_fallback.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,593 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-dark-mode-fix.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,594 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin_dropdown_fix.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,596 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/js/dark-mode-debug.js HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,785 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:41:21,854 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,856 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/dark-mode-minimal.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,857 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-premium.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,858 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin_notifications.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,859 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-dark-mode-fix.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,859 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin-animations.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,865 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/js/dark-mode-debug.js HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,865 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/admin_dropdown_fix.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:21,866 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:21] "[36mGET /static/css/analytics_fallback.css HTTP/1.1[0m" 304 -
+2025-03-09 10:41:33,896 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:41:33,946 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,947 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,947 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,948 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,949 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/dark-mode-minimal.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,950 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin-dark-mode-fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,955 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,957 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:41:33,958 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:41:33] "GET /static/js/dark-mode-debug.js HTTP/1.1" 200 -
+2025-03-09 10:48:04,884 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:04] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:48:05,046 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,046 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,069 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,071 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,072 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,075 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:48:05,076 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:05] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 10:48:11,708 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-09 10:48:11,747 - __main__ - DEBUG - Found 17 images for user
+2025-03-09 10:48:11,901 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:11] "GET /dashboard HTTP/1.1" 200 -
+2025-03-09 10:48:11,982 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:11] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 10:48:11,984 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:11] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 10:48:11,990 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:11] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 10:48:12,090 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:12] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-09 10:48:12,090 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:12] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-09 10:48:15,914 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:48:15,961 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,961 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,965 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,966 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,966 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,966 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:48:15,970 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:48:15] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,356 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 10:55:18,536 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,537 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,547 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,550 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,552 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,565 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,568 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:55:18,569 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:18] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 10:55:38,589 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /admin/users HTTP/1.1" 200 -
+2025-03-09 10:55:38,637 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,637 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,641 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,642 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,647 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,648 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,648 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:55:38,650 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:38] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 10:55:40,699 - root - INFO - Admin images route called
+2025-03-09 10:55:40,748 - root - INFO - Retrieved 10 image records for page 1
+2025-03-09 10:55:40,784 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/images HTTP/1.1" 200 -
+2025-03-09 10:55:40,826 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,827 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,832 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,832 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,832 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,839 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,840 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,842 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/css/admin_images.css HTTP/1.1" 200 -
+2025-03-09 10:55:40,844 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 10:55:40,855 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/19 HTTP/1.1" 200 -
+2025-03-09 10:55:40,861 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/18 HTTP/1.1" 200 -
+2025-03-09 10:55:40,864 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/17 HTTP/1.1" 200 -
+2025-03-09 10:55:40,870 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/16 HTTP/1.1" 200 -
+2025-03-09 10:55:40,871 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-09 10:55:40,880 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-09 10:55:40,883 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-09 10:55:40,913 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "[33mGET /static/img/image-loading.gif HTTP/1.1[0m" 404 -
+2025-03-09 10:55:40,930 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-09 10:55:40,931 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-09 10:55:40,942 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 10:55:40] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-09 11:49:42,561 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-09 11:49:42,630 - __main__ - DEBUG - Found 17 images for user
+2025-03-09 11:49:42,981 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:42] "GET /dashboard HTTP/1.1" 200 -
+2025-03-09 11:49:43,116 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:43] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 11:49:43,117 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:43] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 11:49:43,117 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:43] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 11:49:43,216 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:43] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-09 11:49:43,217 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:43] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-09 11:49:49,379 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /encrypt HTTP/1.1" 200 -
+2025-03-09 11:49:49,444 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 11:49:49,446 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 11:49:49,448 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 11:49:49,449 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /static/js/encryption-method-fix.js HTTP/1.1" 200 -
+2025-03-09 11:49:49,451 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:49:49] "GET /static/css/encrypt.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,734 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 11:50:02,779 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,780 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,781 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,786 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,787 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,787 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,789 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:02,793 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:02] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:21,107 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /admin/users HTTP/1.1" 200 -
+2025-03-09 11:50:21,156 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,157 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,160 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,161 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,161 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,184 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,187 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:21,188 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:21] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:24,144 - root - INFO - Admin images route called
+2025-03-09 11:50:24,188 - root - INFO - Retrieved 10 image records for page 1
+2025-03-09 11:50:24,192 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/images HTTP/1.1" 200 -
+2025-03-09 11:50:24,242 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,243 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,244 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,244 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,244 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,251 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,252 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,255 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/css/admin_images.css HTTP/1.1" 200 -
+2025-03-09 11:50:24,256 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:24,264 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/19 HTTP/1.1" 200 -
+2025-03-09 11:50:24,264 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/18 HTTP/1.1" 200 -
+2025-03-09 11:50:24,273 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/17 HTTP/1.1" 200 -
+2025-03-09 11:50:24,274 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/16 HTTP/1.1" 200 -
+2025-03-09 11:50:24,282 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/15 HTTP/1.1" 200 -
+2025-03-09 11:50:24,283 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/14 HTTP/1.1" 200 -
+2025-03-09 11:50:24,294 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/12 HTTP/1.1" 200 -
+2025-03-09 11:50:24,294 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/13 HTTP/1.1" 200 -
+2025-03-09 11:50:24,300 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "[33mGET /static/img/image-loading.gif HTTP/1.1[0m" 404 -
+2025-03-09 11:50:24,308 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/11 HTTP/1.1" 200 -
+2025-03-09 11:50:24,309 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:24] "GET /admin/image_preview/10 HTTP/1.1" 200 -
+2025-03-09 11:50:28,115 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /admin/activity HTTP/1.1" 200 -
+2025-03-09 11:50:28,161 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,161 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,161 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,162 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,163 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,163 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,167 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:28,173 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:28] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:38,124 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:38] "GET /admin/view-logs HTTP/1.1" 200 -
+2025-03-09 11:50:38,158 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:38] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 11:50:38,158 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:38] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:38,159 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:38] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,054 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /admin/ HTTP/1.1" 200 -
+2025-03-09 11:50:46,106 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,106 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,108 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,111 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,111 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,114 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,117 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:46,117 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:46] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:48,505 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /admin/settings HTTP/1.1" 200 -
+2025-03-09 11:50:48,553 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin-premium.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,554 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin-animations.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,555 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,556 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin_notifications.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,558 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin-dark-mode.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,561 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/admin_dropdown_fix.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,562 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/js/dark-mode.js HTTP/1.1" 200 -
+2025-03-09 11:50:48,563 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /static/css/analytics_fallback.css HTTP/1.1" 200 -
+2025-03-09 11:50:48,630 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:50:48] "GET /admin/api_stats HTTP/1.1" 200 -
+2025-03-09 11:51:05,643 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-09 11:51:05,672 - __main__ - DEBUG - Found 17 images for user
+2025-03-09 11:51:05,813 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /dashboard HTTP/1.1" 200 -
+2025-03-09 11:51:05,854 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-09 11:51:05,856 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-09 11:51:05,857 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-09 11:51:05,969 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-09 11:51:05,971 - werkzeug - INFO - 127.0.0.1 - - [09/Mar/2025 11:51:05] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2025-03-10 09:21:23,492 - __main__ - INFO - Successfully imported filters module
+2025-03-10 09:21:23,493 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 09:21:23,493 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:21:23,494 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:21:40,836 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 09:21:41,235 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 09:21:41,551 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 09:21:41,566 - __main__ - INFO - Database initialization complete
+2025-03-10 09:21:41,776 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.77.226:8080
+2025-03-10 09:21:41,776 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-10 09:21:41,777 - werkzeug - INFO -  * Restarting with stat
+2025-03-10 09:21:42,289 - __main__ - INFO - Successfully imported filters module
+2025-03-10 09:21:42,290 - ensure_db - INFO - Set permissions on data directory and database file
+2025-03-10 09:21:42,290 - __main__ - INFO - Database ensured at: /Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:21:42,290 - __main__ - INFO - Set DATABASE_URL to sqlite:////Users/aditya/Desktop/steganography_app/data/steganography_app.db
+2025-03-10 09:21:43,057 - filters - INFO - Custom Jinja2 filters registered successfully
+2025-03-10 09:21:43,089 - engineio.server - INFO - Server initialized for threading.
+2025-03-10 09:21:43,163 - __main__ - INFO - Creating database tables if needed...
+2025-03-10 09:21:43,175 - __main__ - INFO - Database initialization complete
+2025-03-10 09:21:43,196 - werkzeug - WARNING -  * Debugger is active!
+2025-03-10 09:21:43,364 - werkzeug - INFO -  * Debugger PIN: 739-833-464
+2025-03-10 09:21:43,974 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:21:43] "GET / HTTP/1.1" 200 -
+2025-03-10 09:21:43,995 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:21:43] "[36mGET /static/css/custom.css HTTP/1.1[0m" 304 -
+2025-03-10 09:21:44,054 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:21:44] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 09:21:44,057 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:21:44] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 09:21:44,063 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:21:44] "GET /static/img/hero-image.png HTTP/1.1" 200 -
+2025-03-10 09:22:22,492 - __main__ - DEBUG - Dashboard requested by user: admin (id: 1)
+2025-03-10 09:22:22,522 - __main__ - DEBUG - Found 17 images for user
+2025-03-10 09:22:22,631 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /dashboard HTTP/1.1" 200 -
+2025-03-10 09:22:22,713 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /static/css/modal-fix.css HTTP/1.1" 200 -
+2025-03-10 09:22:22,714 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /static/css/custom.css HTTP/1.1" 200 -
+2025-03-10 09:22:22,714 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /static/css/dropdown-fix.css HTTP/1.1" 200 -
+2025-03-10 09:22:22,787 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /static/js/dashboard_decrypt.js HTTP/1.1" 200 -
+2025-03-10 09:22:22,787 - werkzeug - INFO - 127.0.0.1 - - [10/Mar/2025 09:22:22] "GET /static/js/dashboard.js HTTP/1.1" 200 -

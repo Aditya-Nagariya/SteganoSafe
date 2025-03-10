@@ -30,4 +30,79 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Apply dark mode if detected
-    if (detect
+    if (detectDarkMode()) {
+        document.documentElement.classList.add('dark-mode');
+        document.body.classList.add('dark-mode');
+        
+        // Update meta theme color for dark mode
+        if (metaThemeColor) {
+            metaThemeColor.content = "#1a1d21"; // Dark mode color
+        }
+    }
+
+    // Add subtle hover effects to cards
+    document.querySelectorAll('.hover-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 12px 24px rgba(0,0,0,0.12)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+        });
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = `${e.offsetX}px`;
+            ripple.style.top = `${e.offsetY}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+    
+    // Debug dark mode state
+    console.log('Dark mode enabled:', document.body.classList.contains('dark-mode'));
+    
+    // Check if we're using dark-mode.js
+    if (window.DarkModeManager) {
+        console.log('DarkModeManager found');
+        
+        // Sync theme.js with DarkModeManager
+        document.addEventListener('darkModeChange', function(e) {
+            // Update meta theme color when dark mode changes
+            if (metaThemeColor) {
+                metaThemeColor.content = e.detail.darkMode ? "#1a1d21" : "#2c7da0";
+            }
+        });
+    } else {
+        console.log('DarkModeManager not found');
+    }
+    
+    // Force apply dark mode styles to ensure they're applied
+    if (document.body.classList.contains('dark-mode')) {
+        applyDarkModeToAll();
+    }
+    
+    // Function to recursively apply dark mode to all elements
+    function applyDarkModeToAll() {
+        // Apply to specific troublesome elements
+        document.querySelectorAll('.card, .admin-card, .admin-content, .admin-sidebar, .dropdown-menu').forEach(el => {
+            el.classList.add('dark-mode-element');
+        });
+        
+        // Apply to wrapper elements that might be causing issues
+        document.querySelectorAll('.admin-wrapper').forEach(el => {
+            el.style.backgroundColor = '#1a1d21';
+            el.style.color = '#e1e2f6';
+        });
+    }
+});

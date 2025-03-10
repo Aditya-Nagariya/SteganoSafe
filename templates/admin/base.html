@@ -29,11 +29,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-animations.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_notifications.css') }}">
     
-    <!-- Dark Mode CSS - Always load it -->
+    <!-- Dark Mode CSS (always load it) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-dark-mode.css') }}">
-    
-    <!-- Emergency dark mode fix -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-dark-mode-fix.css') }}">
     
     <!-- Custom CSS from child templates -->
     {% block admin_styles %}{% endblock %}
@@ -186,21 +183,22 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="d-flex align-items-center">
-                    <div class="dropdown me-3">
-                        <button class="notification-btn" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="notification-center">
+                    <!-- Notification dropdown using Bootstrap component -->
+                    <div class="notification-item dropdown">
+                        <button class="notification-btn" id="notificationDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-bell"></i>
                             <span class="notification-badge">3</span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end notification-dropdown p-0" aria-labelledby="notificationDropdown">
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown p-0" aria-labelledby="notificationDropdownBtn">
                             <div class="notification-header d-flex justify-content-between align-items-center p-3">
                                 <h6 class="mb-0">Notifications</h6>
-                                <span class="badge bg-primary rounded-pill">3 New</span>
+                                <span class="badge bg-primary notification-badge-counter rounded-pill">3 New</span>
                             </div>
                             <div class="notification-body">
                                 <a href="#" class="notification">
                                     <div class="notification-icon bg-success">
-                                        <i class="bi bi-check-circle"></i>
+                                        <i class="bi bi-person-plus"></i>
                                     </div>
                                     <div class="notification-content">
                                         <p class="notification-text">New user registered</p>
@@ -231,7 +229,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropdown">
+                    
+                    <!-- Theme toggle button -->
+                    <div class="notification-item">
+                        <button class="settings-btn" id="themeToggle">
+                            <i class="bi bi-{% if dark_mode %}sun{% else %}moon{% endif %}"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Settings dropdown -->
+                    <div class="notification-item dropdown">
                         <button class="settings-btn" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-gear"></i>
                         </button>
@@ -241,8 +248,8 @@
                             </div>
                             <div class="settings-body p-3">
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle" {% if dark_mode %}checked{% endif %}>
-                                    <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" {% if dark_mode %}checked{% endif %}>
+                                    <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch" id="notificationsSwitch" checked>
@@ -317,7 +324,7 @@
         </div>
     </div>
     
-    <!-- Dark Mode JS - Make sure it loads before other scripts -->
+    <!-- Add dark-mode.js before other scripts -->
     <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
     
     <!-- Bootstrap JS Bundle (with Popper) -->
@@ -375,6 +382,42 @@
                 });
             }
             
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle && window.DarkModeManager) {
+                themeToggle.addEventListener('click', function() {
+                    const currentMode = window.DarkModeManager.getPreference();
+                    window.DarkModeManager.toggle(!currentMode);
+                });
+                
+                // Listen for dark mode changes to update the icon
+                document.addEventListener('darkModeChange', function(e) {
+                    themeToggle.innerHTML = e.detail.darkMode ? 
+                        '<i class="bi bi-sun"></i>' : 
+                        '<i class="bi bi-moon"></i>';
+                });
+            }
+            
+            // Dark Mode toggle via checkbox
+            const darkModeSwitch = document.getElementById('darkModeSwitch');
+            if (darkModeSwitch) {
+                darkModeSwitch.addEventListener('change', function() {
+                    if (window.DarkModeManager) {
+                        window.DarkModeManager.toggle(this.checked);
+                    } else {
+                        // Fallback if DarkModeManager is not available
+                        const isDarkMode = this.checked;
+                        document.cookie = `dark_mode=${isDarkMode ? '1' : '0'}; path=/; max-age=31536000`;
+                        location.reload();
+                    }
+                });
+            }
+            
+            // Initialize Bootstrap dropdowns explicitly
+            document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(element) {
+                new bootstrap.Dropdown(element);
+            });
+            
             // Auto-hide alerts after 5 seconds
             setTimeout(function() {
                 const alerts = document.querySelectorAll('.alert');
@@ -383,23 +426,6 @@
                     bsAlert.close();
                 });
             }, 5000);
-
-            // Debug helper for dark mode
-            console.log('Body has dark-mode class:', document.body.classList.contains('dark-mode'));
-            console.log('HTML has dark-mode class:', document.documentElement.classList.contains('dark-mode'));
-            
-            // Apply dark mode to all admin-content children (emergency fix)
-            if (document.body.classList.contains('dark-mode')) {
-                document.querySelectorAll('.admin-content *').forEach(element => {
-                    if (element.tagName !== 'BUTTON' && 
-                        element.tagName !== 'A' && 
-                        !element.classList.contains('btn') &&
-                        !element.classList.contains('badge')) {
-                        element.style.backgroundColor = 'inherit';
-                        element.style.color = 'inherit';
-                    }
-                });
-            }
         });
     </script>
     

@@ -7,6 +7,14 @@
 <li class="breadcrumb-item active" aria-current="page">Activity Logs</li>
 {% endblock %}
 
+{% block admin_styles %}
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.bootstrap5.min.css">
+<!-- Date Range Picker CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+{% endblock %}
+
 {% block admin_content %}
 <div class="page-header d-flex justify-content-between align-items-center mb-4">
     <div>
@@ -200,50 +208,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="mt-4">
-            <ul class="pagination justify-content-center">
-                {% if logs.has_prev %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('admin_bp.activity', page=logs.prev_num) }}">Previous</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Previous</a>
-                </li>
-                {% endif %}
-                
-                {% for page_num in logs.iter_pages() %}
-                    {% if page_num %}
-                        {% if page_num == logs.page %}
-                        <li class="page-item active">
-                            <a class="page-link" href="{{ url_for('admin_bp.activity', page=page_num) }}">{{ page_num }}</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ url_for('admin_bp.activity', page=page_num) }}">{{ page_num }}</a>
-                        </li>
-                        {% endif %}
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                
-                {% if logs.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('admin_bp.activity', page=logs.next_num) }}">Next</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-                {% endif %}
-            </ul>
-            <p class="text-center text-muted">
-                Page {{ logs.page }} of {{ logs.pages }}
-            </p>
-        </div>
+        <!-- Pagination section - remove as DataTables will handle this -->
+        <div class="dataTables-pagination mt-4"></div>
     </div>
 </div>
 
@@ -297,121 +263,162 @@
 {% endblock %}
 
 {% block admin_scripts %}
+<!-- jQuery (required for DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables Core and Extensions -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+
+<!-- Moment.js and Date Range Picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize DataTable
-    const table = $('#activityTable').DataTable({
-        dom: 'rtip',
-        pageLength: 15,
-        responsive: true,
-        order: [[3, 'desc']], // Sort by timestamp desc
-        columnDefs: [
-            { orderable: false, targets: [5] }, // Details column
-        ],
-        language: {
-            search: "",
-            searchPlaceholder: "Search activities...",
-            zeroRecords: "No activities found",
-            info: "Showing _START_ to _END_ of _TOTAL_ activities",
-            infoEmpty: "Showing 0 to 0 of 0 activities",
-            infoFiltered: "(filtered from _MAX_ total activities)"
-        }
-    });
+    // Check if jQuery and DataTables are available
+    if (typeof $ === 'undefined') {
+        console.error('jQuery is not loaded!');
+        return;
+    }
     
-    // Activity search
+    if (typeof $.fn.DataTable === 'undefined') {
+        console.error('DataTables is not loaded!');
+        return;
+    }
+    
+    // Debug info
+    console.log('Initializing DataTable for activity log');
+    
+    // Initialize DataTable with more explicit configuration
+    let table;
+    try {
+        table = $('#activityTable').DataTable({
+            dom: '<"row"<"col-md-6"l><"col-md-6"f>>rtip', // Standard DataTables layout
+            pageLength: 15,
+            responsive: true,
+            order: [[3, 'desc']], // Sort by timestamp desc
+            columnDefs: [
+                { orderable: false, targets: [5] }, // Details column not sortable
+            ],
+            language: {
+                search: "",
+                searchPlaceholder: "Search activities...",
+                zeroRecords: "No activities found",
+                info: "Showing _START_ to _END_ of _TOTAL_ activities",
+                infoEmpty: "Showing 0 to 0 of 0 activities",
+                infoFiltered: "(filtered from _MAX_ total activities)"
+            },
+            // Move DataTables pagination to our custom container for better styling
+            drawCallback: function() {
+                $('.dataTables-pagination').html($('.dataTables_paginate').clone(true));
+                $('.dataTables_paginate:first').hide();
+            }
+        });
+        
+        console.log('DataTable initialization successful');
+    } catch (error) {
+        console.error('Error initializing DataTable:', error);
+        // Create a minimal fallback if DataTables fails
+        $('#activityTable').wrap('<div class="table-responsive"></div>');
+        return;
+    }
+    
+    // Connect search field to DataTable
     $('#activitySearch').on('keyup', function() {
+        console.log('Search input:', this.value);
         table.search(this.value).draw();
     });
     
-    // Activity type filter
-    $('#activityTypeFilter').on('change', function() {
+    // Activity type filter - clear existing and create new
+    $('#activityTypeFilter').off('change').on('change', function() {
         const value = $(this).val().toLowerCase();
+        console.log('Activity type filter:', value);
         
-        // Custom filtering function
+        // Custom filtering function for activity type column
+        table.column(2).search(value, true, false).draw(); // Column 2 is Action
+    });
+    
+    // Initialize date range picker
+    try {
+        $('#activityDateRange').daterangepicker({
+            opens: 'left',
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear',
+                format: 'MMM DD, YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        });
+        console.log('Date range picker initialized');
+    } catch (error) {
+        console.error('Error initializing date range picker:', error);
+    }
+    
+    // Apply date range filter
+    $('#activityDateRange').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MMM DD, YYYY') + ' - ' + picker.endDate.format('MMM DD, YYYY'));
+        console.log('Date range filter applied:', $(this).val());
+        
+        // Create a custom date range filter function
         $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-            if (!value) return true; // Show all if no filter
+            const minDate = picker.startDate.valueOf();
+            const maxDate = picker.endDate.valueOf();
             
-            const actionText = data[2].toLowerCase(); // 3rd column is Action
-            return actionText.includes(value);
+            // Convert displayed date to milliseconds for comparison
+            let dateStr = data[3]; // Column 3 is Timestamp
+            if (dateStr === 'Unknown') return false;
+            
+            let date = moment(dateStr, 'MMM DD, YYYY HH:mm:ss');
+            if (!date.isValid()) return false;
+            
+            const dateVal = date.valueOf();
+            
+            // Check if date is within the selected range
+            if (dateVal >= minDate && dateVal <= maxDate) {
+                return true;
+            }
+            return false;
         });
         
         table.draw();
-        
-        // Remove the filter after drawing
-        $.fn.dataTable.ext.search.pop();
     });
     
-    // Date range picker for activity filtering
-    $('#activityDateRange').daterangepicker({
-        opens: 'left',
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'MMM DD, YYYY'
-        },
-        ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    });
-    
-    $('#activityDateRange').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MMM DD, YYYY') + ' - ' + picker.endDate.format('MMM DD, YYYY'));
-        
-        // Custom date range filtering
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                const min = picker.startDate.toDate();
-                const max = picker.endDate.toDate();
-                
-                const dateStr = data[3]; // 4th column is Timestamp
-                if (!dateStr || dateStr === 'Unknown') return false;
-                
-                // Try to parse the date - handle the format displayed in the table
-                const date = moment(dateStr, 'MMM DD, YYYY HH:mm:ss').toDate();
-                
-                if (
-                    (min === null && max === null) ||
-                    (min === null && date <= max) ||
-                    (min <= date && max === null) ||
-                    (min <= date && date <= max)
-                ) {
-                    return true;
-                }
-                return false;
-            }
-        );
-        
-        table.draw();
-    });
-    
+    // Clear date range filter
     $('#activityDateRange').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
+        console.log('Date range filter cleared');
+        
+        // Remove the custom filter
         $.fn.dataTable.ext.search.pop();
         table.draw();
     });
     
-    // Reset filters
-    $('#resetActivityFilters').click(function() {
+    // Reset all filters
+    $('#resetActivityFilters').off('click').on('click', function() {
         $('#activitySearch').val('');
         $('#activityTypeFilter').val('');
         $('#activityDateRange').val('');
+        console.log('All filters reset');
         
-        $.fn.dataTable.ext.search.pop();
-        table.search('').draw();
+        // Remove any custom filters
+        $.fn.dataTable.ext.search = [];
+        
+        // Reset all DataTable filters and search
+        table.search('').columns().search('').draw();
     });
     
     // Activity details modal
@@ -426,35 +433,67 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#detailAction').text(action);
         $('#detailTimestamp').text(timestamp);
         $('#detailIP').text(ip);
+        
+        console.log('Modal opened for activity:', action);
     });
     
     // Export buttons
-    $('#exportCsvBtn').click(function() {
+    $('#exportCsvBtn').off('click').on('click', function() {
         exportActivities('csv');
     });
     
-    $('#exportPdfBtn').click(function() {
+    $('#exportPdfBtn').off('click').on('click', function() {
         exportActivities('pdf');
     });
     
     function exportActivities(type) {
-        const exportTable = $('#activityTable').DataTable({
-            retrieve: true,
-            buttons: [
-                {
-                    extend: type,
-                    text: 'Export to ' + type.toUpperCase(),
-                    title: 'SteganoSafe Activity Logs - ' + moment().format('YYYY-MM-DD'),
-                    filename: 'activity_logs_' + moment().format('YYYY-MM-DD'),
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    }
-                }
-            ]
-        });
+        console.log(`Exporting activities as ${type}`);
         
-        exportTable.button('.buttons-' + type).trigger();
+        try {
+            // Create a temporary table with export buttons
+            const exportTable = new $.fn.dataTable.Api('#activityTable');
+            
+            // Configure export options
+            const exportOptions = {
+                format: {
+                    body: function(data, row, column) {
+                        // Strip HTML from the data
+                        return data.replace(/<(?:.|\n)*?>/gm, '');
+                    }
+                },
+                columns: [0, 1, 2, 3, 4] // Only export these columns
+            };
+            
+            if (type === 'csv') {
+                // Use the buttons API to trigger CSV export
+                $.fn.dataTable.ext.buttons.csvHtml5.action.call(
+                    {}, 
+                    null, 
+                    exportTable, 
+                    [exportOptions]
+                );
+            } else if (type === 'pdf') {
+                // Use the buttons API to trigger PDF export
+                $.fn.dataTable.ext.buttons.pdfHtml5.action.call(
+                    {}, 
+                    null, 
+                    exportTable, 
+                    [exportOptions]
+                );
+            }
+        } catch (error) {
+            console.error(`Error exporting as ${type}:`, error);
+            alert(`Failed to export as ${type}. Please try again.`);
+        }
     }
+    
+    // Ensure dark mode doesn't affect DataTables styling
+    document.addEventListener('darkModeChange', function(e) {
+        console.log('Dark mode changed, redrawing table');
+        if (table) {
+            table.draw();
+        }
+    });
 });
 </script>
 
@@ -667,6 +706,69 @@ document.addEventListener('DOMContentLoaded', function() {
 .dataTables_wrapper .dataTables_paginate {
     margin-top: 1rem;
     color: var(--admin-muted);
+}
+
+/* Additional DataTables styling for dark mode compatibility */
+body.dark-mode .dataTables_wrapper .dataTables_length,
+body.dark-mode .dataTables_wrapper .dataTables_filter,
+body.dark-mode .dataTables_wrapper .dataTables_info,
+body.dark-mode .dataTables_wrapper .dataTables_processing,
+body.dark-mode .dataTables_wrapper .dataTables_paginate {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--admin-text) !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: white !important;
+    background: linear-gradient(to bottom, var(--admin-primary) 0%, var(--admin-primary) 100%);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: white !important;
+    background: linear-gradient(to bottom, var(--admin-primary) 0%, var(--admin-primary) 100%);
+    border-color: var(--admin-border);
+}
+
+/* Date Range Picker dark mode fixes */
+body.dark-mode .daterangepicker {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+    color: var(--admin-text);
+}
+
+body.dark-mode .daterangepicker .calendar-table {
+    background-color: var(--admin-white);
+    border-color: var(--admin-border);
+}
+
+body.dark-mode .daterangepicker td.off, 
+body.dark-mode .daterangepicker td.off.in-range, 
+body.dark-mode .daterangepicker td.off.start-date, 
+body.dark-mode .daterangepicker td.off.end-date {
+    background-color: var(--admin-bg);
+    color: var(--admin-muted);
+}
+
+body.dark-mode .daterangepicker td.available:hover, 
+body.dark-mode .daterangepicker th.available:hover {
+    background-color: var(--admin-border);
+}
+
+body.dark-mode .daterangepicker td.in-range {
+    background-color: rgba(74, 137, 220, 0.2);
+}
+
+body.dark-mode .daterangepicker .drp-buttons {
+    border-top-color: var(--admin-border);
+}
+
+body.dark-mode .daterangepicker .drp-selected {
+    color: var(--admin-text);
 }
 </style>
 {% endblock %}
