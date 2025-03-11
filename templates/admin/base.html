@@ -41,6 +41,9 @@
     <!-- Add fallback CSS for analytics -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics_fallback.css') }}">
     
+    <!-- CSRF Token for AJAX requests -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <!-- Additional head content -->
     {% block head %}{% endblock %}
 </head>
@@ -233,7 +236,7 @@
                     <!-- Theme toggle button -->
                     <div class="notification-item">
                         <button class="settings-btn" id="themeToggle">
-                            <i class="bi bi-{% if dark_mode %}sun{% else %}moon{% endif %}"></i>
+                            <!-- Icon will be set by JS -->
                         </button>
                     </div>
                     
@@ -324,7 +327,10 @@
         </div>
     </div>
     
-    <!-- Add dark-mode.js before other scripts -->
+    <!-- Add theme-manager.js before other scripts -->
+    <script src="{{ url_for('static', filename='js/theme-manager.js') }}"></script>
+    
+    <!-- Add dark-mode.js before other scripts (if still needed) -->
     <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
     
     <!-- Bootstrap JS Bundle (with Popper) -->
@@ -382,36 +388,13 @@
                 });
             }
             
-            // Theme toggle functionality
-            const themeToggle = document.getElementById('themeToggle');
-            if (themeToggle && window.DarkModeManager) {
-                themeToggle.addEventListener('click', function() {
-                    const currentMode = window.DarkModeManager.getPreference();
-                    window.DarkModeManager.toggle(!currentMode);
-                });
-                
-                // Listen for dark mode changes to update the icon
-                document.addEventListener('darkModeChange', function(e) {
-                    themeToggle.innerHTML = e.detail.darkMode ? 
-                        '<i class="bi bi-sun"></i>' : 
-                        '<i class="bi bi-moon"></i>';
-                });
-            }
+            // Remove old theme toggle code that might conflict
+            // ThemeManager handles all theme operations now
             
-            // Dark Mode toggle via checkbox
-            const darkModeSwitch = document.getElementById('darkModeSwitch');
-            if (darkModeSwitch) {
-                darkModeSwitch.addEventListener('change', function() {
-                    if (window.DarkModeManager) {
-                        window.DarkModeManager.toggle(this.checked);
-                    } else {
-                        // Fallback if DarkModeManager is not available
-                        const isDarkMode = this.checked;
-                        document.cookie = `dark_mode=${isDarkMode ? '1' : '0'}; path=/; max-age=31536000`;
-                        location.reload();
-                    }
-                });
-            }
+            // Listen for dark mode changes from other sources
+            document.addEventListener('darkModeChange', function(e) {
+                updateThemeControls(e.detail.darkMode);
+            });
             
             // Initialize Bootstrap dropdowns explicitly
             document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(element) {

@@ -49,57 +49,12 @@
                     <h4 class="mb-0"><i class="bi bi-unlock-fill me-2"></i>Decrypt Image</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Decrypt Form Section -->
-                    <div id="decrypt-form-container">
-                        <form id="dashboard-decrypt-form" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Image with hidden message</label>
-                                <input type="file" class="form-control" id="image" name="image" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-info">
-                                    <i class="bi bi-unlock me-2"></i>Decrypt Message
-                                </button>
-                            </div>
-                        </form>
-                        
-                        <!-- Loading indicator -->
-                        <div id="dashboard-loading-indicator" style="display: none;" class="text-center my-4">
-                            <div class="spinner-border text-info" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="mt-2">Decrypting message...</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Decryption Result - Now inside the same card -->
-                    <div id="dashboard-decryption-result" style="display: none;">
-                        <hr class="my-4">
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle me-2"></i>Message successfully decrypted!
-                        </div>
-                        <div class="form-group">
-                            <label for="dashboard-decrypted-message" class="form-label fw-bold">Decrypted Message:</label>
-                            <div class="input-group">
-                                <textarea id="dashboard-decrypted-message" class="form-control" rows="4" readonly></textarea>
-                                <button class="btn btn-outline-secondary" type="button" id="dashboard-copy-message" title="Copy to clipboard">
-                                    <i class="bi bi-clipboard"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-center mt-3">
-                            <button id="decrypt-another" class="btn btn-outline-info">
-                                <i class="bi bi-arrow-left me-2"></i>Decrypt Another
-                            </button>
-                        </div>
+                    <p class="text-muted">Extract a hidden message from an image using the correct password.</p>
+                    <div class="text-center mt-4">
+                        <!-- Button to trigger modal -->
+                        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#decryptModal">
+                            <i class="bi bi-unlock me-2"></i>Decrypt Message
+                        </button>
                     </div>
                 </div>
             </div>
@@ -134,7 +89,7 @@
                                         <a href="{{ url_for('download_image', filename=image.filename) }}" class="btn btn-sm btn-primary">
                                             <i class="bi bi-download"></i> Download
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-success decrypt-btn" data-image-id="{{ image.id }}">
+                                        <button type="button" class="btn btn-sm btn-success decrypt-btn" data-bs-toggle="modal" data-bs-target="#decryptModal" data-image-id="{{ image.id }}">
                                             <i class="bi bi-unlock"></i> Decrypt
                                         </button>
                                     </div>
@@ -155,65 +110,92 @@
         </div>
     </div>
 </div>
-<!-- Fix the Decrypt Modal structure and styling -->
+
+<!-- Single Decrypt Modal -->
 <div class="modal fade" id="decryptModal" tabindex="-1" aria-labelledby="decryptModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="decryptModalLabel">Decrypt Message</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="decrypt-form">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <input type="hidden" id="decrypt-image-id" name="image_id">
-          
-          <div class="mb-3">
-            <label for="decrypt-password" class="form-label">Decryption Password</label>
-            <input type="password" class="form-control" id="decrypt-password" name="password" required>
-            <div class="form-text">Enter the password you used when encrypting this message.</div>
-          </div>
-          
-          <div class="mb-3">
-            <label for="decrypt-method" class="form-label">Encryption Method</label>
-            <select class="form-select" id="decrypt-method" name="encryption_method">
-              <option value="LSB">LSB (Least Significant Bit)</option>
-              <option value="PVD">PVD (Pixel Value Differencing)</option>
-              <option value="DCT">DCT (Discrete Cosine Transform)</option>
-              <option value="DWT">DWT (Discrete Wavelet Transform)</option>
-            </select>
-            <div class="form-text">This will be auto-selected if the method is stored with the image.</div>
-          </div>
-          
-          <div id="decrypt-error" class="alert alert-danger d-none">
-            <p id="decrypt-error-message"></p>
-          </div>
-          
-          <div id="decrypt-result" class="alert alert-success d-none">
-            <h6>Decrypted Message:</h6>
-            <div class="form-floating">
-              <textarea class="form-control" id="decrypted-message" style="height: 100px" readonly></textarea>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="decryptModalLabel"><i class="bi bi-unlock me-2"></i>Decrypt Hidden Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
-          
-          <div class="d-grid">
-            <button type="submit" id="decrypt-btn" class="btn btn-primary">Decrypt</button>
-            <div id="decrypt-spinner" class="text-center d-none">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <p>Decrypting message...</p>
+            <div class="modal-body">
+                <!-- Decrypt Form -->
+                <div id="decrypt-form-container">
+                    <form id="decrypt-form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" id="decrypt-image-id" name="image_id" value="">
+                        
+                        <div class="mb-3" id="image-upload-container">
+                            <label for="decrypt-image" class="form-label">Upload Image with Hidden Message</label>
+                            <input type="file" class="form-control" id="decrypt-image" name="image" accept="image/*">
+                            <div class="form-text">Select the image containing the hidden message</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="decrypt-password" class="form-label">Decryption Password</label>
+                            <input type="password" class="form-control" id="decrypt-password" name="password" required>
+                            <div class="form-text">Enter the password used when hiding the message</div>
+                        </div>
+                        
+                        <!-- Encryption Method Selection -->
+                        <div class="mb-3">
+                            <label for="decrypt-encryption-method" class="form-label">Encryption Method Used</label>
+                            <select class="form-select" id="decrypt-encryption-method" name="encryption_method">
+                                <option value="LSB" selected>LSB (Least Significant Bit)</option>
+                                <option value="PVD">PVD (Pixel Value Differencing)</option>
+                                <option value="DCT">DCT (Discrete Cosine Transform)</option>
+                                <option value="DWT">DWT (Discrete Wavelet Transform)</option>
+                                <option value="AUTO">Auto-detect</option>
+                            </select>
+                            <div class="form-text">Select the same method that was used for encryption</div>
+                        </div>
+                    </form>
+                    
+                    <div id="loading-indicator" class="text-center my-4" style="display: none;">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Decrypting your message...</p>
+                    </div>
+                </div>
+                
+                <!-- Result container -->
+                <div id="decryption-result" class="mt-4" style="display: none;">
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        Message successfully decrypted!
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="decrypted-message" class="form-label">Decrypted Message:</label>
+                        <textarea id="decrypted-message" class="form-control" rows="5" readonly></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button id="copy-message" class="btn btn-outline-secondary">
+                            <i class="bi bi-clipboard"></i> Copy
+                        </button>
+                        <button id="decrypt-another" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise"></i> Decrypt Another
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
-        </form>
-      </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="decrypt-submit-btn">Decrypt Message</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/dashboard_decrypt.js') }}"></script>
+<script src="{{ url_for('static', filename='js/decrypt_handler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modal-layout-stability.js') }}"></script>
+<!-- Add the new corruption fix script -->
+<script src="{{ url_for('static', filename='js/img_corruption_fix.js') }}"></script>
 
 <style>
 .hover-effect {
@@ -242,7 +224,158 @@
     background-color: #ef476f;
     box-shadow: 0 0 0 2px rgba(239, 71, 111, 0.2);
 }
+
+/* Fix modal backdrop to be semi-transparent */
+.modal-backdrop {
+    opacity: 0.5 !important;
+}
+
+/* Ensure modal content has proper styling */
+.modal-content {
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+/* Additional fixes for image list spacing when modal is open */
+.modal.show + .container .card,
+.modal.show ~ .container .card {
+    margin-bottom: 1.5rem !important;
+}
+
+.modal.show + .container .row .col-md-4,
+.modal.show ~ .container .row .col-md-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Ensure image cards maintain full height in grid */
+.col-md-4 .card {
+    height: 100%;
+}
+
+/* Fix spacing for image grid */
+.row .col-md-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* CRITICAL: Additional layout stability fixes */
+.row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+
+.col-md-4 {
+    flex: 0 0 33.333% !important; 
+    max-width: 33.333% !important;
+    transition: none !important; /* Disable transitions that could cause layout shifts */
+}
+
+.card {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Layout preservation class */
+body.layout-locked .row,
+body.layout-locked .container,
+body.layout-locked .col-md-4,
+body.layout-locked .card {
+    transition: none !important; /* Remove all transitions to prevent layout shifts */
+}
+
+/* Force overlay behavior for modal - never affects underlying layout */
+.modal.fade {
+    background-color: transparent !important;
+}
+
+/* Ensure modal container doesn't affect layout flow */
+#decryptModal {
+    position: fixed !important;
+    z-index: 2000 !important; /* Higher than other elements */
+}
 </style>
-{{ super() }}
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle decrypt button clicks for images
+    document.querySelectorAll('.decrypt-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const imageId = this.getAttribute('data-image-id');
+            if (imageId) {
+                // Set the image ID in the hidden field
+                document.getElementById('decrypt-image-id').value = imageId;
+                
+                // Hide the file upload since we're using a stored image
+                document.getElementById('image-upload-container').style.display = 'none';
+            } else {
+                // Reset form for new image upload
+                document.getElementById('decrypt-image-id').value = '';
+                document.getElementById('image-upload-container').style.display = 'block';
+            }
+        });
+    });
+    
+    // Reset modal when closed
+    const decryptModal = document.getElementById('decryptModal');
+    if (decryptModal) {
+        decryptModal.addEventListener('hidden.bs.modal', function() {
+            document.getElementById('decrypt-form').reset();
+            document.getElementById('decryption-result').style.display = 'none';
+            document.getElementById('decrypt-form-container').style.display = 'block';
+            document.getElementById('loading-indicator').style.display = 'none';
+            document.getElementById('decrypt-submit-btn').style.display = 'block';
+            document.getElementById('image-upload-container').style.display = 'block';
+        });
+    }
+
+    // Add script to maintain proper layout when modal opens
+    if (decryptModal) {
+        // When modal shows, force proper spacing on image grid
+        decryptModal.addEventListener('shown.bs.modal', function() {
+            // Apply proper spacing to image grid rows
+            document.querySelectorAll('.row .col-md-4').forEach(col => {
+                col.style.marginBottom = '1.5rem';
+            });
+            
+            // Ensure cards in image grid have proper height
+            document.querySelectorAll('.col-md-4 .card').forEach(card => {
+                card.style.height = '100%';
+                card.style.display = 'flex';
+                card.style.flexDirection = 'column';
+            });
+        });
+    }
+
+    // CRITICAL: Add direct observer for layout stability
+    const layoutObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            // Check if we have modal-open class but layout is shifting
+            if (document.body.classList.contains('modal-open')) {
+                // Force grid layout to remain stable
+                document.querySelectorAll('.row .col-md-4').forEach(col => {
+                    col.style.flex = '0 0 33.333%';
+                    col.style.maxWidth = '33.333%';
+                    col.style.display = 'block';
+                });
+                
+                // Force cards to maintain proper dimensions
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'column';
+                    card.style.height = '100%';
+                });
+            }
+        });
+    });
+    
+    // Start observing for layout stability
+    layoutObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class'],
+        subtree: true,
+        childList: true
+    });
+});
+</script>
 {% endblock %}

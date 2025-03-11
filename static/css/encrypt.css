@@ -1,14 +1,16 @@
 /* Styles for the encryption and decryption pages */
 
+/* Form container */
 .encrypt-container {
     max-width: 800px;
     margin: 0 auto;
+    padding: 20px 15px;
 }
 
+/* Image preview */
 .form-preview {
     position: relative;
-    margin-bottom: 1rem;
-    overflow: hidden;
+    margin-bottom: 1.5rem;
     border-radius: 8px;
     border: 2px dashed #ccc;
     background-color: #f8f9fa;
@@ -16,17 +18,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.form-preview:hover {
+    border-color: #4dabde;
 }
 
 .form-preview img {
     max-width: 100%;
     max-height: 300px;
+    border-radius: 4px;
 }
 
 .preview-placeholder {
-    color: #6c757d;
     text-align: center;
     padding: 2rem;
+    color: #6c757d;
 }
 
 .form-control.is-invalid {
@@ -42,9 +51,22 @@
     margin-bottom: 1.5rem;
 }
 
+/* Progress bar styles */
 .progress-container {
-    margin-top: 1rem;
+    margin: 1.5rem 0;
     display: none;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: #4dabde;
+    transition: width 0.3s ease;
 }
 
 .encryption-method-info {
@@ -73,6 +95,95 @@
 .badge-dct, .badge-dwt {
     background-color: #17a2b8;
     color: white;
+}
+
+/* Encryption method selection */
+.method-selector {
+    margin-bottom: 1.5rem;
+}
+
+.method-selector .form-check {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.method-selector .form-check:hover {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.method-selector .form-check-input:checked + .form-check-label {
+    font-weight: 500;
+}
+
+/* Dark mode specific styles */
+:root[data-bs-theme="dark"] .form-preview {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+:root[data-bs-theme="dark"] .preview-placeholder {
+    color: #aaa;
+}
+
+:root[data-bs-theme="dark"] .form-preview:hover {
+    border-color: #58b3e3;
+}
+
+:root[data-bs-theme="dark"] .method-selector .form-check:hover {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+:root[data-bs-theme="dark"] .encryption-method-info {
+    color: #bbb;
+}
+
+/* Form field containers with better spacing */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Custom file input styling */
+.custom-file-input {
+    position: relative;
+}
+
+.custom-file-input input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.custom-file-input label {
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-file-input label:hover {
+    background-color: #e9ecef;
+}
+
+:root[data-bs-theme="dark"] .custom-file-input label {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+:root[data-bs-theme="dark"] .custom-file-input label:hover {
+    background-color: #333;
 }
 
 /* Style for method selection dropdown */

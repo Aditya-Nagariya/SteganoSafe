@@ -4,7 +4,7 @@
 <!-- Add page-specific head content here -->
 <style>
     .hero {
-        background-color: #f5f7fa;
+        background-color: var(--bs-body-bg, #f5f7fa);
         position: relative;
         overflow: hidden;
     }
@@ -65,6 +65,54 @@
         justify-content: center;
         font-weight: bold;
         margin-right: 1rem;
+    }
+
+    /* Dark Mode Specific Styles */
+    :root[data-bs-theme="dark"] .hero {
+        background-color: var(--dark-bg-primary, #121212);
+    }
+    
+    :root[data-bs-theme="dark"] .hero::before {
+        background: linear-gradient(135deg, rgba(44, 125, 160, 0.05) 0%, rgba(44, 125, 160, 0.05) 100%);
+        opacity: 0.3;
+    }
+    
+    :root[data-bs-theme="dark"] .feature-card {
+        background-color: var(--dark-bg-secondary, #1e1e1e);
+        border-color: var(--dark-border-color, #3d3d3d);
+    }
+    
+    :root[data-bs-theme="dark"] .card {
+        background-color: var(--dark-bg-secondary, #1e1e1e);
+        border-color: var(--dark-border-color, #3d3d3d);
+    }
+    
+    :root[data-bs-theme="dark"] .text-muted {
+        color: var(--dark-text-secondary, #aaaaaa) !important;
+    }
+    
+    :root[data-bs-theme="dark"] .icon-wrapper.primary {
+        background-color: rgba(77, 171, 222, 0.15);
+    }
+    
+    :root[data-bs-theme="dark"] .icon-wrapper.success {
+        background-color: rgba(66, 207, 101, 0.15);
+    }
+    
+    :root[data-bs-theme="dark"] .icon-wrapper.info {
+        background-color: rgba(78, 168, 222, 0.15);
+    }
+    
+    :root[data-bs-theme="dark"] .how-it-works {
+        background-color: var(--dark-bg-primary, #121212) !important;
+    }
+    
+    :root[data-bs-theme="dark"] .cta {
+        background: linear-gradient(135deg, rgba(30, 30, 30, 0.4) 0%, rgba(44, 44, 44, 0.4) 100%);
+    }
+    
+    :root[data-bs-theme="dark"] .step-number {
+        background: linear-gradient(135deg, #4dabde, #2c7da0);
     }
 </style>
 {% endblock %}
@@ -255,6 +303,31 @@
                     heroImage.style.transform = `perspective(1000px) rotateY(${mouseX * 5}deg) rotateX(${-mouseY * 5}deg)`;
                 }
             });
+        }
+        
+        // Check for dark mode changes to update floating elements appropriately
+        document.addEventListener('userDarkModeChange', function(e) {
+            // Adjust hero image shadow based on dark mode
+            if (heroImage) {
+                heroImage.style.boxShadow = e.detail.darkMode ? 
+                    '0 12px 30px rgba(0, 0, 0, 0.6)' : 
+                    '0 12px 30px rgba(0, 0, 0, 0.15)';
+            }
+            
+            // Find and update feature icons if needed
+            document.querySelectorAll('.icon-wrapper i').forEach(icon => {
+                icon.style.color = e.detail.darkMode ? 
+                    'var(--dark-primary, #4dabde)' : 
+                    'var(--primary, #2c7da0)';
+            });
+        });
+        
+        // Apply initial state based on current theme
+        const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        if (heroImage) {
+            heroImage.style.boxShadow = isDarkMode ? 
+                '0 12px 30px rgba(0, 0, 0, 0.6)' : 
+                '0 12px 30px rgba(0, 0, 0, 0.15)';
         }
     });
 </script>

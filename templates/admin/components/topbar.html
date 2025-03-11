@@ -690,20 +690,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle theme toggle
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
-        // Update icon based on current mode
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        themeToggle.innerHTML = isDarkMode ? 
-            '<i class="bi bi-sun"></i>' : 
-            '<i class="bi bi-moon"></i>';
-            
+        // Update icon based on current mode from DarkModeManager
+        if (window.DarkModeManager) {
+            const isDarkMode = window.DarkModeManager.getPreference();
+            themeToggle.innerHTML = isDarkMode ? 
+                '<i class="bi bi-sun"></i>' : 
+                '<i class="bi bi-moon"></i>';
+        } else {
+            // Fallback if DarkModeManager is not loaded yet
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            themeToggle.innerHTML = isDarkMode ? 
+                '<i class="bi bi-sun"></i>' : 
+                '<i class="bi bi-moon"></i>';
+        }
+        
         themeToggle.addEventListener('click', function() {
             // Toggle dark mode if DarkModeManager exists
             if (window.DarkModeManager) {
-                const currentMode = window.DarkModeManager.getPreference();
-                window.DarkModeManager.toggle(!currentMode);
+                const newMode = window.DarkModeManager.toggle();
                 
                 // Update icon
-                this.innerHTML = !currentMode ? 
+                this.innerHTML = newMode ? 
                     '<i class="bi bi-sun"></i>' : 
                     '<i class="bi bi-moon"></i>';
             }

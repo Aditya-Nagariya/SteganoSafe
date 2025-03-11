@@ -3,17 +3,121 @@
  * Styling for the admin image management interface
  */
 
+/* CSS Variables for theming */
+:root {
+    /* Light mode variables */
+    --bg-primary: #fff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #868e96;
+    --border-color: #dee2e6;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --hover-bg: rgba(0, 123, 255, 0.05);
+    --table-stripe: #f8f9fc;
+    --gradient-start: #4e73df;
+    --gradient-end: #224abe;
+    --badge-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --placeholder-bg: #f8f9fa;
+    --placeholder-border: #ced4da;
+    --placeholder-icon: #adb5bd;
+    --zoom-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode variables - using both system preference and class for flexibility */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) {
+        --bg-primary: #1e2124;
+        --bg-secondary: #2c3035;
+        --bg-tertiary: #343a40;
+        --text-primary: #f8f9fa;
+        --text-secondary: #adb5bd;
+        --text-muted: #6c757d;
+        --border-color: #495057;
+        --card-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        --hover-bg: rgba(255, 255, 255, 0.05);
+        --table-stripe: #2c3035;
+        --gradient-start: #375cc0;
+        --gradient-end: #224abe;
+        --badge-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        --modal-overlay: rgba(0, 0, 0, 0.8);
+        --placeholder-bg: #343a40;
+        --placeholder-border: #495057;
+        --placeholder-icon: #6c757d;
+        --zoom-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Class-based dark mode (for manual toggling) that overrides system preference */
+.dark-mode {
+    --bg-primary: #1e2124;
+    --bg-secondary: #2c3035;
+    --bg-tertiary: #343a40;
+    --text-primary: #f8f9fa;
+    --text-secondary: #adb5bd;
+    --text-muted: #6c757d;
+    --border-color: #495057;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    --hover-bg: rgba(255, 255, 255, 0.05);
+    --table-stripe: #2c3035;
+    --gradient-start: #375cc0;
+    --gradient-end: #224abe;
+    --badge-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    --modal-overlay: rgba(0, 0, 0, 0.8);
+    --placeholder-bg: #343a40;
+    --placeholder-border: #495057;
+    --placeholder-icon: #6c757d;
+    --zoom-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Force light mode even if system prefers dark */
+.light-mode {
+    --bg-primary: #fff !important;
+    --bg-secondary: #f8f9fa !important;
+    --bg-tertiary: #e9ecef !important;
+    --text-primary: #212529 !important;
+    --text-secondary: #6c757d !important;
+    --text-muted: #868e96 !important;
+    --border-color: #dee2e6 !important;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    --hover-bg: rgba(0, 123, 255, 0.05) !important;
+    --table-stripe: #f8f9fc !important;
+    --gradient-start: #4e73df !important;
+    --gradient-end: #224abe !important;
+    --badge-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    --modal-overlay: rgba(0, 0, 0, 0.5) !important;
+    --placeholder-bg: #f8f9fa !important;
+    --placeholder-border: #ced4da !important;
+    --placeholder-icon: #adb5bd !important;
+    --zoom-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+}
+
 /* Image table styling */
 .table-container {
     position: relative;
     overflow-x: auto;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: var(--card-shadow);
+    background-color: var(--bg-primary);
+}
+
+.admin-images-table {
+    color: var(--text-primary);
 }
 
 .admin-images-table th {
     white-space: nowrap;
     user-select: none;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.admin-images-table td {
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
 .admin-images-table th[data-sort] {
@@ -21,7 +125,7 @@
 }
 
 .admin-images-table th[data-sort]:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--hover-bg);
 }
 
 /* Sortable headers */
@@ -55,8 +159,8 @@
     border-radius: 4px;
     transition: all 0.3s ease;
     cursor: zoom-in;
-    border: 1px solid #e9ecef;
-    background: #f8f9fa url('/static/img/image-loading.gif') center no-repeat;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary) url('/static/img/image-loading.gif') center no-repeat;
     background-size: 24px;
 }
 
@@ -80,8 +184,11 @@
     max-width: 90vw;
     max-height: 90vh;
     z-index: 9999;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: var(--zoom-shadow);
     cursor: zoom-out;
+    background-color: var(--bg-primary);
+    padding: 15px;
+    border-radius: 8px;
 }
 
 /* Overlay for zoomed images */
@@ -91,7 +198,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.8);
+    background-color: var(--modal-overlay);
     z-index: 9998;
 }
 
@@ -101,6 +208,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text-primary);
 }
 
 /* Actions cell styling */
@@ -113,19 +221,19 @@
 .image-placeholder {
     width: 80px;
     height: 80px;
-    background-color: #f8f9fa;
-    border: 1px dashed #ced4da;
+    background-color: var(--placeholder-bg);
+    border: 1px dashed var(--placeholder-border);
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--placeholder-icon);
     font-size: 1.5rem;
 }
 
 /* Image row hover effect */
 .image-row:hover {
-    background-color: rgba(0, 123, 255, 0.05);
+    background-color: var(--hover-bg);
 }
 
 /* Badge styling */
@@ -138,7 +246,7 @@
 
 /* Modal image styling */
 #modalImageContainer {
-    background-color: #f8f9fa;
+    background-color: var(--bg-secondary);
     border-radius: 4px;
     padding: 10px;
     min-height: 200px;
@@ -149,28 +257,157 @@
 
 #modalImage {
     max-height: 60vh;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: var(--card-shadow);
 }
 
 .image-info {
     margin-top: 15px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Dark mode modal styles */
+.modal-content {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+.modal-header, .modal-footer {
+    border-color: var(--border-color);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+}
+
+.modal-body {
+    color: var(--text-primary);
 }
 
 /* Bulk delete modal styling */
 #bulkDeleteModal .form-check-label {
     font-weight: 600;
+    color: var(--text-primary);
 }
 
 /* Filter buttons styling */
 .filter-btn {
     margin-right: 5px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.filter-btn:hover {
+    background-color: var(--hover-bg);
 }
 
 .filter-btn.active {
     font-weight: 600;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
 }
 
-/* Add some animation for loading */
+/* Filter and search panels */
+.filter-panel, .search-panel {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* Card styling */
+.card {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+}
+
+.card-body {
+    color: var(--text-primary);
+}
+
+/* Table striping */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--table-stripe);
+}
+
+/* Pagination styling */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-link {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.page-link:hover {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.page-item.active .page-link {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+    border-color: var(--gradient-start);
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    border-color: var(--border-color);
+}
+
+/* Form elements */
+.form-control, .form-select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--gradient-start);
+}
+
+/* Alerts */
+.alert-info {
+    background-color: rgba(54, 185, 204, 0.15);
+    color: #36b9cc;
+    border-color: rgba(54, 185, 204, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+    .alert-info {
+        background-color: rgba(54, 185, 204, 0.15);
+        color: #8cdce6;
+        border-color: rgba(54, 185, 204, 0.3);
+    }
+}
+
+/* User cell styling */
+.user-link {
+    color: var(--gradient-start);
+}
+
+.user-link:hover {
+    color: var(--gradient-end);
+}
+
+.user-avatar {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+}
+
+/* Fade-in animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -182,8 +419,8 @@
 
 /* Loading spinner for lazy loaded images */
 .lazy-load-spinner {
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3498db;
+    border: 3px solid var(--bg-tertiary);
+    border-top: 3px solid var(--gradient-start);
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -200,97 +437,63 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Additional styles for the admin images page */
+/* Admin table consistency */
 .admin-images-table img {
     max-width: 80px;
     max-height: 80px;
     border-radius: 4px;
     object-fit: contain;
-    background-color: #f8f9fa;
+    background-color: var(--bg-secondary);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-color);
     padding: 2px;
     animation: fadeIn 0.3s ease-in-out;
 }
 
 .admin-images-table img:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-shadow);
 }
 
-/* Add zoomed state with higher z-index */
-.admin-images-table img.zoomed {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(3);
-    max-width: 80vw;
-    max-height: 80vh;
-    z-index: 9999;
-    background-color: white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+/* Text and breadcrumb colors */
+.text-muted {
+    color: var(--text-muted) !important;
 }
 
-.admin-images-table .image-cell {
-    width: 100px;
-    text-align: center;
-    vertical-align: middle;
+.breadcrumb {
+    background-color: transparent;
 }
 
-.admin-images-table .filename-cell {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.breadcrumb-item a {
+    color: var(--gradient-start);
 }
 
-.admin-images-table .actions-cell {
-    width: 80px;
-    text-align: center;
+.breadcrumb-item.active {
+    color: var(--text-secondary);
 }
 
-/* Ensure proper spacing in table cells */
-.admin-images-table td {
-    vertical-align: middle;
-    padding: 12px;
+/* Dropdown menus */
+.dropdown-menu {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
 }
 
-/* Add a gentle hover effect to rows */
-.admin-images-table tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.05);
+.dropdown-item {
+    color: var(--text-primary);
 }
 
-/* Image placeholders */
-.image-placeholder {
-    width: 80px;
-    height: 80px;
-    border-radius: 4px;
-    background-color: #e9ecef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #6c757d;
-    font-size: 1.5rem;
-    margin: 0 auto;
+.dropdown-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
 }
 
-/* Add loading state styling */
-.lazy-load-image.loading {
-    opacity: 0.5;
-    filter: blur(2px);
+.dropdown-divider {
+    border-color: var(--border-color);
 }
 
-.lazy-load-image.loaded {
-    opacity: 1;
-}
-
-.lazy-load-image.error {
-    border: 1px solid #dc3545;
-}
-
-/* Pagination styling */
-.pagination {
-    justify-content: center;
-    margin-top: 20px;
+/* Ensure image previews are visible in dark mode */
+.admin-image-preview {
+    background-color: var(--bg-secondary);
+    padding: 3px;
 }

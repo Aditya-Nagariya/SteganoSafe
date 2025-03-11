@@ -15,6 +15,11 @@ function initImagePreviews() {
         img.onload = function() {
             this.classList.remove('loading');
             this.classList.add('loaded');
+            
+            // Add a border for better visibility in dark mode
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                this.style.borderColor = '#495057';
+            }
         };
         
         // Handle errors
@@ -30,6 +35,11 @@ function initImagePreviews() {
             // Toggle zoom class
             if (this.classList.contains('zoomed')) {
                 this.classList.remove('zoomed');
+                
+                // Remove overlay if it exists
+                const overlay = document.querySelector('.zoom-overlay');
+                if (overlay) overlay.remove();
+                
             } else {
                 // Remove zoomed class from any other images
                 document.querySelectorAll('.admin-images-table img.zoomed').forEach(el => {
@@ -37,6 +47,14 @@ function initImagePreviews() {
                 });
                 
                 this.classList.add('zoomed');
+                
+                // Create overlay for dark mode visibility
+                const overlay = document.createElement('div');
+                overlay.className = 'zoom-overlay';
+                document.body.appendChild(overlay);
+                
+                // Ensure the zoomed image is always on top of the overlay
+                this.style.zIndex = '9999';
                 
                 // Prevent event propagation
                 e.stopPropagation();
@@ -54,6 +72,10 @@ function initImagePreviews() {
         document.querySelectorAll('.admin-images-table img.zoomed').forEach(img => {
             img.classList.remove('zoomed');
         });
+        
+        // Remove overlay if it exists
+        const overlay = document.querySelector('.zoom-overlay');
+        if (overlay) overlay.remove();
     });
 }
 
@@ -124,12 +146,110 @@ function initLazyLoading() {
     }
 }
 
+// Apply dark mode specific adjustments
+function applyDarkModeAdjustments() {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
+    console.log('Applying theme adjustments, dark mode:', isDarkMode);
+    
+    if (isDarkMode) {
+        // Enhance contrast for images in dark mode
+        document.querySelectorAll('.admin-image-preview').forEach(img => {
+            img.style.padding = '3px';
+            img.style.backgroundColor = '#2c3035';
+            img.style.borderColor = '#495057';
+        });
+        
+        // Ensure buttons have proper contrast
+        document.querySelectorAll('.btn-outline-primary').forEach(btn => {
+            if (!btn.classList.contains('active')) {
+                btn.style.color = '#8bb9fe';
+                btn.style.borderColor = '#375cc0';
+            }
+        });
+        
+        // Fix modal colors
+        const modals = document.querySelectorAll('.modal-content');
+        modals.forEach(modal => {
+            modal.style.backgroundColor = '#1e2124';
+            modal.style.borderColor = '#495057';
+        });
+    } else {
+        // Reset styles for light mode
+        document.querySelectorAll('.admin-image-preview').forEach(img => {
+            img.style.backgroundColor = '';
+            img.style.borderColor = '';
+        });
+        
+        document.querySelectorAll('.btn-outline-primary').forEach(btn => {
+            if (!btn.classList.contains('active')) {
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }
+        });
+    }
+}
+
+// Check stored theme preference from DarkModeManager
+function checkStoredThemePreference() {
+    // Use our DarkModeManager if it exists
+    if (window.DarkModeManager) {
+        const isDarkMode = window.DarkModeManager.getPreference();
+        console.log('DarkModeManager preference:', isDarkMode);
+        
+        // Apply appropriate class
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+        }
+        
+        // Apply adjustments
+        applyDarkModeAdjustments();
+    } else {
+        // Fallback to localStorage if DarkModeManager doesn't exist
+        const storedTheme = localStorage.getItem('theme');
+        
+        if (storedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else if (storedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+        }
+        
+        // Apply adjustments
+        applyDarkModeAdjustments();
+    }
+}
+
 // Initialize on document load
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Admin images initialized');
+    
+    // Check stored theme preference first
+    checkStoredThemePreference();
+    
     initImagePreviews();
     initImageSearch();
     initLazyLoading();
+    
+    // Listen for theme change events
+    document.addEventListener('darkModeChange', function(e) {
+        console.log('Dark mode change event received:', e.detail.darkMode);
+        
+        if (e.detail.darkMode) {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+        }
+        
+        applyDarkModeAdjustments();
+    });
     
     // Check for placeholder after a delay to handle loading issues
     setTimeout(createPlaceholderIfNeeded, 1000);

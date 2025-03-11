@@ -1,0 +1,43 @@
+/* Fixes for decrypt modals and popups - works in both light and dark mode */
+
+/* Make modal backdrop less intrusive */
+.modal-backdrop {
+    opacity: 0.5 !important;
+}
+
+/* Add subtle transitions */
+.modal-dialog {
+    transition: transform 0.2s ease-out !important;
+}
+
+/* Add a bit of padding to message containers */
+#decrypted-message,
+#dashboard-decrypted-message,
+.decrypted-message,
+textarea.form-control[readonly] {
+    padding: 12px !important;
+    font-family: monospace;
+    line-height: 1.5;
+    min-height: 120px;
+}
+
+/* Better styling for result containers */
+#decryption-result,
+#dashboard-decryption-result,
+#resultCard {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Transition for smoother color changes in dark mode */
+.modal-content,
+.card,
+.card-header,
+.card-body,
+textarea.form-control,
+.alert {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+/* Dark mode specific styles will be overridden by user-dark-mode.css */

@@ -59,6 +59,9 @@ class StegoImage(db.Model):
     def __repr__(self):
         return f'<StegoImage {self.filename}>'
 
+# Add this line after your StegoImage class definition
+EncryptedImage = StegoImage  # Alias for backward compatibility
+
 class ActivityLog(db.Model):
     __tablename__ = 'activity_logs'
     

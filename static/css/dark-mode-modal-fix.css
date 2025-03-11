@@ -1,0 +1,67 @@
+/**
+ * CRITICAL DARK MODE MODAL FIX
+ * Focused solution to ensure dark mode matches light mode layout perfectly
+ */
+
+/* CRITICAL: Reset all problematic dark mode styles that affect layout */
+:root[data-bs-theme="dark"] body.modal-open main,
+:root[data-bs-theme="dark"] body.modal-open .container,
+:root[data-bs-theme="dark"] body.modal-open .row,
+:root[data-bs-theme="dark"] body.modal-open .card,
+:root[data-bs-theme="dark"] body.modal-open [class*="col-"] {
+  /* Remove all forced display properties that were breaking layout */
+  transition: none !important;
+  transform: none !important;
+}
+
+/* CRITICAL: Force dark mode layout to match light mode exactly */
+:root[data-bs-theme="dark"] body.modal-open .row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+:root[data-bs-theme="dark"] body.modal-open .col-md-4 {
+  flex: 0 0 33.333% !important; 
+  max-width: 33.333% !important;
+}
+
+/* CRITICAL: Set proper modal styling without affecting layout */
+:root[data-bs-theme="dark"] .modal-backdrop {
+  opacity: 0.5 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* CRITICAL: Force modal to be true overlay in dark mode */
+:root[data-bs-theme="dark"] .modal {
+  position: fixed !important;
+  z-index: 1050 !important;
+  display: none;
+}
+
+:root[data-bs-theme="dark"] .modal.show {
+  display: block !important;
+}
+
+/* Make modal dialog look good without affecting layout */
+:root[data-bs-theme="dark"] .modal-content {
+  background-color: #2a2a2a !important;
+  color: #e1e1e1 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* CRITICAL: Images in dark mode must maintain normal layout */
+:root[data-bs-theme="dark"] body.modal-open .card img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Fix card spacing in dark mode to match light mode */
+:root[data-bs-theme="dark"] body.modal-open .card {
+  margin-bottom: 1.5rem !important;
+  height: 100% !important;
+}

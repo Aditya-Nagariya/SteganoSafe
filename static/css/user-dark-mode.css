@@ -1,0 +1,593 @@
+/**
+ * User Dark Mode Styles
+ * Custom dark mode styles for user-facing pages
+ */
+
+/* Apply styles only for dark mode */
+:root[data-bs-theme="dark"] {
+    /* Dark mode color palette */
+    --dark-bg-primary: #121212;
+    --dark-bg-secondary: #1e1e1e;
+    --dark-bg-tertiary: #2d2d2d;
+    --dark-text-primary: #e1e1e1;
+    --dark-text-secondary: #aaaaaa;
+    --dark-border-color: #3d3d3d;
+    --dark-primary: #4dabde; /* Slightly brighter blue for dark mode */
+    --dark-primary-hover: #65b8e6;
+    --dark-accent: #9f5afd; /* Brighter purple for dark mode */
+    --dark-success: #42cf65;
+    --dark-warning: #ffca3a;
+    --dark-danger: #ff5c5c;
+    
+    /* Override Bootstrap variables */
+    --bs-body-bg: var(--dark-bg-primary);
+    --bs-body-color: var(--dark-text-primary);
+    --bs-primary: var(--dark-primary);
+    --bs-link-color: var(--dark-primary);
+    --bs-link-hover-color: var(--dark-primary-hover);
+    
+    color-scheme: dark;
+}
+
+/* Applied to html and body when dark mode is active */
+html.user-dark-mode,
+body.user-dark-mode {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+/* Dark mode styles for navbar */
+:root[data-bs-theme="dark"] .navbar {
+    background-color: var(--dark-bg-secondary) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode styles for cards */
+:root[data-bs-theme="dark"] .card {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .card-header {
+    background-color: var(--dark-bg-tertiary);
+    border-bottom-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .card-footer {
+    background-color: var(--dark-bg-tertiary);
+    border-top-color: var(--dark-border-color);
+}
+
+/* Form controls in dark mode */
+:root[data-bs-theme="dark"] .form-control,
+:root[data-bs-theme="dark"] .form-select {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .form-control:focus,
+:root[data-bs-theme="dark"] .form-select:focus {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-primary);
+    box-shadow: 0 0 0 0.25rem rgba(77, 171, 222, 0.25);
+}
+
+:root[data-bs-theme="dark"] .form-check-input {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .input-group-text {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-secondary);
+}
+
+/* Tables in dark mode */
+:root[data-bs-theme="dark"] .table {
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .table-bordered {
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Buttons with more vibrant colors in dark mode */
+:root[data-bs-theme="dark"] .btn-primary {
+    background-color: var(--dark-primary);
+    border-color: var(--dark-primary);
+}
+
+:root[data-bs-theme="dark"] .btn-primary:hover {
+    background-color: var(--dark-primary-hover);
+    border-color: var(--dark-primary-hover);
+}
+
+:root[data-bs-theme="dark"] .btn-outline-primary {
+    color: var(--dark-primary);
+    border-color: var(--dark-primary);
+}
+
+:root[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: var(--dark-primary);
+    color: #ffffff;
+}
+
+/* Footer in dark mode */
+:root[data-bs-theme="dark"] .footer {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-secondary);
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode-toggle i {
+    font-size: 1.5rem;
+}
+
+/* Specific dark mode styles for forms and inputs */
+:root[data-bs-theme="dark"] .form-preview {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .preview-placeholder {
+    color: var(--dark-text-secondary);
+}
+
+/* Dark mode styles for modals */
+:root[data-bs-theme="dark"] .modal-content {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .modal-header,
+:root[data-bs-theme="dark"] .modal-footer {
+    border-color: var(--dark-border-color);
+}
+
+/* Fix for decrypt popup/modals */
+:root[data-bs-theme="dark"] #decryption-result,
+:root[data-bs-theme="dark"] #dashboard-decryption-result {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] #decrypted-message,
+:root[data-bs-theme="dark"] #dashboard-decrypted-message {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+}
+
+/* Fix specifically for the dashboard and modal decrypt components */
+:root[data-bs-theme="dark"] #decrypt-form-container,
+:root[data-bs-theme="dark"] #decrypt-error-container {
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .form-text {
+    color: var(--dark-text-secondary);
+}
+
+:root[data-bs-theme="dark"] textarea.form-control {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] textarea.form-control:focus {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-primary);
+    box-shadow: 0 0 0 0.25rem rgba(77, 171, 222, 0.25);
+}
+
+:root[data-bs-theme="dark"] #loadingSpinner,
+:root[data-bs-theme="dark"] #dashboard-loading-indicator {
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .decrypt-header {
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] #resultCard {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-color);
+}
+
+/* Fix for SweetAlert modals in dark mode */
+:root[data-bs-theme="dark"] .swal2-popup {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .swal2-title,
+:root[data-bs-theme="dark"] .swal2-content {
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .swal2-input,
+:root[data-bs-theme="dark"] .swal2-textarea {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+}
+
+/* Dark mode for alerts and badges */
+:root[data-bs-theme="dark"] .alert {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+}
+
+:root[data-bs-theme="dark"] .badge {
+    background-color: var(--dark-bg-tertiary);
+}
+
+/* Login and register specific */
+:root[data-bs-theme="dark"] .register-background {
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(30, 30, 30, 0.9));
+}
+
+:root[data-bs-theme="dark"] .register-background::before {
+    opacity: 0.2;
+}
+
+:root[data-bs-theme="dark"] .login-container,
+:root[data-bs-theme="dark"] .register-card {
+    background-color: var(--dark-bg-secondary);
+}
+
+/* Make the scrollbar match dark theme too */
+:root[data-bs-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+:root[data-bs-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--dark-bg-primary);
+}
+
+:root[data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--dark-border-color);
+    border-radius: 4px;
+}
+
+:root[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-text-secondary);
+}
+
+/* Home page specific dark mode styles */
+:root[data-bs-theme="dark"] .hero {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .feature-card .card-body {
+    background-color: var(--dark-bg-secondary);
+}
+
+:root[data-bs-theme="dark"] .display-4,
+:root[data-bs-theme="dark"] .display-5 {
+    color: var(--dark-text-primary);
+}
+
+:root[data-bs-theme="dark"] .lead {
+    color: var(--dark-text-secondary);
+}
+
+:root[data-bs-theme="dark"] .how-it-works {
+    background-color: var(--dark-bg-primary);
+}
+
+:root[data-bs-theme="dark"] .how-it-works .card {
+    background-color: var(--dark-bg-secondary);
+}
+
+:root[data-bs-theme="dark"] .step-number {
+    background: linear-gradient(135deg, var(--dark-primary), var(--dark-primary-hover));
+}
+
+:root[data-bs-theme="dark"] .cta {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(45, 45, 45, 0.8));
+}
+
+/* Fix for floating elements on hero section in dark mode */
+:root[data-bs-theme="dark"] .position-absolute.shadow {
+    background-color: var(--dark-bg-secondary) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[data-bs-theme="dark"] .position-absolute.shadow i {
+    color: var(--dark-primary);
+}
+
+/* Enhanced and more specific styling for decrypt popups and modals */
+:root[data-bs-theme="dark"] #decryption-result,
+:root[data-bs-theme="dark"] #dashboard-decryption-result,
+:root[data-bs-theme="dark"] .decrypt-popup,
+:root[data-bs-theme="dark"] .decrypt-modal,
+:root[data-bs-theme="dark"] .result-card {
+    background-color: var(--dark-bg-secondary) !important;
+    border-color: var(--dark-border-color) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+:root[data-bs-theme="dark"] #decrypted-message,
+:root[data-bs-theme="dark"] #dashboard-decrypted-message,
+:root[data-bs-theme="dark"] .decrypted-content,
+:root[data-bs-theme="dark"] textarea.form-control.decrypted-message {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+/* Fix for modal dialogs and popovers */
+:root[data-bs-theme="dark"] .modal,
+:root[data-bs-theme="dark"] .modal-dialog,
+:root[data-bs-theme="dark"] .popover,
+:root[data-bs-theme="dark"] .popover-body,
+:root[data-bs-theme="dark"] .popover-header {
+    color: var(--dark-text-primary) !important;
+}
+
+:root[data-bs-theme="dark"] .modal-content,
+:root[data-bs-theme="dark"] .popover {
+    background-color: var(--dark-bg-secondary) !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+/* Fix for all textarea and text inputs in popovers/modals */
+:root[data-bs-theme="dark"] .modal textarea,
+:root[data-bs-theme="dark"] .modal input[type="text"],
+:root[data-bs-theme="dark"] .modal input[type="password"],
+:root[data-bs-theme="dark"] .popover textarea,
+:root[data-bs-theme="dark"] .popover input[type="text"],
+:root[data-bs-theme="dark"] .popover input[type="password"] {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+/* Fix for any alert in modals or popovers */
+:root[data-bs-theme="dark"] .modal .alert,
+:root[data-bs-theme="dark"] .popover .alert {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+/* Ensure text color in modals/popovers is always readable */
+:root[data-bs-theme="dark"] .modal *,
+:root[data-bs-theme="dark"] .popover * {
+    color: var(--dark-text-primary);
+}
+
+/* Force dark mode on any dynamically created decrypt elements */
+:root[data-bs-theme="dark"] [id*="decrypt"],
+:root[data-bs-theme="dark"] [class*="decrypt"],
+:root[data-bs-theme="dark"] [id*="result"],
+:root[data-bs-theme="dark"] [class*="result"] {
+    background-color: var(--dark-bg-secondary) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+:root[data-bs-theme="dark"] [id*="message"] textarea,
+:root[data-bs-theme="dark"] [class*="message"] textarea {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+/* Fix modal backdrop opacity in dark mode */
+:root[data-bs-theme="dark"] .modal-backdrop {
+    opacity: 0.7 !important; /* Less opaque backdrop */
+    background-color: rgba(12, 12, 14, 0.7) !important; /* Slightly transparent dark color */
+}
+
+/* Make modal dialog more prominent against backdrop */
+:root[data-bs-theme="dark"] .modal-dialog {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--dark-border-color) !important;
+}
+
+/* Comprehensive fixes for decrypt modals and popups */
+:root[data-bs-theme="dark"] .modal-content,
+:root[data-bs-theme="dark"] .decrypt-result,
+:root[data-bs-theme="dark"] .decrypt-popup,
+:root[data-bs-theme="dark"] #decryption-result,
+:root[data-bs-theme="dark"] #dashboard-decryption-result,
+:root[data-bs-theme="dark"] #resultCard {
+    background-color: var(--dark-bg-secondary) !important;
+    color: var(--dark-text-primary) !important;
+    border: 1px solid var(--dark-border-color) !important;
+}
+
+/* Fix card headers within decrypt UI */
+:root[data-bs-theme="dark"] .modal-content .card-header,
+:root[data-bs-theme="dark"] #decryption-result .card-header,
+:root[data-bs-theme="dark"] #resultCard .card-header {
+    background-color: var(--dark-bg-tertiary) !important;
+    border-bottom: 1px solid var(--dark-border-color) !important;
+}
+
+/* Ensure decrypt message textareas have proper styling */
+:root[data-bs-theme="dark"] #decrypted-message,
+:root[data-bs-theme="dark"] #dashboard-decrypted-message,
+:root[data-bs-theme="dark"] .decrypted-message,
+:root[data-bs-theme="dark"] textarea.form-control[readonly] {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border: 1px solid var(--dark-border-color) !important;
+}
+
+/* Improve readability of alerts inside decrypt modals */
+:root[data-bs-theme="dark"] .modal .alert,
+:root[data-bs-theme="dark"] #resultCard .alert {
+    background-color: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-border-color) !important;
+}
+
+/* Avoid Bootstrap's alert contextual styling overrides in dark mode */
+:root[data-bs-theme="dark"] .alert-success {
+    border-left: 4px solid var(--dark-success) !important;
+}
+
+:root[data-bs-theme="dark"] .alert-danger {
+    border-left: 4px solid var(--dark-danger) !important;
+}
+
+:root[data-bs-theme="dark"] .alert-warning {
+    border-left: 4px solid var(--dark-warning) !important;
+}
+
+:root[data-bs-theme="dark"] .alert-info {
+    border-left: 4px solid var(--dark-primary) !important;
+}
+
+/* Fix modal dialog transitions */
+:root[data-bs-theme="dark"] .modal.fade .modal-dialog {
+    transition: transform 0.2s ease-out !important;
+}
+
+/* Fix for SweetAlert popups in dark mode */
+:root[data-bs-theme="dark"] .swal2-popup,
+:root[data-bs-theme="dark"] .swal2-modal {
+    background-color: var(--dark-bg-secondary) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+:root[data-bs-theme="dark"] .swal2-title,
+:root[data-bs-theme="dark"] .swal2-html-container,
+:root[data-bs-theme="dark"] .swal2-content {
+    color: var(--dark-text-primary) !important;
+}
+
+/* CRITICAL FIX: Ensure dark mode background stays visible with modals */
+:root[data-bs-theme="dark"] body.modal-open,
+:root[data-bs-theme="dark"] body.modal-open main,
+:root[data-bs-theme="dark"] body.modal-open .container,
+:root[data-bs-theme="dark"] body.modal-open .row,
+:root[data-bs-theme="dark"] body.modal-open .card {
+  background-color: var(--dark-bg-primary, #121212) !important;
+}
+
+/* Ensure cards display properly in dark mode with modals */
+:root[data-bs-theme="dark"] body.modal-open .card {
+  background-color: var(--dark-bg-secondary, #1e1e1e) !important;
+}
+
+/* Make modals stand out without affecting dashboard visibility */
+:root[data-bs-theme="dark"] .modal {
+  background-color: transparent !important;
+}
+
+:root[data-bs-theme="dark"] .modal-content {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(44, 125, 160, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* CRITICAL: Fix for modal backdrop in dark mode - must NOT be removed completely */
+:root[data-bs-theme="dark"] .modal-backdrop {
+  opacity: 0.5 !important; /* Restore proper backdrop opacity */
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* CRITICAL NEW FIX: Force dark mode layout to be identical to light mode */
+:root[data-bs-theme="dark"] body.modal-open .row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin-right: -0.75rem !important;
+  margin-left: -0.75rem !important;
+}
+
+:root[data-bs-theme="dark"] body.modal-open .col-md-4 {
+  flex: 0 0 33.333% !important; 
+  max-width: 33.333% !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+:root[data-bs-theme="dark"] body.modal-open .card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+/* CRITICAL FIX: Remove position changes in dark mode that break layout */
+:root[data-bs-theme="dark"] #decryptModal {
+}
+
+/* CRITICAL FIX: Apply identical modal behaviors regardless of theme */
+:root[data-bs-theme="dark"] .modal-dialog {
+  margin: 1.75rem auto !important;
+  transform: none !important;
+  max-width: 500px !important;
+}
+
+/* CRITICAL FIX: Force modal content to behave identically in both modes */
+:root[data-bs-theme="dark"] .modal-content {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+/* CRITICAL: Ensure main content always behaves identically in both modes */
+:root[data-bs-theme="dark"] main {
+  display: block !important;
+}
+
+/* CRITICAL: Force proper positioning for modals in dark mode */
+:root[data-bs-theme="dark"] .modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important; 
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 1050 !important;
+  display: none;
+}
+
+:root[data-bs-theme="dark"] .modal.show {
+  display: block !important;
+}
+
+/* CRITICAL: Ensure modal never affects dashboard layout */
+:root[data-bs-theme="dark"] .modal ~ main,
+:root[data-bs-theme="dark"] .modal ~ .container,
+:root[data-bs-theme="dark"] .modal ~ main .container {
+}

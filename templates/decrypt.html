@@ -2,6 +2,31 @@
 
 {% block title %}Decrypt | SteganoSafe{% endblock %}
 
+{% block head %}
+<style>
+    /* Add responsive styles that work well in both light and dark mode */
+    .decrypt-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    #resultCard, #decryption-result {
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    
+    #decrypted-message, #dashboard-decrypted-message {
+        min-height: 120px;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Ensure the loading spinner has consistent colors */
+    #loadingSpinner .spinner-border, 
+    #dashboard-loading-indicator .spinner-border {
+        color: inherit;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -133,6 +158,34 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{ url_for('static', filename='js/decrypt_handler.js') }}"></script>
+<script>
+    // Add script to ensure dark mode compatibility
+    document.addEventListener('DOMContentLoaded', function() {
+        // Listen for dark mode changes
+        document.addEventListener('userDarkModeChange', function(e) {
+            // Update any dynamic content colors if needed
+            const isDark = e.detail.darkMode;
+            
+            // Adjust colors for dynamically created elements if needed
+            if (isDark) {
+                document.querySelectorAll('.decrypt-modal .modal-content').forEach(el => {
+                    el.style.backgroundColor = 'var(--dark-bg-secondary)';
+                    el.style.color = 'var(--dark-text-primary)';
+                });
+            }
+        });
+        
+        // Initialize based on current theme
+        const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        if (isDarkMode) {
+            document.querySelectorAll('.decrypt-modal .modal-content').forEach(el => {
+                el.style.backgroundColor = 'var(--dark-bg-secondary)';
+                el.style.color = 'var(--dark-text-primary)';
+            });
+        }
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('decrypt-form');

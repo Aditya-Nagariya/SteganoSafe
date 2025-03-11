@@ -51,6 +51,20 @@
         margin-top: 1rem;
         display: none;
     }
+    
+    /* Dark mode specific styles */
+    :root[data-bs-theme="dark"] .form-preview {
+        border-color: #444;
+        background-color: #2a2a2a;
+    }
+    
+    :root[data-bs-theme="dark"] .preview-placeholder {
+        color: #aaa;
+    }
+    
+    :root[data-bs-theme="dark"] .encryption-method-info {
+        color: #bbb;
+    }
 </style>
 {% endblock %}
 

@@ -77,7 +77,7 @@ except ImportError:
 
 # Import app modules
 from config import Config
-from stego import encrypt_message, decrypt_message, encode_message, decode_message
+from stego import encrypt_message, decrypt_message, encode_message, decode_message, encode_message_with_method
 from models import db, User, StegoImage, ActivityLog
 from email_utils import generate_confirmation_token, confirm_token
 from otp_utils import generate_otp, send_otp_to_phone, store_otp, verify_otp
@@ -166,6 +166,12 @@ from admin_routes import admin_bp
 # Register blueprints
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(admin_bp, url_prefix='/admin')
+
+# Import the new blueprint
+from routes.theme_routes import theme_bp
+
+# Register the blueprint
+app.register_blueprint(theme_bp)
 
 # Configure login manager
 login_manager.login_view = 'login'
@@ -637,12 +643,20 @@ def encrypt():
             if img.mode != 'RGB':
                 img = img.convert('RGB')
                 logger.debug(f"Converted image to RGB mode")
+            
+            # Get the encryption method from form
+            encryption_method = request.form.get('encryption_method', 'LSB')
+            logger.debug(f"Using encryption method: {encryption_method}")
                 
             # Encrypt and encode message with debug=True
             logger.debug("Encrypting message")
             encrypted_message = encrypt_message(message, password, debug=True)
+            
             logger.debug("Encoding message into image")
-            encoded_img = encode_message(img, encrypted_message, debug=True)
+            # Use encode_message_with_method function from stego module
+            encoded_img = encode_message_with_method(
+                img, message, password, method=encryption_method, debug=True
+            )
             
             # Save to BytesIO
             logger.debug("Saving encoded image")
@@ -665,7 +679,7 @@ def encrypt():
                     filename=unique_filename,
                     original_filename=image_file.filename,
                     image_data=image_data,
-                    encryption_type='LSB'
+                    encryption_type=encryption_method  # Store the actual method used
                 )
                 
                 db.session.add(new_image)
@@ -721,101 +735,97 @@ def encrypt():
 def decrypt():
     if request.method == 'GET':
         return render_template('decrypt.html')
-    
-    # Handle POST request
     try:
-        if 'image' not in request.files:
-            return jsonify({'success': False, 'message': 'No image provided'}), 400
-            
-        file = request.files['image']
-        if not file or file.filename == '':
-            return jsonify({'success': False, 'message': 'Empty image file'}), 400
-            
-        password = request.form.get('password')
-        if not password:
-            return jsonify({'success': False, 'message': 'Password required'}), 400
-            
-        # Process the image
+        # Handle POST request
         try:
-            logger.debug(f"Attempting to decrypt uploaded image: {file.filename}")
-            img = PilImage.open(file)
-            if img.mode != 'RGB':
-                logger.debug(f"Converting image from {img.mode} to RGB mode")
-                img = img.convert('RGB')
-                
-            # Try to use the new direct_lsb_decode method first
-            from stego import direct_lsb_decode
-            logger.debug(f"Trying direct_lsb_decode on image")
-            ciphertext = direct_lsb_decode(img, debug=True)
+            if 'image' not in request.files:
+                return jsonify({'success': False, 'message': 'No image provided'}), 400
             
-            if not ciphertext:
-                logger.debug(f"Direct decoding failed, trying standard decode_message")
-                from stego import decode_message
-                ciphertext = decode_message(img, method='AUTO', debug=True)
+            file = request.files['image']
+            if not file or file.filename == '':
+                return jsonify({'success': False, 'message': 'Empty image file'}), 400
             
-            if not ciphertext:
-                logger.warning("No hidden message found in image")
-                return jsonify({'success': False, 'message': 'No hidden message found in this image. Please verify this is an encrypted image.'}), 400
-                
-            logger.debug(f"Successfully extracted ciphertext of length {len(ciphertext)}")
+            password = request.form.get('password')
+            if not password:
+                return jsonify({'success': False, 'message': 'Password required'}), 400
             
+            # Process the image
             try:
+                logger.debug(f"Attempting to decrypt uploaded image: {file.filename}")
+                img = PilImage.open(file)
+                
+                if img.mode != 'RGB':
+                    logger.debug(f"Converting image from {img.mode} to RGB mode")
+                    img = img.convert('RGB')
+                
+                # Try to use the new direct_lsb_decode method first
+                from stego import direct_lsb_decode
+                logger.debug(f"Trying direct_lsb_decode on image")
+                ciphertext = direct_lsb_decode(img, debug=True)
+                
+                if not ciphertext:
+                    logger.debug(f"Direct decoding failed, trying standard decode_message")
+                    from stego import decode_message
+                    ciphertext = decode_message(img, method='AUTO', debug=True)
+                
+                if not ciphertext:
+                    logger.warning("No hidden message found in image")
+                    return jsonify({'success': False, 'message': 'No hidden message found in this image. Please verify this is an encrypted image.'}), 400
+                
+                logger.debug(f"Successfully extracted ciphertext of length {len(ciphertext)}")
+                
                 logger.debug("Attempting to decrypt extracted ciphertext")
-                decrypted_message = decrypt_message(ciphertext, password, debug=True)
-                
-                logger.info("Message successfully decrypted")
-                # Log a successful decryption activity
-                activity = ActivityLog(
-                    user_id=current_user.id,
-                    action=f"Decrypted uploaded image: {file.filename}"
-                )
-                db.session.add(activity)
-                db.session.commit()
-                
-                # Return successful response with the decrypted message
-                return jsonify({
-                    'success': True,
-                    'message': 'Message decrypted successfully',
-                    'decrypted_message': decrypted_message
-                })
-                
-            except Exception as decrypt_error:
-                # Try safe decryption as fallback
-                logger.warning(f"Standard decryption failed: {decrypt_error}")
-                logger.debug("Trying safe_decrypt method as fallback")
-                
                 try:
-                    from stego import decrypt_message_safe
-                    decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                    decrypted_message = decrypt_message(ciphertext, password, debug=True)
+                    logger.info("Message successfully decrypted")
                     
-                    logger.info("Message successfully decrypted with safe method")
-                    # Log activity
+                    # Log a successful decryption activity
                     activity = ActivityLog(
                         user_id=current_user.id,
-                        action=f"Decrypted uploaded image: {file.filename} (using safe decrypt)"
+                        action=f"Decrypted uploaded image: {file.filename}"
                     )
                     db.session.add(activity)
                     db.session.commit()
                     
+                    # Return successful response with the decrypted message
                     return jsonify({
                         'success': True,
-                        'message': 'Message decrypted successfully (using safe method)',
+                        'message': 'Message decrypted successfully',
                         'decrypted_message': decrypted_message
                     })
-                except Exception as safe_decrypt_error:
-                    logger.error(f"Both decryption methods failed: {safe_decrypt_error}")
-                    return jsonify({
-                        'success': False, 
-                        'message': f'Decryption failed: {str(safe_decrypt_error)}. Please check your password.'
-                    }), 400
-                    
-        except ValueError as e:
-            logger.error(f"Value error during decryption: {str(e)}")
-            return jsonify({'success': False, 'message': f'Decryption error: {str(e)}'}), 400
+                except Exception as decrypt_error:
+                    logger.warning(f"Standard decryption failed: {decrypt_error}")
+                    logger.debug("Trying safe_decrypt method as fallback")
+                    from stego import decrypt_message_safe
+                    try:
+                        decrypted_message = decrypt_message_safe(ciphertext, password, debug=True)
+                        logger.info("Message successfully decrypted with safe method")
+                        
+                        # Log activity
+                        activity = ActivityLog(
+                            user_id=current_user.id,
+                            action=f"Decrypted uploaded image: {file.filename} (using safe decrypt)"
+                        )
+                        db.session.add(activity)
+                        db.session.commit()
+                        
+                        return jsonify({
+                            'success': True,
+                            'message': 'Message decrypted successfully (using safe method)',
+                            'decrypted_message': decrypted_message
+                        })
+                    except Exception as safe_decrypt_error:
+                        logger.error(f"Both decryption methods failed: {safe_decrypt_error}")
+                        return jsonify({'success': False, 'message': f'Decryption failed: {str(safe_decrypt_error)}. Please check your password.'}), 400
+            except ValueError as e:
+                logger.error(f"Value error during decryption: {str(e)}")
+                return jsonify({'success': False, 'message': f'Decryption error: {str(e)}'}), 400
+            except Exception as e:
+                app.logger.exception(f"Decryption error: {str(e)}")
+                return jsonify({'success': False, 'message': f'Error during decryption: {str(e)}'}), 400
         except Exception as e:
-            app.logger.exception(f"Decryption error: {str(e)}")
-            return jsonify({'success': False, 'message': f'Error during decryption: {str(e)}'}), 400
-            
+            app.logger.exception(f"Decrypt route error: {str(e)}")
+            return jsonify({'success': False, 'message': f'An error occurred: {str(e)}'}), 500
     except Exception as e:
         app.logger.exception(f"Decrypt route error: {str(e)}")
         return jsonify({'success': False, 'message': f'An error occurred: {str(e)}'}), 500
@@ -830,10 +840,8 @@ def result():
 @login_required
 def download_image(filename):
     image = StegoImage.query.filter_by(filename=filename, user_id=current_user.id).first()
-    
     if not image:
         abort(404)
-    
     return send_file(
         BytesIO(image.image_data),
         mimetype='image/png',
@@ -844,7 +852,6 @@ def download_image(filename):
 @app.route('/request_otp', methods=['POST'])
 def request_otp():
     phone = request.form.get('phone')
-    
     if not phone:
         app.logger.error("Phone number is required")
         return jsonify({'success': False, 'message': 'Phone number required'}), 400
@@ -864,10 +871,9 @@ def request_otp():
         
         store_otp(clean_phone, otp, expiry=300)  # 5 minutes
         
-        # In development mode, just log it
         if not app.debug:
             send_otp_to_phone(clean_phone, otp)
-            
+        
         return jsonify({'success': True, 'message': 'OTP sent to your phone'})
     except Exception as e:
         app.logger.exception(f"Error sending OTP: {str(e)}")
@@ -877,7 +883,6 @@ def request_otp():
 def verify_otp_endpoint():
     phone = request.form.get('phone')
     otp_input = request.form.get('otp')
-    
     if not phone or not otp_input:
         return jsonify({'success': False, 'message': 'Phone and OTP required'}), 400
     
@@ -899,7 +904,6 @@ def verify_otp_endpoint():
 def login_phone():
     phone = request.form.get('phone')
     otp_input = request.form.get('otp')
-    
     if not phone or not otp_input:
         return jsonify({'success': False, 'message': 'Phone and OTP required'}), 400
     
@@ -914,10 +918,7 @@ def login_phone():
     if is_valid_otp:
         user = User.query.filter_by(phone_number=clean_phone).first()
         if not user:
-            return jsonify({
-                'success': False,
-                'message': 'No user found with this phone number'
-            }), 404
+            return jsonify({'success': False, 'message': 'No user found with this phone number'}), 404
         
         login_user(user, remember=True)
         
@@ -957,7 +958,6 @@ def debug_form():
 def create_default_admin():
     try:
         admin_exists = User.query.filter_by(role='admin').first()
-        
         if not admin_exists:
             admin = User(
                 username='admin',
@@ -967,10 +967,8 @@ def create_default_admin():
                 role='admin'
             )
             admin.set_password('admin123')
-            
             db.session.add(admin)
             db.session.commit()
-            
             app.logger.info('Default admin user created')
             print("\n" + "*" * 80)
             print("* DEFAULT ADMIN CREATED:")
@@ -1045,12 +1043,10 @@ with app.app_context():
     try:
         logger.info("Creating database tables if needed...")
         db.create_all()
-        
         # Create default admin user if it doesn't exist
         admin_exists = User.query.filter_by(role='admin').first()
         if not admin_exists:
             create_default_admin()
-            
         logger.info("Database initialization complete")
     except Exception as e:
         logger.error(f"Error initializing database at startup: {str(e)}")
@@ -1066,9 +1062,8 @@ if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=port, debug=True)
 
 # Add this to your existing routes
-
-@app.route('/admin-check')
 @login_required
+@app.route('/admin-check')
 def admin_check():
     """Debug endpoint to check admin access"""
     try:
@@ -1082,10 +1077,10 @@ def admin_check():
                     'email': current_user.email
                 }
             })
-            
+        
         # Check if admin blueprint is registered
         is_registered = 'admin_bp.index' in app.view_functions
-            
+        
         return jsonify({
             'is_admin': True,
             'user_info': {
@@ -1158,7 +1153,6 @@ def apple_touch_icon_precomposed():
         mimetype='image/png'
     )
 
-
 # After registering other blueprints (near line 100), add:
 init_user_routes(app)
 
@@ -1174,13 +1168,12 @@ def profile():
 if app.debug:
     init_debug_routes(app)
 
-@app.route('/decrypt-stored', methods=['POST'])
 @login_required
+@app.route('/decrypt-stored', methods=['POST'])
 def decrypt_stored():
     """Decrypt a stored image with enhanced error recovery"""
     # Log that we entered this route
     logger.info(f"Decrypt-stored route called by user {current_user.username}")
-    
     try:
         image_id = request.form.get('image_id')
         password = request.form.get('password')
@@ -1207,7 +1200,6 @@ def decrypt_stored():
         try:
             # Use JSON request format for the API endpoint with our parameters 
             api_response = api_decrypt_saved_image()
-            
             # If it's a successful response, return it
             if api_response.status_code == 200:
                 return api_response
@@ -1227,7 +1219,6 @@ def decrypt_stored():
                 
             # Otherwise just return the original response
             return api_response
-            
         except Exception as e:
             logger.error(f"Error calling API endpoint: {e}")
             return jsonify({
@@ -1242,84 +1233,22 @@ def decrypt_stored():
             'message': f"An error occurred during decryption: {str(e)}"
         }), 500
 
-# Add custom Jinja2 filters
-# Find the section where you initialize the app (around line 75)
-# Add this after initializing the app but before registering blueprints:
-
-# Import and register custom filters
-from filters import register_filters
-register_filters(app)
-
-# ...rest of the app.py code...
-
-#     ...the old b64encode filter at the end of the file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# but this direct registration will ensure the filter is available immediately# You can keep the import from filters.py later in the code,        return ''        logger.error(f"Error encoding data to base64: {str(e)}")    except Exception as e:        return encoded        encoded = base64.b64encode(data).decode('utf-8')        # Encode binary data to base64    try:                return data    if isinstance(data, str):    # If data is already a string, return it            return ''    if data is None:    """Convert binary data to base64 encoded string for displaying images in HTML"""def b64encode_filter(data):@app.template_filter('b64encode')# Add the filter registration immediately after initializing the app:# app = Flask(__name__)# Find the line where you create the Flask app instance (around line 75)# Let's add the filter directly in app.py to ensure it's available immediately# The error is occurring because the filter registration is not working properly# Delete or comment out these lines:
-
-#     ...# @app.template_filter('b64encode')
-# def b64encode_filter(data):
-# Replace the broken b64encode filter with a proper implementation
-@app.template_filter('b64encode')
-def b64encode_filter(data):
-    """Convert binary data to base64 encoded string for displaying images in HTML"""
-    if data is None:
-        return ''
-    if isinstance(data, str):
-        return data
-    try:
-        # Encode binary data to base64
-        encoded = base64.b64encode(data).decode('utf-8')
-        return encoded
-    except Exception as e:
-        logger.error(f"Error encoding data to base64: {str(e)}")
-        return ''
-
 # Add improved API decrypt_saved_image route to app.py
-
 @app.route('/api/decrypt_saved_image', methods=['POST'])
 @login_required
 def api_decrypt_saved_image():
     """API endpoint for decrypting saved images with improved error handling and recovery"""
     start_time = time.time()
-    
     try:
         # Get JSON data
         data = request.get_json()
-        
         if not data:
             logger.error("No JSON data in request")
             return jsonify({
                 'success': False,
                 'message': 'No data provided'
             }), 400
-            
+        
         # Extract parameters
         image_id = data.get('image_id')
         password = data.get('password')
@@ -1332,13 +1261,12 @@ def api_decrypt_saved_image():
                 'success': False,
                 'message': 'Image ID and password required'
             }), 400
-            
+        
         # Log the decryption attempt
         logger.info(f"API decrypt request for image {image_id} using {method}")
         
         # Lookup the image - using get() instead of first() to handle None case better
         image = StegoImage.query.filter_by(id=image_id, user_id=current_user.id).first()
-        
         if not image:
             logger.error(f"Image {image_id} not found for user {current_user.id}")
             return jsonify({
@@ -1355,8 +1283,6 @@ def api_decrypt_saved_image():
             logger.debug(f"Loading image data of size {len(image.image_data) if image.image_data else 0} bytes")
             img_io = BytesIO(image.image_data)
             img = PilImage.open(img_io)
-            
-            # Convert to RGB if needed
             if img.mode != 'RGB':
                 logger.debug(f"Converting image from {img.mode} to RGB mode")
                 img = img.convert('RGB')
@@ -1400,35 +1326,28 @@ def api_decrypt_saved_image():
         # Try to decrypt the message
         try:
             logger.debug(f"Decrypting message of length {len(ciphertext)}")
-            
-            # Check if we should use advanced password recovery
             if try_recovery:
+                # Check if we should use advanced password recovery
                 try:
                     from cryptography_utils import attempt_password_variants
-                    
+                    from stego import decrypt_message_safe
                     def decrypt_wrapper(data, pwd):
-                        from stego import decrypt_message_safe
                         return decrypt_message_safe(data, pwd, debug=True)
-                    
-                    # Try password variants
                     logger.debug("Attempting password variants")
+                    # Try password variants
                     success, decrypted, used_password = attempt_password_variants(
                         ciphertext, password, decrypt_wrapper)
-                    
                     if success:
                         # Log success with password correction
                         if used_password != password:
                             logger.info(f"Decryption succeeded with corrected password: '{used_password}'")
-                            
-                        # Record activity
-                        activity = ActivityLog(
-                            user_id=current_user.id,
-                            action=f"Decrypted image {image.original_filename} (with auto-correction)"
-                        )
-                        db.session.add(activity)
-                        db.session.commit()
-                        
-                        # Success response
+                            # Record activity
+                            activity = ActivityLog(
+                                user_id=current_user.id,
+                                action=f"Decrypted image {image.original_filename} (with auto-correction)"
+                            )
+                            db.session.add(activity)
+                            db.session.commit()
                         return jsonify({
                             'success': True,
                             'decrypted_message': f"[AUTO-CORRECTED] {decrypted}",
@@ -1445,11 +1364,10 @@ def api_decrypt_saved_image():
                 logger.debug("Standard decryption successful")
             except Exception as decrypt_error:
                 logger.error(f"Standard decryption failed: {decrypt_error}")
-                
-                # If recovery mode, try with auth bypass
                 if try_recovery:
+                    # If recovery mode, try with auth bypass
+                    logger.info("Attempting recovery with auth bypass")
                     try:
-                        logger.info("Attempting recovery with auth bypass")
                         from stego import decrypt_message
                         decrypted_message = decrypt_message(ciphertext, password, debug=True, bypass_auth=True)
                         logger.debug("Auth bypass decryption successful")
@@ -1467,9 +1385,8 @@ def api_decrypt_saved_image():
             
             # Log success
             logger.info(f"Successfully decrypted message from image {image_id}")
-            
-            # Record activity - use try/except to ensure database errors don't stop successful response
             try:
+                # Record activity - use try/except to ensure database errors don't stop successful response
                 activity = ActivityLog(
                     user_id=current_user.id,
                     action=f"Decrypted image {image.original_filename}"
@@ -1487,25 +1404,19 @@ def api_decrypt_saved_image():
                 'success': True,
                 'decrypted_message': decrypted_message
             })
-            
         except Exception as e:
             logger.error(f"Decryption error: {str(e)}")
-            
-            # Return a more detailed error message
             error_message = str(e)
             suggestions = []
-            
             if 'password' in error_message.lower():
                 suggestions = [
                     "Double-check your password",
                     "Passwords are case-sensitive",
                     "Make sure you're using the same password used during encryption"
                 ]
-                
             if 'tag' in error_message.lower() or 'auth' in error_message.lower():
                 suggestions.append("The encrypted data may be corrupted")
                 suggestions.append("Try enabling recovery mode for more aggressive decryption")
-            
             return jsonify({
                 'success': False,
                 'message': 'Failed to decrypt message. Please check your password or try a different decryption method.',
@@ -1513,7 +1424,6 @@ def api_decrypt_saved_image():
                 'suggestions': suggestions,
                 'recovery_available': True
             }), 400
-            
     except Exception as e:
         logger.error(f"API decrypt error: {str(e)}")
         logger.error(traceback.format_exc())
@@ -1524,3 +1434,5 @@ def api_decrypt_saved_image():
     finally:
         end_time = time.time()
         app.logger.debug(f"API request to /api/decrypt_saved_image took {end_time - start_time:.4f}s")
+
+app.config['FORCE_LSB_ENCRYPTION'] = True  # Force all methods to use LSB for now

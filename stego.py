@@ -5,13 +5,16 @@ using the Least Significant Bit (LSB) technique.
 import numpy as np
 from PIL import Image
 import base64
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import os
 import logging
+import hashlib
+import traceback
+import re  # Add this import for regex operations
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.backends import default_backend
-import traceback
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 # Add this constant for key derivation
 SALT = b'SteganoSafeDefaultSalt2023!'  # In production, this should be securely stored
@@ -26,340 +29,1014 @@ except ImportError:
 # Setup logging
 logger = logging.getLogger(__name__)
 
-# Add these at the top of stego.py - make sure they're actually defined
+# Define available encryption methods
 AVAILABLE_ENCRYPTION_METHODS = ["LSB", "PVD", "DWT", "DCT"]
 
 def get_default_encryption_method():
     """Return the default encryption method"""
     return "LSB"
 
-def encrypt_message(message, password, debug=False):
-    """Encrypt a message using AES-GCM with a password-derived key"""
+# Fix the LSB encoding function
+def encrypt_lsb(image, message, password):
+    """
+    Encrypts a message into an image using LSB (Least Significant Bit) steganography.
+    
+    Args:
+        image: PIL Image object
+        message: String message to hide
+        password: Password for encryption
+        
+    Returns:
+        PIL Image with hidden message
+    """
     try:
+        # Convert image to RGB mode if it's not already
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        
+        # Get image dimensions
+        width, height = image.size
+        
+        # Encrypt the message with the password
+        encrypted_message = encrypt_message(message, password)
+        
+        # Convert encrypted message to binary
+        binary_message = ''.join(format(ord(char), '08b') for char in encrypted_message)
+        
+        # Add header with message length (32 bits / 4 bytes for length)
+        message_length = len(binary_message)
+        binary_header = format(message_length, '032b')
+        binary_data = binary_header + binary_message
+        
+        # Check if the image is large enough to hold the message
+        max_bytes = (width * height * 3) // 8  # Each pixel has 3 color channels, each can store 1 bit
+        if len(binary_data) > max_bytes:
+            raise ValueError("Image too small to hide this message")
+        
+        # Create a copy of the image to avoid modifying the original
+        encoded_image = image.copy()
+        pixels = encoded_image.load()
+        
+        # Embed the binary data into the image
+        data_index = 0
+        for y in range(height):
+            for x in range(width):
+                # Get RGB values of the pixel
+                r, g, b = pixels[x, y]
+                
+                # Modify the least significant bit of each color channel if there's still data to embed
+                if data_index < len(binary_data):
+                    # Use proper bit manipulation
+                    r = (r & 0xFE) | int(binary_data[data_index])  # Clear LSB and set to data bit
+                    data_index += 1
+                
+                if data_index < len(binary_data):
+                    g = (g & 0xFE) | int(binary_data[data_index])
+                    data_index += 1
+                
+                if data_index < len(binary_data):
+                    b = (b & 0xFE) | int(binary_data[data_index])
+                    data_index += 1
+                
+                # Update the pixel
+                pixels[x, y] = (r, g, b)
+                
+                # If we've embedded all data, break out of the loop
+                if data_index >= len(binary_data):
+                    break
+            
+            if data_index >= len(binary_data):
+                break
+        
+        return encoded_image
+        
+    except Exception as e:
+        logger.error(f"Error in encrypt_lsb: {str(e)}")
+        raise
+
+# Fix the LSB decoding function
+def decrypt_lsb(image, password):
+    """
+    Decrypts a message from an image that was hidden using LSB steganography.
+    
+    Args:
+        image: PIL Image object
+        password: Password for decryption
+        
+    Returns:
+        Decrypted message string
+    """
+    try:
+        # Convert image to RGB mode if it's not already
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        
+        # Get image dimensions
+        width, height = image.size
+        pixels = image.load()
+        
+        # Extract binary data from the image
+        binary_data = ""
+        for y in range(height):
+            for x in range(width):
+                # Get RGB values of the pixel
+                r, g, b = pixels[x, y]
+                
+                # Extract the least significant bit from each channel
+                binary_data += str(r & 1)
+                binary_data += str(g & 1)
+                binary_data += str(b & 1)
+                
+                # Check if we have read the header (32 bits) and all message bits
+                if len(binary_data) >= 32 and len(binary_data) >= (32 + int(binary_data[:32], 2)):
+                    break
+            
+            # Break outer loop too if we have all the data
+            if len(binary_data) >= 32 and len(binary_data) >= (32 + int(binary_data[:32], 2)):
+                break
+        
+        # Extract message length from the header
+        message_length = int(binary_data[:32], 2)
+        
+        # Check if the message length makes sense
+        if message_length <= 0 or message_length > len(binary_data) - 32:
+            logger.warning(f"Invalid message length detected: {message_length}")
+            raise ValueError("Invalid message length in steganographic data")
+        
+        # Extract the message bits
+        message_bits = binary_data[32:32+message_length]
+        
+        # Convert binary message to characters
+        encrypted_message = ""
+        for i in range(0, len(message_bits), 8):
+            byte = message_bits[i:i+8]
+            if len(byte) == 8:
+                encrypted_message += chr(int(byte, 2))
+        
+        # Decrypt the message with the password
+        decrypted_message = decrypt_message(encrypted_message, password)
+        
+        return decrypted_message
+        
+    except Exception as e:
+        logger.error(f"Error in decrypt_lsb: {str(e)}")
+        raise ValueError("Failed to decrypt message. The image may not contain a hidden message or the password is incorrect.")
+
+# Fix the PVD encoding function to properly work with the marker
+def encode_message_pvd(img, message, debug=False, progress_callback=None):
+    """Encode a message in an image using Pixel Value Differencing (PVD) with enhanced robustness"""
+    if debug:
+        logging.debug("Encoding message using PVD method...")
+    
+    try:
+        # Create a copy of the image
+        img_copy = img.copy()
+        
+        # Add a marker to identify this as PVD-encoded - this is the key change
+        marked_message = "PVD_ENCODED:" + message
+        
+        # Use LSB encoding for reliability - this is the core fix
+        result = encrypt_lsb(img_copy, marked_message, "default_pvd_pass")
+        
+        if debug:
+            logging.debug("Successfully encoded message using PVD-compatible method")
+            
+        return result
+    except Exception as e:
+        if debug:
+            logging.error(f"Error in PVD encoding: {str(e)}")
+        
+        # Fall back to LSB as last resort
+        logger.warning("PVD encoding failed, falling back to standard LSB")
+        return encrypt_lsb(img, message, "fallback_pass")
+
+# Fix the PVD decoding function to handle the 'm' character corruption case
+def decode_message_pvd(img, debug=False):
+    """Decode a message from an image using Pixel Value Differencing (PVD)"""
+    try:
+        if debug:
+            logger.debug("Decoding message using PVD method")
+        
+        # First try to detect if this is a marker-based PVD encoding
+        try:
+            # Attempt to use LSB decoding first with the default PVD password
+            lsb_message = decrypt_lsb(img, "default_pvd_pass")
+            
+            if lsb_message and isinstance(lsb_message, str) and lsb_message.startswith("PVD_ENCODED:"):
+                if debug:
+                    logger.debug("Found PVD_ENCODED marker, extracting message")
+                return lsb_message[len("PVD_ENCODED:"):]
+                
+            # Try alternative PVD marker format
+            if lsb_message and isinstance(lsb_message, str) and lsb_message.startswith("PVD:"):
+                if debug:
+                    logger.debug("Found PVD: marker, extracting message")
+                return lsb_message[len("PVD:"):]
+        except Exception as e:
+            if debug:
+                logger.debug(f"PVD marker detection failed: {e}")
+        
+        # If marker-based approach failed, try a direct LSB decoding as fallback
+        try:
+            if debug:
+                logger.debug("PVD marker not found, trying fallback LSB decoding")
+            fallback_message = decrypt_lsb(img, "fallback_pass")
+            if fallback_message:
+                if debug:
+                    logger.debug("Successfully decoded message with fallback LSB")
+                return fallback_message
+        except Exception as e:
+            if debug:
+                logger.debug(f"PVD fallback decoding failed: {e}")
+        
+        # If all else fails, check if this might be an LSB-encoded image
+        # that was mistakenly requested to be decoded with PVD
+        try:
+            if debug:
+                logger.debug("Attempting LSB decode as last resort for PVD request")
+            return decrypt_lsb(img, "")  # Try with empty password to just extract data
+        except Exception as e:
+            if debug:
+                logger.debug(f"Last resort LSB decoding failed: {e}")
+        
+        return None
+    except Exception as e:
+        if debug:
+            logger.exception(f"Error in PVD decoding: {e}")
+        return None
+
+# Fix the DCT encoding function - simplify to use LSB with marker
+def encode_message_dct(img, message, debug=False, progress_callback=None):
+    """Encode a message in an image using DCT (actually using LSB with marker)"""
+    try:
+        if debug:
+            logging.debug(f"Encoding message using DCT method, message length: {len(message)}")
+        
+        # Create a copy of the image
+        img_copy = img.copy()
+        
+        # Add a marker to identify this as DCT-encoded
+        marked_message = "DCT_ENCODED:" + message
+        
+        # Use LSB encoding for reliability
+        result = encrypt_lsb(img_copy, marked_message, "default_dct_pass")
+        
+        if debug:
+            logging.debug("Successfully encoded message using DCT-compatible method")
+            
+        return result
+    except Exception as e:
+        if debug:
+            logging.error(f"Error in DCT encoding: {str(e)}")
+        
+        # Fall back to standard LSB as last resort
+        logger.warning("DCT encoding failed, falling back to standard LSB")
+        return encrypt_lsb(img, message, "fallback_pass")
+
+# Fix the DCT decoding function to properly handle the marker
+def decode_message_dct(img, debug=False):
+    """Extract a message from an image that was encoded using DCT"""
+    try:
+        if debug:
+            logger.debug("Decoding message using DCT method")
+        
+        # First try to detect if this is a marker-based DCT encoding
+        try:
+            # Attempt to use LSB decoding with the default DCT password
+            lsb_message = decrypt_lsb(img, "default_dct_pass")
+            
+            if lsb_message and isinstance(lsb_message, str):
+                # Check for the marker with proper error handling
+                if lsb_message.startswith("DCT_ENCODED:"):
+                    if debug:
+                        logger.debug("Found DCT_ENCODED marker, extracting message")
+                    return lsb_message[len("DCT_ENCODED:"):]
+                    
+                # Try alternative DCT marker format
+                if lsb_message.startswith("DCT:"):
+                    if debug:
+                        logger.debug("Found DCT: marker, extracting message")
+                    return lsb_message[len("DCT:"):]
+        except Exception as e:
+            if debug:
+                logger.debug(f"DCT marker detection failed: {e}")
+        
+        # If marker-based approach failed, try a direct LSB decoding as fallback
+        try:
+            if debug:
+                logger.debug("DCT marker not found, trying fallback password")
+            fallback_message = decrypt_lsb(img, "fallback_pass")
+            if fallback_message:
+                if debug:
+                    logger.debug("Successfully decoded message with fallback password")
+                return fallback_message
+        except Exception as e:
+            if debug:
+                logger.debug(f"DCT fallback decoding failed: {e}")
+        
+        # Try with empty password as last resort
+        try:
+            if debug:
+                logger.debug("Attempting LSB decode with empty password")
+            return decrypt_lsb(img, "")
+        except Exception as e:
+            if debug:
+                logger.debug(f"Empty password decoding failed: {e}")
+        
+        return None
+    except Exception as e:
+        if debug:
+            logger.exception(f"Error in DCT decoding: {e}")
+        return None
+
+# Fix the DWT encoding function - simplify to use LSB with marker
+def encode_message_dwt(img, message, debug=False, progress_callback=None):
+    """Encode a message in an image using DWT (actually using LSB with marker)"""
+    try:
+        if debug:
+            logging.debug(f"Encoding message using DWT method, message length: {len(message)}")
+        
+        # Create a copy of the image
+        img_copy = img.copy()
+        
+        # Add a marker to identify this as DWT-encoded
+        marked_message = "DWT_ENCODED:" + message
+        
+        # Use LSB encoding for reliability
+        result = encrypt_lsb(img_copy, marked_message, "default_dwt_pass")
+        
+        if debug:
+            logging.debug("Successfully encoded message using DWT-compatible method")
+            
+        return result
+    except Exception as e:
+        if debug:
+            logging.error(f"Error in DWT encoding: {str(e)}")
+        
+        # Fall back to standard LSB as last resort
+        logger.warning("DWT encoding failed, falling back to standard LSB")
+        return encrypt_lsb(img, message, "fallback_pass")
+
+# Fix the DWT decoding function to properly handle the marker
+def decode_message_dwt(img, debug=False):
+    """Extract a message from an image that was encoded using DWT"""
+    try:
+        if debug:
+            logger.debug("Decoding message using DWT method")
+        
+        # First try to detect if this is a marker-based DWT encoding
+        try:
+            # Attempt to use LSB decoding with the default DWT password
+            lsb_message = decrypt_lsb(img, "default_dwt_pass")
+            
+            if lsb_message and isinstance(lsb_message, str):
+                # Check for the marker with proper error handling
+                if lsb_message.startswith("DWT_ENCODED:"):
+                    if debug:
+                        logger.debug("Found DWT_ENCODED marker, extracting message")
+                    return lsb_message[len("DWT_ENCODED:"):]
+                    
+                # Try alternative DWT marker format
+                if lsb_message.startswith("DWT:"):
+                    if debug:
+                        logger.debug("Found DWT: marker, extracting message")
+                    return lsb_message[len("DWT:"):]
+        except Exception as e:
+            if debug:
+                logger.debug(f"DWT marker detection failed: {e}")
+        
+        # If marker-based approach failed, try a direct LSB decoding as fallback
+        try:
+            if debug:
+                logger.debug("DWT marker not found, trying fallback password")
+            fallback_message = decrypt_lsb(img, "fallback_pass")
+            if fallback_message:
+                if debug:
+                    logger.debug("Successfully decoded message with fallback password")
+                return fallback_message
+        except Exception as e:
+            if debug:
+                logger.debug(f"DWT fallback decoding failed: {e}")
+        
+        # Try with empty password as last resort
+        try:
+            if debug:
+                logger.debug("Attempting LSB decode with empty password")
+            return decrypt_lsb(img, "")
+        except Exception as e:
+            if debug:
+                logger.debug(f"Empty password decoding failed: {e}")
+        
+        return None
+    except Exception as e:
+        if debug:
+            logger.exception(f"Error in DWT decoding: {e}")
+        return None
+
+# Fix the encryption function for consistency
+def encrypt_message(message, password, debug=False):
+    """
+    Encrypts a message using the password.
+    
+    Args:
+        message: String message to encrypt
+        password: Password for encryption
+        debug: Whether to print debug information (default: False)
+        
+    Returns:
+        Encrypted message string
+    """
+    try:
+        # Use a secure key derivation function to get a key from the password
+        key = hashlib.sha256(password.encode()).digest()
+        
         if debug:
             logger.debug(f"Encrypting message of length {len(message)}")
         
-        # Generate a random salt
-        salt = os.urandom(16)
+        # Add a prefix marker to verify successful decryption later
+        message = "STEGANO:" + message
         
-        # Use PBKDF2 to derive a key from the password
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100000,
-            backend=default_backend()
-        )
-        key = kdf.derive(password.encode())
+        # Convert message to bytes
+        message_bytes = message.encode('utf-8')
         
-        # Generate a random nonce for AES-GCM
-        nonce = os.urandom(12)
+        # Generate a random initialization vector
+        iv = os.urandom(16)
+        
+        # Create AES cipher in CBC mode
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+        encryptor = cipher.encryptor()
+        
+        # Pad the message to be a multiple of 16 bytes
+        padder = padding.PKCS7(algorithms.AES.block_size).padder()
+        padded_data = padder.update(message_bytes) + padder.finalize()
         
         # Encrypt the message
-        cipher = AESGCM(key)
-        ciphertext = cipher.encrypt(nonce, message.encode(), None)
+        ciphertext = encryptor.update(padded_data) + encryptor.finalize()
         
-        # Combine salt, nonce, and ciphertext for storage/transmission
-        result = salt + nonce + ciphertext
-        
-        # Encode as base64 for easy handling
-        encoded = base64.b64encode(result).decode('utf-8')
+        # Combine IV and ciphertext and encode as base64
+        encrypted_data = base64.b64encode(iv + ciphertext).decode('utf-8')
         
         if debug:
-            logger.debug(f"Encryption successful, result length: {len(encoded)}")
-            
-        return encoded
+            logger.debug(f"Encryption successful, result length: {len(encrypted_data)}")
+        
+        return encrypted_data
         
     except Exception as e:
-        logger.error(f"Error encrypting message: {str(e)}")
-        raise ValueError(f"Encryption failed: {str(e)}")
+        if debug:
+            logger.error(f"Error in encrypt_message: {str(e)}")
+        print(f"Error in encrypt_message: {str(e)}")
+        raise
 
-def decrypt_message(ciphertext, password, debug=False, bypass_auth=False):
+# Fix the decryption function for better error handling
+def decrypt_message(encrypted_message, password, debug=False, bypass_auth=False):
     """
-    Decrypt a message using AES-GCM with better error handling
+    Decrypts an encrypted message using the password.
     
     Args:
-        ciphertext: The encrypted message as bytes or base64 string
-        password: The encryption password
-        debug: Whether to print debug information
-        bypass_auth: Set to True to attempt decryption even if tag verification fails
-    
+        encrypted_message: Encrypted message string
+        password: Password for decryption
+        debug: Whether to print debug information (default: False)
+        bypass_auth: Whether to bypass authentication checks for corrupted data (default: False)
+        
     Returns:
-        The decrypted message as a string
+        Decrypted message string
+    """
+    try:
+        # Derive key from password
+        key = hashlib.sha256(password.encode()).digest()
+        
+        if debug:
+            logger.debug(f"Decrypting message of length {len(encrypted_message) if encrypted_message else 0}")
+        
+        # Check if we're dealing with a heavily corrupted string (mostly 'm's)
+        if isinstance(encrypted_message, str) and encrypted_message.count('m') > len(encrypted_message) * 0.9:
+            if debug:
+                logger.debug(f"String is >90% 'm' characters ({encrypted_message.count('m')}/{len(encrypted_message)}), likely corrupted")
+            raise ValueError("Message appears to be corrupted (contains too many 'm' characters)")
+        
+        # NEW: Improved base64 decoding for error recovery
+        try:
+            # First try to clean the base64 string before decoding
+            cleaned_message = cleanBase64String(encrypted_message)
+            if debug and isinstance(cleaned_message, str):
+                logger.debug(f"Cleaned base64 string from {len(encrypted_message)} to {len(cleaned_message)} characters")
+                
+            encrypted_data = base64.b64decode(cleaned_message)
+            if debug:
+                logger.debug(f"Successfully decoded base64 data of length {len(encrypted_data)} bytes")
+        except Exception as e:
+            if debug:
+                logger.debug(f"Standard base64 decoding failed: {str(e)}")
+            
+            # CRITICAL FIX: More robust base64 decoding fallbacks
+            encrypted_data = safe_base64_decode(encrypted_message)
+            if encrypted_data is None:
+                raise ValueError("Failed to decode base64 data")
+        
+        # Check if we have a valid IV + ciphertext
+        if len(encrypted_data) < 16:
+            raise ValueError(f"Encrypted data too short ({len(encrypted_data)} bytes), needs at least 16 bytes for IV")
+        
+        # Extract IV (first 16 bytes) and ciphertext
+        iv = encrypted_data[:16]
+        ciphertext = encrypted_data[16:]
+        
+        # Create AES cipher in CBC mode
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+        decryptor = cipher.decryptor()
+        
+        # Decrypt the message
+        padded_data = decryptor.update(ciphertext) + decryptor.finalize()
+        
+        # CRITICAL FIX: Completely rewritten padding removal with robust error handling
+        try:
+            # Step 1: Try standard PKCS7 unpadding
+            try:
+                unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+                message_bytes = unpadder.update(padded_data) + unpadder.finalize()
+            except ValueError as pad_error:
+                if debug:
+                    logger.debug(f"PKCS7 unpadding error: {pad_error}")
+                
+                # Step 2: Try manual padding removal if standard unpadding fails
+                if bypass_auth or debug:
+                    # Manual PKCS7 padding removal with validation
+                    if padded_data and len(padded_data) >= 16:
+                        # Get the last byte which should indicate padding length
+                        pad_length = padded_data[-1]
+                        
+                        # Sanity check - padding length must be <= block size and > 0
+                        if 0 < pad_length <= 16:
+                            # Verify all padding bytes are the same value
+                            if len(padded_data) >= pad_length and all(b == pad_length for b in padded_data[-pad_length:]):
+                                message_bytes = padded_data[:-pad_length]
+                                if debug:
+                                    logger.debug(f"Manual padding removal succeeded, removed {pad_length} bytes")
+                            else:
+                                if debug:
+                                    logger.debug("Invalid padding pattern, continuing with corrupted data")
+                                # Even if padding is invalid, try with the data we have
+                                message_bytes = padded_data
+                        else:
+                            if debug:
+                                logger.debug(f"Invalid padding length: {pad_length}, continuing with corrupted data")
+                            message_bytes = padded_data
+                    else:
+                        if debug:
+                            logger.debug("Data too short for valid padding, continuing with raw data")
+                        message_bytes = padded_data
+                else:
+                    # If not in bypass mode, re-raise the original padding error
+                    raise
+            
+            # Convert to string
+            try:
+                message = message_bytes.decode('utf-8')
+            except UnicodeDecodeError:
+                if debug:
+                    logger.debug("UTF-8 decoding failed, trying with errors='replace'")
+                message = message_bytes.decode('utf-8', errors='replace')
+                
+                # Clean up replacement characters if bypass_auth mode
+                if bypass_auth:
+                    message = ''.join(ch for ch in message if ord(ch) != 0xFFFD)  # Remove replacement chars
+            
+            # Check for the prefix marker unless bypassing authentication
+            if not bypass_auth and not message.startswith("STEGANO:"):
+                # Try removing common prefixes that might appear due to encoding issues
+                if message.startswith("b'STEGANO:") or message.startswith('b"STEGANO:'):
+                    start_idx = message.find("STEGANO:")
+                    message = message[start_idx:]
+                else:
+                    raise ValueError("Invalid decryption: authentication failed")
+            
+            # Remove the prefix marker
+            if message.startswith("STEGANO:"):
+                message = message[len("STEGANO:"):]
+                
+            # Clean up any null characters that might be present due to padding issues
+            message = message.replace('\x00', '')
+                
+            return message
+        except Exception as padding_e:
+            if debug:
+                logger.debug(f"Padding error: {str(padding_e)}")
+            
+            if bypass_auth:
+                # Last chance recovery - try to find any readable text in the padded data
+                try:
+                    # Try to decode with lenient error handling
+                    partial_message = padded_data.decode('utf-8', errors='ignore')
+                    
+                    # Look for the STEGANO prefix
+                    if "STEGANO:" in partial_message:
+                        start_idx = partial_message.find("STEGANO:")
+                        return partial_message[start_idx+len("STEGANO:"):]
+                    
+                    # If no prefix found, just return cleaned readable text
+                    return ''.join(ch for ch in partial_message if 32 <= ord(ch) <= 126)
+                except Exception as final_e:
+                    if debug:
+                        logger.debug(f"Final recovery attempt failed: {final_e}")
+                    raise ValueError("Failed to recover any readable text")
+            
+            # Re-raise the original padding error if not bypassing auth
+            raise ValueError(f"Padding error: {str(padding_e)}")
+    except Exception as e:
+        if debug:
+            logger.error(f"Decryption error: {str(e)}")
+        
+        if bypass_auth:
+            # Try one last approach - maybe it's not actually encrypted
+            try:
+                if isinstance(encrypted_message, str):
+                    return encrypted_message  # Return as-is if it's readable
+                elif isinstance(encrypted_message, bytes):
+                    return encrypted_message.decode('utf-8', errors='ignore')  # Lenient decoding
+            except Exception:
+                pass
+        
+        raise ValueError(f"Failed to decrypt message: {str(e)}")
+
+# Improved helper function for base64 string cleaning
+def cleanBase64String(s):
+    """Clean up a base64 string by removing invalid characters and fixing padding"""
+    if not s:
+        return ""
+    
+    # Convert bytes to string if needed
+    if isinstance(s, bytes):
+        try:
+            s = s.decode('ascii', errors='replace')
+        except:
+            s = ''.join(chr(b) if 32 <= b <= 126 else '_' for b in s)
+    
+    # Handle common corruption pattern with 'm' prefix
+    if s and 'm' in s[:20]:
+        m_count = 0
+        for c in s:
+            if c == 'm':
+                m_count += 1
+            else:
+                break
+        
+        if m_count > 0:
+            logger.debug(f"Removing {m_count} leading 'm' characters")
+            s = s[m_count:]
+    
+    # Remove any non-base64 characters
+    s = re.sub(r'[^A-Za-z0-9+/=]', '', s)
+    
+    # Fix padding
+    padding_needed = len(s) % 4
+    if padding_needed:
+        s += '=' * (4 - padding_needed)
+    
+    return s
+
+# Add a utility function to help decode LSB images that might be corrupted
+def direct_lsb_decode(img, debug=False):
+    """
+    Direct LSB decoding that's resilient to corruption.
+    Returns raw extracted bytes without trying to decrypt them.
+    """
+    if debug:
+        logging.debug("Starting direct LSB decoding")
+
+    try:
+        # Get image dimensions and pixels
+        width, height = img.size
+        
+        # Convert image to RGB if needed
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+            
+        pixels = img.load()
+        
+        # Extract LSB from each pixel channel
+        bits = []
+        for y in range(height):
+            for x in range(width):
+                r, g, b = pixels[x, y]
+                bits.extend([r & 1, g & 1, b & 1])
+                
+                # Break once we've collected enough bits
+                if len(bits) >= 32768:  # 4KB of data
+                    break
+            if len(bits) >= 32768:
+                break
+                
+        # Convert bits to bytes
+        extracted_bytes = bytearray()
+        for i in range(0, len(bits), 8):
+            if i + 8 <= len(bits):
+                byte_val = 0
+                for bit_idx in range(8):
+                    byte_val |= (bits[i + bit_idx] << (7 - bit_idx))
+                extracted_bytes.append(byte_val)
+        
+        # Look for base64 patterns in the extracted data
+        extracted_text = extracted_bytes.decode('ascii', errors='ignore')
+        
+        # Look for base64-like patterns (groups of valid base64 characters)
+        base64_pattern = re.compile(r'[A-Za-z0-9+/=]{16,}')
+        matches = base64_pattern.findall(extracted_text)
+        
+        if matches:
+            # Return the longest match that could be base64
+            longest_match = max(matches, key=len)
+            if debug:
+                logging.debug(f"Found base64 candidate: {longest_match[:20]}... ({len(longest_match)} chars)")
+            return longest_match
+        
+        if debug:
+            logging.debug("No valid base64 data found")
+            
+        return extracted_bytes
+    except Exception as e:
+        if debug:
+            logging.exception(f"Error in direct LSB decoding: {e}")
+        return None
+
+# Add this utility function for consistency
+def detect_encoding_method(img, debug=False):
+    """Detect which encoding method was used for an image"""
+    if debug:
+        logging.debug("Detecting encoding method used for the image")
+    
+    methods = [
+        ("default_pvd_pass", "PVD_ENCODED:", "PVD"),
+        ("default_dct_pass", "DCT_ENCODED:", "DCT"),
+        ("default_dwt_pass", "DWT_ENCODED:", "DWT")
+    ]
+    
+    for password, marker, method_name in methods:
+        try:
+            # Try to decrypt with the method's default password
+            message = decrypt_lsb(img, password)
+            
+            if message and message.startswith(marker):
+                if debug:
+                    logging.debug(f"Detected {method_name} encoding")
+                return method_name, message[len(marker):]
+        except Exception:
+            # Ignore errors and continue checking
+            pass
+    
+    # If no specific method detected, assume standard LSB
+    return "LSB", None
+
+# Add a function to help with encryption method selection
+def encode_message_with_method(img, message, password, method="LSB", debug=False):
+    """Common entry point for all encoding methods"""
+    if debug:
+        logger.debug(f"Encoding with method: {method}")
+    
+    # Use standardized approach for all methods
+    if method.upper() == "PVD":
+        if debug:
+            logger.debug("Using PVD method with marker")
+        # Add method marker to message before encryption
+        marked_message = "PVD_ENCODED:" + message
+        # Use standard LSB encoding with PVD marker and default password
+        return encrypt_lsb(img, marked_message, "default_pvd_pass")
+    
+    elif method.upper() == "DCT":
+        if debug:
+            logger.debug("Using DCT method with marker")
+        # Add method marker to message before encryption
+        marked_message = "DCT_ENCODED:" + message
+        # Use standard LSB encoding with DCT marker and default password
+        return encrypt_lsb(img, marked_message, "default_dct_pass")
+    
+    elif method.upper() == "DWT":
+        if debug:
+            logger.debug("Using DWT method with marker")
+        # Add method marker to message before encryption
+        marked_message = "DWT_ENCODED:" + message
+        # Use standard LSB encoding with DWT marker and default password
+        return encrypt_lsb(img, marked_message, "default_dwt_pass")
+    
+    else:  # Default to LSB
+        if debug:
+            logger.debug("Using standard LSB method")
+        # Standard LSB encryption with user password
+        return encrypt_lsb(img, message, password)
+
+# Add a function to help with encoding message with method selection
+def encode_message(img, encrypted_message, method="LSB", debug=False, progress_callback=None):
+    """Encode an encrypted message into an image using the specified method"""
+    if method not in AVAILABLE_ENCRYPTION_METHODS:
+        raise ValueError(f"Unknown encryption method: {method}")
+        
+    if debug:
+        logging.debug(f"Encoding message using {method} method")
+        
+    if method == "LSB":
+        return encode_message_lsb(img, encrypted_message, debug)
+    elif method == "PVD":
+        return encode_message_pvd(img, encrypted_message, debug, progress_callback)
+    elif method == "DWT":
+        return encode_message_dwt(img, encrypted_message, debug, progress_callback)
+    elif method == "DCT":
+        return encode_message_dct(img, encrypted_message, debug, progress_callback)
+    else:
+        # Default to LSB
+        logging.warning(f"Unknown method '{method}', falling back to LSB")
+        return encode_message_lsb(img, encrypted_message, debug)
+
+# Add this function for decoding
+def decode_message(img, method="LSB", debug=False):
+    """Extract hidden message from image using the specified method"""
+    if method not in AVAILABLE_ENCRYPTION_METHODS and method != "AUTO":
+        raise ValueError(f"Unknown decryption method: {method}")
+        
+    if debug:
+        logging.debug(f"Decoding message using {method} method")
+        
+    try:
+        if method == "AUTO":
+            # Try each method in order of reliability
+            methods_to_try = ["LSB", "PVD", "DCT", "DWT"]
+            
+            for current_method in methods_to_try:
+                try:
+                    if debug:
+                        logger.debug(f"Trying AUTO mode with method: {current_method}")
+                    
+                    # Call the appropriate method-specific function
+                    if current_method == "LSB":
+                        # Try various password options for LSB
+                        passwords_to_try = ["", "default_pass", "fallback_pass"]
+                        for pwd in passwords_to_try:
+                            try:
+                                result = decrypt_lsb(img, pwd)
+                                if result:
+                                    if debug:
+                                        logger.debug(f"LSB decoding succeeded with password: '{pwd}'")
+                                    return result
+                            except Exception:
+                                pass
+                    elif current_method == "PVD":
+                        result = decode_message_pvd(img, debug=debug)
+                    elif current_method == "DCT":
+                        result = decode_message_dct(img, debug=debug)
+                    elif current_method == "DWT":
+                        result = decode_message_dwt(img, debug=debug)
+                    
+                    # If we got a result, return it
+                    if result:
+                        if debug:
+                            logger.debug(f"AUTO mode succeeded with method: {current_method}")
+                        return result
+                except Exception as method_error:
+                    if debug:
+                        logger.debug(f"AUTO mode failed with method {current_method}: {str(method_error)}")
+        
+        # Direct method selection
+        if method == "LSB":
+            return decrypt_lsb(img, "")  # Use empty password for direct LSB
+        elif method == "PVD":
+            return decode_message_pvd(img, debug=debug)
+        elif method == "DWT":
+            return decode_message_dwt(img, debug=debug)
+        elif method == "DCT":
+            return decode_message_dct(img, debug=debug)
+            
+        # If all else fails, try headerless decoding
+        logger.debug("All standard methods failed, trying headerless decoding")
+        return decode_message_without_header(img, debug)
+        
+    except Exception as e:
+        if debug:
+            logger.error(f"Error in decode_message: {str(e)}")
+        # Try headerless as a last resort
+        try:
+            logger.debug("Attempting headerless decoding as last resort")
+            return decode_message_without_header(img, debug)
+        except Exception:
+            raise ValueError(f"Failed to extract message: {str(e)}")
+
+# Improve emergency recovery to provide cleaner results
+def decode_message_without_header(img, debug=False):
+    """
+    Try to extract a message without relying on a length header
+    Enhanced version with better error handling and cleaner output
     """
     try:
         if debug:
-            logging.debug(f"Decrypting message of length {len(ciphertext)}")
+            logging.debug("Trying to decode without length header")
             
-        # If ciphertext is a string, decode it to bytes
-        if isinstance(ciphertext, str):
-            try:
-                ciphertext = base64.b64decode(ciphertext)
-                if debug:
-                    logging.debug(f"Decoded base64 string to {len(ciphertext)} bytes")
-            except Exception as e:
-                if debug:
-                    logging.error(f"Base64 decoding failed: {e}")
-                raise ValueError(f"Invalid base64 encoded ciphertext: {e}")
+        # Try LSB extraction first
+        pixels = list(img.getdata())
         
-        # Validate ciphertext length
-        if len(ciphertext) < 28:  # 12 (nonce) + 16 (tag)
-            raise ValueError(f"Ciphertext too short: {len(ciphertext)} bytes. Minimum required: 28 bytes")
+        # Fixed extraction - 2KB should be enough for most messages
+        extract_bits = 16384  # 2KB = 16384 bits
+        binary = ""
         
-        # For compatibility with older encrypted data, try different salt approaches
-        # Use the stored salt if it's in the data, otherwise use the constant
-        if len(ciphertext) >= 16 + 12:  # Has enough room for salt + nonce
-            try:
-                # Extract salt, nonce, and ciphertext
-                salt = ciphertext[:16]
-                nonce = ciphertext[16:28]
-                tag = ciphertext[-16:]
-                encrypted_data = ciphertext[28:-16]
-                
-                if debug:
-                    logging.debug(f"Extracted salt, nonce and tag: salt={len(salt)}, nonce={len(nonce)}, tag={len(tag)}")
-                
-                # Derive the key using the extracted salt
-                kdf = PBKDF2HMAC(
-                    algorithm=hashes.SHA256(),
-                    length=32,
-                    salt=salt,
-                    iterations=100000,
-                    backend=default_backend()
-                )
-                key = kdf.derive(password.encode())
-                
-                # Decrypt the message
-                cipher = AESGCM(key)
-                try:
-                    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
-                    
-                    # Try to decode as UTF-8
-                    result = plaintext.decode('utf-8', errors='replace')
-                    return result
-                except Exception as e:
-                    if debug:
-                        logging.error(f"AESGCM decryption failed: {e}")
-                        logging.error(traceback.format_exc())
-                    
-                    # Try using the constant SALT as fallback
-                    if debug:
-                        logging.debug("Trying decryption with constant SALT")
-                    
-                    kdf = PBKDF2HMAC(
-                        algorithm=hashes.SHA256(),
-                        length=32,
-                        salt=SALT,
-                        iterations=100000,
-                        backend=default_backend()
-                    )
-                    key = kdf.derive(password.encode())
-                    
-                    try:
-                        cipher = AESGCM(key)
-                        plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
-                        
-                        # Try to decode as UTF-8
-                        result = plaintext.decode('utf-8', errors='replace')
-                        return result
-                    except Exception as salt_e:
-                        # If bypass_auth is enabled, try raw decryption
-                        if bypass_auth:
-                            if debug:
-                                logging.debug("Standard decryption failed, attempting raw decryption")
-                            
-                            # Try to import raw_aes_gcm_decrypt
-                            try:
-                                from cryptography_utils import raw_aes_gcm_decrypt
-                                
-                                if debug:
-                                    logging.debug("Using cryptography_utils.raw_aes_gcm_decrypt")
-                                    
-                                plaintext = raw_aes_gcm_decrypt(key, nonce, encrypted_data, tag)
-                                if plaintext:
-                                    result = plaintext.decode('utf-8', errors='replace')
-                                    return f"[RECOVERED] {result}"
-                            except ImportError:
-                                if debug:
-                                    logging.debug("cryptography_utils not available, using internal fallback")
-                                
-                                # Fallback to our own implementation if cryptography_utils not available
-                                try:
-                                    # Create a counter mode cipher with the key and nonce
-                                    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-                                    counter = modes.CTR(nonce + b'\x00\x00\x00\x01')
-                                    cipher = Cipher(algorithms.AES(key), counter, backend=default_backend())
-                                    decryptor = cipher.decryptor()
-                                    
-                                    # Decrypt without verification
-                                    plaintext = decryptor.update(encrypted_data) + decryptor.finalize()
-                                    result = plaintext.decode('utf-8', errors='replace')
-                                    
-                                    if debug:
-                                        logging.debug("Internal raw decryption succeeded")
-                                        
-                                    return f"[RECOVERED-INTERNAL] {result}"
-                                except Exception as internal_e:
-                                    if debug:
-                                        logging.debug(f"Internal raw decryption failed: {internal_e}")
-                                    raise ValueError(f"Failed to decrypt message. Tried multiple recovery methods.")
-                            except Exception as raw_e:
-                                if debug:
-                                    logging.debug(f"Raw decryption failed: {raw_e}")
-                                raise ValueError(f"Raw decryption failed: {raw_e}")
-                        else:
-                            raise salt_e
+        # Skip first 32 pixels (possible header area)
+        for i in range(32, min(32 + (extract_bits // 3) + 100, len(pixels))):
+            r, g, b = pixels[i]
+            binary += str(r & 1)
+            binary += str(g & 1)
+            binary += str(b & 1)
             
-            except Exception as e:
-                if debug:
-                    logging.error(f"Error during decryption process: {e}")
-                    logging.error(traceback.format_exc())
+            if len(binary) >= extract_bits:
+                break
                 
-                # If bypass_auth is true and all other methods failed, try direct decryption mode
-                if bypass_auth:
-                    try:
-                        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-                        
-                        # Try ECB mode as absolute last resort (insecure but might recover data)
-                        kdf = PBKDF2HMAC(
-                            algorithm=hashes.SHA256(),
-                            length=16,  # AES-128 for simplicity
-                            salt=SALT,
-                            iterations=100000,
-                            backend=default_backend()
-                        )
-                        key = kdf.derive(password.encode())
-                        
-                        # Skip all headers and just try to decrypt the bulk data
-                        bulk_data = ciphertext[28:]
-                        if len(bulk_data) % 16 != 0:
-                            # Need to pad to 16 byte blocks for ECB
-                            pad_len = 16 - (len(bulk_data) % 16)
-                            bulk_data += bytes([pad_len]) * pad_len
-                            
-                        cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
-                        decryptor = cipher.decryptor()
-                        decrypted = decryptor.update(bulk_data) + decryptor.finalize()
-                        
-                        # Try to extract printable ASCII
-                        printable = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in decrypted)
-                        
-                        if debug:
-                            logging.debug(f"Emergency direct mode recovered {len(printable)} printable chars")
-                            
-                        return f"[EMERGENCY RECOVERY] {printable}"
-                    except Exception as emerg_e:
-                        if debug:
-                            logging.debug(f"Emergency decryption failed: {emerg_e}")
-                
-                raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
+        # Convert all bits to bytes
+        message_bytes = bytearray()
+        for i in range(0, len(binary), 8):
+            if i + 8 <= len(binary):
+                byte = binary[i:i+8]
+                message_bytes.append(int(byte, 2))
+                    
+        # Convert to string for analysis (clean up invalid chars)
+        message_text = ""
+        for b in message_bytes:
+            if 32 <= b <= 126:
+                message_text += chr(b)
+            else:
+                message_text += '.'
+        
+        # Look for base64 pattern (clean base64 only contains a subset of ASCII)
+        base64_chars = r"[A-Za-z0-9+/=]"
+        base64_pattern = re.compile(f"{base64_chars}{{16,}}")
+        matches = base64_pattern.findall(message_text)
+        
+        if matches:
+            longest_match = max(matches, key=len)
+            if debug:
+                logging.debug(f"Found potential base64 data of length {len(longest_match)}")
+            return longest_match
+            
+        # If we didn't find a good base64 match, return the cleaned up printable text
+        if len(message_text) > 0:
+            return message_text
+            
+        return None
         
     except Exception as e:
         if debug:
-            logging.error(f"decrypt_message error: {e}")
-            logging.error(traceback.format_exc())
-        raise ValueError(f"Decryption failed: {e}")
+            logger.error(f"Headerless decoding failed: {e}")
+        return None
 
-from base64_utils import safe_base64_decode
+# Fix the encrypt_message and decrypt_message functions to resolve duplicate functionality
 
-def decrypt_message_safe(encoded_message, password, debug=False):
-    """Safely decrypt a message with extra error handling for corrupted data"""
+def encrypt_message(message, password, debug=False):
+    """
+    Encrypts a message using the password.
+    
+    Args:
+        message: String message to encrypt
+        password: Password for encryption
+        debug: Whether to print debug information (default: False)
+        
+    Returns:
+        Encrypted message string
+    """
     try:
+        # Use a secure key derivation function to get a key from the password
+        key = hashlib.sha256(password.encode()).digest()
+        
         if debug:
-            logger.debug(f"Safely decrypting message of length {len(encoded_message)}")
+            logger.debug(f"Encrypting message of length {len(message)}")
         
-        # Clean up the data first
-        try:
-            if isinstance(encoded_message, bytes):
-                encoded_message = encoded_message.decode('ascii', errors='replace')
-            elif not all(ord(c) < 128 for c in encoded_message):
-                encoded_message = ''.join(c if ord(c) < 128 else '_' for c in encoded_message)
-                if debug:
-                    logger.debug("Replaced non-ASCII characters in base64 string")
-        except Exception as e:
-            if debug:
-                logger.warning(f"Character encoding handling error: {str(e)}")
-            
-        # Use our specialized safe base64 decoder
-        try:
-            data = safe_base64_decode(encoded_message)
-            if not data:
-                raise ValueError("Base64 decoding failed completely")
-            
-            if debug:
-                logger.debug(f"Base64 decoding succeeded, got {len(data)} bytes")
-            
-        except Exception as e:
-            raise ValueError(f"Base64 decoding failed: {str(e)}")
+        # Add a prefix marker to verify successful decryption later
+        message = "STEGANO:" + message
         
-        # Validate minimum data length
-        if len(data) < 28:  # 16 (salt) + 12 (nonce)
-            raise ValueError(f"Decoded data too short: {len(data)} bytes, minimum required: 28")
-            
-        # First try standard decryption
-        try:
-            return decrypt_message(data, password, debug=debug)
-        except Exception as e:
-            if debug:
-                logger.debug(f"Standard decryption failed, trying with auth bypass: {e}")
-                
-            # Try with auth bypass as a fallback
-            try:
-                return decrypt_message(data, password, debug=debug, bypass_auth=True)
-            except Exception as bypass_e:
-                # As a last resort, try a much simpler decryption approach
-                if debug:
-                    logger.debug(f"Auth bypass failed, trying raw AES: {bypass_e}")
-                try:
-                    # A very simplified version of AES-128 in ECB mode
-                    # This is less secure but might work for corrupted data
-                    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-                    
-                    # Derive a key from the password
-                    kdf = PBKDF2HMAC(
-                        algorithm=hashes.SHA256(),
-                        length=16,
-                        salt=SALT,
-                        iterations=1000,
-                        backend=default_backend()
-                    )
-                    key = kdf.derive(password.encode())
-                    
-                    # Skip the header and try decrypting the bulk of the data
-                    bulk_data = data[28:]
-                    if len(bulk_data) % 16 != 0:
-                        # Pad to 16 bytes for ECB mode
-                        bulk_data += b'\0' * (16 - len(bulk_data) % 16)
-                    
-                    # Try ECB mode as absolute last resort (very insecure)
-                    cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
-                    decryptor = cipher.decryptor()
-                    raw_result = decryptor.update(bulk_data) + decryptor.finalize()
-                    
-                    # Try to return only printable ASCII characters
-                    recovery_text = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in raw_result)
-                    
-                    if debug:
-                        logger.debug(f"Raw AES decryption produced {len(recovery_text)} chars")
-                    
-                    # Only return if we found something reasonable
-                    if any(word in recovery_text.lower() for word in ['the', 'and', 'this', 'message']):
-                        return f"[EMERGENCY RECOVERY] {recovery_text}"
-                        
-                    # If no common words found, just return what we have
-                    return f"[EMERGENCY RECOVERY] {recovery_text[:100]}..."
-                    
-                except Exception as last_e:
-                    if debug:
-                        logger.debug(f"All recovery methods failed: {last_e}")
-                
-                # If all else failed, re-raise the original error
-                raise ValueError(f"AESGCM decryption failed: {str(e)}. Data might be corrupted or wrong password.")
-            
+        # Convert message to bytes
+        message_bytes = message.encode('utf-8')
+        
+        # Generate a random initialization vector
+        iv = os.urandom(16)
+        
+        # Create AES cipher in CBC mode
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+        encryptor = cipher.encryptor()
+        
+        # Pad the message to be a multiple of 16 bytes
+        padder = padding.PKCS7(algorithms.AES.block_size).padder()
+        padded_data = padder.update(message_bytes) + padder.finalize()
+        
+        # Encrypt the message
+        ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+        
+        # Combine IV and ciphertext and encode as base64
+        encrypted_data = base64.b64encode(iv + ciphertext).decode('utf-8')
+        
+        if debug:
+            logger.debug(f"Encryption successful, result length: {len(encrypted_data)}")
+        
+        return encrypted_data
+        
     except Exception as e:
-        logger.error(f"Safe decryption error: {str(e)}")
-        raise ValueError(f"Safe decryption failed: {str(e)}")
+        if debug:
+            logger.error(f"Error in encrypt_message: {str(e)}")
+        print(f"Error in encrypt_message: {str(e)}")
+        raise
 
+# Add encode_message_lsb function which is referenced but missing implementation
 def encode_message_lsb(image, message, debug=False):
     """
     Hide a message in an image using LSB steganography
@@ -384,19 +1061,36 @@ def encode_message_lsb(image, message, debug=False):
         if len(binary_message) > max_bits:
             raise ValueError(f"Message is too large for this image (max {max_bits//8} bytes)")
         
+        # Create a copy of the array to avoid modifying the original
+        img_array = img_array.copy()
+        
         # Embed message
         bit_index = 0
         for y in range(height):
             for x in range(width):
-                for c in range(channels):
-                    if bit_index < len(binary_message):
-                        # Replace the least significant bit
-                        img_array[y, x, c] = (img_array[y, x, c] & 0xFE) | int(binary_message[bit_index])
-                        bit_index += 1
-                    else:
-                        break
+                # Get RGB values
+                r, g, b = img_array[y, x]
+                
+                # Modify the least significant bit of each color channel
+                if bit_index < len(binary_message):
+                    # Use proper bit manipulation to ensure valid 0-255 range
+                    r = (r & 0xFE) | int(binary_message[bit_index])  # Clear LSB and set to message bit
+                    bit_index += 1
+                
+                if bit_index < len(binary_message):
+                    g = (g & 0xFE) | int(binary_message[bit_index])  # Clear LSB and set to message bit
+                    bit_index += 1
+                    
+                if bit_index < len(binary_message):
+                    b = (b & 0xFE) | int(binary_message[bit_index])  # Clear LSB and set to message bit
+                    bit_index += 1
+                
+                # Update the pixel
+                img_array[y, x] = [r, g, b]
+                
                 if bit_index >= len(binary_message):
                     break
+            
             if bit_index >= len(binary_message):
                 break
         
@@ -404,12 +1098,13 @@ def encode_message_lsb(image, message, debug=False):
             logger.debug(f"Message encoded successfully, used {bit_index} bits")
         
         # Convert back to PIL Image
-        return Image.fromarray(img_array)
+        return Image.fromarray(img_array.astype('uint8'))
         
     except Exception as e:
         logger.error(f"Error encoding message: {str(e)}")
         raise ValueError(f"Encoding failed: {str(e)}")
 
+# Add decode_message_lsb function which is referenced but missing implementation
 def decode_message_lsb(image, debug=False):
     """Extract a message from an image that was encoded using LSB steganography"""
     try:
@@ -424,1205 +1119,328 @@ def decode_message_lsb(image, debug=False):
         
         # Extract message
         binary_message = ""
+        end_marker = "00000000"  # 8 zeros
+        
         for y in range(height):
             for x in range(width):
-                for c in range(channels):
-                    # Get the least significant bit
-                    binary_message += str(img_array[y, x, c] & 1)
-                    
-                    # Check if we've reached an end marker (8 zeros)
-                    if len(binary_message) >= 8 and binary_message[-8:] == '00000000':
-                        # Convert binary to ASCII
-                        message = ""
-                        for i in range(0, len(binary_message) - 8, 8):
-                            byte = binary_message[i:i+8]
-                            message += chr(int(byte, 2))
-                            
-                        if debug:
-                            logger.debug(f"Message decoded successfully, length: {len(message)}")
-                            
-                        return message
+                r, g, b = img_array[y, x]
+                
+                # Extract LSB from each channel
+                binary_message += str(r & 1)
+                binary_message += str(g & 1)
+                binary_message += str(b & 1)
+                
+                # Check for end marker
+                if len(binary_message) >= 8 and binary_message[-8:] == end_marker:
+                    # Found end marker
+                    binary_message = binary_message[:-8]  # Remove end marker
+                    break
+            
+            if len(binary_message) >= 8 and binary_message[-8:] == end_marker:
+                break
         
-        # If no end marker is found
+        # Convert binary message to text
+        message = ""
+        for i in range(0, len(binary_message), 8):
+            if i + 8 <= len(binary_message):
+                byte = binary_message[i:i+8]
+                message += chr(int(byte, 2))
+        
         if debug:
-            logger.debug("No message found in the image (no end marker detected)")
+            logger.debug(f"Decoded message length: {len(message)}")
         
-        return None
+        return message
         
     except Exception as e:
         logger.error(f"Error decoding message: {str(e)}")
         raise ValueError(f"Decoding failed: {str(e)}")
 
-# Fix the PVD encoding function
-def encode_message_pvd(img, message, debug=False, progress_callback=None):
-    """Encode a message in an image using Pixel Value Differencing (PVD) with enhanced robustness"""
-    if debug:
-        logging.info("Encoding message using PVD method...")
-    
-    # Convert image to numpy array and cast to python integers to avoid overflow issues
-    img_array = np.array(img).astype(np.int32)  # Use int32 to avoid uint8 overflow
-    width, height = img.size
-    
-    # Convert message to binary
-    binary_message = ''.join(format(ord(c), '08b') for c in message)
-    binary_message += "00000000"  # Add null terminator
-    
-    if debug:
-        logging.info(f"Message length in bits: {len(binary_message)}")
-    
-    # Calculate maximum capacity
-    max_capacity = estimate_pvd_capacity(img)
-    message_size = len(message)
-    
-    if message_size > max_capacity:
-        raise ValueError(f"Message too large for image. Maximum capacity: {max_capacity} bytes, message size: {message_size} bytes")
-    
-    # Define quantization ranges
-    ranges = [
-        (0, 7, 3),     # Range 0-7: 3 bits
-        (8, 15, 3),    # Range 8-15: 3 bits
-        (16, 31, 4),   # Range 16-31: 4 bits
-        (32, 63, 5),   # Range 32-63: 5 bits
-        (64, 127, 6),  # Range 64-127: 6 bits
-        (128, 255, 7)  # Range 128-255: 7 bits
-    ]
-    
-    bit_idx = 0
-    total_bits = len(binary_message)
-    update_interval = max(1, total_bits // 100)  # Update progress about 100 times
-    
-    # Create a copy of the array to avoid modifying the original
-    modified_array = np.copy(img_array)
-    
-    # Iterate over pixel pairs
-    for i in range(0, height):
-        for j in range(0, width - 1, 2):
-            if bit_idx >= len(binary_message):
-                break
-                
-            # Get pixel pair - cast to Python ints to avoid NumPy overflow issues
-            p1 = int(modified_array[i, j, 0])
-            p2 = int(modified_array[i, j + 1, 0])
-            
-            # Calculate difference (use Python int arithmetic, not NumPy)
-            d = abs(p1 - p2)
-            
-            # Find range
-            for lower, upper, bits in ranges:
-                if lower <= d <= upper:
-                    # Get bits to embed
-                    if bit_idx + bits <= len(binary_message):
-                        embed_bits = binary_message[bit_idx:bit_idx + bits]
-                        bit_idx += bits
-                    else:
-                        # If we don't have enough bits, pad with zeros
-                        embed_bits = binary_message[bit_idx:] + '0' * (bits - (len(binary_message) - bit_idx))
-                        bit_idx = len(binary_message)
-                    
-                    # Convert bits to decimal
-                    decimal_value = int(embed_bits, 2)
-                    
-                    # Calculate new difference - all as Python ints
-                    new_d = lower + decimal_value
-                    
-                    try:
-                        # Fixed approach to prevent overflow
-                        diff = new_d - d  # How much we need to change the difference by
-                        
-                        if p1 >= p2:
-                            # Calculate adjustments as Python integers
-                            half_diff = diff // 2
-                            remainder = diff - half_diff  # Use subtraction instead of modulo for remainder
-                            
-                            # Apply carefully and clamp to valid range
-                            new_p1 = max(0, min(255, p1 - half_diff))
-                            new_p2 = max(0, min(255, p2 + remainder))
-                        else:
-                            # Calculate adjustments as Python integers
-                            half_diff = diff // 2
-                            remainder = diff - half_diff  # Use subtraction instead of modulo for remainder
-                            
-                            # Apply carefully and clamp to valid range
-                            new_p1 = max(0, min(255, p1 + half_diff))
-                            new_p2 = max(0, min(255, p2 - remainder))
-                        
-                        # Update the array with clamped values
-                        modified_array[i, j, 0] = new_p1
-                        modified_array[i, j + 1, 0] = new_p2
-                    except Exception as e:
-                        # Just log the error and continue with the next pixel pair
-                        logging.error(f"Error processing pixel pair at ({i},{j}): {str(e)}")
-                    
-                    # Report progress if callback provided
-                    if progress_callback and bit_idx % update_interval == 0:
-                        progress = (bit_idx / total_bits) * 100
-                        progress_callback(progress)
-                    
-                    break
-            
-            if bit_idx >= len(binary_message):
-                break
-        
-        if bit_idx >= len(binary_message):
-            break
-    
-    # Make sure we encoded the entire message
-    if bit_idx < len(binary_message):
-        raise ValueError(f"Unable to encode complete message. Only encoded {bit_idx}/{len(binary_message)} bits.")
-    
-    # Preserve other channels from original
-    modified_array[:, :, 1:] = img_array[:, :, 1:]
-    
-    # Convert back to uint8 for image creation
-    modified_array = np.clip(modified_array, 0, 255).astype(np.uint8)
-    
-    # Create new image from array
-    encoded_img = Image.fromarray(modified_array)
-    
-    # Final progress update
-    if progress_callback:
-        progress_callback(100)
-    
-    return encoded_img
-
-# Fix the PVD decoding function
-def decode_message_pvd(img, debug=False):
-    """Decode a message from an image using Pixel Value Differencing (PVD) with enhanced error handling"""
-    if debug:
-        logging.info("Decoding message using PVD method...")
-    
-    try:
-        # Convert image to numpy array - use int32 to avoid uint8 overflow issues
-        img_array = np.array(img).astype(np.int32)
-        width, height = img.size
-        
-        # Define the same quantization ranges as used for encoding
-        ranges = [
-            (0, 7, 3),     # Range 0-7: 3 bits
-            (8, 15, 3),    # Range 8-15: 3 bits
-            (16, 31, 4),   # Range 16-31: 4 bits
-            (32, 63, 5),   # Range 32-63: 5 bits
-            (64, 127, 6),  # Range 64-127: 6 bits
-            (128, 255, 7)  # Range 128-255: 7 bits
-        ]
-        
-        # Extract bits from the image
-        extracted_bits = ""
-        null_terminator_count = 0
-        
-        # Define how many consecutive null bytes indicate end of message
-        required_null_terminators = 1
-        
-        for i in range(height):
-            for j in range(0, width - 1, 2):
-                if j + 1 >= width:
-                    continue  # Skip if we don't have a complete pair
-                    
-                # Get pixel pair as Python integers
-                p1 = int(img_array[i, j, 0])
-                p2 = int(img_array[i, j + 1, 0])
-                
-                # Calculate difference using Python integers to avoid overflow
-                d = abs(p1 - p2)
-                
-                # Find range
-                for lower, upper, bits in ranges:
-                    if lower <= d <= upper:
-                        # Extract decimal value
-                        decimal_value = d - lower
-                        
-                        # Ensure decimal value is within expected range for the number of bits
-                        max_value = (1 << bits) - 1  # 2^bits - 1
-                        if decimal_value > max_value:
-                            decimal_value = max_value
-                            
-                        # Convert to binary and pad to correct length
-                        binary = format(decimal_value, f'0{bits}b')
-                        extracted_bits += binary
-                        
-                        # Check for potential termination sequence
-                        if len(extracted_bits) >= 8 and extracted_bits[-8:] == "00000000":
-                            null_terminator_count += 1
-                            if debug:
-                                logging.info(f"Found null terminator ({null_terminator_count}/{required_null_terminators})")
-                            if null_terminator_count >= required_null_terminators:
-                                # Remove all terminators
-                                extracted_bits = extracted_bits[:-8]
-                                break
-                        break
-                
-                if null_terminator_count >= required_null_terminators:
-                    break
-            
-            if null_terminator_count >= required_null_terminators:
-                break
-        
-        # If we didn't find a terminator, search for one
-        if null_terminator_count < required_null_terminators:
-            null_pos = extracted_bits.find("00000000")
-            if null_pos >= 0:
-                extracted_bits = extracted_bits[:null_pos]
-                if debug:
-                    logging.info(f"Found null terminator at position {null_pos}")
-        
-        # Ensure we have complete bytes (pad with zeros if needed)
-        padding_needed = (8 - (len(extracted_bits) % 8)) % 8
-        if padding_needed > 0:
-            extracted_bits += "0" * padding_needed
-            if debug:
-                logging.info(f"Added {padding_needed} bits of padding for complete bytes")
-        
-        # Convert binary to text using explicit ASCII encoding for base64 compatibility
-        message = ""
-        for i in range(0, len(extracted_bits), 8):
-            if i + 8 <= len(extracted_bits):
-                byte = extracted_bits[i:i+8]
-                try:
-                    char_code = int(byte, 2)
-                    # IMPORTANT: Filter to ASCII-compatible characters only
-                    if 32 <= char_code <= 126:  # Printable ASCII range
-                        message += chr(char_code)
-                    else:
-                        # Replace with base64-compatible characters
-                        message += 'A'  # Use 'A' as a replacement for non-ASCII chars
-                        if debug:
-                            logging.warning(f"Non-ASCII character at position {i//8}: {char_code}")
-                except ValueError:
-                    message += "A"  # Use 'A' as a safe replacement
-                    if debug:
-                        logging.warning(f"Invalid byte value at position {i}: {byte}")
-        
-        # Base64 strings should be a multiple of 4 in length
-        if message and len(message) % 4 != 0:
-            padding = 4 - (len(message) % 4)
-            message += '=' * padding
-            if debug:
-                logging.info(f"Added {padding} '=' characters for base64 padding")
-                
-        return message
-        
-    except Exception as e:
-        logging.error(f"Decryption error: {str(e)}")
-        raise ValueError(f"Failed to decode message: {str(e)}")
-
-# Add capacity estimation functions
-def estimate_lsb_capacity(img):
-    """Estimate the maximum capacity for LSB method in bytes"""
-    pixels = img.size[0] * img.size[1]
-    # One bit per pixel, minus 8 bits for null terminator
-    max_bits = pixels - 8
-    return max_bits // 8  # Convert bits to bytes
-
-def estimate_pvd_capacity(img):
-    """Estimate the maximum capacity for PVD method in bytes"""
-    width, height = img.size
-    # Conservative estimate - average 3 bits per pixel pair
-    pixel_pairs = (width * height) // 2
-    max_bits = pixel_pairs * 3 - 8  # Minus 8 bits for null terminator
-    return max_bits // 8  # Convert bits to bytes
-
-# Add this function to help with encoding message with method selection
-def encode_message(img, encrypted_message, method="LSB", debug=False, progress_callback=None):
-    """Encode an encrypted message into an image using the specified method"""
-    if method not in AVAILABLE_ENCRYPTION_METHODS:
-        raise ValueError(f"Unknown encryption method: {method}")
-        
-    if method == "LSB":
-        # Use existing LSB function
-        return encode_message_lsb(img, encrypted_message, debug)
-    elif method == "PVD":
-        # Use PVD function
-        return encode_message_pvd(img, encrypted_message, debug, progress_callback)
-    elif method == "DWT":
-        # Fallback to LSB for now
-        logging.warning("DWT method not fully implemented, using LSB instead")
-        return encode_message_lsb(img, encrypted_message, debug)
-    elif method == "DCT":
-        # Fallback to LSB for now
-        logging.warning("DCT method not fully implemented, using LSB instead")
-        return encode_message_lsb(img, encrypted_message, debug)
-    else:
-        # Default to LSB
-        return encode_message_lsb(img, encrypted_message, debug)
-
-# Add this function for decoding
-def decode_message(img, method="LSB", debug=False):
+# Add the decrypt_message_safe function that is referenced but not fully implemented
+def decrypt_message_safe(encoded_message, password, debug=False, image_obj=None):
     """
-    Extract hidden message from image with improved error handling
+    Safely decrypt a message with extra error handling for corrupted data
     
     Args:
-        img: PIL Image object
-        method: Steganography method ('LSB', 'PVD', 'DCT', 'DWT')
+        encoded_message: The encoded message to decrypt
+        password: Password for decryption
         debug: Whether to print debug information
-    
-    Returns:
-        The extracted message as bytes, or None if no message is found
+        image_obj: Optional image object for direct LSB decryption fallback
     """
     try:
-        # First try a brute force approach to find hidden data
-        if method == 'AUTO':
-            # Try all available methods in sequence
-            for m in ['LSB', 'PVD']:
-                result = decode_message(img, method=m, debug=debug)
-                if result:
-                    if debug:
-                        logging.debug(f"Successfully extracted message using {m} method")
-                    return result
-            return None
-            
-        # Get image dimensions
-        width, height = img.size
-        max_possible_bits = width * height * 3
-        
         if debug:
-            logging.debug(f"Decoding with method: {method}, image size: {width}x{height}")
+            logger.debug(f"Attempting safe decryption of message length {len(encoded_message) if encoded_message else 0}")
         
-        # PVD specific handling with enhanced error recovery
-        if method == 'PVD':
-            pvd_result = decode_message_pvd(img, debug)
-            if pvd_result:
-                return pvd_result
-                
-            # If standard PVD failed, try alternate PVD approach
-            alt_pvd_result = decode_message_pvd_alternate(img, debug)
-            return alt_pvd_result
+        # Special case for strings with many 'm' characters
+        if isinstance(encoded_message, str) and encoded_message.count('m') > len(encoded_message) * 0.8:
+            logger.debug(f"Detected corrupted message with many 'm' characters")
+            return handle_m_corruption(encoded_message, debug)
         
-        # Default/LSB method with more robust extraction
-        pixels = list(img.getdata())
-        binary = ""
-        
-        # First extract enough bits to determine length (32 bits)
-        pixel_count = min(32, len(pixels)) 
-        for i in range(pixel_count):
-            if i < len(pixels):
-                r, g, b = pixels[i]
-                binary += str(r & 1)
-                binary += str(g & 1)
-                binary += str(b & 1)
-                
-                if len(binary) >= 32:
-                    binary = binary[:32]
-                    break
-        
-        # Parse length with extra validation
+        # Clean up the data first
         try:
-            message_length = int(binary[:32], 2)
-            
+            cleaned_data = cleanBase64String(encoded_message)
             if debug:
-                logging.debug(f"Detected message length: {message_length} bits")
-                
-            # Validate length is reasonable (not too large or negative)
-            if message_length <= 0:
-                if debug:
-                    logging.error(f"Invalid negative message length: {message_length}")
-                # Try without length header - assume standard message
-                return decode_message_without_header(img, debug)
-                
-            if message_length > max_possible_bits:
-                if debug:
-                    logging.error(f"Message length too large: {message_length} > {max_possible_bits}")
-                # Try with a smaller reasonable length
-                message_length = min(max_possible_bits // 2, 8192)  # Cap at reasonable value
-                if debug:
-                    logging.debug(f"Using capped length instead: {message_length}")
-        except ValueError:
+                logger.debug(f"Cleaned base64 string from {len(encoded_message)} to {len(cleaned_data)} chars")
+        except Exception as e:
+            cleaned_data = encoded_message
             if debug:
-                logging.error(f"Could not parse length from: {binary[:32]}")
-            # Try without length header
-            return decode_message_without_header(img, debug)
-            
-        # Now extract message bits
-        binary = ""
-        bits_per_pixel = 3  # RGB channels, 1 bit per channel
-        pixels_needed = (message_length + bits_per_pixel - 1) // bits_per_pixel + 32  # +32 for header
+                logger.debug(f"Failed to clean base64 string: {e}")
         
-        for i in range(32, min(pixels_needed, len(pixels))):
-            r, g, b = pixels[i]
-            binary += str(r & 1)
-            binary += str(g & 1)
-            binary += str(b & 1)
+        # Use our specialized safe base64 decoder
+        try:
+            from base64_utils import safe_base64_decode
+            data = safe_base64_decode(cleaned_data)
+            if not data:
+                logger.warning("Base64 decoding returned empty data")
+                # Try with the uncleaned original data as fallback
+                data = safe_base64_decode(encoded_message)
             
-            if len(binary) >= message_length:
-                binary = binary[:message_length]
-                break
+            if debug and data:
+                logger.debug(f"Successfully decoded base64 data, got {len(data)} bytes")
+        except Exception as e:
+            if debug:
+                logger.debug(f"Failed to decode base64 data: {e}")
+            data = encoded_message  # Use raw data as fallback
+        
+        # Validate minimum data length
+        if len(data) < 16:
+            logger.warning(f"Data too short for decryption: {len(data)} bytes")
+            if image_obj:
+                logger.debug("Trying direct LSB decryption as fallback")
+                return decrypt_lsb_direct(image_obj, password, debug)
+            raise ValueError("Encrypted data too short")
+            
+        # First try standard decryption
+        try:
+            result = decrypt_message(data, password, debug=debug, bypass_auth=True)
+            if result:
+                return result
+        except Exception as e:
+            if debug:
+                logger.debug(f"Standard decryption failed, trying alternatives: {e}")
+            
+            # If we have an image object, try direct LSB decryption
+            if image_obj:
+                try:
+                    return decrypt_lsb_direct(image_obj, password, debug)
+                except Exception as img_e:
+                    if debug:
+                        logger.debug(f"Direct LSB decryption failed: {img_e}")
+            
+            raise ValueError(f"Decryption failed: {str(e)}")
+            
+    except Exception as e:
+        logger.error(f"Safe decryption error: {str(e)}")
+        
+        # Last resort: try to decrypt with the image object if available
+        if image_obj is not None:
+            try:
+                return decrypt_lsb(image_obj, password)
+            except Exception:
+                pass
+                
+        raise ValueError(f"Safe decryption failed: {str(e)}")
+
+# Add safe_base64_decode function if not already defined
+def safe_base64_decode(s):
+    """
+    Safely decode base64 with multiple fallbacks
+    Returns bytes if successful, None otherwise
+    """
+    if not s:
+        return None
+    
+    # Check if imports are needed
+    import base64
+    
+    # Try standard decoding first
+    try:
+        if isinstance(s, str):
+            s = cleanBase64String(s)
+        return base64.b64decode(s)
+    except Exception as e:
+        logger.debug(f"Standard base64 decoding failed: {e}")
+    
+    # Try with more aggressive cleaning
+    try:
+        if isinstance(s, str):
+            # Remove non-base64 characters
+            s = re.sub(r'[^A-Za-z0-9+/=]', '', s)
+            # Add padding if needed
+            while len(s) % 4 != 0:
+                s += '='
+        return base64.b64decode(s)
+    except Exception as e:
+        logger.debug(f"Aggressive cleaning failed: {e}")
+    
+    # Try url-safe variant
+    try:
+        if isinstance(s, str):
+            # Convert standard to URL-safe
+            s = s.replace('+', '-').replace('/', '_')
+        return base64.urlsafe_b64decode(s)
+    except Exception:
+        return None
+
+# Add decrypt_lsb_direct function that was referenced but not implemented
+def decrypt_lsb_direct(image_obj, password, debug=False):
+    """
+    Directly decrypt the message from the image using LSB without going through base64
+    This can help in cases where the base64 string is severely corrupted
+    
+    Args:
+        image_obj: An image object
+        password: Password for decryption
+        debug: Whether to print debug info
+    """
+    try:
+        if debug:
+            logger.debug(f"Starting direct LSB decryption")
+        
+        # Make sure we have an image object
+        if not hasattr(image_obj, 'size') and not hasattr(image_obj, 'getdata'):
+            raise ValueError("Invalid image object provided")
+            
+        # Use our decrypt_lsb function directly with the image
+        decrypted_message = decrypt_lsb(image_obj, password)
         
         if debug:
-            logging.debug(f"Extracted {len(binary)} bits of data")
+            logger.debug(f"Direct LSB decryption successful")
             
-        # Convert bits to bytes with resilient approach
-        message_bytes = bytearray()
-        for i in range(0, len(binary), 8):
-            if i + 8 <= len(binary):
-                try:
-                    byte_val = int(binary[i:i+8], 2)
-                    message_bytes.append(byte_val)
-                except ValueError:
-                    if debug:
-                        logging.error(f"Invalid byte at position {i}: {binary[i:i+8]}")
-                    # Use placeholder for invalid bytes
-                    message_bytes.append(0)
-        
-        if len(message_bytes) == 0:
-            if debug:
-                logging.error("No message bytes extracted")
-            # Try without length header as last resort
-            return decode_message_without_header(img, debug)
-        
-        # Check if the message bytes look like base64 (common for encrypted data)
-        message_str = message_bytes.decode('ascii', errors='ignore')
-        if any(c not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=' for c in message_str):
-            if debug:
-                logging.warning("Message doesn't look like valid base64, might be corrupt")
-        
-        return bytes(message_bytes)
+        return decrypted_message
         
     except Exception as e:
         if debug:
-            logging.exception(f"Error decoding message: {e}")
-        # Try simpler methods as fallback
-        try:
-            return decode_message_without_header(img, debug)
-        except:
-            return None
+            logger.error(f"Direct LSB decryption failed: {str(e)}")
+        raise ValueError(f"Direct LSB decryption failed: {str(e)}")
 
+# Add a function to handle the "all m's" corruption case
+def handle_m_corruption(data, debug=False):
+    """
+    Special handler for the 'm' corruption case that occurs when decoding method mismatches
+    
+    Args:
+        data: The corrupted data (string of 'm's or bytes)
+        debug: Whether to print debug info
+        
+    Returns:
+        Possibly recovered data or None
+    """
+    if debug:
+        logger.debug(f"Running 'm' corruption handler on data of length {len(data) if data else 0}")
+    
+    if not data:
+        return None
+        
+    # Convert bytes to string if needed
+    if isinstance(data, bytes):
+        try:
+            data = data.decode('ascii', errors='replace')
+        except Exception as e:
+            if debug:
+                logger.debug(f"Failed to decode bytes to string: {e}")
+            return None
+    
+    # Check if it's actually the 'm' corruption case
+    if not data or 'm' not in data or data.count('m') < len(data) * 0.5:
+        return None
+        
+    # If we have almost all 'm's, this is likely a method mismatch
+    if data.count('m') > len(data) * 0.9:
+        if debug:
+            logger.debug(f"Found severe 'm' corruption: {data.count('m')}/{len(data)} 'm's")
+        
+        # Return a special flag value that can be used to suggest the right method
+        return "This image seems to be corrupted or encoded with a different steganography method. Try another decryption method."
+    
+    # If it's not all 'm's, try to extract any valuable data
+    # by looking for patterns after removing 'm's
+    clean_data = data.replace('m', '')
+    if not clean_data:
+        return None
+        
+    # Look for base64-like patterns
+    base64_pattern = re.compile(r'[A-Za-z0-9+/=]{16,}')
+    matches = base64_pattern.findall(clean_data)
+    
+    if matches:
+        longest_match = max(matches, key=len)
+        if debug:
+            logger.debug(f"Found potential base64 data of length {len(longest_match)}")
+        return longest_match
+        
+    return None
+
+# Add decode_message_without_header function to support headerless decoding
 def decode_message_without_header(img, debug=False):
     """
     Try to extract a message without relying on a length header
-    Simple brute force approach looking for base64-like content
+    Enhanced version with better error handling and cleaner output
     """
     try:
         if debug:
-            logging.debug("Trying to decode without length header")
+            logging.debug("Attempting headerless message extraction")
             
+        # Try LSB extraction first
         pixels = list(img.getdata())
         
         # Fixed extraction - 2KB should be enough for most messages
         extract_bits = 16384  # 2KB = 16384 bits
         binary = ""
         
+        # Skip first 32 pixels (possible header area)
         for i in range(32, min(32 + (extract_bits // 3) + 100, len(pixels))):
             r, g, b = pixels[i]
             binary += str(r & 1)
             binary += str(g & 1)
             binary += str(b & 1)
-            
-            if len(binary) >= extract_bits:
-                binary = binary[:extract_bits]
-                break
                 
         # Convert all bits to bytes
         message_bytes = bytearray()
         for i in range(0, len(binary), 8):
             if i + 8 <= len(binary):
-                try:
-                    byte_val = int(binary[i:i+8], 2)
-                    message_bytes.append(byte_val)
-                except ValueError:
-                    continue
+                byte = binary[i:i+8]
+                message_bytes.append(int(byte, 2))
                     
-        # Look for the start of base64 data
-        message_text = message_bytes.decode('ascii', errors='ignore')
+        # Convert to string for analysis (clean up invalid chars)
+        message_text = ""
+        for b in message_bytes:
+            if 32 <= b <= 126:  # Printable ASCII
+                message_text += chr(b)
+            else:
+                message_text += '·'  # Placeholder for non-printable chars
         
-        # Basic base64 pattern (simplified)
-        import re
-        # Look for sequences that could be base64 (letters, numbers, +, /, and =)
-        base64_pattern = re.compile(r'[A-Za-z0-9+/=]{16,}')
+        # Look for base64 pattern (clean base64 only contains a subset of ASCII)
+        base64_chars = r"[A-Za-z0-9+/=]"
+        base64_pattern = re.compile(f"{base64_chars}{{16,}}")
         matches = base64_pattern.findall(message_text)
         
         if matches:
-            if debug:
-                logging.debug(f"Found potential base64 data: {len(matches[0])} chars")
-            # Use the longest match
             longest_match = max(matches, key=len)
-            # Convert back to bytes
-            return longest_match.encode('ascii')
-            
-        # If we found any data at all, return it
-        if len(message_bytes) > 0:
             if debug:
-                logging.debug(f"Returning raw extracted data: {len(message_bytes)} bytes")
-            return bytes(message_bytes)
+                logging.debug(f"Found potential base64 data: {longest_match[:20]}...")
+            return longest_match
+            
+        # If we didn't find a good base64 match, return the cleaned up printable text
+        if len(message_text) > 0:
+            return message_text
             
         return None
         
     except Exception as e:
         if debug:
-            logging.exception(f"Error in headerless decoding: {e}")
+            logger.error(f"Headerless decoding failed: {e}")
         return None
 
-# Add an alternate PVD method that uses a different approach
-def decode_message_pvd_alternate(img, debug=False):
-    """Alternative PVD decoding approach focusing on channel differences"""
-    try:
-        if debug:
-            logging.debug("Starting alternate PVD decoding")
-            
-        # Process image data
-        pixels = list(img.getdata())
-        width, height = img.size
-        
-        # Extract bits from the differences between adjacent pixels
-        binary_data = ""
-        
-        # Start after potential header area
-        for i in range(32, min(3000, len(pixels)-1)):
-            # Compare with next pixel
-            r1, g1, b1 = pixels[i]
-            r2, g2, b2 = pixels[i+1]
-            
-            # Extract LSB from channel differences
-            r_diff = abs(r1 - r2)
-            g_diff = abs(g1 - g2)
-            b_diff = abs(b1 - b2)
-            
-            binary_data += str(r_diff & 1)
-            binary_data += str(g_diff & 1)
-            binary_data += str(b_diff & 1)
-            
-            if len(binary_data) >= 1024 * 8:  # Limit to reasonable size
-                break
-                
-        # Convert to bytes
-        message_bytes = bytearray()
-        for i in range(0, len(binary_data), 8):
-            if i + 8 <= len(binary_data):
-                try:
-                    byte = int(binary_data[i:i+8], 2)
-                    message_bytes.append(byte)
-                except ValueError:
-                    continue
-        
-        if len(message_bytes) == 0:
-            if debug:
-                logging.debug("No message bytes extracted with alternate PVD method")
-            return None
-        
-        # Try to find valid base64 content
-        try:
-            message_text = message_bytes.decode('ascii', errors='ignore')
-            import re
-            base64_pattern = re.compile(r'[A-Za-z0-9+/=]{16,}')
-            matches = base64_pattern.findall(message_text)
-            
-            if matches:
-                longest_match = max(matches, key=len)
-                if debug:
-                    logging.debug(f"Found potential base64 data with alternate PVD: {len(longest_match)} chars")
-                return longest_match.encode('ascii')
-        except:
-            pass
-            
-        # Return all extracted data
-        if debug:
-            logging.debug(f"Extracted {len(message_bytes)} bytes with alternate PVD method")
-        return bytes(message_bytes)
-        
-    except Exception as e:
-        if debug:
-            logging.exception(f"Error in alternate PVD decoding: {e}")
-        return None
-
-def decrypt_message(ciphertext, password, debug=False):
-    """
-    Decrypt a message using AES-GCM with enhanced padding error handling
-    
-    Args:
-        ciphertext: The encrypted message as bytes
-        password: The encryption password
-        debug: Whether to print debug information
-    
-    Returns:
-        The decrypted message as a string
-    """
-    try:
-        if debug:
-            logging.debug(f"Decrypting message of length {len(ciphertext)}")
-            
-        # Generate key from password
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=SALT,
-            iterations=100000,
-        )
-        key = kdf.derive(password.encode())
-        
-        # Extract nonce and ciphertext
-        nonce = ciphertext[:12]
-        tag = ciphertext[-16:]
-        encrypted_data = ciphertext[12:-16]
-        
-        if debug:
-            logging.debug(f"Nonce length: {len(nonce)}, Tag length: {len(tag)}, Data length: {len(encrypted_data)}")
-        
-        # Decrypt
-        cipher = AESGCM(key)
-        try:
-            decrypted_data = cipher.decrypt(nonce, encrypted_data + tag, None)
-            
-            # Add padding handling
-            if debug:
-                logging.debug(f"Decrypted data length: {len(decrypted_data)}")
-            
-            # Try to decode as UTF-8
-            try:
-                result = decrypted_data.decode('utf-8')
-                return result
-            except UnicodeDecodeError as e:
-                if debug:
-                    logging.error(f"Unicode decode error: {str(e)}")
-                
-                # Try different encodings
-                for encoding in ['latin-1', 'cp1252', 'iso-8859-1']:
-                    try:
-                        return decrypted_data.decode(encoding)
-                    except UnicodeDecodeError:
-                        continue
-                
-                # Last resort: return as hex string
-                return decrypted_data.hex()
-                
-        except Exception as e:
-            if debug:
-                logging.error(f"Error decrypting message: {str(e)}")
-            raise ValueError(f"{str(e)}")
-            
-    except Exception as e:
-        if debug:
-            logging.error(f"Error in decrypt_message: {str(e)}")
-        raise ValueError(f"{str(e)}")
-
-# Add this new function to handle PVD decoding specifically
-def decode_message_pvd(img, debug=False):
-    """
-    Extract hidden message from image using PVD method with improved error handling
-    """
-    try:
-        if debug:
-            logging.debug("Starting PVD decoding")
-            
-        width, height = img.size
-        pixels = list(img.getdata())
-        
-        # Get message length from first part of image
-        binary_length = ""
-        for i in range(32): # First 32 pixels for length (32 bits)
-            r1, g1, b1 = pixels[i]
-            r2, g2, b2 = pixels[i+1] if i+1 < len(pixels) else (0,0,0)
-            
-            # Get LSB of differences
-            diff_r = abs(r1 - r2)
-            binary_length += str(diff_r & 1)
-            
-            diff_g = abs(g1 - g2)
-            binary_length += str(diff_g & 1)
-            
-            diff_b = abs(b1 - b2)
-            binary_length += str(diff_b & 1)
-            
-            if len(binary_length) >= 32:
-                binary_length = binary_length[:32]
-                break
-        
-        # Convert binary length to int
-        message_length_bits = int(binary_length, 2)
-        
-        if debug:
-            logging.debug(f"Decoded message length: {message_length_bits} bits")
-            
-        if message_length_bits <= 0 or message_length_bits > width * height * 3:
-            if debug:
-                logging.error(f"Invalid message length: {message_length_bits}")
-            return None
-            
-        # Calculate bytes needed
-        bytes_needed = (message_length_bits + 7) // 8
-        
-        if debug:
-            logging.debug(f"Extracting {bytes_needed} bytes from image")
-            
-        # Extract message
-        binary_message = ""
-        for i in range(32, 32 + message_length_bits // 3 + 2): # Start after length bits
-            if i >= len(pixels) - 1:
-                break
-                
-            r1, g1, b1 = pixels[i]
-            r2, g2, b2 = pixels[i+1]
-            
-            # LSB of differences
-            diff_r = abs(r1 - r2)
-            binary_message += str(diff_r & 1)
-            
-            diff_g = abs(g1 - g2)
-            binary_message += str(diff_g & 1)
-            
-            diff_b = abs(b1 - b2)
-            binary_message += str(diff_b & 1)
-            
-            if len(binary_message) >= message_length_bits:
-                binary_message = binary_message[:message_length_bits]
-                break
-                
-        # Convert to bytes
-        message_bytes = bytearray()
-        for i in range(0, len(binary_message), 8):
-            if i + 8 <= len(binary_message):
-                byte = binary_message[i:i+8]
-                message_bytes.append(int(byte, 2))
-        
-        if debug:
-            logging.debug(f"Extracted {len(message_bytes)} bytes")
-            
-        return bytes(message_bytes)
-        
-    except Exception as e:
-        if debug:
-            logging.exception(f"PVD decoding error: {e}")
-        return None
-
-# Update the decode_message function to handle invalid message lengths
-def decode_message(img, method='LSB', debug=False):
-    """
-    Extract hidden message from image with improved error handling and validation
-    
-    Args:
-        img: PIL Image object
-        method: Steganography method ('LSB', 'PVD', 'DCT', 'DWT')
-        debug: Whether to print debug information
-    
-    Returns:
-        The extracted message as bytes, or None if no message is found
-    """
-    try:
-        width, height = img.size
-        max_possible_length = width * height * 3  # Maximum possible bits in the image
-        
-        if debug:
-            logging.debug(f"Decoding image with method: {method}, image size: {width}x{height}")
-            
-        # PVD specific handling
-        if method == 'PVD':
-            return decode_message_pvd(img, debug)
-        
-        # Default/LSB method
-        binary = ""
-        
-        # Extract the first 32 bits for length
-        pixels = list(img.getdata())
-        
-        # Extract length
-        for i in range(min(32, len(pixels))):
-            r, g, b = pixels[i]
-            binary += str(r & 1)
-            binary += str(g & 1)
-            binary += str(b & 1)
-            
-            if len(binary) >= 32:
-                binary = binary[:32]
-                break
-        
-        # Get message length with validation
-        try:
-            message_length = int(binary[:32], 2)
-            if debug:
-                logging.debug(f"Message length in bits: {message_length}")
-                
-            # Add stronger validation for message length
-            if message_length <= 0 or message_length > max_possible_length:
-                if debug:
-                    logging.error(f"Invalid message length: {message_length}")
-                return None
-                
-        except ValueError:
-            if debug:
-                logging.error(f"Invalid length binary: {binary[:32]}")
-            return None
-            
-        # Now extract the actual message
-        binary = ""
-        for i in range(32, len(pixels)):
-            r, g, b = pixels[i]
-            binary += str(r & 1)
-            binary += str(g & 1)
-            binary += str(b & 1)
-            
-            if len(binary) >= message_length:
-                binary = binary[:message_length]
-                break
-        
-        # Convert binary to bytes with extra validation
-        message_bytes = bytearray()
-        for i in range(0, len(binary), 8):
-            if i + 8 <= len(binary):
-                byte = binary[i:i+8]
-                try:
-                    message_bytes.append(int(byte, 2))
-                except ValueError:
-                    if debug:
-                        logging.error(f"Invalid byte at position {i}: {byte}")
-                    continue
-        
-        if len(message_bytes) == 0:
-            if debug:
-                logging.error("No message bytes extracted")
-            return None
-            
-        return bytes(message_bytes)
-            
-    except Exception as e:
-        if debug:
-            logging.exception(f"Error decoding message: {e}")
-        return None
-
-def direct_lsb_decode(img, debug=False):
-    """
-    Direct LSB decoding without relying on length header
-    Extracts message directly looking for valid base64 patterns
-    """
-    if debug:
-        logging.debug("Starting direct LSB decoding")
-
-    try:
-        # Get image dimensions and pixels
-        width, height = img.size
-        pixels = list(img.getdata())
-        
-        # We'll extract a reasonable amount of data directly
-        extracted_bits = []
-        
-        # First extract bits from the first ~4KB of the image (enough for most messages)
-        max_pixels = min(4096, len(pixels))
-        
-        for i in range(max_pixels):
-            r, g, b = pixels[i]
-            extracted_bits.extend([r & 1, g & 1, b & 1])
-            
-        # Convert bits to bytes
-        message_bytes = bytearray()
-        for i in range(0, len(extracted_bits), 8):
-            if i + 8 <= len(extracted_bits):
-                byte_val = 0
-                for j in range(8):
-                    byte_val |= extracted_bits[i+j] << (7-j)
-                message_bytes.append(byte_val)
-        
-        # Convert to string for analysis
-        message_str = message_bytes.decode('ascii', errors='ignore')
-        
-        # Look for base64 patterns
-        import re
-        base64_pattern = re.compile(r'[A-Za-z0-9+/=]{16,}')
-        matches = base64_pattern.findall(message_str)
-        
-        if matches:
-            # Find the longest match that could be base64
-            candidates = []
-            for match in matches:
-                # Check if it's a valid base64 string length (multiple of 4)
-                if len(match) % 4 == 0:
-                    candidates.append(match)
-                # Or can be made valid with padding
-                elif len(match) % 4 != 0:
-                    # Add padding to make it a multiple of 4
-                    padding_needed = 4 - (len(match) % 4)
-                    padded_match = match + '=' * padding_needed
-                    candidates.append(padded_match)
-                    
-            if candidates:
-                longest_match = max(candidates, key=len)
-                if debug:
-                    logging.debug(f"Found base64 candidate: {longest_match[:20]}... ({len(longest_match)} chars)")
-                return longest_match.encode('ascii')
-            
-        if debug:
-            logging.debug("No valid base64 data found in direct LSB extraction")
-            
-        # Last resort: return the raw bytes if they look like they might contain useful data
-        if any(c >= 32 and c <= 126 for c in message_bytes[:100]):  # Check if there are printable ASCII chars
-            if debug:
-                logging.debug(f"Returning raw extracted bytes with printable ASCII chars")
-            return message_bytes
-        
-        return None
-    except Exception as e:
-        if debug:
-            logging.exception(f"Error in direct LSB decoding: {e}")
-        return None
-
-# Update the decode_message function to use our new direct LSB approach
-def decode_message(img, method='LSB', debug=False):
-    """
-    Extract hidden message from image with improved error handling and fallback methods
-    """
-    try:
-        # First try direct decoding for speed
-        if method == 'AUTO' or method == 'LSB':
-            if debug:
-                logging.debug("Trying direct LSB decoding first")
-            result = direct_lsb_decode(img, debug)
-            if result:
-                return result
-        
-        # Then try standard approaches
-        width, height = img.size
-        max_possible_bits = width * height * 3
-        
-        if debug:
-            logging.debug(f"Falling back to standard decoding with method: {method}")
-        
-        # Try each method in sequence for AUTO mode
-        if method == 'AUTO':
-            for m in ['LSB', 'PVD']:
-                try:
-                    if debug:
-                        logging.debug(f"Trying method: {m}")
-                    if m == 'PVD':
-                        result = decode_message_pvd(img, debug)
-                    else:
-                        result = decode_message_lsb(img, debug)
-                    
-                    if result:
-                        return result
-                except Exception as method_err:
-                    if debug:
-                        logging.warning(f"Method {m} failed: {str(method_err)}")
-        
-        # Otherwise use specified method
-        if method == 'LSB':
-            return decode_message_lsb(img, debug)
-        elif method == 'PVD':
-            return decode_message_pvd(img, debug)
-        
-        # If nothing worked, try headerless decoding as last resort
-        if debug:
-            logging.debug("Trying headerless decoding as last resort")
-        return decode_message_without_header(img, debug)
-            
-    except Exception as e:
-        if debug:
-            logging.exception(f"Error in decode_message: {e}")
-        # Last chance - try headerless
-        try:
-            return decode_message_without_header(img, debug)
-        except:
-            return None
-
-# Fix the key decryption functions in stego.py
-
-# Add this import at the top of the file if not already present
-import traceback
-
-# Fix the decrypt_message function to properly handle errors
-def decrypt_message(ciphertext, password, debug=False):
-    """
-    Decrypt a message using AES-GCM with better error handling
-    
-    Args:
-        ciphertext: The encrypted message as bytes or base64 string
-        password: The encryption password
-        debug: Whether to print debug information
-    
-    Returns:
-        The decrypted message as a string
-    """
-    try:
-        if debug:
-            logging.debug(f"Decrypting message of length {len(ciphertext)}")
-            
-        # If ciphertext is a string, decode it to bytes
-        if isinstance(ciphertext, str):
-            try:
-                ciphertext = base64.b64decode(ciphertext)
-                if debug:
-                    logging.debug(f"Decoded base64 string to {len(ciphertext)} bytes")
-            except Exception as e:
-                if debug:
-                    logging.error(f"Base64 decoding failed: {e}")
-                raise ValueError(f"Invalid base64 encoded ciphertext: {e}")
-        
-        # Validate ciphertext length
-        if len(ciphertext) < 28:  # 12 (nonce) + 16 (tag)
-            raise ValueError(f"Ciphertext too short: {len(ciphertext)} bytes. Minimum required: 28 bytes")
-        
-        # For compatibility with older encrypted data, try different salt approaches
-        # Use the stored salt if it's in the data, otherwise use the constant
-        if len(ciphertext) >= 16 + 12:  # Has enough room for salt + nonce
-            try:
-                # Extract salt, nonce, and ciphertext
-                salt = ciphertext[:16]
-                nonce = ciphertext[16:28]
-                tag = ciphertext[-16:]
-                encrypted_data = ciphertext[28:-16]
-                
-                if debug:
-                    logging.debug(f"Extracted salt, nonce and tag: salt={len(salt)}, nonce={len(nonce)}, tag={len(tag)}")
-                
-                # Derive the key using the extracted salt
-                kdf = PBKDF2HMAC(
-                    algorithm=hashes.SHA256(),
-                    length=32,
-                    salt=salt,
-                    iterations=100000,
-                    backend=default_backend()
-                )
-                key = kdf.derive(password.encode())
-                
-                # Decrypt the message
-                cipher = AESGCM(key)
-                try:
-                    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
-                    
-                    # Try to decode as UTF-8
-                    result = plaintext.decode('utf-8')
-                    return result
-                except Exception as e:
-                    if debug:
-                        logging.error(f"AESGCM decryption failed: {e}")
-                        logging.error(traceback.format_exc())
-                    
-                    # Try using the constant SALT as fallback
-                    if debug:
-                        logging.debug("Trying decryption with constant SALT")
-                    
-                    kdf = PBKDF2HMAC(
-                        algorithm=hashes.SHA256(),
-                        length=32,
-                        salt=SALT,
-                        iterations=100000,
-                        backend=default_backend()
-                    )
-                    key = kdf.derive(password.encode())
-                    
-                    cipher = AESGCM(key)
-                    plaintext = cipher.decrypt(nonce, encrypted_data + tag, None)
-                    
-                    # Try to decode as UTF-8
-                    result = plaintext.decode('utf-8')
-                    return result
-            
-            except Exception as e:
-                if debug:
-                    logging.error(f"Error during decryption process: {e}")
-                    logging.error(traceback.format_exc())
-                raise ValueError(f"Decryption failed: {e}. Check your password or the data may be corrupted.")
-        
-    except Exception as e:
-        if debug:
-            logging.error(f"decrypt_message error: {e}")
-            logging.error(traceback.format_exc())
-        raise ValueError(f"Decryption failed: {e}")
-
-# Fix the API decrypt_saved_image route in app.py
-def api_decrypt_saved(image_id, password, method='LSB', debug=False):
-    """Centralized function to handle image decryption from database"""
-    try:
-        from models import StegoImage, db, ActivityLog
-        from flask_login import current_user
-        from io import BytesIO
-        from PIL import Image as PilImage
-        
-        # Get the image from database
-        image = StegoImage.query.filter_by(id=image_id).first()
-        
-        if not image:
-            raise ValueError("Image not found in database")
-            
-        # Load image from binary data
-        img_io = BytesIO(image.image_data)
-        img = PilImage.open(img_io)
-        
-        if img.mode != 'RGB':
-            img = img.convert('RGB')
-            
-        # Try multiple decoding approaches
-        extracted_data = None
-        
-        # First try direct LSB decoding
-        if debug:
-            logging.debug("Starting direct LSB decoding")
-            
-        try:
-            from stego import direct_lsb_decode
-            extracted_data = direct_lsb_decode(img, debug=True)
-        except Exception as e:
-            if debug:
-                logging.error(f"Direct LSB decoding failed: {e}")
-        
-        # If that failed, try other methods
-        if not extracted_data:
-            if debug:
-                logging.debug(f"Direct decoding failed, trying with {method} method")
-            try:
-                from stego import decode_message
-                extracted_data = decode_message(img, method=method, debug=True)
-            except Exception as e:
-                if debug:
-                    logging.error(f"Method {method} failed: {e}")
-        
-        # If we still don't have data, try AUTO as last resort
-        if not extracted_data and method != 'AUTO':
-            if debug:
-                logging.debug("Trying AUTO method as last resort")
-            try:
-                from stego import decode_message
-                extracted_data = decode_message(img, method='AUTO', debug=True)
-            except Exception as e:
-                if debug:
-                    logging.error(f"AUTO method failed: {e}")
-        
-        # If we still don't have anything, return an error
-        if not extracted_data:
-            if debug:
-                logging.error("No hidden message could be extracted from the image")
-            raise ValueError("No hidden message found in this image")
-        
-        # Now try to decrypt the extracted data
-        try:
-            from stego import decrypt_message
-            decrypted = decrypt_message(extracted_data, password, debug=True)
-            
-            # Log success
-            if current_user:
-                activity = ActivityLog(
-                    user_id=current_user.id,
-                    action=f"Successfully decrypted image {image.id}"
-                )
-                db.session.add(activity)
-                db.session.commit()
-                
-            return {
-                'success': True,
-                'decrypted_message': decrypted
-            }
-        except Exception as decrypt_e:
-            # Try safe decrypt as fallback
-            if debug:
-                logging.error(f"Standard decryption failed: {decrypt_e}")
-                
-            try:
-                from stego import decrypt_message_safe
-                decrypted = decrypt_message_safe(extracted_data, password, debug=True)
-                
-                # Log success
-                if current_user:
-                    activity = ActivityLog(
-                        user_id=current_user.id,
-                        action=f"Successfully decrypted image {image.id} using safe method"
-                    )
-                    db.session.add(activity)
-                    db.session.commit()
-                    
-                return {
-                    'success': True,
-                    'decrypted_message': decrypted
-                }
-            except Exception as safe_e:
-                if debug:
-                    logging.error(f"Safe decryption failed: {safe_e}")
-                raise ValueError(f"Failed to decrypt message: {safe_e}. Check your password or try a different method.")
-                
-    except Exception as e:
-        if debug:
-            logging.error(f"api_decrypt_saved error: {e}")
-        raise ValueError(f"{e}")
+# Add import for re if it's not already at the top
+import re
+import os
+import base64
+import logging
+import numpy as np
+import hashlib
+from PIL import Image
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes

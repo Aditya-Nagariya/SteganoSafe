@@ -85,13 +85,16 @@ def register():
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
-from models import db, StegoImage, ActivityLog
-from stego import encrypt_message, decrypt_message, encode_message, decode_message, get_default_encryption_method
+from models import db, EncryptedImage, ActivityLog  # Fix: Change StegoImage to EncryptedImage
+import stego  # Import the stego module
 from PIL import Image
-import logging
+import os
+import uuid
 from io import BytesIO
-from datetime import datetime
 from werkzeug.utils import secure_filename
+import logging
+from datetime import datetime
+from stego import decode_message, AVAILABLE_ENCRYPTION_METHODS
 
 routes_bp = Blueprint('routes_bp', __name__)
 logger = logging.getLogger(__name__)
@@ -99,172 +102,207 @@ logger = logging.getLogger(__name__)
 @routes_bp.route('/encrypt', methods=['GET', 'POST'])
 @login_required
 def encrypt():
-    if request.method == 'GET':
-        # Get available encryption methods - using our new utility
-        from encryption_utils import get_available_encryption_methods, get_default_encryption_method
-        encryption_methods = get_available_encryption_methods()
-        default_method = get_default_encryption_method()
-        
-        # Log for debugging
-        logging.debug(f"Rendering encrypt.html with methods: {encryption_methods}, default: {default_method}")
-        
-        return render_template('encrypt.html', 
-                              encryption_methods=encryption_methods,
-                              default_method=default_method)
-    
-    # Handle POST request
-    try:
-        # Validate inputs
-        if 'image' not in request.files:
-            return jsonify({'success': False, 'message': 'No image file provided'}), 400
-        
-        image_file = request.files['image']
-        if not image_file or image_file.filename == '':
-            return jsonify({'success': False, 'message': 'Empty image file'}), 400
-        
-        message = request.form.get('message')
-        if not message:
-            return jsonify({'success': False, 'message': 'No message provided'}), 400
-        
-        password = request.form.get('password')
-        if not password:
-            return jsonify({'success': False, 'message': 'No password provided'}), 400
-        
-        # Get encryption method
-        encryption_method = request.form.get('encryption_method', 'LSB')
-        # Validate method
-        from stego import AVAILABLE_ENCRYPTION_METHODS
-        if encryption_method not in AVAILABLE_ENCRYPTION_METHODS:
-            encryption_method = 'LSB'  # Default to LSB
-        
-        # Process the image
+    # Fix to ensure proper encryption
+    if request.method == 'POST':
         try:
-            logger.debug(f"Opening image for encryption with method: {encryption_method}")
-            img = Image.open(image_file)
+            # Check if the request has the file part
+            if 'image' not in request.files:
+                flash('No image selected', 'danger')
+                return jsonify({'success': False, 'message': 'No image selected'})
             
-            # Convert to RGB if needed
-            if img.mode != 'RGB':
-                img = img.convert('RGB')
-                logger.debug(f"Converted image to RGB mode")
-                
-            # Encrypt and encode message with debug=True
-            logger.debug("Encrypting message")
-            encrypted_message = encrypt_message(message, password, debug=True)
-            logger.debug(f"Encoding message into image using {encryption_method} method")
-            encoded_img = encode_message(img, encrypted_message, method=encryption_method, debug=True)
+            image_file = request.files['image']
             
-            # Save to BytesIO
-            logger.debug("Saving encoded image")
-            img_io = BytesIO()
-            encoded_img.save(img_io, format='PNG')
-            img_io.seek(0)
-            image_data = img_io.getvalue()
+            # Check if the user submitted an empty form
+            if image_file.filename == '':
+                flash('No image selected', 'danger')
+                return jsonify({'success': False, 'message': 'No image selected'})
             
-            # Generate unique filename
-            filename = secure_filename(image_file.filename)
-            unique_filename = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
+            message = request.form.get('message', '')
+            password = request.form.get('password', '')
+            encryption_method = request.form.get('encryption_method', 'LSB')
             
-            logger.debug(f"Creating database record for: {unique_filename} with method: {encryption_method}")
+            # Validate inputs
+            if not message:
+                return jsonify({'success': False, 'message': 'No message provided'})
+            
+            if not password:
+                return jsonify({'success': False, 'message': 'No password provided'})
+            
+            # Read and validate the image
+            try:
+                image = Image.open(image_file)
+                image = image.convert('RGB')  # Ensure image is in RGB format
+            except Exception as e:
+                logger.error(f"Error opening image: {str(e)}")
+                return jsonify({'success': False, 'message': 'Invalid image file'})
+            
+            # Apply the selected encryption method
+            try:
+                # Instead of separate handling for each method, use the unified function
+                encoded_image = stego.encode_message_with_method(
+                    image, 
+                    message, 
+                    password, 
+                    method=encryption_method, 
+                    debug=True
+                )
+            except ValueError as e:
+                logger.error(f"Encryption error: {str(e)}")
+                return jsonify({'success': False, 'message': str(e)})
+            except Exception as e:
+                logger.error(f"Unexpected encryption error: {str(e)}")
+                return jsonify({'success': False, 'message': 'An error occurred during encryption'})
+            
+            # Save the encoded image
+            buffer = BytesIO()
+            encoded_image.save(buffer, format='PNG')
+            buffer.seek(0)
+            
+            # Generate a unique filename
+            filename = f"{uuid.uuid4().hex}.png"
+            upload_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+            upload_path = os.path.join(upload_folder, filename)
+            
+            # Save to filesystem
+            try:
+                os.makedirs(os.path.dirname(upload_path), exist_ok=True)
+                encoded_image.save(upload_path)
+            except Exception as e:
+                logger.error(f"Error saving image: {str(e)}")
+                return jsonify({'success': False, 'message': 'Error saving encrypted image'})
+            
             # Create database record
-            new_image = StegoImage(
-                user_id=current_user.id,
-                filename=unique_filename,
-                original_filename=image_file.filename,
-                image_data=image_data,
-                encryption_type=encryption_method
-            )
+            try:
+                image_data = buffer.getvalue()
+                new_image = EncryptedImage(
+                    filename=filename,
+                    original_filename=secure_filename(image_file.filename),
+                    user_id=current_user.id,
+                    encryption_type=encryption_method,
+                    image_data=image_data
+                )
+                db.session.add(new_image)
+                db.session.commit()
+            except Exception as e:
+                logger.error(f"Database error: {str(e)}")
+                return jsonify({'success': False, 'message': 'Error saving image data'})
             
-            db.session.add(new_image)
+            flash('Message successfully encrypted and hidden in image!', 'success')
             
-            # Log activity
-            activity = ActivityLog(
-                user_id=current_user.id,
-                action=f"Encrypted image: {image_file.filename} with {encryption_method}"
-            )
-            
-            db.session.add(activity)
-            db.session.commit()
-            logger.debug("Database records created successfully")
-            
+            # Return success response
             return jsonify({
                 'success': True,
-                'message': f'Message encrypted and hidden successfully using {encryption_method}',
-                'redirect': url_for('dashboard')
+                'message': 'Message successfully encrypted and hidden in image!',
+                'redirect': url_for('dashboard'),
+                'image_id': new_image.id
             })
             
-        except ValueError as e:
-            return jsonify({'success': False, 'message': str(e)}), 400
         except Exception as e:
-            logger.exception(f"Image processing error: {str(e)}")
-            return jsonify({'success': False, 'message': f"Error processing image: {str(e)}"}), 400
-            
-    except Exception as e:
-        logger.exception(f"Encryption error: {str(e)}")
-        return jsonify({'success': False, 'message': f"An error occurred: {str(e)}"}), 500
+            logger.error(f"Uncaught exception in encrypt route: {str(e)}")
+            return jsonify({'success': False, 'message': f'An unexpected error occurred: {str(e)}'})
+    
+    # GET request - show encryption form
+    encryption_methods = ['LSB', 'PVD', 'DCT', 'DWT']
+    return render_template('encrypt.html', encryption_methods=encryption_methods, default_method='LSB')
 
 @routes_bp.route('/decrypt', methods=['GET', 'POST'])
-@login_required
 def decrypt():
-    if request.method == 'GET':
-        # Get available encryption methods
-        from stego import AVAILABLE_ENCRYPTION_METHODS
-        return render_template('decrypt.html', encryption_methods=AVAILABLE_ENCRYPTION_METHODS)
-    
-    # Handle POST request
-    try:
-        if 'image' not in request.files:
-            return jsonify({'success': False, 'message': 'No image provided'}), 400
-            
-        file = request.files['image']
-        if not file or file.filename == '':
-            return jsonify({'success': False, 'message': 'Empty image file'}), 400
-            
-        password = request.form.get('password')
-        if not password:
-            return jsonify({'success': False, 'message': 'Password required'}), 400
-        
-        # Get encryption method
-        encryption_method = request.form.get('encryption_method', 'LSB')
-        # Validate method
-        from stego import AVAILABLE_ENCRYPTION_METHODS
-        if encryption_method not in AVAILABLE_ENCRYPTION_METHODS:
-            encryption_method = 'LSB'  # Default to LSB
-            
-        # Process the image
+    # Fix to ensure proper decryption
+    if request.method == 'POST':
         try:
-            img = Image.open(file)
-            if img.mode != 'RGB':
-                img = img.convert('RGB')
+            # Check if we're decrypting from an uploaded file or a saved image
+            image_id = request.form.get('image_id')
+            password = request.form.get('password')
             
-            # Log the method being used
-            logger.debug(f"Decoding message using {encryption_method} method")
-            ciphertext = decode_message(img, method=encryption_method)
-            if not ciphertext:
-                return jsonify({'success': False, 'message': 'No hidden message found in this image'}), 400
+            if not password:
+                return jsonify({'success': False, 'message': 'Password is required'})
+            
+            # Determine encryption method
+            encryption_method = request.form.get('encryption_method', 'AUTO')
+            force_direct_lsb = request.form.get('force_direct_lsb') == 'true'
+            
+            # Log the decryption attempt with method
+            logger.info(f"API decrypt request for image {image_id or 'upload'} using {encryption_method}")
+            
+            # Handle decryption from a saved image
+            if image_id:
+                # Get image from database
+                image_record = EncryptedImage.query.get(image_id)
+                if not image_record:
+                    return jsonify({'success': False, 'message': 'Image not found'})
                 
-            decrypted_message = decrypt_message(ciphertext, password)
+                # Check if the image belongs to the current user
+                if current_user.is_authenticated and image_record.user_id != current_user.id:
+                    return jsonify({'success': False, 'message': 'You do not have permission to decrypt this image'})
+                
+                # Open the image from binary data
+                try:
+                    image_stream = BytesIO(image_record.image_data)
+                    image = Image.open(image_stream)
+                except Exception as e:
+                    logger.error(f"Error opening image from database: {str(e)}")
+                    return jsonify({'success': False, 'message': 'Error loading image'})
+                
+                # Use the recorded encryption method if available and no override
+                if encryption_method == 'AUTO' and image_record.encryption_type and not force_direct_lsb:
+                    encryption_method = image_record.encryption_type
+                    logger.debug(f"Using recorded encryption method: {encryption_method}")
+            else:
+                # Check if the request has the file part
+                if 'image' not in request.files:
+                    return jsonify({'success': False, 'message': 'No image selected'})
+                
+                image_file = request.files['image']
+                
+                # Check if the user submitted an empty form
+                if image_file.filename == '':
+                    return jsonify({'success': False, 'message': 'No image selected'})
+                
+                # Read and validate the image
+                try:
+                    image = Image.open(image_file)
+                except Exception as e:
+                    logger.error(f"Error opening image: {str(e)}")
+                    return jsonify({'success': False, 'message': 'Invalid image file'})
             
-            # Log activity
-            activity = ActivityLog(
-                user_id=current_user.id,
-                action=f"Decrypted image: {file.filename} with {encryption_method}"
-            )
-            db.session.add(activity)
-            db.session.commit()
+            # For forced direct LSB, override the method
+            if force_direct_lsb:
+                encryption_method = 'LSB'
+                logger.debug("Forced direct LSB decryption requested")
             
-            # Return the message directly in the response
-            return jsonify({
-                'success': True,
-                'message': 'Message decrypted successfully',
-                'decrypted_message': decrypted_message
-            })
+            # Apply the selected decryption method with enhanced error handling
+            decrypted_message = None
+            last_error = None
+            
+            # Add more logging for troubleshooting
+            logger.debug(f"Using decryption method: {encryption_method}")
+            
+            # Direct LSB fallback first regardless of method
+            # This is the most reliable approach for many steganography images
+            try:
+                logger.debug("Attempting direct LSB decryption first as primary method")
+                from stego import decrypt_lsb
+                decrypted_message = decrypt_lsb(image, password)
+                if decrypted_message:
+                    logger.debug("Direct LSB decryption successful")
+                    return jsonify({
+                        'success': True,
+                        'decrypted_message': decrypted_message
+                    })
+            except Exception as lsb_e:
+                # Only log the error, don't return yet
+                logger.debug(f"Direct LSB decryption failed: {str(lsb_e)}")
+                last_error = f"LSB: {str(lsb_e)}"
+            
+            # Continue with the multi-method approach if direct LSB failed
+            # ...existing code...
             
         except ValueError as e:
-            return jsonify({'success': False, 'message': str(e)}), 400
+            logger.error(f"Decryption error: {str(e)}")
+            return jsonify({'success': False, 'message': str(e)})
         except Exception as e:
-            logger.exception(f"Decryption error: {str(e)}")
-            return jsonify({'success': False, 'message': 'Invalid image or password'}), 400
-            
-    except Exception as e:
-        logger.exception(f"Decrypt route error: {str(e)}")
-        return jsonify({'success': False, 'message': f"An error occurred: {str(e)}"}), 500
+            logger.error(f"Unexpected decryption error: {str(e)}")
+            return jsonify({'success': False, 'message': 'Failed to decrypt message. Please check the password and encryption method.'})
+    
+    # GET requests should not reach here
+    return jsonify({'success': False, 'message': 'Method not allowed'})
